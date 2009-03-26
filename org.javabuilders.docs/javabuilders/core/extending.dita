@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081230120511" xml:lang="en-CA">
+	<title>Extending the JavaBuilders engine</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<title>Overview</title>
+			<p>The core JavaBuilders engine is domain-agnostic, i.e. there is no logic in it
+			specific to any particular toolkit such as Swing or SWT. Each of domain-specific
+			builders (such as the Swing JavaBuilder or the SWT JavaBuilder) are just thin proxies
+			for the common <codeph>Builder</codeph> APIs which pass along a pre-configured instance of a 
+			<codeph>BuilderConfig</codeph> object, which contains all the component types
+			and custom handlers for each UI toolkit.</p>
+			<p>This builder configuration object is usually exposed via the static <codeph>getConfig()</codeph>
+			method on the builder, e.g. <codeph>SwingJavaBuilder.getConfig()</codeph>.</p>
+			<p>By manipulating its properties you can change the default configuration, register
+			new object types, customized handlers for particular controls or particular properties
+			of a control.</p>
+		</section>
+		<section>
+			<title>Registering new component types</title>
+			<p>All you need to do is call the <codeph>BuilderConfig.addType(Class clazz)</codeph>
+			method, presumably from your application's <codeph>main()</codeph>:
+			<codeblock>
+SwingJavaBuilder.getConfig().addType(MyCustomComponent.class);
+			</codeblock>			
+			and then you can start referring to it directly in the YAML file:
+			<codeblock>
+MyCustomClass(property1=value1,property2=value2, etc...)			
+			</codeblock>
+			You can also add it with a specific alias to avoid name collision (by default it takes the simple class name): 
+			<codeblock>
+SwingJavaBuilder.getConfig().addType("CustomClassAlias",MyCustomClass.class);
+			</codeblock>
+			<codeblock>
+CustomClassAlias(property1=value1,property2=value2, etc...)			
+			</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

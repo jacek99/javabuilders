@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/swing?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20081231083953" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="title:1">Actions and menus</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:1">Creating actions and menus for any application is one of
+				the most cumbersome and time consuming tasks in Swing development.
+				Fortunately enough, the Swing JavaBuilder delivers a whole slew of
+				productivity enhancements in this area that makes creating menus a
+				breeze.</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="section:2">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="title:2">Text, accelerators and mnemonics</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:2">
+				Whether you are dealing with an
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeph:1">Action</codeph>
+				or a
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeph:2">JMenuItem</codeph>
+				, you can handle defining all these 3 properties in one simple text
+				value, where the mnemonic is indicated via a
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeph:3">"&amp;"</codeph>
+			prefix and the accelerator is typed in manually after a <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeph:4">"\t"</codeph> tab
+			indicator (similar to the way it is done in SWT), e.g.
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:1">
+JMenuItem(text="&amp;Save\tCtrl+S")			
+			</codeblock>
+			The sample above sets the text to "Save", the mnemonic on the "S" character and the 
+			accelerator to "Ctrl+S".
+			</p>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:3">Valid accelerators are:
+			<ol class="- topic/ol " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="ol:1">
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="li:1">Ctrl</li>
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="li:2">Alt</li>
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="li:3">Shift</li>
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="li:4">Meta</li>
+			</ol>
+			followed by the appropriate character. They can be mixed together, e.g. "Ctrl+Alt+N".
+			Due to the embedded "\t", such menu definitions have to be escaped into quoted text, as per the example above. 
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="section:3">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="title:3">Actions</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:4">The regular Swing Action API has been modified separately to separate the 
+			concept of "name" vs "text" (which are the same in the Action API, but we treat 
+			them separately so that the text can be easily internationalized, without affecting the name).
+			It provides <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:1">name, text, toolTipText, icon</apiname> properties and the name
+			of the Java method to be invoked is defined in the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:2">onAction</apiname> handler.
+			<codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:2">
+Action(name=newAction, text=menu.file.new, icon=images/document-new.png, onAction=onFileNew)			
+			</codeblock>
+			<codeblock spectitle="Java" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:3">
+ private void onFileNew() {
+         System.out.print("onFileNew was invoked!");
+ }			
+			</codeblock>
+			</p>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:5">
+			Any descendant of <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:3">AbstractButton</apiname> (such as <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:4">JMenuItem</apiname>
+			or <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:5">JButton</apiname> can then refer to it in its <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:6">action</apiname> property, e.g.:
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:4">
+JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose):
+    - Action(name=newAction, text=menu.file.new, toolTipText=menu.file.new.tooltip, icon=images/document-new.png, onAction=onFileNew)
+    - Action(name=openAction, text=menu.file.open, toolTipText=menu.file.open.tooltip, icon=images/document-open.png, onAction=onFileOpen)
+    - Action(name=saveAction, text=menu.file.save, toolTipText=menu.file.save.tooltip, icon=images/document-save.png, onAction=onSave)
+    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=($confirm,exit))
+    - Action(name=option1Action, text=menu.option1, onAction=option1)
+    - Action(name=helpAboutAction,text=menu.help.about,onAction=onHelpAbout)
+    - JMenuBar:
+        - JMenu(name=fileMenu,text=menu.file):
+            - JMenuItem(action=newAction)
+            - JMenuItem(action=openAction)            
+            - JSeparator()
+            - JMenuItem(action=saveAction)
+            - JSeparator()
+            - JMenuItem(action=exitAction)
+        - JMenu(name=optionsMenu, text=menu.options):
+            - JRadioButtonMenuItem(name=radio1Menu, action=option1Action)
+            - JRadioButtonMenuItem(name=radio2Menu, text=menu.option2)
+            - JRadioButtonMenuItem(name=radio3Menu, text=menu.option3)
+            - ButtonGroup: [radio1Menu, radio2Menu, radio3Menu]
+            - JSeparator()
+            - JCheckBoxMenuItem(text=menu.option1, onAction=option1)
+            - JCheckBoxMenuItem(text=menu.option2)
+            - JCheckBoxMenuItem(text=menu.option3)
+        - JMenu(name=helpMenu,text=menu.help):
+            - JMenuItem(action=helpAboutAction)			
+			</codeblock>			 
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="section:4">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="title:4">JMenuBar and JMenuItem</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:6">If you do not wish to use Actions, you can create menus by directly specifying the relevant
+			properties on JMenuBar and JMenuItem instances:
+<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:5">
+JFrame(title=frame.title, iconImage=images/system-lock-screen.png):
+    - JMenuBar:
+        - JMenu(name=fileMenu,text=menu.file):
+            - JMenuItem(name=newMenu, text=menu.file.new, onAction=onFileNew)
+            - JMenuItem(name=openMenu, text=menu.file.open, onAction=onFileOpen)            
+            - JSeparator()
+            - JMenuItem(name=exitMenu, text=menu.file.exit, onAction=exit)
+        - JMenu(name=optionsMenu, text=menu.options):
+            - JRadioButtonMenuItem(name=radio1Menu, text=menu.option1, onAction=option1)
+            - JRadioButtonMenuItem(name=radio2Menu, text=menu.option2)
+            - JRadioButtonMenuItem(name=radio3Menu, text=menu.option3)
+            - ButtonGroup: [radio1Menu, radio2Menu, radio3Menu]
+            - JSeparator()
+            - JCheckBoxMenuItem(text=menu.option1, onAction=option1)
+            - JCheckBoxMenuItem(text=menu.option2)
+            - JCheckBoxMenuItem(text=menu.option3)
+        - JMenu(name=helpMenu,text=menu.help):
+            - JMenuItem(name=helpAboutMenu,text=menu.help.about,onAction=onHelpAbout)
+</codeblock>			
+However, we recommend you always use Actions instead.
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="section:5">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="title:5">JPopupMenu</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="p:7">
+				Popup menus can easily be added to any Swing component by simply specifying the 
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:7">"popupMenu"</apiname> property to point to an existing 
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="apiname:8">JPopupMenu</apiname> instance by name. The Swing JavaBuilder takes care 
+				of all the mouse event wiring to popup the menu upon right-click.
+				<codeblock spectitle="With actions" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:6">
+- Action(name=copyAction, text=menu.edit.copy, onAction=copy)
+- Action(name=pasteAction, text=menu.edit.paste, onAction=paste)
+- JPopupMenu(name=popup):
+    - JMenuItem(action=copyAction)
+    - JMenuItem(action=pasteAction)
+- JTabbedPane(name=tabs, onChange=onTabChanged):
+     - JPanel(name=frameYamlSource, tabTitle=tab.frameYamlSource):
+         - JScrollPane(name=scroll1): 
+               JTextArea(name=frameSourceArea, popupMenu=popup)				
+				</codeblock>
+				<codeblock spectitle="Without actions" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/actions.menus.dita" xtrc="codeblock:7">
+- JPopupMenu(name=popup):
+    - JMenuItem(name=popupCopy, text=Copy, onAction=copy)
+    - JMenuItem(name=popupPaste, text=Paste, onAction=paste)
+- JTabbedPane(name=tabs, onChange=onTabChanged):
+     - JPanel(name=frameYamlSource, tabTitle=tab.frameYamlSource):
+         - JScrollPane(name=scroll1): 
+               JTextArea(name=frameSourceArea, popupMenu=popup)
+				</codeblock> 			
+			</p>
+		</section>
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" xtrc="topicref:3" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" href="../swing/swing.features.xml" role="parent"/></linkpool></related-links>
+</topic>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="task" name="DC.Type">
+<meta name="DC.Title" content="Setting Environment Variables">
+<meta name="abstract" content="This section helps you find and set the environment variables. Set your system environment variables after all DITA Open Toolkit items are installed. The environment variables must be set for each item installed in this guide.">
+<meta name="description" content="This section helps you find and set the environment variables. Set your system environment variables after all DITA Open Toolkit items are installed. The environment variables must be set for each item installed in this guide.">
+<meta scheme="URI" name="DC.Relation" content="linux_ditaot.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="linux_set_env" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Setting Environment Variables (Linux)</title>
+</head>
+<body id="linux_set_env"><a name="linux_set_env"><!-- --></a>
+
+
+  <h1 class="topictitle1">Setting Environment Variables</h1>
+
+  
+  
+  <div><p>This section helps you find and set the environment variables. 
+    Set your system environment variables after all DITA Open Toolkit items are 
+    installed. The environment variables must be set for each item installed in 
+    this guide.</p>
+
+    <ol>
+      <li>
+        <span>Type in the Linux Console.</span>
+      </li>
+
+      <li>
+        <span>Modify each <var class="varname">environmental or system 
+          variable</var>.</span>
+        
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N1004D-option" align="left">Option</th>
+<th valign="bottom" id="N1004D-desc" align="left">Description</th></tr></thead>
+<tbody>
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N10059"><strong>Set the <var class="varname">PATH</var> environment variable to 
+              include the directory where you installed the Ant bin 
+              directory.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N10059">
+              <br><ol type="a">
+                <li>
+                  <samp class="codeph">export PATH=${ANT_HOME}/bin:${JAVA_HOME}/bin:${PATH}</samp>
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N10083"><strong>Set the <var class="varname">ANT_HOME</var> environment variable 
+              to the directory where you installed Ant.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N10083">
+              <br><ol type="a">
+                <li>
+                  <samp class="codeph">export ANT_HOME=${ant_dir}</samp>
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N100AD"><strong>Set the <var class="varname">JAVA_HOME</var> environment variable 
+              to the directory where you installed the J2SE SDK 
+              application.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N100AD">
+              <br><ol type="a">
+                <li>
+                  <samp class="codeph">export JAVA_HOME=${java_dir}</samp>
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N100D7"><strong>Set the <var class="varname">JHHOME</var> environment variable to 
+              the directory where you installed the JavaHelp 
+              application.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N100D7">
+              <br><ol type="a">
+                <li>
+                  <samp class="codeph">export JHHOME=${javahelp_dir}</samp>
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N10101"><strong>Set the <var class="varname">CLASSPATH </var>environment variable 
+              for DITA-OT.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N10101">
+              <br><ol type="a">
+                <li>set up your environment variable CLASSPATH to include the library file like
+                  dost.jar. For example: 
+                  <pre class="codeblock">export CLASSPATH=${ditaot_dir}/lib:${ditaot_dir}/lib/dost.jar:${ditaot_dir}/lib/resolver.jar</pre>
+
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N1012C"><strong>Set the <var class="varname">CLASSPATH </var>environment variable 
+              for the Apache FOP application.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N1012C">
+              <br><ol type="a">
+                <li>set up your environment variable CLASSPATH to include the 
+                  fop.jar, batik.jar and avalon.jar files in the FOP directory. 
+                  For example: 
+                  <pre class="codeblock">export CLASSPATH=${fop_dir}/build/fop.jar:${fop_dir}/lib/batik.jar:${fop_dir}/lib/avalon-framework-cvs-20020806.jar:${CLASSPATH}</pre>
+
+                </li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N10157"><strong>Set environment variables for Saxon.</strong></td>
+
+			<td valign="top" headers="N1004D-desc N10157">If you use the Saxon,
+				<br><ol type="a"> 
+				<li>Set up CLASSPATH to include the saxon.jar file. For example:
+					<pre class="codeblock">export CLASSPATH=${CLASSPATH}:${saxon_dir}/saxon.jar </pre>
+
+				</li>
+ 
+				<li>Set up ANT_OPTS. For example: <pre class="codeblock">export ANT_OPTS=${ANT_OPTS} -Djavax.xml.transform.TransformerFactory=com.icl.saxon.TransformerFactoryImpl</pre>
+</li>
+ 
+				</ol>
+
+			</td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1004D-option" id="N10189"><strong>Set the <var class="varname">CLASSPATH</var> environment variable 
+              for Xalan.</strong></td>
+
+            <td valign="top" headers="N1004D-desc N10189">If you use the Xalan,<br><ol type="a"> <li>Set up CLASSPATH to include 
+              the <span class="filepath">xalan.jar</span> file and the 
+              <span class="filepath">xercesImpl.jar</span> file. For example:<pre class="codeblock">export CLASSPATH=${CLASSPATH}:${xalan_dir}/bin </pre>
+</li>
+ </ol>
+</td>
+
+          </tr>
+
+        </tbody></table>
+
+      </li>
+
+    </ol>
+
+    <div class="example"></div>
+
+    <div class="section"></div>
+
+  </div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="linux_ditaot.html" title="The DITA Open Toolkit is an implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The Toolkit transforms DITA XML source content into deliverable formats such as PDF, HTML, and help systems.">About the DITA Open Toolkit for Linux</a></div>
+</div>
+</div>
+
+</body>
+</html>

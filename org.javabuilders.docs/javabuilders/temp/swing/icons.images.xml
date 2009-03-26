@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/swing?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20090107112211" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="title:1">Icons and images</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="p:1">
+				Any Swing API that expects an Icon or Image can be expressed by
+				simply putting in the image path, relative to the caller class that
+				initiated the build process.
+				<codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="codeblock:1">
+JMenuItem(text=menu.save, icon=images/document-save.png)
+</codeblock>
+				Alternatively, if you initialized the builder with a <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="apiname:1">ResourceBundle</apiname> to activate internationalization,
+				you can pass a resource key instead. The builder will look for the path to the image via the key in the bundle instead, e.g.
+				<codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="codeblock:2">
+JMenuItem(text=menu.save, icon=images.saveDocument)
+				</codeblock>
+				<codeblock spectitle="Properties file" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/icons.images.dita" xtrc="codeblock:3">
+images.saveDocument=/myapp/resources/images/document-save.png			
+				</codeblock>
+			</p>
+		</section>
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" xtrc="topicref:8" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" href="../swing/swing.features.xml" role="parent"/></linkpool></related-links>
+</topic>

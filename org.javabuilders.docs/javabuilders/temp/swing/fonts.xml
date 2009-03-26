@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/swing?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20090107112033" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="title:1">Fonts</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="p:1">
+				Fonts can be specified using a CSS-like syntax: "bold|italic size
+				name": 
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/fonts.dita" xtrc="codeblock:1">
+JButton(font=italic)
+JButton(font=italic bold)
+JButton(font=italic 14pt)
+JButton(font=Arial)
+JButton(font=italic bold 14pt Arial)
+				</codeblock>
+			</p>
+		</section>
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" xtrc="topicref:7" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" href="../swing/swing.features.xml" role="parent"/></linkpool></related-links>
+</topic>

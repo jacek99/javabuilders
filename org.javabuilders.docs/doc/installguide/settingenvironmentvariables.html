@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="task" name="DC.Type">
+<meta name="DC.Title" content="Setting Environment Variables">
+<meta name="abstract" content="This section helps you find and set the environment variables. Set your system environment variables after all DITA Open Toolkit items are installed. The environment variables must be set for each item installed in this guide.">
+<meta name="description" content="This section helps you find and set the environment variables. Set your system environment variables after all DITA Open Toolkit items are installed. The environment variables must be set for each item installed in this guide.">
+<meta content="XHTML" name="DC.Format">
+<meta content="set_env" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="..\commonltr.css" type="text/css" rel="stylesheet">
+<title>Setting Environment Variables (Windows)</title>
+</head>
+<body id="set_env"><a name="set_env"><!-- --></a>
+
+
+  <h1 class="topictitle1">Setting Environment Variables</h1>
+
+  
+  
+  <div><p>This section helps you find and set the environment variables.  
+    Set your system environment variables after all DITA Open Toolkit items are 
+    installed. The environment variables must be set for each item installed in 
+    this guide.</p>
+
+    <ol>
+      <li>
+        <span>From the Start Menu, select <span class="uicontrol">Start &gt; Settings &gt; Control 
+          Panel.</span></span>
+      </li>
+
+      <li>
+        <span>Double-click <var class="varname">System</var> to open the System 
+          Properties window.</span>
+      </li>
+
+      <li>
+        <span>On the Advanced tab, select <var class="varname">environmental 
+          variables</var> .</span>
+      </li>
+
+      <li>
+        <span>Modify each <var class="varname">environmental or system 
+          variable</var>.</span>
+        
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N10076-option" align="left">Option</th>
+<th valign="bottom" id="N10076-desc" align="left">Description</th></tr></thead>
+<tbody>
+          <tr>
+            <td valign="top" headers="N10076-option" id="N10082"><strong>Set the <var class="varname">PATH</var> environment variable to 
+              include the directory where you installed the Ant bin 
+              directory.</strong></td>
+
+            <td valign="top" headers="N10076-desc N10082">
+              <br><ol type="a">
+                <li>Find the <var class="varname">PATH</var> environment variable in 
+                  the list. If <var class="varname">PATH</var> is not listed, click on 
+                  <span class="uicontrol">New</span> under the System variables 
+                  section.</li>
+
+                <li>Type <samp class="codeph">%ANT_HOME%\bin;%JAVA_HOME%\bin;</samp><div class="important"><span class="importanttitle">Important:</span> If there are other variables listed, create 
+                  a new variable separated by a semicolon. Ensure there are no 
+                  spaces before or after the semicolon.</div>
+</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N100C9"><strong>Set the <var class="varname">ANT_HOME</var> environment variable 
+              to the directory where you installed Ant.</strong></td>
+
+            <td valign="top" headers="N10076-desc N100C9">
+              <br><ol type="a">
+                <li>Click on <span class="uicontrol">New</span> under the System 
+                  variables section.</li>
+
+                <li>Type <samp class="codeph">ANT_HOME</samp> in the variable name 
+                  field.</li>
+
+                <li>Type <samp class="codeph">C:\ant</samp> in the variable value 
+                  field.</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N1010B"><strong>Set the <var class="varname">JAVA_HOME</var> environment variable 
+              to the directory where you installed the J2SE SDK 
+              application.</strong></td>
+
+            <td valign="top" headers="N10076-desc N1010B">
+              <br><ol type="a">
+                <li>Click on <span class="uicontrol">New</span> under the System 
+                  variables section.</li>
+
+                <li>Type <samp class="codeph">JAVA_HOME</samp> in the variable name 
+                  field.</li>
+
+                <li>Type <samp class="codeph">C:\j2sdk1.4.2_08</samp> in the variable 
+                  value field.</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N1014D"><strong>Set the <var class="varname">JHHOME</var> environment variable to 
+              the directory where you installed the JavaHelp 
+              application.</strong></td>
+
+            <td valign="top" headers="N10076-desc N1014D">
+              <br><ol type="a">
+                <li>Click on <span class="uicontrol">New</span> under the System 
+                  variables section.</li>
+
+                <li>Type <samp class="codeph">JHHOME</samp> in the variable name 
+                  field.</li>
+
+                <li>Type <samp class="codeph">C:\javahelp\jh2.0</samp> in the 
+                  variable value field.</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N1018F"><strong>Set the <var class="varname">CLASSPATH</var> environment variable 
+                for DITA-OT.</strong></td>
+
+            <td valign="top" headers="N10076-desc N1018F">
+              <br><ol type="a">
+                <li>Find the <var class="varname">CLASSPATH </var> environment variable 
+                  in the list. If <var class="varname">CLASSPATH </var> is not listed, 
+                  click on <span class="uicontrol">New</span> under the System 
+                  variables section.</li>
+
+                <li>Type 
+                  <samp class="codeph">C:\ditaot\lib;C:\ditaot\lib\dost.jar;C:\ditaot\lib\resolver.jar</samp><div class="important"><span class="importanttitle">Important:</span> If there are other variables listed, create 
+                  new variable separated by a semicolon. Ensure there are no 
+                  spaces before or after the semicolon.</div>
+</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N101D6"><strong>Set the <var class="varname">CLASSPATH </var> environment variable 
+              for the Apache FOP application.</strong></td>
+
+            <td valign="top" headers="N10076-desc N101D6">
+              <br><ol type="a">
+                <li>Find the <var class="varname">CLASSPATH </var> environment variable 
+                  in the list. If <var class="varname">CLASSPATH </var> is not listed, 
+                  click on <span class="uicontrol">New</span> under the System 
+                  variables section.</li>
+
+                <li>Type 
+                  <samp class="codeph">C:\fop-0.20.5\build\fop.jar;C:\fop-0.20.5\lib\batik.jar;C:\fop-0.20.5\lib \avalon-framework-cvs-20020806.jar</samp><div class="important"><span class="importanttitle">Important:</span> If there are other variables listed, create 
+                  new variable separated by a semicolon. Ensure there are no 
+                  spaces before or after the semicolon.</div>
+</li>
+
+              </ol>
+
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N1021D"><strong>Set environment variables for Saxon.</strong></td>
+
+            <td valign="top" headers="N10076-desc N1021D">If you use the Saxon,<br><ol type="a"> <li>Find the 
+              <var class="varname">CLASSPATH</var> environment variable in the list. If 
+              <var class="varname">CLASSPATH </var> is not listed, click on 
+              <span class="uicontrol">New</span> under the System variables 
+              section.</li>
+ <li>Type <samp class="codeph">C:\saxon\saxon.jar</samp><div class="important"><span class="importanttitle">Important:</span> If there are other variables listed, create a 
+              new variable separated by a semicolon. Ensure there are no spaces 
+              before or after the semicolon.</div>
+</li>
+ 
+              <li>Set up ANT_OPTS. For example: <pre class="codeblock">set ANT_OPTS=%ANT_OPTS% -Djavax.xml.transform.TransformerFactory=com.icl.saxon.TransformerFactoryImpl</pre>
+</li>
+ 
+              </ol>
+</td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10076-option" id="N10269"><strong>Set the <var class="varname">CLASSPATH</var> environment variable 
+              for Xalan.</strong></td>
+
+            <td valign="top" headers="N10076-desc N10269">If you use the Xalan,<br><ol type="a"> <li>Find the 
+              <var class="varname">CLASSPATH</var> environment variable in the list. If 
+              <var class="varname">CLASSPATH </var> is not listed, click on 
+              <span class="uicontrol">New</span> under the System variables 
+              section.</li>
+ <li>Type <samp class="codeph">C:\xalan\bin</samp><div class="important"><span class="importanttitle">Important:</span> If there are other variables listed, create a 
+              new variable separated by a semicolon. Ensure there are no spaces 
+              before or after the semicolon.</div>
+</li>
+ </ol>
+</td>
+
+          </tr>
+
+        </tbody></table>
+
+      </li>
+
+    </ol>
+
+    <div class="example"></div>
+
+    <div class="section"></div>
+
+  </div>
+
+
+</body>
+</html>

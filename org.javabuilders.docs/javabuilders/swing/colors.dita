@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107111618" xml:lang="en-CA">
+	<title>Colors</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>
+			Colors can be specified using a standard HTML/CSS style syntax. Valid values are:
+			<codeblock spectitle="Hex Color">
+JTextArea(name=textArea, background=ff00ee)			
+			</codeblock>
+			<codeblock spectitle="Short hex color (e.g. f0e gets interpreted as ff00ee)">
+JTextArea(name=textArea, background=f0e)			
+			</codeblock>
+			<codeblock spectitle="HTML color name (case-insensitive)">
+JTextArea(name=textArea, background=olive)		
+			</codeblock>
+			</p>
+		</section>
+		<note>
+			<p>HTML color names:
+			<xref href="http://www.w3schools.com/html/html_colornames.asp" format="html" scope="external"/> 
+			</p>
+		</note>
+	</body>
+</topic>

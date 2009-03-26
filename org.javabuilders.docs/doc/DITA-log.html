@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="reference" name="DC.Type">
+<meta name="DC.Title" content="Problem determination and log analysis">
+<meta scheme="URI" name="DC.Relation" content="DITA-readme.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-relnotes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-changes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-futures.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-tested.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-usingtransforms.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-ant.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-javacmd.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-h2d.html">
+<meta scheme="URI" name="DC.Relation" content="dita2word.html#dita2word/limitation">
+<meta scheme="URI" name="DC.Relation" content="DITA-limitations.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-troubleshooting.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="loghandling" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Problem determination and log analysis</title>
+</head>
+<body id="loghandling"><a name="loghandling"><!-- --></a>
+
+
+<h1 class="topictitle1">Problem determination and log analysis</h1>
+
+<div>
+<div class="section"><h2 class="sectiontitle">Introduction</h2>
+  
+  <p>In the DITA Open Toolkit 1.2 or above, a new logging method is supported 
+    to log messages both on the screen and into the log file. The messages on 
+    the screen present user with the status information, warning, error, and 
+    fatal error messages. The messages in the log file present user with more 
+    detailed information about the transformation process. By analyzing these 
+    messages, user can know what cause the problem and how to solve it.</p>
+
+  <p>The logging method is based on Ant's Logger &amp; Listener interface. 
+    By default, this logging method is disabled, and all the messages occur on 
+    the screen just like previous releases.</p>
+
+  <div class="p">To start this new logging method, you need to follow the usage below:
+  <br><ul>
+    <li>In Ant command, specify the logger by appendding 
+        <samp class="codeph">-logger org.dita.dost.log.DITAOTBuildLogger</samp> in the 
+        command parameters, for example: 
+        <pre class="codeblock">ant sample.web -logger org.dita.dost.log.DITAOTBuildLogger
+        </pre>
+</li>
+
+    <li>In Java command, the logger is specified internally, so you do not 
+        need to specify it again.</li>
+
+  </ul>
+</div>
+
+</div>
+
+<div class="section"><h2 class="sectiontitle">Analyze messages on the screen</h2>  
+     
+  <div class="p">During the building process, some information or messages occur on the
+     screen to tell you about the status, warnings, errors, or fatal errors. 
+     You need to analyze the messages to solve the problems.
+  <br><ul>
+    <li>If the build succeeded with some warning messages on the screen, 
+        it means that there are something incorrect within the user input  
+        parameters or source DITA files; but you can still get the 
+        correct output.</li>
+
+    <li>If the build succeeded with some error messages on the screen, 
+        it means that there are something incorrect within the user input 
+        parameters or source DITA files; the output maybe not correct.</li>
+
+    <li>If the build failed with fatal error message on the screen, 
+        it means that there are something illegal or invalid within the user 
+        input parameters or source DITA files; you may get no output, or wrong 
+        output.</li>
+
+  </ul>
+
+  </div>
+
+</div>
+
+<div class="section"><h2 class="sectiontitle">Analyze messages in the log file</h2>
+  
+  <p>A log file in plain text format is generated in the log directory, 
+     which has a name combined with both input file name and transform type. 
+     You can open it and find more detailed information, which are helpful 
+     for solving problems. You can use the same way introduced above to analyze 
+     the messages and solve the problems.</p>
+
+  <p>The log directory can be specified by using the parameter 
+    <samp class="codeph">/logdir:{args.logdir}</samp> for the output options.</p>
+
+  <div class="p"><div class="note"><span class="notetitle">Note:</span> In some cases, there would be no log file generated:
+    <br><ul>
+        <li>You have entered an invalid Ant command or Java command to start 
+            the toolkit.</li>
+
+        <li>The log file with the same name in the same directory exists and 
+            can not be deleted.</li>
+
+    </ul>
+</div>
+</div>
+
+</div>
+
+<div class="section"><h2 class="sectiontitle">Turn on debug mode</h2>
+    
+    <p>Debug mode is supported along with the new logging method. Under debug 
+        mode, diagnostic information, such as: environment variables, stack 
+        trace, will be logged into the log file. These information can help 
+        the user or developer to go deep into the problems and find the root 
+        cause.</p>
+
+    <div class="p">By default, the debug mode is disabled. To turn on the debug mode, 
+        you need to follow the usage below:
+      <br><ul>
+        <li>Append <samp class="codeph">-d</samp> or <samp class="codeph">-debug</samp> in Ant 
+            command.</li>
+
+        <li>Append <samp class="codeph">/d</samp> or <samp class="codeph">/debug</samp> in Java 
+            command.</li>
+
+      </ul>
+</div>
+
+</div>
+
+<div class="section"><h2 class="sectiontitle">About message file</h2>
+    
+    <p>The message file is used to store the detailed log messages, these 
+      messages are read dynamically from this file. To ensure those messages 
+      can be read correctly during the transform process, the message file 
+      should be located properly. In some situations, the toolkit may fails 
+      to load the message file due to some exceptions thrown. Please refer to 
+      <a href="DITA-troubleshooting.html" title="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">Troubleshooting</a> for detailed information.</p>
+
+    <p>For high level users and developers, there is a propery 
+      <samp class="codeph">args.message.file</samp> in the toolkit's ant script, it is 
+      used to config the message file, you can overide it in your ant script.</p>
+
+    <div class="note"><span class="notetitle">Note:</span> Due to the difference of underly implemetation between Java, And, 
+      and XSL, the property <samp class="codeph">args.message.file</samp> is only useful 
+      for Java and Ant; To keep the normal function of log handling, you still 
+      need to ensure there are files 'resource/messages.xml' and 'resource/messages.dtd' 
+      both in the toolkit's root directory and in the directory that you run the 
+      toolkit.</div>
+
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br>
+<div><a href="DITA-futures.html" title="Activity on the DITA Open Toolkit project will revolve around maintenance (bug fixes), enhancements (new function based on prioritized requests), demos and experimentation (sandbox activity), and community support (forums, etc.).">DITA futures</a></div>
+<div><a href="DITA-ant.html" title="Ant is an open tool that uses the DITA processes to make producing DITA output easier.">Building DITA output with Ant</a></div>
+<div><a href="DITA-javacmd.html" title="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">Building DITA output with Java command line</a></div>
+<div><a href="DITA-h2d.html">Migrating HTML to DITA</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br>
+<div><a href="DITA-relnotes.html">DITA release notes</a></div>
+<div><a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a></div>
+<div><a href="DITA-troubleshooting.html" title="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">Troubleshooting</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br>
+<div><a href="DITA-changes.html" title="This document lists major changes and new features by release.">DITA release history</a></div>
+<div><a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a></div>
+<div><a href="DITA-usingtransforms.html" title="The core transforms of the DITA Toolkit represent the Reference Implementation for processing the standard DITA specification as maintained by OASIS Open.">Using DITA transforms</a></div>
+<div><a href="dita2word.html#dita2word__limitation">Transfomring DITA to Word RTF</a></div>
+</div>
+</div>
+
+</body>
+</html>

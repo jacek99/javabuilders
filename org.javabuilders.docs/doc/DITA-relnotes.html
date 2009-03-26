@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="reference" name="DC.Type">
+<meta name="DC.Title" content="DITA release notes">
+<meta scheme="URI" name="DC.Relation" content="DITA-readme.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-changes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-futures.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-tested.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-usingtransforms.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-ant.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-javacmd.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-log.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-h2d.html">
+<meta scheme="URI" name="DC.Relation" content="dita2word.html#dita2word/limitation">
+<meta scheme="URI" name="DC.Relation" content="DITA-limitations.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-troubleshooting.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="relnote" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>DITA release notes</title>
+</head>
+<body id="relnote"><a name="relnote"><!-- --></a>
+
+
+  <h1 class="topictitle1">DITA release notes</h1>
+
+  <div>
+    <div class="section"><h2 class="sectiontitle">DITA OT release 1.4.2.1</h2>
+      
+      <p>Release 1.4.2.1 is a full build to provide an urgent fix to fix the 
+        following critical problem which users found in release 1.4.2.</p>
+
+      <br><ol>
+        <li>SF Bug 1956231 OSGI Manifest for eclipsehelp transtype contains spaces.</li>
+
+      </ol>
+
+      <p>For this fix, we have updated xsl/map2pluginImpl.xsl to prevent 
+        generating extra spaces at the head of every line in OSGI manifest 
+        file of eclipse help output.</p>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">DITA OT release 1.4.2</h2>
+      
+      <p>Release 1.4.2 is a maintenance release to fix defects and make patches 
+        based on release 1.4.1</p>
+
+      <p>Release 1.4.2 comes in three versions:</p>
+
+      <br><ol>
+        <li>Minimal package contains only the core processing code.</li>
+
+        <li>Standard package contains the core processing code, plus demos,
+          documentation, and samples.</li>
+
+        <li>Full "easy install" package contains the standard package plus
+          external libraries useful for many toolkit processes (such as
+          Xalan and ANT), plus a batch file to setup a local environment.</li>
+
+      </ol>
+
+      <p>[39 SF Bugs Fixed]</p>
+
+      <br><ol>
+        <li>1945824 Index-see works for "ru-ru" but not for "ru"</li>
+
+        <li>1944245 Null pointer error with complex filename</li>
+
+        <li>1923519 Conrefs in nested, conreffed topics don't work</li>
+
+        <li>1911285 files.txt is not up-to-date</li>
+
+        <li>1906954 Constants.ANT_INVOKER_EXT_PARAM_OUTPUTDIR resulted in null ...</li>
+
+        <li>1903830 Error when collection-type=sequence in map</li>
+
+        <li>1903626 Topicref to Glossentry With Topicmeta Throws Null Pointer</li>
+
+        <li>1900907 Documentation of generateouter command-line param is incorrect</li>
+
+        <li>1900427 TIFF file format not a supported type</li>
+
+        <li>1898810 Problem running ant with DITA-OT in path with Latin char</li>
+
+        <li>1897358 Compiling CHM's in sequence results in errant index entries</li>
+
+        <li>1894561 wordrtf not correctly handling p inside li</li>
+
+        <li>1893234 Java TopicMerge removes processing instruction</li>
+
+        <li>1868423 Null pointer exception when a PI is at the end of the file</li>
+
+        <li>1857405 chunk processing fails when no section element</li>
+
+        <li>1855047 startup.sh fails under OS X</li>
+
+        <li>1849346 FO file generated from DITA MAP not valid</li>
+
+        <li>1843652 Image referenced in map is not found, topicmerge breaks</li>
+
+        <li>1843583 Extra bullet in TOC for topicref with no href or navtitle</li>
+
+        <li>1839765 index-sort-as not used, content appears in index</li>
+
+        <li>1908306 Index entry for external resource is ignored</li>
+
+        <li>1908293 HTML Help index contains extra anchor</li>
+
+        <li>1900916 Pointer to CSS is Incorrect in index.html</li>
+
+        <li>1898451 HTML titles should be space-normalized for CHM consumption</li>
+
+        <li>1898228 Table desc not being processed</li>
+
+        <li>1897551 maplink is unawareof chunk to-content</li>
+
+        <li>1893461 map file href handling</li>
+
+        <li>1889918 Index link goes with wrong entry</li>
+
+        <li>1883907 IndexTermReader class doesn't handle specialized titles</li>
+
+        <li>1873401 XHTML: colsep in last column when @frame=none</li>
+
+        <li>1872434 _merge.xml missing metadata</li>
+
+        <li>1868047 htmlhelp path in demo ant script is fixed</li>
+
+        <li>1864247 PIs missing from ditamaps in temp dir</li>
+
+        <li>1857282 path to css output is not correct</li>
+
+        <li>1848355 gen-list wants class on &lt;foreign&gt; descendants</li>
+
+        <li>1843693 Bad XREF syntax gives confusing message about unique_193</li>
+
+        <li>1841175 Need to clean up doc/ directory (remove invalid items)</li>
+
+        <li>1832800 Empty end-range indexterm causes eclipse error</li>
+
+        <li>1606387 Shortdesc &amp; Abstract formatting is incorrect for XHTML</li>
+
+      </ol>
+
+      <p>[3 SF Patches Added]</p>
+
+      <br><ol>
+        <li>1930220 Simplify flag templates</li>
+
+        <li>1876118 Add plug-in support for string resource-files</li>
+
+        <li>1818318 Path to HTML Help compiler on x64 Windows</li>
+
+      </ol>
+
+      <p>[6 SF Enhancements Added]</p>
+
+      <br><ol>
+        <li>1855523 Pass dost.class.path to XSLT tasks</li>
+
+        <li>1827322 Let plugins add their own template files</li>
+
+        <li>1825843 Let plugins add dependencies to Ant targets</li>
+
+        <li>1824466 Subclass ImportAction</li>
+
+        <li>1782256 Let plugins not have to choose to go in "demo" or "plugins"</li>
+
+        <li>1859421 Add plug-in support for string resource-files</li>
+
+      </ol>
+
+      <div class="note"><span class="notetitle">Note:</span> SourceForge bugs, patches, and RFEs listed above can be found in SourceForge Bugs, Patches, and RFE tracker pages: <br><ul>
+        <li>Bugs tracker: <pre class="pre">http://sourceforge.net/tracker/?group_id=132728&amp;atid=725074
+        </pre>
+</li>
+
+        <li>Patches tracker: <pre class="pre">http://sourceforge.net/tracker/?group_id=132728&amp;atid=725076
+        </pre>
+</li>
+
+        <li>RFE tracker: <pre class="pre">http://sourceforge.net/tracker/?group_id=132728&amp;atid=725077
+        </pre>
+</li>
+
+      </ul>
+</div>
+
+    </div>
+
+  </div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br>
+<div><a href="DITA-futures.html" title="Activity on the DITA Open Toolkit project will revolve around maintenance (bug fixes), enhancements (new function based on prioritized requests), demos and experimentation (sandbox activity), and community support (forums, etc.).">DITA futures</a></div>
+<div><a href="DITA-ant.html" title="Ant is an open tool that uses the DITA processes to make producing DITA output easier.">Building DITA output with Ant</a></div>
+<div><a href="DITA-javacmd.html" title="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">Building DITA output with Java command line</a></div>
+<div><a href="DITA-h2d.html">Migrating HTML to DITA</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br>
+<div><a href="DITA-log.html">Problem determination and log analysis</a></div>
+<div><a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a></div>
+<div><a href="DITA-troubleshooting.html" title="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">Troubleshooting</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br>
+<div><a href="DITA-changes.html" title="This document lists major changes and new features by release.">DITA release history</a></div>
+<div><a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a></div>
+<div><a href="DITA-usingtransforms.html" title="The core transforms of the DITA Toolkit represent the Reference Implementation for processing the standard DITA specification as maintained by OASIS Open.">Using DITA transforms</a></div>
+<div><a href="dita2word.html#dita2word__limitation">Transfomring DITA to Word RTF</a></div>
+</div>
+</div>
+
+</body>
+</html>

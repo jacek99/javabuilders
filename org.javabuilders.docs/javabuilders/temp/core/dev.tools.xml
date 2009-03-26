@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/core?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20081226110231" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="title:1">Development tools</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/overview.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="p:1">
+				JavaBuilders requires just any decent Java IDE with a YAML editor.
+				Remember to select fixed width font (e.g.
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="codeph:1">Courier New, Monospaced</codeph>
+				) for the editor, otherwise you will not be able to line up the
+				spacing correctly in the file.
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="section:2">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="title:2">Eclipse</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="p:2">Eclipse YAML Editor: http://code.google.com/p/yamleditor/
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="section:3">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="title:3">NetBeans</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="p:3">As of NetBeans 6.5 a YAML editor is included in the core
+				distribution.</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="section:4">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="title:4">IntelliJ IDEA</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/dev.tools.dita" xtrc="p:4">A YAML editor is included in the core distribution.</p>
+		</section>
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/overview.ditamap" xtrc="topicref:4" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/overview.ditamap" href="../core/overview.xml" role="parent"/></linkpool></related-links>
+</topic>

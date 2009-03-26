@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081230094022" xml:lang="en-CA">
+	<title>Enum property values</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p> When building an object, if the specified property type is an
+				Enum of any sort, the builder will automatically allow you to enter
+				it just using the enum constant, without the actual enum name
+				prefix.</p>
+		</section>
+		<section>
+			<title>Enums defined like constant Integers</title>
+			<p>
+				<codeblock>
+//enum defined like static int constants
+enum StartPosition{ CENTER_IN_SCREEN, CENTER_IN_PARENT, MANUAL }
+			</codeblock>
+				<codeblock>
+JXFrame.setStartPosition(StartPosition position)			
+			</codeblock>
+				In YAML, you can do then either:
+				<codeblock>
+JXFrame(startPosition=CENTER_IN_PARENT)			
+			</codeblock>
+				or the Java camel-case named equivalent:
+				<codeblock>
+JXFrame(startPosition=centerInParent)			
+			</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Enums defined using Pascal case</title>
+			<p>
+				If your enum is defined instead using a Pascal case syntax, e.g.
+				<codeblock>
+//enum defined like static int constants
+enum StartPosition{ CenterInScreen, CenterInParent, Manual}
+			</codeblock>
+				then you can still do either the original constant value or the
+				camel-case named equivalent:
+				<codeblock>
+JXFrame(startPosition=CenterInParent)
+			</codeblock>
+				or:
+				<codeblock>
+JXFrame(startPosition=centerInParent)			
+			</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

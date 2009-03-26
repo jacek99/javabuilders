@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="reference" name="DC.Type">
+<meta name="DC.Title" content="Migrating HTML to DITA with Java command">
+<meta content="XHTML" name="DC.Format">
+<meta content="h2d-java" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Migrating HTML to DITA with Java command</title>
+</head>
+<body id="h2d-java"><a name="h2d-java"><!-- --></a>
+
+
+    <h1 class="topictitle1">Migrating HTML to DITA with Java command</h1>
+
+    <div>
+        <div class="section"><h2 class="sectiontitle">Running example</h2>
+            
+            <br><ol>
+                <li>Start the command window.</li>
+
+                <li>Navigate to the directory of the migration tool.</li>
+
+                <li>(Optional) If the input HTML file contains namespace, 
+                  you can remove it by hand, or running the command below:
+                  <div class="p">enter the following command when using Saxon: 
+                    <pre class="codeblock">java com.icl.saxon.StyleSheet mytask.htm preprocess.xsl &gt; mytask.htm</pre>
+
+                  </div>
+
+                  <div class="p">enter the following command when using Xalan: 
+                    <pre class="codeblock">java org.apache.xalan.xslt.Process -in mytask.htm -xsl preprocess.xsl -out mytask.htm</pre>
+
+                  </div>
+
+                </li>
+
+                <li>Use Saxon or Xalan directory to run the migration, on the command line, 
+                    <div class="p">enter the following command when using Saxon: 
+                        <pre class="codeblock">java com.icl.saxon.StyleSheet mytask.htm h2d.xsl infotype=task &gt; mytask.dita</pre>
+
+                    </div>
+
+                    <div class="p">enter the following command when using Xalan: 
+                        <pre class="codeblock">java org.apache.xalan.xslt.Process -in mytask.htm -xsl h2d.xsl -out mytask.dita -param infortype task</pre>
+
+                    </div>
+
+                </li>
+
+            </ol>
+
+            <p>You can also add other parameters to this properties file. See 
+                the following table for details.</p>
+
+            <div class="p"><div class="note"><span class="notetitle">Note:</span> The output directory of the generated DITA file should exist, since 
+                the XSLT processor can't create it automatically.</div>
+</div>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Supported parameters</h2>
+            
+            <p>The following table lists the supported parameters that you can set with the java command.</p>
+
+            
+<div class="tablenoborder"><table summary="" cellspacing="0" cellpadding="4" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Table of supported parameters</span></caption>
+                    
+                    
+                    
+                    <thead align="left">
+                        <tr valign="bottom">
+                            <th class="cellrowborder" valign="bottom" id="N100C6">Parameter</th>
+
+                            <th class="cellrowborder" valign="bottom" id="N100CD">Description</th>
+
+                            <th class="cellrowborder" valign="bottom" id="N100D4">Required</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class="cellrowborder" valign="top" headers="N100C6 ">infotype</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100CD ">The infotype of generated 
+                                DITA files. Topic, concept, task, and reference 
+                                are valid values. Default is topic.</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100D4 ">No.</td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="cellrowborder" valign="top" headers="N100C6 ">dita-extension</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100CD ">The extension for links that 
+                                go to other DITA topics. ".dita" and ".xml" are 
+                                valid values. Default is ".dita".
+                                <div class="note"><span class="notetitle">Note:</span> The extension of the generated DITA file 
+                                    can't specified by this parameter, it only 
+                                    can be specified along with the output 
+                                    filename.</div>
+
+                            </td>
+
+                            <td class="cellrowborder" valign="top" headers="N100D4 ">No.</td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="cellrowborder" valign="top" headers="N100C6 ">FILENAME</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100CD ">It is used to determine 
+                                the main topic's ID. <div class="note"><span class="notetitle">Note:</span> The FILENAME should 
+                                ends with '.htm' or '.html'. Invalid ID 
+                                characters, including all numbers, will be 
+                                replaced with letters.</div>
+</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100D4 ">No.</td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="cellrowborder" valign="top" headers="N100C6 ">default-lang</td>
+
+                            <td class="cellrowborder" valign="top" headers="N100CD ">The default language of 
+                                output DITA files. Default is "en-us".
+                                <div class="note"><span class="notetitle">Note:</span> For supported language, please refer to 
+                                    <samp class="codeph">strings.xml</samp> under the 
+                                    directory 
+                                    <samp class="codeph">${ditaot_dir}/xsl/common</samp>.
+                                </div>
+
+                            </td>
+
+                            <td class="cellrowborder" valign="top" headers="N100D4 ">No.</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>

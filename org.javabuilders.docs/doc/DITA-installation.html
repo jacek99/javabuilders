@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="task" name="DC.Type">
+<meta name="DC.Title" content="Installing the DITA Toolkit">
+<meta name="abstract" content="This topic explains how to install the DITA Toolkit processing environment.">
+<meta name="description" content="This topic explains how to install the DITA Toolkit processing environment.">
+<meta content="XHTML" name="DC.Format">
+<meta content="installation" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Installing the DITA Toolkit</title>
+</head>
+<body id="installation"><a name="installation"><!-- --></a>
+
+
+  <h1 class="topictitle1">Installing the DITA Toolkit</h1>
+
+  
+  
+  <div><p>This topic explains how to install the DITA Toolkit processing 
+    environment.</p>
+
+    <div class="p">
+      <strong>Prerequisite for installation:</strong>
+      <div class="p">The recommended use of the DITA Toolkit components is inside of the 
+        Java environment because its <a href="DITA-usingtransforms.html#ditausingxform__preprocess">pre-process 
+        architecture</a> needs Java and Java-based tools. Therefore, before 
+        installing the DITA Toolkit processing environment, ensure that you 
+        have installed the following prerequisite tools :<div class="note"><span class="notetitle">Note:</span> See <a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a> for detailed 
+        information about versions of these tools that have been successfully 
+        tested with the current toolkit release.</div>
+</div>
+
+      <dl>
+        
+          <dt class="dlterm" id="installation__jdk"><a name="installation__jdk"><!-- --></a><a name="installation__Prereq"><!-- --></a>Java runtime or development environment</dt>
+
+          <dd>Provides the basic environment for most tools used in this 
+            toolkit. <p>You can download and install the Java Development Kit 
+            (JDK) 1.4.2 (available on<a href="http://java.sun.com/j2se/index.jsp" target="_blank">http://java.sun.com/j2se/index.jsp</a>) 
+            into a directory of your choice.</p>
+</dd>
+
+        
+        
+          <dt class="dlterm" id="installation__xslt"><a name="installation__xslt"><!-- --></a><a name="installation__XSLT"><!-- --></a>XSLT 1.0 compliant transformation engine</dt>
+
+          <dd>Provides the main transformation services via the advanced XSLT 
+            processor Saxon 6.5 or Xalan-J 2.6 in the toolkit.<p>You can 
+            download and extract the Saxon 6.5 (available on <a href="http://saxon.sourceforge.net/" target="_blank">http://saxon.sourceforge.net/</a>) or the Xalan-J 2.6(available on <a href="http://xml.apache.org/xalan-j/downloads.html" target="_blank">http://xml.apache.org/xalan-j/downloads.html</a>) file into a directory of your 
+            choice.</p>
+</dd>
+
+        
+        
+          <dt class="dlterm"><a name="installation__antbuild"><!-- --></a>Ant 1.6.5 build tool</dt>
+
+          <dd>Provides the standard setup and sequencing of processing 
+            steps.</dd>
+
+          <dd class="ddexpand">See <a href="DITA-setupant.html#setupant" title="This topic guides you how to set up Ant environment properly.">Setting up Ant</a> for more 
+            information.</dd>
+
+        
+      </dl>
+
+    </div>
+
+    <div class="section">
+      <p>
+        <strong>The following steps guide you to set up the DITA Toolkit processing 
+          environment.</strong>
+      </p>
+
+    </div>
+
+    <ol>
+      <li class="stepexpand">
+        <span>Download the DITA Toolkit package file from <a href="http://sourceforge.net/projects/dita-ot" target="_blank">SourceForge</a> .</span>
+         
+          <div class="note"><span class="notetitle">Note:</span> 
+            <br><ul>
+              <li>It is recommended to download the latest version of the DITA 
+                Toolkit for stable usage.</li>
+
+              <li>If you use DITA Open Toolkit full distribution, click <a href="#Fullsetup" title="The software that DITA OT depend on are redistributed. The full distribution package of DITA OT after 1.3 includes the software, so the configuration process is streamlined.">here</a> to continue.</li>
+
+              <li>If you use <strong>Linux</strong>, click <a href="#Linuxsetup" title="The following steps guide you to set up the DITA Toolkit processing environment in Linux.">here</a> to continue the setting up 
+                process. </li>
+
+            </ul>
+
+          </div>
+
+        
+      </li>
+
+      <li class="stepexpand">
+        <span>Extract the package file into a directory of your choice. </span>
+         
+          <p>For example: <samp class="codeph">c:\pkg\DITA-OT1.0</samp></p>
+
+        
+      </li>
+
+      <li class="stepexpand">
+        <span>Set up your environment variable<samp class="codeph"> JAVA_HOME</samp> to 
+          your installation directory for JDK or JRE. </span>
+         
+          <div class="p">For example: <pre class="codeblock">set JAVA_HOME=&lt;JDK_dir&gt; </pre>
+</div>
+
+        
+      </li>
+
+      <li class="stepexpand">
+        <span>Set up the <strong>XSLT</strong> processor.</span>
+        
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N10198-option" align="left">Option</th>
+<th valign="bottom" id="N10198-desc" align="left">Description</th></tr></thead>
+<tbody>
+          <tr>
+            <td valign="top" headers="N10198-option" id="N101A5"><strong>If you use the Saxon,</strong></td>
+
+            <td valign="top" headers="N10198-desc N101A5">
+              <br><ul>
+                <li>Set up CLASSPATH to include the <em>saxon.jar</em> file. 
+                  <p><samp class="codeph">set CLASSPATH=%CLASSPATH%; 
+                  &lt;saxon_dir&gt;\saxon.jar</samp></p>
+</li>
+
+                <li>Set up ANT_OPTS.<p><samp class="codeph">set ANT_OPTS=%ANT_OPTS% -Djavax.xml.transform.TransformerFactory=com.icl.saxon.TransformerFactoryImpl</samp></p>
+<div class="attention"><span class="attentiontitle">Attention:</span> if you do not use Saxon, please remove the 
+                  <em>saxon.jar</em> file and ANT_OPTS from the environment 
+                  variable.</div>
+</li>
+
+              </ul>
+
+              <samp class="codeph"></samp>
+            </td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N10198-option" id="N101F2"><strong>If you use the Xalan,</strong></td>
+
+            <td valign="top" headers="N10198-desc N101F2">
+              <br><ul>
+                <li>Set up CLASSPATH to include the <em>xalan.jar</em> file and 
+                  the <em> xercesImpl.jar</em> file. <pre class="codeblock">set CLASSPATH=%CLASSPATH%;&lt;xalan_dir&gt;\bin</pre>
+<div class="attention"><span class="attentiontitle">Attention:</span> if you don't use the Xalan, please remove<em> 
+                  jar</em> files related to the Xalan from the environment 
+                  variable CLASSPATH.</div>
+</li>
+
+              </ul>
+
+            </td>
+
+          </tr>
+
+        </tbody></table>
+
+      </li>
+
+      <li class="stepexpand">
+        <span>If you need to build compiled JavaHelp, PDF output and compiled 
+          HTML Help, you should install some build tools for these formats of 
+          outputs</span>
+         
+          <p>JavaHelp is free software that can build online help for operating 
+            systems, applications, and devices. If you have set up JavaHelp, 
+            the DITA Open Toolkit can build online Java help by invoking 
+            JavaHelp software. To download and install JavaHelp software, go to 
+            <a href="http://java.sun.com/products/javahelp/download_binary.html" target="_blank">http://java.sun.com/products/javahelp/download_binary.html</a></p>
+
+          <p>FOP (Formatting Objects Processor) is a Java application and is 
+            the print formatter driven by XSL formatting objects (XSL-FO). FOP 
+            reads a formatting object tree and transforms the object to PDF 
+            output. If you have set up FOP, the DITA Open Toolkit can build PDF 
+            output by invoking FOP. To download and install the binary 
+            distribution for FOP, go to <a href="http://xml.apache.org/fop/download.html" target="_blank">http://xml.apache.org/fop/download.html</a></p>
+
+          <p>Microsoft HTML Help Workshop is a program designed to create and 
+            compile .CHM help files using HTML source files. If you have set up 
+            Microsoft HTML Help Workshop, the DITA Open Toolkit can build 
+            .CHM help files by invoking the Workshop. To download 
+            and install Microsoft HTML Help Workshop, go to <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hwMicrosoftHTMLHelpDownloads.asp" target="_blank">http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hwMicrosoftHTMLHelpDownloads.asp</a></p>
+
+          <p>If you have installed one or more of these optional build tools, 
+            you should choose the following options to set up. </p>
+
+        
+        
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N1026E-option" align="left">Option</th>
+<th valign="bottom" id="N1026E-desc" align="left">Description</th></tr></thead>
+<tbody>
+          <tr>
+            <td valign="top" headers="N1026E-option" id="N1027B"><strong> If you have installed the JavaHelp,</strong></td>
+
+            <td valign="top" headers="N1026E-desc N1027B">set up the environment variable <samp class="codeph">JHHOME</samp> to 
+              your installation directory for JavaHelp. For 
+              example:<p><samp class="codeph">set 
+              JHHOME=&lt;javahelp_dir&gt;</samp></p>
+</td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1026E-option" id="N1029C"><strong>If you have installed the FOP,</strong></td>
+
+            <td valign="top" headers="N1026E-desc N1029C"> set up your environment variable CLASSPATH to include the 
+              <em>fop.jar, batik.jar</em> and <em>avalon.jar</em> files in the FOP 
+              directory. For example: <p><samp class="codeph">set 
+              CLASSPATH=%CLASSPATH%;&lt;fop_dir&gt;\build;&lt;fop_dir&gt;\lib</samp></p>
+</td>
+
+          </tr>
+
+          <tr>
+            <td valign="top" headers="N1026E-option" id="N102C3"><strong>If you want to build HTML Help output,</strong></td>
+
+            <td valign="top" headers="N1026E-desc N102C3">install Microsoft HTML Help Workshop to the default 
+              directory.</td>
+
+          </tr>
+
+        </tbody></table>
+
+      </li>
+
+      <li class="stepexpand" id="installation__testdita"><a name="installation__testdita"><!-- --></a>
+        <span>Test the DITA Toolkit when you complete above steps.</span>
+         
+          <p>You can do the following steps under the command prompt to test 
+            whether the DITA Toolkit and the XSLT engine are successfully 
+            installed.</p>
+
+          <br><ul>
+            <li>
+              <strong>Using the Xalan-Java/ LotusXSL-Java: </strong>
+              <p>For example:<kbd class="userinput">c:\pkg\DITA-OT1.0\doc&gt;java 
+                org.apache.xalan.xslt.Process -in DITA-readme.xml -xsl 
+                ..\xsl\pretty.xsl -out ..\DITA-readme.xml</kbd></p>
+
+            </li>
+
+            <li>
+              <strong>Using the Saxon: </strong>
+              <p>For example:<kbd class="userinput">c:\pkg\DITA-OT1.0\doc&gt;java 
+                com.icl.saxon.StyleSheet DITA-readme.xml ..\xsl\pretty.xsl &gt; 
+                ..\DITA-readme.xml </kbd></p>
+
+            </li>
+
+            <li>
+              <strong>Using the Ant :</strong>
+              <p>Run all demo in the DITA Toolkit directory. </p>
+
+              <p>For example: <kbd class="userinput">c:\pkg\DITA-OT1.0&gt;ant all</kbd> 
+                </p>
+
+              <p>Or you can run specific file individually. </p>
+
+              <p>For example:<kbd class="userinput">c:\pkg\DITA-OT1.0\ant 
+                samples.web</kbd></p>
+
+              <div class="p">
+                <div class="tip"><span class="tiptitle">Tip:</span> Input <samp class="codeph">ant 
+                  -projecthelp</samp> to see the list of tasks </div>
+
+              </div>
+
+              <div class="note"><span class="notetitle">Note:</span> 
+                <strong>If you can pass this test, it means that all of the tools 
+                  are installed correctly.</strong>
+              </div>
+
+            </li>
+
+          </ul>
+
+        
+      </li>
+
+    </ol>
+
+  </div>
+
+  <div class="nested1" xml:lang="en-us" id="Fullsetup"><a name="Fullsetup"><!-- --></a>
+    <h2 class="topictitle2">Installing DITA OT Full Distribution</h2>
+
+    
+    <div><p>The software that DITA OT depend on are
+      redistributed. The full distribution package of DITA OT after 1.3 includes the software,
+      so the configuration process is streamlined.</p>
+
+      <div class="p">Before installing DITA Open Toolkit full distribution, you need to complete the
+        following steps:<br><ul>
+          <li>Download and configure JDK properly.</li>
+
+          <li>(Optional) Download and configure HTMLHelp Compiler properly for HTMLHelp
+            transformation. </li>
+
+          <li>(Optional) Download and configure JavaHelp Compiler properly for JavaHelp
+            transformation.</li>
+
+        </ul>
+</div>
+
+      <div class="section">Then, you need to complete the following steps:</div>
+
+      <ol>
+        <li><span>Download the full DITA OT package. </span></li>
+
+        <li><span>Run the batch file "<samp class="codeph">startcmd.bat</samp>" for Windows
+          or "<samp class="codeph">startcmd.sh</samp>" for Linux to set up the necessary environment
+          variables.</span></li>
+
+        <li><span>Run the transformation in the command-line window by using
+          Java command line or ANT.</span>
+        </li>
+
+      </ol>
+
+      <div class="section">You can still use the standard package to install DITA OT:<br><ul>
+        <li>Download the standard package.</li>
+
+        <li>Configure the system environment of DITA OT, but add two more paths %DITA_HOME%\lib;%DITA_HOME%\lib\resolver.jar;
+          to the CLASSPATH parameter.</li>
+
+        <li> Run the package by using Java command line or Ant. </li>
+
+      </ul>
+</div>
+
+    </div>
+
+  </div>
+
+  <div class="nested1" xml:lang="en-us" id="Linuxsetup"><a name="Linuxsetup"><!-- --></a>
+    <h2 class="topictitle2">Set up DITA Toolkit in Linux</h2>
+
+    
+    <div><p>
+      <strong>The following steps guide you to set up the DITA Toolkit processing 
+        environment in Linux.</strong>
+    </p>
+
+      <ol>
+        <li class="stepexpand">
+          <span>Extract the package file into a Linux home directory.</span>
+           
+            <div class="note"><span class="notetitle">Note:</span> You can extract all package files and toolkits either to your 
+              private home directory for exclusive usage or to 
+              <strong>/usr/local/share/</strong> directory for sharing. </div>
+
+          
+        </li>
+
+        <li class="stepexpand">
+          <span>Set up your environment variable <samp class="codeph">JAVA_HOME</samp>.</span>
+           
+            <p><samp class="codeph">export JAVA_HOME=&lt;JDK_dir&gt;</samp></p>
+
+          
+        </li>
+
+        <li class="stepexpand">
+          <span>Set up your environment variable <samp class="codeph">PATH</samp>.</span>
+           
+            <p><samp class="codeph">export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH</samp></p>
+
+          
+        </li>
+
+        <li class="stepexpand">
+          <span>Set up your environment variable <samp class="codeph">CLASSPATH</samp></span>
+           
+            <p><samp class="codeph">export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:&lt;dita_dir&gt;/lib/dost.jar</samp></p>
+
+          
+        </li>
+
+        
+        <li class="stepexpand">
+          <span>Set up the <strong>XSLT</strong> processor.</span>
+          
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N104BB-option" align="left">Option</th>
+<th valign="bottom" id="N104BB-desc" align="left">Description</th></tr></thead>
+<tbody>
+            <tr>
+              <td valign="top" headers="N104BB-option" id="N104C8"><strong>If you use the Saxon,</strong></td>
+
+              <td valign="top" headers="N104BB-desc N104C8">
+                <br><ul>
+                  <li>Set up CLASSPATH to include the <em>saxon.jar</em> file.<p><samp class="codeph">export 
+                    CLASSPATH=$CLASSPATH:&lt;saxon_dir&gt;/saxon.jar</samp></p>
+</li>
+
+                  <li>Set up ANT_OPTS. <p><samp class="codeph">export ANT_OPTS=$ANT_OPTS 
+                    -Djavax.xml.transform.TransformerFactory=com.icl.saxon.TransformerFactoryImpl</samp></p>
+<div class="note"><span class="notetitle">Note:</span> if 
+                    you don't use Saxon, please remove the <em>saxon.jar</em> 
+                    file and ANT_OPTS from the environment variable.</div>
+</li>
+
+                </ul>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td valign="top" headers="N104BB-option" id="N10510"><strong>If you use the Xalan,</strong></td>
+
+              <td valign="top" headers="N104BB-desc N10510">
+                <br><ul>
+                  <li>Set up CLASSPATH to include the <em>xalan.jar</em> file and 
+                    the <em> xercesImpl.jar</em> file. <p><samp class="codeph">export 
+                    CLASSPATH=$CLASSPATH:&lt;xalan_dir&gt;/bin</samp></p>
+<div class="attention"><span class="attentiontitle">Attention:</span> if you don't use the Xalan, please 
+                    remove<em> jar</em> files related to the Xalan from the 
+                    environment variable CLASSPATH.</div>
+</li>
+
+                </ul>
+
+              </td>
+
+            </tr>
+
+          </tbody></table>
+
+        </li>
+
+        <li class="stepexpand">
+          <span>If you have installed build tools for compiled JavaHelp, PDF 
+            output and compiled HTML Help, you should choose the following options 
+            to set up.</span>
+          
+<table class="choicetableborder" summary="" cellspacing="0" cellpadding="4" rules="rows" frame="hsides" border="1">
+<thead><tr><th valign="bottom" id="N10557-option" align="left">Option</th>
+<th valign="bottom" id="N10557-desc" align="left">Description</th></tr></thead>
+<tbody>
+            <tr>
+              <td valign="top" headers="N10557-option" id="N10564"><strong> If you have installed the JavaHelp,</strong></td>
+
+              <td valign="top" headers="N10557-desc N10564">set up the environment variable JHHOME to your 
+                installation directory for JavaHelp. For 
+                example:<p><samp class="codeph">export 
+                JHHOME=&lt;javahelp_dir&gt;</samp></p>
+</td>
+
+            </tr>
+
+            <tr>
+              <td valign="top" headers="N10557-option" id="N1057F"><strong>If you have installed the FOP,</strong></td>
+
+              <td valign="top" headers="N10557-desc N1057F"> set up your environment variable CLASSPATH to include 
+                the <em>fop.jar, batik.jar</em> and <em>avalon.jar</em> files in 
+                the FOP directory. For example: <p><samp class="codeph">export 
+                CLASSPATH=$CLASSPATH:&lt;fop_dir&gt;/build:&lt;fop_dir&gt;/lib</samp></p>
+</td>
+
+            </tr>
+
+            <tr>
+              <td valign="top" headers="N10557-option" id="N105A6"><strong>If you want to build HTML Help output,</strong></td>
+
+              <td valign="top" headers="N10557-desc N105A6">install Microsoft HTML Help Workshop to the default 
+                directory.</td>
+
+            </tr>
+
+          </tbody></table>
+
+        </li>
+
+        <li class="stepexpand">
+          <span>
+            <a href="#installation__testdita">Test the DITA Toolkit when you 
+              complete above steps.</a>
+          </span><br>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </div>
+
+
+</body>
+</html>

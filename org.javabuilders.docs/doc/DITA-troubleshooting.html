@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="reference" name="DC.Type">
+<meta name="DC.Title" content="Troubleshooting">
+<meta name="abstract" content="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">
+<meta name="description" content="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">
+<meta scheme="URI" name="DC.Relation" content="DITA-readme.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-relnotes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-changes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-futures.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-tested.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-usingtransforms.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-ant.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-javacmd.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-log.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-h2d.html">
+<meta scheme="URI" name="DC.Relation" content="dita2word.html#dita2word/limitation">
+<meta scheme="URI" name="DC.Relation" content="DITA-limitations.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="troubleshooting" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Troubleshooting</title>
+</head>
+<body id="troubleshooting"><a name="troubleshooting"><!-- --></a>
+
+
+  <h1 class="topictitle1">Troubleshooting</h1>
+
+  
+  <div><p>This section is used for identifying problems when installing 
+    and executing the DITA Open Toolkit.</p>
+
+    <div class="section"><h2 class="sectiontitle">1. Out of Memory Error</h2>
+      
+      <p>In some cases, you might receive a message stating the build has 
+        failed due to an "Out of Memory" error. Please follow the steps below 
+        to fix this problem:</p>
+
+      <br><ol>
+        <li><p>For Windows, type <samp class="codeph">set ANT_OPTS=%ANT_OPTS% -Xmx256M</samp> 
+            in the command prompt, you can also choose to add a new opition 
+            <samp class="codeph">-Xmx256M</samp> to the <samp class="codeph">ANT_OPTS</samp> 
+            environment variable.</p>
+
+            <p>For Linux, type <samp class="codeph">export ANT_OPTS=${ANT_OPTS} -Xmx256M</samp> 
+            in the command prompt.</p>
+
+        </li>
+
+        <li>Run the transformation again.</li>
+
+      </ol>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">2. java.io.IOException: Can't store Document</h2>
+        
+        <p>In some cases, when you run the JavaHelp transformation, you might 
+          receive the exception above. This problem is caused by some HTML 
+          files unrelated with the current JavaHelp transformation were found 
+          under the output directory. Please follow the steps below to fix 
+          this problem:</p>
+
+        <br><ol>
+          <li>Change into the output directory.</li>
+
+          <li>Clean the output directory.</li>
+
+          <li>Run the JavaHelp transformation again.</li>
+
+        </ol>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">3. Failed to load message file</h2>
+        
+        <p>In some situations, the toolkit may fails to load the message file 
+          due to some exceptions thrown.</p>
+
+        <p>To fix this problem, you need to check if there are files 
+          'resource/messages.xml' and 'resource/messages.dtd' in the directory 
+          that you run the toolkit. If not, please copy them from the toolkit's 
+          root directory.</p>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">4. Spaces in file names</h2>
+      
+      <p>Spaces in file names will cause trouble during the processing because Ant
+      use space as the delimiter when processing batch files in a list. Please 
+      prevent using spaces in the name of dita files.</p>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">5. Stack Overflow</h2>
+      
+      <p>Sometimes, you will receive an error during the transformation which says
+      the stack memory overflows. Please follow the steps below to fix the problem:</p>
+
+      <br><ol>
+        <li><p>For Windows, type <samp class="codeph">set ANT_OPTS=%ANT_OPTS% -Xms512M</samp> 
+          in the command prompt, you can also choose to add a new opition 
+          <samp class="codeph">-Xms512M</samp> to the <samp class="codeph">ANT_OPTS</samp> 
+          environment variable.</p>
+
+          <p>For Linux, type <samp class="codeph">export ANT_OPTS=${ANT_OPTS} -Xms512M</samp> 
+            in the command prompt.</p>
+
+        </li>
+
+        <li>Run the transformation again.</li>
+
+      </ol>
+
+    </div>
+
+  </div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br>
+<div><a href="DITA-futures.html" title="Activity on the DITA Open Toolkit project will revolve around maintenance (bug fixes), enhancements (new function based on prioritized requests), demos and experimentation (sandbox activity), and community support (forums, etc.).">DITA futures</a></div>
+<div><a href="DITA-ant.html" title="Ant is an open tool that uses the DITA processes to make producing DITA output easier.">Building DITA output with Ant</a></div>
+<div><a href="DITA-javacmd.html" title="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">Building DITA output with Java command line</a></div>
+<div><a href="DITA-h2d.html">Migrating HTML to DITA</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br>
+<div><a href="DITA-relnotes.html">DITA release notes</a></div>
+<div><a href="DITA-log.html">Problem determination and log analysis</a></div>
+<div><a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br>
+<div><a href="DITA-changes.html" title="This document lists major changes and new features by release.">DITA release history</a></div>
+<div><a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a></div>
+<div><a href="DITA-usingtransforms.html" title="The core transforms of the DITA Toolkit represent the Reference Implementation for processing the standard DITA specification as maintained by OASIS Open.">Using DITA transforms</a></div>
+<div><a href="dita2word.html#dita2word__limitation">Transfomring DITA to Word RTF</a></div>
+</div>
+</div>
+
+</body>
+</html>

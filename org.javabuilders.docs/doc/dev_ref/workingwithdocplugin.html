@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="task" name="DC.Type">
+<meta name="DC.Title" content="Working with documentation plug-in">
+<meta scheme="URI" name="DC.Relation" content="../DITA-readme.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="integratingwithwtp" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="..\commonltr.css" type="text/css" rel="stylesheet">
+<title>Working with documentation plug-in</title>
+</head>
+<body id="integratingwithwtp"><a name="integratingwithwtp"><!-- --></a>
+
+
+<h1 class="topictitle1">Working with documentation plug-in</h1>
+
+<div>
+<div class="section">You can use a template to develop documentation plug-in with DITA
+in Eclipse PDE and use DITA OT 1.3 to build and pack the final plug-in. When
+you want to develop a documentation plug-in with DITA in Eclipse, you cannot
+use the previous releases of DITA OT in Eclipse to transform DITA to HTML.
+Though previous releases of DITA OT support the feature to transform DITA
+files to Eclipse documentation plug-in, they are not integrated with Eclipse.
+With DITA OT 1.3 integrated with WPT, you can develop document plug-ins with
+DITA in Eclipse PDE and build and pack the final plug-in by taking the following
+steps.</div>
+
+<ol>
+<li class="stepexpand"><span>Create a new PDE project in Eclipse, and apply the DITA
+template to the project by following the wizard.</span> <br><img src="createlpluginproject.jpg" alt="Start Eclipse and create a new plug-in project"><br></li>
+
+<li class="stepexpand" id="integratingwithwtp__step2"><a name="integratingwithwtp__step2"><!-- --></a><span>Set the source directory, the main ditamap
+file, the output directory (default value is root directory of project), css
+storage directory (used to contain common.css, commonltr.css, and commonrtl.css),
+user customized .css file name, and conditional processing ditaval file in
+the wizard. <span class="uicontrol">Use root as output directory</span> is selected
+as the default.</span> You can also clear <span class="uicontrol">Use root as output
+directory</span> and specify another output directory. <div class="fignone">
+<br><img src="specifyoutputdir.JPG" alt="Set directories"><br>
+</div>
+<div class="fignone">
+<br><img src="newdirectory.JPG" alt="Specify another directory"><br>
+</div>
+</li>
+
+<li class="stepexpand"><span>Create DITA files in the source directory and a ditamap to include
+the topic files that you created.</span></li>
+
+<li class="stepexpand"><strong>Optional: </strong><span>Import the DITA files into the <span class="filepath">src</span> directory
+of the DITA plug-in project you just created.</span>
+<ol type="a">
+<li class="substepexpand"><span>Right-click a directory that you want to put the imported files
+and select Import, and then File system. </span> <div class="fignone">
+<br><img src="filesys.jpg" alt="Select an import file source"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Select the directory under which you put the DITA files.</span>
+ <div class="fignone">
+<br><img src="setdirectory.jpg" alt="Select a directory"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Click Finish after you selected the DITA files under the specified
+directory. The DITA files are then imported to your DITA project.</span></li>
+
+</ol>
+
+</li>
+
+<li class="stepexpand"><span>Right click build.xml, select Run As, and then ANT Build.</span>
+  <div class="note"><span class="notetitle">Note:</span> If you're using SUN JDK, please download and use the latest Xalan. 
+The Xalan shipped with SUN JDK has some issue that will cause the build failure. You can use the latest 
+Xalan by selecting <span class="uicontrol">ANT Build ...</span> and include the all of Xalan's jar files in Classpath.</div>
+
+ After the transformation, the output is in the output directory set
+in build.xml. Refresh the project after the build is successful.<div class="fignone">
+<br><img src="runasant.jpg" alt="Run as ANT build"><br>
+</div>
+<div class="fignone"><br><img src="classpath.jpg" alt="Set the Classpath"><br></div>
+</li>
+
+<li class="stepexpand"><span>Edit the plug-in description of the property file MANITEST.MF in
+the plug-in editor after you run the ANT build successfully. </span>
+<ol type="a">
+<li class="substepexpand"><span>Click MANITEST.MF to go to the Overview page.</span> <div class="fignone">
+<br><img src="overview.jpg" alt="Overview"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Edit Dependencies to include org.eclipse.help.</span> <div class="fignone">
+<br><img src="org.jpg" alt="Edit Dependencies"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Edit Extensions to add org.eclipse.help.toc; right click the
+added prgeclipse.help.toc, and select New, and then toc.</span> <div class="fignone">
+<br><img src="toc.jpg" alt="Edit Extensions"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Edit the Build Configuration to include the out directory or
+the directory you specified in <a href="#integratingwithwtp__step2">Step 2</a>.</span>
+ <div class="fignone">
+<br><img src="buildout.JPG" alt="Edit Build Configuration"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Save the changes you made to the property file MANITEST.MF.</span>
+</li>
+
+</ol>
+
+</li>
+
+<li class="stepexpand"><span>Export the output to a documentation plug-in. </span> <div class="note"><span class="notetitle">Note:</span> build.xml
+can be customized to meet the requirement of headless build.</div>
+
+<ol type="a">
+<li class="substepexpand"><span>Select <span class="menucascade"><span class="uicontrol">File</span> &gt; <span class="uicontrol">Export</span>
+</span>; select Deployable plug-ins and fragments and click <span class="uicontrol">Next</span>.</span>
+ <div class="fignone">
+<br><img src="export.jpg" alt="Export a plug-in"><br>
+</div>
+</li>
+
+<li class="substepexpand"><span>Select the plug-in you want to export and specify a directory
+under which you want to put the plug-in package.</span> <br><img src="selectplugin.jpg" alt="Select a plug-in and specify the export destination"><br></li>
+
+<li class="substepexpand"><span>Click <span class="uicontrol">Finish</span> to export the plug-in package.</span>
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="../DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+</div>
+
+</body>
+</html>

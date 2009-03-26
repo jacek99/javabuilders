@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/core?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20081230091336" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="title:1">Executing long running methods on a background thread</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:1">A common issue in most UI toolkits is that the application locks
+				up if a long running process is running on the EDT (Event Dispatch
+				Thread). In this case, the recommended solution is to execute it on
+				a background thread and if possible, provide some sort of progress
+				indicator to the user letting them know about the current status of
+				this process (e.g. saving large amounts of data to a database).</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="section:2">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="title:2">Method Annotation</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:2">
+				In JavaBuilders, this is accomplished by simply annotating the long
+				running method with a
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeph:1">@DoInBackground</codeph>
+				annotation (which provides some attributes that can customize how
+				the long running process is handled).
+			</p>
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:1">
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface DoInBackground {
+        /**
+         * @return Progress message
+         */
+        String progressMessage() default "label.processing";
+
+        /**
+         * @return If background task is cancelable or not
+         */
+        boolean cancelable() default false;
+        /**
+         * @return Default start value for progress bar
+         */
+        int progressStart() default 1;
+        /**
+         * @return Default end value for progress bar
+         */
+        int progressEnd() default 100;
+        /**
+         * @return Current progress value
+         */
+        int progressValue() default 1;
+        /**
+         * @return Indicates if task should block UI with a popup or not
+         */
+        boolean blocking() default true;
+        /**
+         * @return Indicates to show indeterminate progress indicator. Overrides the progress start/end/value if set to true
+         */
+        boolean indeterminateProgress() default true;
+}
+			</codeblock>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:3">
+				Any method that is annotated as such must implement a signature that
+				accepts an object of type
+				<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeph:2">BackgroundEvent</codeph>
+				, which allows the background method to communicate with the UI's
+				progress indicator and even cancel itself, if the user requests it,
+				e.g.:
+			</p>
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:2">
+@DoInBackground(cancelable=true, progressStart=1, progressEnd=100, progressValue=1, indeterminateProgress=false)
+private void save(BackgroundEvent evt) {
+        System.out.println("SAVE...");
+        for(int i = 0; i &lt; 100; i++) {
+
+                if (evt.getCancelStatus() != CancelStatus.REQUESTED) {
+                        try {
+                                Thread.currentThread().sleep(100);
+                                evt.setProgressValue(i + 1);
+                                evt.setProgressMessage(String.format("Processing %s of %s...", 
+                                evt.getProgressValue(), evt.getProgressEnd()));
+                        } catch (InterruptedException e) {}
+                } else {
+                        evt.setCancelStatus(CancelStatus.PROCESSING);
+                        System.out.println("Cancelling...");
+                        evt.setCancelStatus(CancelStatus.COMPLETED);
+                        break;
+                }
+        }
+        System.out.println("SAVE END...");
+}
+			</codeblock>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="section:3">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="title:3">Executing multiple methods together</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:4">A typical scenario in an input dialog that occurs when a user presses the Save button is: 
+			<ol class="- topic/ol " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="ol:1">
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="li:1">validate input</li>
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="li:2">save the data (this can take a long time)</li>
+				<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="li:3">close the window</li>
+			</ol>
+			The way to handle this is to have the button execute multiple methods in sequence, e.g.: 
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:3">
+JButton(text=Save,onAction=($validate,save,close))			
+			</codeblock>
+			On the Java side, the long running method is annotated as such: 
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:4">
+@DoInBackground(indeterminateProgress=true)
+private void save() { //long running process }
+
+private void close() {
+    setVisible(false);
+    dispose();
+}			
+			</codeblock>
+			The methods <b class="+ topic/ph hi-d/b " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="b:1">after</b> the long running method (i.e. <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeph:3">"close"</codeph> in this 
+			example), will only execute <b class="+ topic/ph hi-d/b " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="b:2">after</b> the long running method has finished, 
+			they will not run in parallel, even though they are on different threads. 
+			Hence, the sequence of events is preserved. 
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="section:4">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="title:4">Domain-specific Implementations</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:5">In Swing JavaBuilder, long running methods are handled by using the standard 
+			<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeph:4">SwingWorker</codeph> library. A Swing progress dialog will popup up 
+			informing the user that a process is running. If the method flagged itself as cancelable, 
+			the Cancel button on the progress dialog will be enabled, allowing the user to cancel 
+			the task if it runs for too long.</p>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:6">For the SWT JavaBuilder the plan is to support something similar or alternatively
+			plug into the JFace Progress/Tasks API.</p>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="p:7">As you can see, JavaBuilders does not have a "one size fits all" approach and for 
+			each toolkit we plan to use the best option available on that specific
+			platform.</p>
+		</section>
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" xtrc="topicref:6" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" href="../core/core.features.xml" role="parent"/></linkpool></related-links>
+</topic>

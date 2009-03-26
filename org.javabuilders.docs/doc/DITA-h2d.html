@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="concept" name="DC.Type">
+<meta name="DC.Title" content="Migrating HTML to DITA">
+<meta scheme="URI" name="DC.Relation" content="DITA-readme.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-relnotes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-changes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-futures.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-tested.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-usingtransforms.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-ant.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-javacmd.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-log.html">
+<meta scheme="URI" name="DC.Relation" content="dita2word.html#dita2word/limitation">
+<meta scheme="URI" name="DC.Relation" content="DITA-limitations.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-troubleshooting.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="h2d" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Migrating HTML to DITA</title>
+</head>
+<body id="h2d"><a name="h2d"><!-- --></a>
+
+
+    <h1 class="topictitle1">Migrating HTML to DITA</h1>
+
+    <div>
+        <p>The DITA Open Toolkit release 1.2 or above provides a HTML to DITA 
+            migration tool, which migrates HTML files to DITA files. This 
+            migration tool originally comes from the developerWorks publication 
+            of Robert D. Anderson's how-to articles with the original h2d code. 
+            This migration tool is under "demo\h2d" directory. You can use it 
+            separately because it is not integrated into the main transformation 
+            of toolkit. The version in the toolkit is more recent, but the 
+            articles should be referenced for information on details of the 
+            program, as well as for information on how to extend it. There are 
+            links to the articles at the bottom of this page.</p>
+
+        <div class="section"><h2 class="sectiontitle">Preconditions</h2>
+            
+            <p>The preconditions to be considered before using the migration 
+                tool are listed below:</p>
+
+            <br><ul>
+                <li>The HTML file content must be divided among concepts, 
+                    tasks, and reference articles. If not, the HTML files 
+                    should be reworked before migrating.</li>
+
+                <li>This migration tool is intended for topics. The HTML page 
+                    should contain a single section without any nested 
+                    sections.</li>
+
+                <li>DITA architecture is focused on topics, information that is 
+                    written for books needs to be redesigned in order to fit 
+                    into a topic-based archiecture.</li>
+
+                <li>This migration utility only works with valid XHTML files, 
+                    HTML files must be cleaned up using HTML Tidy or other 
+                    utility before processing.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Running examples</h2>
+            
+            <p>You can use the Ant script to migrate only one HTML file or all 
+                the HTML files in same directory each time. See <a href="DITA-h2d-ant.html#h2d-ant">Migrating HTML to DITA with Ant script</a> for more 
+                details.</p>
+
+            <p>You can also use the Java command for migration. See <a href="DITA-h2d-java.html#h2d-java">Migrating HTML to DITA with Java command</a> for more 
+                details.</p>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Post conditions</h2>
+            
+            <p>There are also some post conditions to consider after 
+                processing:</p>
+
+            <br><ul>
+                <li>In some case, the tool cannot determine the correct way to migrate, it places the contents in a &lt;required-cleanup&gt; element, you should fix such elements in the output DITA files.</li>
+
+                <li> Check the output DITA files. Compare them with the source 
+                    HTML files and check if both contents are equivalent.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Known limitations</h2>
+            
+            <p>There are some known limitations within the current release, 
+                please refer to <a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a> 
+                for detailed information.</p>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Extension points</h2>
+            
+            <p>The HTML2DITA migration tool helps extension in the following 
+                listed ways:</p>
+
+            <br><ul>
+                <li>The <samp class="codeph">genidattridbute</samp> template can be 
+                    overridden to change the method for creating the topic ID. 
+                    </li>
+
+                <li>The <samp class="codeph">gentitlealts</samp> template can be 
+                    overridden to change the ways of title generation.</li>
+
+                <li>Override respond section in the tool to preserve the 
+                    semantic of source, in case if the &lt;div&gt; or &lt;span&gt; 
+                    element is used in regular structures.</li>
+
+                <li>You can also migrate to another specialized DTD by 
+                    overriding the original template base on the specific DTD 
+                    and your required output.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="section"><h2 class="sectiontitle">Additional information</h2>
+            
+            <p>You can find the here original developerWorks publication via links below:</p>
+
+            <br><ul>
+                <li><a href="http://www-128.ibm.com/developerworks/xml/library/x-dita8a" target="_blank">Migrating HTML to DITA, Part 1: Simple steps to move from HTML to DITA</a></li>
+
+                <li><a href="http://www-128.ibm.com/developerworks/xml/library/x-dita8b" target="_blank">Migrating HTML to DITA, Part 2: Extend the migration for more robust results</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br>
+<div><a href="DITA-futures.html" title="Activity on the DITA Open Toolkit project will revolve around maintenance (bug fixes), enhancements (new function based on prioritized requests), demos and experimentation (sandbox activity), and community support (forums, etc.).">DITA futures</a></div>
+<div><a href="DITA-ant.html" title="Ant is an open tool that uses the DITA processes to make producing DITA output easier.">Building DITA output with Ant</a></div>
+<div><a href="DITA-javacmd.html" title="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">Building DITA output with Java command line</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br>
+<div><a href="DITA-relnotes.html">DITA release notes</a></div>
+<div><a href="DITA-log.html">Problem determination and log analysis</a></div>
+<div><a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a></div>
+<div><a href="DITA-troubleshooting.html" title="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">Troubleshooting</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br>
+<div><a href="DITA-changes.html" title="This document lists major changes and new features by release.">DITA release history</a></div>
+<div><a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a></div>
+<div><a href="DITA-usingtransforms.html" title="The core transforms of the DITA Toolkit represent the Reference Implementation for processing the standard DITA specification as maintained by OASIS Open.">Using DITA transforms</a></div>
+<div><a href="dita2word.html#dita2word__limitation">Transfomring DITA to Word RTF</a></div>
+</div>
+</div>
+
+</body>
+</html>

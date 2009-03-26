@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107110111" xml:lang="en-CA">
+	<title>Button Group</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>
+				In order to create a ButtonGroup you just need to define it as a
+				collection and pass it the names of buttons that define a group.
+				This works for both regular radio buttons as well as radio button
+				menu items.
+				<codeblock spectitle="Radio buttons">
+- JPanel(name=controls):
+    - JRadioButton(name=rb1,text=Radio button 1)
+    - JRadioButton(name=rb2,text=Radio button 2,selected=true)
+    - ButtonGroup: [rb1,rb2]
+			</codeblock>
+				<codeblock spectitle="Radio button menu items">
+- JMenu(name=optionsMenu, text=menu.options):
+    - JRadioButtonMenuItem(name=radio1Menu, text=menu.option1, onAction=option1)
+    - JRadioButtonMenuItem(name=radio2Menu, text=menu.option2)
+    - JRadioButtonMenuItem(name=radio3Menu, text=menu.option3)
+    - ButtonGroup: [radio1Menu, radio2Menu, radio3Menu]	
+			</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

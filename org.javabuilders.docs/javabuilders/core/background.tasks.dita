@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081230091336" xml:lang="en-CA">
+	<title>Executing long running methods on a background thread</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>A common issue in most UI toolkits is that the application locks
+				up if a long running process is running on the EDT (Event Dispatch
+				Thread). In this case, the recommended solution is to execute it on
+				a background thread and if possible, provide some sort of progress
+				indicator to the user letting them know about the current status of
+				this process (e.g. saving large amounts of data to a database).</p>
+		</section>
+		<section>
+			<title>Method Annotation</title>
+			<p>
+				In JavaBuilders, this is accomplished by simply annotating the long
+				running method with a
+				<codeph>@DoInBackground</codeph>
+				annotation (which provides some attributes that can customize how
+				the long running process is handled).
+			</p>
+			<codeblock>
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface DoInBackground {
+        /**
+         * @return Progress message
+         */
+        String progressMessage() default "label.processing";
+
+        /**
+         * @return If background task is cancelable or not
+         */
+        boolean cancelable() default false;
+        /**
+         * @return Default start value for progress bar
+         */
+        int progressStart() default 1;
+        /**
+         * @return Default end value for progress bar
+         */
+        int progressEnd() default 100;
+        /**
+         * @return Current progress value
+         */
+        int progressValue() default 1;
+        /**
+         * @return Indicates if task should block UI with a popup or not
+         */
+        boolean blocking() default true;
+        /**
+         * @return Indicates to show indeterminate progress indicator. Overrides the progress start/end/value if set to true
+         */
+        boolean indeterminateProgress() default true;
+}
+			</codeblock>
+			<p>
+				Any method that is annotated as such must implement a signature that
+				accepts an object of type
+				<codeph>BackgroundEvent</codeph>
+				, which allows the background method to communicate with the UI's
+				progress indicator and even cancel itself, if the user requests it,
+				e.g.:
+			</p>
+			<codeblock>
+@DoInBackground(cancelable=true, progressStart=1, progressEnd=100, progressValue=1, indeterminateProgress=false)
+private void save(BackgroundEvent evt) {
+        System.out.println("SAVE...");
+        for(int i = 0; i &lt; 100; i++) {
+
+                if (evt.getCancelStatus() != CancelStatus.REQUESTED) {
+                        try {
+                                Thread.currentThread().sleep(100);
+                                evt.setProgressValue(i + 1);
+                                evt.setProgressMessage(String.format("Processing %s of %s...", 
+                                evt.getProgressValue(), evt.getProgressEnd()));
+                        } catch (InterruptedException e) {}
+                } else {
+                        evt.setCancelStatus(CancelStatus.PROCESSING);
+                        System.out.println("Cancelling...");
+                        evt.setCancelStatus(CancelStatus.COMPLETED);
+                        break;
+                }
+        }
+        System.out.println("SAVE END...");
+}
+			</codeblock>
+		</section>
+		<section>
+			<title>Executing multiple methods together</title>
+			<p>A typical scenario in an input dialog that occurs when a user presses the Save button is: 
+			<ol>
+				<li>validate input</li>
+				<li>save the data (this can take a long time)</li>
+				<li>close the window</li>
+			</ol>
+			The way to handle this is to have the button execute multiple methods in sequence, e.g.: 
+			<codeblock>
+JButton(text=Save,onAction=($validate,save,close))			
+			</codeblock>
+			On the Java side, the long running method is annotated as such: 
+			<codeblock>
+@DoInBackground(indeterminateProgress=true)
+private void save() { //long running process }
+
+private void close() {
+    setVisible(false);
+    dispose();
+}			
+			</codeblock>
+			The methods <b>after</b> the long running method (i.e. <codeph>"close"</codeph> in this 
+			example), will only execute <b>after</b> the long running method has finished, 
+			they will not run in parallel, even though they are on different threads. 
+			Hence, the sequence of events is preserved. 
+			</p>
+		</section>
+		<section>
+			<title>Domain-specific Implementations</title>
+			<p>In Swing JavaBuilder, long running methods are handled by using the standard 
+			<codeph>SwingWorker</codeph> library. A Swing progress dialog will popup up 
+			informing the user that a process is running. If the method flagged itself as cancelable, 
+			the Cancel button on the progress dialog will be enabled, allowing the user to cancel 
+			the task if it runs for too long.</p>
+			<p>For the SWT JavaBuilder the plan is to support something similar or alternatively
+			plug into the JFace Progress/Tasks API.</p>
+			<p>As you can see, JavaBuilders does not have a "one size fits all" approach and for 
+			each toolkit we plan to use the best option available on that specific
+			platform.</p>
+		</section>
+	</body>
+</topic>

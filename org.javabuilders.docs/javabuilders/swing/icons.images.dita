@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107112211" xml:lang="en-CA">
+	<title>Icons and images</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>
+				Any Swing API that expects an Icon or Image can be expressed by
+				simply putting in the image path, relative to the caller class that
+				initiated the build process.
+				<codeblock spectitle="YAML">
+JMenuItem(text=menu.save, icon=images/document-save.png)
+</codeblock>
+				Alternatively, if you initialized the builder with a <apiname>ResourceBundle</apiname> to activate internationalization,
+				you can pass a resource key instead. The builder will look for the path to the image via the key in the bundle instead, e.g.
+				<codeblock spectitle="YAML">
+JMenuItem(text=menu.save, icon=images.saveDocument)
+				</codeblock>
+				<codeblock spectitle="Properties file">
+images.saveDocument=/myapp/resources/images/document-save.png			
+				</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107124246" xml:lang="en-CA">
+	<title>JScrollPane</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+		<p>
+		Used to wrap components in a scrollable pane. Since it only has one child underneath, it
+		is entered not as a YAML list, but a single item:
+		<codeblock>
+JScrollPane(name=scrollPane1, verticalScrollBarPolicy=asNeeded, horizontalScrollBarPolicy=asNeeded):
+     JTextArea(name=textArea)		
+		</codeblock>
+		You can also use the shorter <apiname>vScrollBar</apiname> and <apiname>hScrollBar</apiname>
+		aliases:
+		<codeblock>
+JScrollPane(name=scrollPane1, vScrollBar=asNeeded, hScrollBar=asNeeded):
+     JTextArea(name=textArea		
+		</codeblock>
+		Valid values for both properties are:
+		<ul>
+			<li><apiname>always</apiname></li>
+			<li><apiname>asNeeded</apiname></li>
+			<li><apiname>never</apiname></li>
+		</ul>
+		</p>
+		</section>
+	</body>
+</topic>

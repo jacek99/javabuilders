@@ -1,0 +1,68 @@
+<project name="DOST" default="init" basedir=".">
+  <import file="build_init.xml"></import>  
+  <import file="build_preprocess.xml"></import>
+  <import file="build_general.xml"></import>    
+  <import file="build_dita2xhtml.xml"></import>
+  <import file="build_dita2htmlhelp.xml"></import>
+  <import file="build_dita2javahelp.xml"></import>
+  <import file="build_dita2eclipsehelp.xml"></import>
+  <import file="build_dita2eclipsecontent.xml"></import>
+  <import file="build_dita2pdf.xml"></import>
+  <import file="build_dita2wordrtf.xml"></import>
+  <import file="build_dita2docbook.xml"></import>
+  <import file="build_dita2troff.xml"></import>
+        
+  <path id="dost.class.path">
+    
+    <pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
+  </path>
+  
+  <target name="init">
+    <dita-ot-fail id="DOTA001F">
+      <condition>
+        <and>
+          <not>
+            <equals arg1="${transtype}" arg2="xhtml" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="javahelp" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="pdf" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="docbook" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="eclipsecontent" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="troff" casesensitive="false"></equals>
+          </not>
+          <not>
+            <equals arg1="${transtype}" arg2="wordrtf" casesensitive="false"></equals>
+          </not>
+          
+        </and>
+      </condition>
+    </dita-ot-fail>
+    <antcall target="dita2${transtype}"></antcall>
+  </target>
+  
+  <target name="all">
+    <echo>The "ant all" demonstration build has moved.
+      Please try the following command instead:
+      ant all -f build_demo.xml</echo>
+  </target>
+  
+  <target name="dita-preprocess" depends="start-process, init-logger, check-arg, output-deprecated-msg, output-css-warn-message, preprocess"></target>
+
+  
+  
+</project>

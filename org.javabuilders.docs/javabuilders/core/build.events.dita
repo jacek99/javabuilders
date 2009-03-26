@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081230094600" xml:lang="en-CA">
+	<title>Build events</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>
+				If you need to hook up some custom pre- or post-processing every
+				time a build is executed (e.g. to integrate a 3rd party library like
+				<xref href="https://javacss.dev.java.net/" format="html" scope="external">
+					JavaCSS</xref>
+				, you can add a listener to the builder), preferably in your
+				<codeph>main()</codeph>
+				method , e.g.:
+				<codeblock>
+//event listeners
+SwingJavaBuilder.getConfig().addBuildListener(new BuildAdapter() {
+        @Override
+        public void buildStarted(BuildEvent evt) {
+                System.out.println(("Build started from caller: " + evt.getSource()));
+        }
+        @Override
+        public void buildEnded(BuildEvent evt) {
+                System.out.println(("Build ended for root object: " + evt.getResult().getRoot()));
+        }
+});				
+				</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Processing the proper object</title>
+			<p>In the <codeph>buildStarted</codeph> event you should access <codeph>evt.getSource()</codeph>,
+				which refers to the caller that initiated the build (i.e. your Java
+				class). However, in the <codeph>buildEnded</codeph> event it is better to access
+				<codeph>evt.getResult().getRoot()</codeph>, which is the root object that was created
+				from the build file.</p>
+			<p>The two are not necessarily the same (e.g. in order to create a
+				JPanel from a YAML file your Java-side class does not have to extend
+				JPanel at all, it is optional). This is useful in toolkits like SWT that do not
+				allow you to extend particular component types.</p>
+		</section>
+	</body>
+</topic>

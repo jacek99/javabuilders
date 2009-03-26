@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of the DITA Open Toolkit project hosted on 
+     Sourceforge.net. See the accompanying license.txt file for 
+     applicable licenses.-->
+<!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. -->
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "../dtd/concept.dtd">
+<concept id="DITA-readme" xml:lang="en-us">
+<title>DITA Open Toolkit </title>
+<titlealts>
+<navtitle>DITA Toolkit Introduction</navtitle>
+</titlealts>
+<shortdesc>The DITA Open Toolkit is a reference implementation of the OASIS
+DITA Technical Committee&apos;s specification for DITA DTDs and Schemas. The
+Toolkit transforms DITA content (maps and topics) into deliverable formats,
+including: XHTML, Eclipse Help, HTML Help, and JavaHelp.</shortdesc>
+<conbody></conbody>
+</concept>

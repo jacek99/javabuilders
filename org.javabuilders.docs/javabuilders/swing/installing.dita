@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081223130142" xml:lang="en-CA">
+	<title>Installation</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>Start off with downloading the latest Swing JavaBuilder ZIP file distribution off
+			the JavaBuilders.org website.</p>
+			<p>In the root folder you will find the Swing JavaBuilder jar and in the /lib
+			folder you will find all of its dependencies. Add all of them to your project's
+			classpath.</p>
+			<p>In the /samples folder you will find a sample application that you can use
+			to get a better understanding of how you can build complex user interfaces
+			using this library.</p>
+		</section>
+	</body>
+</topic>

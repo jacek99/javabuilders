@@ -1,0 +1,3 @@
+0.3.20091128:
+
+   - Fixes for defect 10 (NullPointerException), 12 (ClassCastException when mixing popupMenu and onMouse* on the same object)

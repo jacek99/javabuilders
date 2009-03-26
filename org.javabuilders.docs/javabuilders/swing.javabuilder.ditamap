@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN"
+ "../dtd/bookmap.dtd">
+ <bookmap id="swing.javabuilder" toc="yes" locktitle="yes" rev="0.3" >
+ 	 <booktitle>
+		<mainbooktitle>Swing JavaBuilder</mainbooktitle>
+		<booktitlealt>Achieving maximum productivity with minimum code via declarative UIs</booktitlealt>
+	 </booktitle>
+	<frontmatter>
+		<bookabstract href="swing/abstract.dita" />
+		<notices href="core/license.dita"/>
+		<preface href="swing/preface.dita"></preface>
+	</frontmatter>
+	<chapter>
+	</chapter>
+	<chapter href="swing/installing.dita"/>
+	<chapter format="ditamap" href="core/overview.ditamap"/>
+	<chapter href="swing/swing.javabuilder.in.60.seconds.dita"/>
+	<chapter format="ditamap" href="core/core.features.ditamap"/>
+	<chapter format="ditamap" href="swing/swing.features.ditamap"/>
+	<chapter href="swing/swing.layout.dita">
+		<topicref href="core/miglayout.dsl.dita"/>
+		<topicref href="core/miglayout.dita"/>
+		<topicref href="swing/cardlayout.dita"/>
+		<topicref href="swing/flowlayout.dita"/>
+	</chapter>
+	<chapter format="ditamap" href="core/extending.ditamap"/>
+	<!--
+		<chapter href="taskbook/configuring.dita"> <topicref
+		href="taskbook/configurestorage.dita"></topicref> <topicref
+		href="taskbook/configurewebserver.dita"></topicref> <topicref
+		href="taskbook/configuredatabase.dita"></topicref> </chapter> <chapter
+		href="taskbook/maintaining.dita"> <topicref
+		href="taskbook/maintainstorage.dita"></topicref> <topicref
+		href="taskbook/maintainserver.dita"></topicref> <topicref
+		href="taskbook/maintaindatabase.dita"></topicref> </chapter>
+	-->
+	<appendix href="swing/appendix/appendix.dita">
+		<topicref href="swing/appendix/layout.samples.dita"></topicref>
+	</appendix>
+	<backmatter>
+		<booklists>
+			<!--
+				<topicref href="taskbook/otherbooks.dita" navtitle="Related Books"/>
+				<topicref href="taskbook/trademarks.dita" navtitle="Trademarks"/>
+				<topicref href="taskbook/Glossary.dita navtitle="Glossary"/>
+			-->
+			<indexlist />
+		</booklists>
+	</backmatter>
+</bookmap>

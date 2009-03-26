@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javabuilders.core"/>
+	<classpathentry kind="lib" path="lib/jaudiotagger.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.1.104.jar"/>
+	<classpathentry kind="lib" path="lib/persist-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.5.6.jar"/>
+	<classpathentry kind="lib" path="lib/sqlitejdbc-v054-pure.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.javabuilders.gtk"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

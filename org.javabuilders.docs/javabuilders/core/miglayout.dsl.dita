@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081223130142" xml:lang="en-CA">
+	<title>MigLayout DSL</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<title>What is MigLayout?</title>
+			<p>MigLayout is a revolutionary layout manager for Swing and SWT, written by Mikael Grev and released
+			under the open source BSD license. It revolutionizes layout management by making
+			it much more dynamic and thus greatly reducing the number of lines of code one
+			has to write, even for very complex layouts.</p>
+			<p>MigLayout is available for download from
+<xref href="http://miglayout.com" format="html"
+			scope="external"/>. We recommend to read the Cheat Sheet and introduction to MigLayout
+			available on that website. Once you try MigLayout you can never go back to archaic
+			layout managers such as GridBagLayout or GroupLayout. It even makes the formidable
+			JGoodies Forms layout manager obsolete.</p>
+		</section>
+		<section>
+			<title>Visual MigLayout DSL syntax (a GUI builder in pure text)</title>
+			<p>The visual layout DSL is basically a way to have a GUI builder, but in a pure text format. 
+			In short, it allows you to define controls' layout in a text file (by using their names) and from 
+			their relative alignments and number of rows, the builder will attempt to automatically figure out 
+			how many rows/columns there are, which control goes into which cell, whether it should be 
+			left/top/right/center aligned, how many cells should it span, etc.</p>
+			<p>The layout DSL translates the constraints into standard MigLayout constraints, 
+			hence this is basically nothing more than a visual text-based interface to the full power 
+			of MigLayout.</p>
+		</section>
+		<section>
+			<title>Quick Example</title>
+			<p>Let's say we need to create a simple dialog with 3 rows: a table/text field in the first two rows, 
+			and OK/Cancel buttons (right aligned) in the last row.
+			<image href="img/miglayout.simple.1.gif" placement="break"/>
+			<codeblock>
+MigLayout: |                                          
+    [[insets 8]                                    
+    [pref]            [grow]                       
+    >firstNameLabel   firstName
+    >lastNameLabel    lastName
+    >okButton+*,cancelButton     [growy, bottom]   
+    {okButton: tag OK, cancelButton: tag Cancel}   
+			</codeblock>
+			</p>
+			<p>
+			From this you can probably see right away that we have 3 rows (as in 3 lines of text), the labels are in the same vertical column, the text fields are in the same vertical column (which is flagged to "grow", a standard MigLayout constraint).
+			</p>
+		</section>
+		<section>
+			<title>General format</title>
+			<p>
+<codeblock>
+MigLayout: |
+    [[global layout constraints]]                              #optional
+    [column constraints]   [another column's constraints]      #optional
+    control1               control2                            [row constraint - optional]
+    control3               control4
+    {control1: specific MigLayout constraint (e.g. baseline) } #optional
+</codeblock>	
+			</p>
+		</section>
+		<section>
+			<title>Alignment</title>
+			<p>
+			Goes before the control name, e.g. ">fieldNameLabel". If none are presents it defaults to "top, left".
+			<simpletable>
+				<strow>
+					<stentry>&lt;</stentry>
+					<stentry>horizontally left aligned (can be omitted, it is the default value)</stentry>
+				</strow>
+				<strow>
+					<stentry>&lt;</stentry>
+					<stentry>horizontally left aligned (can be omitted, it is the default value)</stentry>
+				</strow>
+				<strow>
+					<stentry>&gt;</stentry>
+					<stentry>horizontally right aligned</stentry>
+				</strow>
+				<strow>
+					<stentry>|</stentry>
+					<stentry>horizontally centered</stentry>
+				</strow>
+				<strow>
+					<stentry>-</stentry>
+					<stentry>vertically centered</stentry>
+				</strow>
+				<strow>
+					<stentry>/</stentry>
+					<stentry>vertically bottom aligned</stentry>
+				</strow>
+				<strow>
+					<stentry>^</stentry>
+					<stentry>vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)</stentry>
+				</strow>
+			</simpletable>
+			</p>
+		</section>
+		
+		<section>
+			<title>Cell Spanning</title>
+			<p>In "+X+Y" format (X= horizontal cells to span, Y= vertical cells to span), e.g. "okButton+2".</p>
+			<p>Examples:
+			<ul>
+				<li><codeph>+*</codeph> : horizontally span rest of row (e.g. "okButton+*")</li>
+				<li><codeph>+2</codeph> : horizontally span 2 cells</li>
+				<li><codeph>+2+4</codeph>: horizontally span 2 cells, vertically span 4 cells</li>
+				<li><codeph>+2+*</codeph>: horizontally span 2 cells, vertically span the the rest of the column</li>
+			</ul>
+			</p>
+		</section>
+
+		<section>
+			<title>Cell Splitting</title>
+			<p>In <codeph>"controlName1,controlName2"</codeph> format (i.e. control names separated with a comma). 
+			Used when you want to place multiple controls into the same cell. All the general cell constraints 
+			(alignment, spanning, etc.) are applied to the first control, e.g. <codeph>okButton+*,cancelButton"</codeph>.
+			</p>
+		</section>
+		
+		<section>
+			<title>Size Groups</title>
+			<p>In <codeph>"=X"</codeph> format (X = size group number), e.g. "okButton=1 cancelButton=1"</p>
+			<p>Allows to specify which controls should have the same preferred size. Useful especially when you want different command buttons 
+			to have the same size (e.g. OK and Cancel).
+			There is also support for horizontal and vertical size groups (i.e. those that apply only to common width and/or height, 
+			instead of both), but it's not quite there yet. It is defined by appending an 'x' or 'y' after the size group, e.g.:
+			<codeph>okButton=1x cancelButton=1x`</codeph>
+			</p>
+		</section>
+		
+		<section>
+			<title>Complex Example</title>
+			<p>
+				From John O'Conners Layout Manager Challenge: 
+				<xref href="http://weblogs.java.net/blog/joconner/archive/2006/10/layout_manager.html" format="html" scope="external"/>
+				<image href="img/addressbookdemo_mac.gif"/>
+			</p>
+			<p>Here's how it would look implemented in the Swing JavaBuilder:
+			<image href="img/miglayout.complex.1.gif"/>
+			<codeblock>
+JPanel:
+    - JScrollPane(name=scroll1): 
+        JTextArea(name=source,font=Monospaced,editable=false)
+    - JLabel(name=lNameLbl, text=Last Name)
+    - JLabel(name=fNameLbl, text=First Name)
+    - JLabel(name=phoneLbl, text=Phone)
+    - JLabel(name=emailLbl, text=Email)
+    - JLabel(name=address1Lbl, text=Address 1)
+    - JLabel(name=address2Lbl, text=Address 2)
+    - JLabel(name=cityLbl, text=City)
+    - JLabel(name=stateLbl, text=State)
+    - JLabel(name=postalLbl, text=Postal Code)
+    - JLabel(name=countryLbl, text=Country)
+    - JTextField(name=lName)
+    - JTextField(name=fName)
+    - JTextField(name=phone)
+    - JTextField(name=email)
+    - JTextField(name=address1)
+    - JTextField(name=address2)
+    - JTextField(name=city)
+    - JTextField(name=state)
+    - JTextField(name=postal)
+    - JTextField(name=country)
+    - JButton(name=newBtn, text=New)
+    - JButton(name=deleteBtn, text=Delete)
+    - JButton(name=editBtn, text=Edit)
+    - JButton(name=saveBtn, text=Save)
+    - JButton(name=cancelBtn, text=Cancel)
+    - MigLayout: |
+       [200,grow]               [200,grow]               [200,grow]
+       scroll1+1+* >lNameLbl    lName       fNameLbl     fName                              
+                   >phoneLbl    phone       emailLbl+2,email               
+                   >address1Lbl address1+*                                  
+                   >address2Lbl address2+*                                  
+                   >cityLbl     city                       
+                   >stateLbl    state       postalLbl    postal
+                   >countryLbl  country                                   
+                   ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]			
+			</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

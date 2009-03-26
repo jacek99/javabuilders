@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090109105814" xml:lang="en-CA">
+	<title>Swing JavaBuilder in 60 seconds or less</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<title>Is it worth my time?</title>
+			<p>Here's a sample of what you can do with the Swing JavaBuilder in 60 seconds or less.
+			Hopefully, it will make it clear as to what the productivity benefits are.</p>
+			<p>To show off its abilities we will create a simple app that prompts for a person's
+			data and simulates saving it to a database via a long running task on a background thread.
+			</p>
+		</section>
+		<section>
+			<p>
+				<ol>
+					<li>Download the latest Swing JavaBuilder ZIP from 
+					<xref href="http://javabuilders.org" format="html" scope="external"/></li>
+					<li>In Eclipse, create a new Java project called "PersonApp"
+					and create a default package "person.app"</li>
+					<li>Add the Swing JavaBuilder jar and all of its dependencies
+					(from the "/lib" folder) to the project's build path</li>
+					<li>Create the Person class that will represent our model
+					<codeblock spectitle="person/app/Person.java">
+package person.app;
+
+import java.text.MessageFormat;
+
+public class Person {
+
+	private String firstName;
+	private String lastName;
+	private String emailAddress;
+	
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
+	}
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	/**
+	 * @return the emailAddress
+	 */
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	/**
+	 * @param emailAddress the emailAddress to set
+	 */
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	
+	@Override
+	public String toString() {
+		return MessageFormat.format("{0} {1} : {2}", getFirstName(), getLastName(), getEmailAddress());
+	}
+
+}
+					</codeblock>
+					</li>
+					<li>Create a "PersonApp.properties" file in the root package with the
+					internationalized resources:
+					<codeblock spectitle="PersonApp.properties">
+button.save=Save
+button.cancel=Cancel
+
+label.firstName=First Name:
+label.lastName=Last Name:
+label.email=Email
+					</codeblock>
+					</li>
+					<li>Create the view YAML file PersonApp.yaml:
+					<codeblock spectitle="person/app/PersonApp.yaml">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JLabel(name=fNameLbl, text=label.firstName)
+    - JLabel(name=lNameLbl, text=label.lastName)
+    - JLabel(name=emailLbl, text=label.email)
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]     [grow,100]   [pref]     [grow,100] 
+        fNameLbl   fName        lNameLbl   lName
+        emailLbl   email+*
+        >save+*=1,cancel=1
+bind:
+    - fName.text: this.person.firstName
+    - lName.text: this.person.lastName
+    - email.text: this.person.emailAddress
+validate:
+    - fName.text: {mandatory: true, label: label.firstName}
+    - lName.text: {mandatory: true, label: label.lastName}
+    - email.text: {mandatory: true, emailAddress: true, label: label.email}			
+					</codeblock>
+					</li>
+					<li>Create the controller Java class PersonApp
+					<codeblock>
+package person.app;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import org.javabuilders.BuildResult;
+import org.javabuilders.annotations.DoInBackground;
+import org.javabuilders.event.BackgroundEvent;
+import org.javabuilders.event.CancelStatus;
+import org.javabuilders.swing.SwingJavaBuilder;
+
+public class PersonApp extends JFrame {
+
+	private Person person;
+
+	private BuildResult result;
+	
+	public PersonApp() {
+		person = new Person();
+		person.setFirstName("John");
+		person.setLastName("Smith");
+		result = SwingJavaBuilder.build(this);
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+	
+	private void cancel() {
+		setVisible(false);
+	}
+	
+	@DoInBackground(cancelable=true, indeterminateProgress=false, progressStart=1, progressEnd=100)
+	private void save(BackgroundEvent evt) {
+		//simulate a long running save to a database
+		for(int i = 0; i &lt; 100; i++) {
+			//progress indicator
+			evt.setProgressValue(i + 1);
+			evt.setProgressMessage("" + i + "% done...");
+			
+			//check if cancel was requested
+			if (evt.getCancelStatus() != CancelStatus.REQUESTED) {
+				
+				//sleep
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
+				
+			} else {
+				//cancel requested, let's abort
+				evt.setCancelStatus(CancelStatus.COMPLETED);
+				break;
+			}
+		}
+	}
+	
+	//runs after successful save
+	private void done() {
+		JOptionPane.showMessageDialog(this, "Person data: " + person.toString());
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				//activate internationalization
+				SwingJavaBuilder.getConfig().addResourceBundle("PersonApp");
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					new PersonApp().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+}
+					</codeblock>
+					</li>
+					<li>Run the PersonApp.main() method. You should see an input dialog
+					like this appear:
+					<image href="img/person.app.gif" placement="break"/>
+					Notice that the default person name is propagated from the Java code to the UI via data binding. Also, all the controls are created and the
+					layout is executed without the need for an IDE-specific GUI builder.
+					</li>
+					<li>Enter an invalid email address for the person and press Save:
+					<image href="img/person.app.validation.gif" placement="break"/>
+					The validation logic (invoked via <codeph>"$validate"</codeph>) executed and perform basic input validation.
+					</li>
+					<li>Enter a valid email address:
+					<image href="img/person.app.2.gif" placement="break"/>
+					</li>
+					<li>Press "Save". The <codeph>save()</codeph> Java method is executed (which simulates a long running database save with a progress bar) and since it is
+					annotated with the <codeph>@DoInBackground</codeph> annotation it will automatically run on a background thread using the SwingWorker library.
+					<image href="img/person.app.3.gif" placement="break"/>
+					</li>
+					<li>After the save logic executes, the <codeph>done()</codeph> Java method is executed to inform the user the save was successful. Notice that the
+					email address we entered was automatically propagated back to the underlying bean using databinding.
+					<image href="img/person.app.4.gif" placement="break"/>
+					</li>
+					<li>Press 'Cancel' to close the window. Since you specified <codeph>"$confirm"</codeph> in the action handler, it will automatically prompt the user to
+					confirm the action. If they select "Yes", the <codeph>cancel()</codeph> Java method will be called and the window will close.
+					<image href="img/person.app.5.gif" placement="break"/>
+					</li>
+				</ol>
+			</p>
+		</section>
+		<section>
+			<title>Summary</title>
+			<p>
+				<ul>
+					<li>22 lines of YAML</li>
+					<li>3 simple Java methods to handle <codeph>save(), done() and cancel()</codeph> (and without any of the logic to create and layout the controls)</li>
+				</ul>
+				That is all we needed to create a fully functional application with control creation and layout, data input validation and executing long running
+				business methods on a background thread via SwingWorker. Not to mention it's fully localized with all the labels being automatically fetched from a <apiname>ResourceBundle</apiname>
+				without any additional coding overhead.
+			</p>
+		</section>
+	</body>
+</topic>

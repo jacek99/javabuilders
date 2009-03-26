@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081226131747" xml:lang="en-CA">
+	<title>Databinding</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>Binding is defined by adding a "bind" root node after all
+				the controls have been defined. Unlike in most other languages, the
+				binding is not defined at the property level, but is a stand-alone
+				node of its own. This is done to enforce separation of concerns and
+				ensure clarity. You can see all your data binding in one place, all
+				together.</p>
+			<p>
+				Sample (assume we have a backing
+				<apiname>JFrame JavaBean</apiname>
+				with two public properties "lastName" and "firstName"):
+				<codeblock>
+JFrame(name=frame,title=Hallo):
+    content:
+       - JLabel(name=firstNameLabel, text="First name", labelFor=firstNameField)
+       - JTextField(name=firstNameField)
+       - JLabel(name=lastNameLabel, text="Last name", labelFor=lastNameField)
+       - JTextField(name=lastNameField)
+       - JButton(name=saveButton, text=Save)
+    layout: |            
+      []                 [grow]     
+      >firstNameLabel    firstNameField
+      >lastNameLabel     lastNameField
+      >saveButton+*    
+bind:
+    - this.title : "Hello, ${firstNameField.text}" #bind the frame title to show last name   using an EL expression
+    - this.firstName : firstNameField.text         #bind the public Java property to the text field's text value, using a direct simple expression
+				</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Databinding requirements</title>
+			<p>In order for the binding to work between public properties, they
+				must fire a "property change" event on the "set" and the parent
+				class must provide the "addPropertyChangeListener" and
+				"removePropertyChangeListener" methods. This is all part of the
+				standard Beans Binding requirements.</p>
+			<p>A good example can be found in the Bound Properties Java tutorial:
+			http://java.sun.com/docs/books/tutorial/javabeans/properties/bound.html
+			</p> 
+		</section>
+		<section>
+			<title>Supported features</title>
+			<p>In order to integrate as best as possible with each UI toolkit, JavaBuilders rely
+			on the best toolkit-specific library for databinding. This means that the Swing JavaBuilder
+			uses Beans Binding (JSR 295), while the SWT JavaBuilder uses JFace DataBinding.</p>
+			<p>Not all databinding engines provide the same functionality. For example, Beans Binding
+			does provide support for EL expressions in data binding (hence you can use them for
+			the Swing JavaBuilder), but the JFace Databinding engine does not (and therefore they
+			are not supported for the SWT JavaBuilder).</p>
+		</section>
+	</body>
+</topic>

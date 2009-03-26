@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090205153818" xml:lang="en-CA">
+	<title>CardLayout</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>
+			CardLayout support is provided by adding a CardLayout node at the end of the list of child components, e.g.
+			<codeblock>
+JPanel:
+    - JPanel(name=panel1)
+    - JPanel(name=panel2)
+    - CardLayout(name=cards): [panel1,panel2]			
+			</codeblock>
+			</p>
+			<p>
+By default the card name is the same as the name of the control that was added as a card. 
+Using the "name" property you can get a handle to the created instance of CardLayout in your Java-side code, e.g.
+<codeblock>
+private CardLayout cards;
+</codeblock>			
+			</p>
+		</section>
+	</body>
+</topic>

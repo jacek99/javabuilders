@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081226115817" xml:lang="en-CA">
+	<title>Swing Layout Management</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<p>Layout management is one of the biggest pain points in any UI development. The Swing JavaBuilder solves
+		it by using a simple DSL (Domain Specific Language) that runs on top of the brilliant MigLayout layout manager.</p>
+		<p>After using MigLayout you will never go back to any other JDK layout manager, it makes them all obsolete.</p> 
+	</body>
+</topic>

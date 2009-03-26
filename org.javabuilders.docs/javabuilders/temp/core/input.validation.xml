@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/core?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20081226132820" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:1">Input validation</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:1">
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:1">
+				Similar to data binding, input validation is configured via a
+				separate root level node called
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:1">validate</apiname>:
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:1">
+JFrame(name=frame,title=Binding Frame,size=packed):
+    content:
+        - JLabel(name=fnLbl, text="First name:")
+        - JTextField(name=fName)
+        - JLabel(name=lnLbl, text="Last name:")
+        - JTextField(name=lName)
+        - JButton(name=ok, text=OK, onAction=($validate,save,cancel))
+        - JButton(name=cancel, text=Cancel, onAction=cancel)
+        - MigLayout: |
+           []      [grow,200px]
+           &gt;fnLbl  fName
+           &gt;lnLbl  lName         
+           &gt;ok+*=1,cancel=1      [grow,bottom]
+bind:
+    - firstName: fName.text
+    - lastName: lName.text
+validate:
+    - fName.text: {label: First Name, mandatory: true, minLength : 5}  			
+			</codeblock>
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:2">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:2">Invoking input validation</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:2">
+				If you want to do in from the YAML file, just put
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:2">$validate</apiname>
+				as the method name in any event handler, e.g.
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:2">
+JButton(name=saveBtn,text=Save,onAction=($validate,save,close))
+			</codeblock>
+				If you want to do it from the Java then you just need to call the
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:3">validate()</apiname>
+				method on the
+				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:4">BuildResult</apiname>
+				object that was returned:
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:3">
+private BuildResult result = SwingJavaBuilder.build(this);
+
+//validate user input
+private boolean validate() {
+    return result.validate();
+}
+			</codeblock>
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:3">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:3">Field label for error messages</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:3">
+				The "label" property is used to define the name of the field that
+				will be using in any error messages. It is localizable, so you can
+				sent it a resource key instead, e.g.:
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:4">
+validate:
+    - fName.text: {label: label.firstName, mandatory: true, minLength : 5}  			
+			</codeblock>
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:4">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:4">Validator routines</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:4">The following validator routines are currently available</p>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="simpletable:1">
+				<sthead class="- topic/sthead " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="sthead:1">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:1">Validation type</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:2">Example</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:3">Comment</stentry>
+				</sthead>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:1">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:4">mandatory</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:5">mandatory: true</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:6"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:2">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:7">minLength</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:8">minLength : 5</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:9"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:3">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:10">maxLength</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:11">maxLength : 5</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:12"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:4">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:13">regex</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:14">regex: "[a-zA-Z0-9]+"</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:15">Uses default validation message</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:5">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:16"/>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:17">regex: "[a-zA-Z0-9]+", regexMessage: "''{0}'' must be a number or letter"</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:18">Uses custom error messagee</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:6">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:19">minValue</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:20">minValue: 5</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:21"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:7">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:22">maxValue</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:23">maxValue: 50</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:24"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:8">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:25">dateFormat</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:26">dateFormat: yyyy/mm/dd</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:27"/>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="strow:9">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:28">emailAddress</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:29">emailAddress: true</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="stentry:30"/>
+				</strow>
+			</simpletable>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:5">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:5">Full example</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:5">
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:5">
+validate:
+    - mandatory.text: {label: Mandatory Field, mandatory: true}
+    - date.text: {label: Date Field, dateFormat: "yyyy/mm/dd"}
+    - email.text: {label: E-Mail, email: true}
+    - minmax.text: {label: Min/Max Length, minLength: 5, maxLength: 10}
+    - regex.text: {label: Regex, regex: "[a-zA-Z0-9]+"}
+    - regex2.text: {label: Regex, regex: "[a-zA-Z0-9]+", regexMessage: "''{0}'' must be a number or letter"}
+    - long.text: {label: Min/Max Long, minValue: 5, maxValue: 50, mandatory: true}			
+			</codeblock>
+			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="section:6">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:6">Adding custom validators</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:6">The default validator routines not powerful enough for you? You can easily add custom validation logic to be executed together with the built-in routines via Java-side code: 
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:6">
+result.getValidators().add(new IValidator() {
+
+    public void validate(Object value, ValidationMessageList list) {
+        if (!isValid) {
+                list.add(new ValidationMessage("Input is not valid 'cause I say so"));
+        }
+    }
+});			
+			</codeblock>
+			</p>
+		</section>
+		
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" xtrc="topicref:5" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" href="../core/core.features.xml" role="parent"/></linkpool></related-links>
+</topic>

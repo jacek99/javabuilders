@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081218142211" xml:lang="en-CA">
+	<title>Overview</title>
+	<body>
+		<section>
+			<title>Swing JavaBuilder</title>
+			<p>The Swing JavaBuilder is an instance of the JavaBuilders engine, pre-configured
+			for use with the Swing UI toolkit. It is represented by the main class 
+			<codeph>org.javabuilders.swing.SwingJavaBuilder</codeph> and in most typical
+			cases that is the only class you will be dealing with.
+			<codeblock spectitle="Java">
+public class MyFrame extends JFrame {
+    private BuildResult result = SwingJavaBuilder.build(this);
+    public MyFrame() {}
+}			
+			</codeblock>
+			The returned <codeph>BuildResult</codeph> obtain contains a reference to the
+			various objects that were created during the build process, but it is often
+			not necessary to interact with it at all (unless you are doing something more
+			complex or custom).
+			</p>
+		</section>
+		<section>
+			<title>General handling of component properties</title>
+			<p>
+				In most cases there is a simple one-to-one mapping between the
+				properties of Swing components and how they are set in the YAML
+				file, e.g. a
+				<codeph>JTextField.text</codeph>
+				property in YAML is simply
+				<codeph>JTextField(text=Some Text)</codeph>.
+			</p>
+			<p> However, some components have been enhanced in the Swing
+				JavaBuilder to make instantiating and using them even easier.</p>
+		</section>		
+	</body>
+</topic>

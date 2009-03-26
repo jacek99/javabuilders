@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081230094352" xml:lang="en-CA">
+	<title>Using custom components</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p>Sooner or later you will want to create a custom component
+				instance from within your YAML file. However, the current builder
+				does not know how to map your custom component name (e.g.
+				"MyCustomPanel") to an actual Java class.</p>
+			<p> In order to let it know all you have to do is define an instance
+				variable with the same type in your Java-side code and it will
+				automatically find the corresponding class definition that way, e.g.
+				<codeblock spectitle="YAML">
+JFrame(title=frame.title,state=max,defaultCloseOperation=exitOnClose):
+    - ComponentsPanel(name=componentsPanel,tabTitle=tab.components)
+    - BorderPanel(name=borderPanel,tabTitle=tab.borders)
+    - CardLayoutPanel(name=cardLayoutPanel,tabTitle=tab.cardLayout)       
+    - FlowLayoutPanel(name=flowLayoutPanel,tabTitle=tab.flowLayout)
+    - MigLayoutPanel1(name=migLayoutPanel1,tabTitle=tab.migLayout1)				
+				</codeblock>
+				<codeblock spectitle="Java">
+private ComponentsPanel componentsPanel;
+private FlowLayoutPanel flowLayoutPanel;
+private CardLayoutPanel cardLayoutPanel;
+private MigLayoutPanel1 migLayoutPanel1;
+private BorderPanel borderPanel;				
+				</codeblock>
+			</p>
+		</section>
+	</body>
+</topic>

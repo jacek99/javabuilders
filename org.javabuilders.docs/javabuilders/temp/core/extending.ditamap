@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/core?><?path2project ../?><map class="- map/map " ditaarch:DITAArchVersion="1.1" domains="(map mapgroup-d) (topic indexing-d)" xml:lang="en-CA" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xtrc="map:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap">
+	<title class="- topic/title " xtrc="title:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap">Extending the JavaBuilders engine</title>
+	<topicmeta class="- map/topicmeta " xtrc="topicmeta:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap">Jacek Furmankiewicz</author>
+	</topicmeta>
+	<topicref class="- map/topicref " href="extending.xml" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap"><topicmeta class="- map/topicmeta "></topicmeta></topicref>
+</map>

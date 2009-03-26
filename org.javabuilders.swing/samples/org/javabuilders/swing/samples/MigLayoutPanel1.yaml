@@ -1,0 +1,53 @@
+JPanel:
+    - JSplitPane(name=split1):
+        - JPanel(name=rulePanel):
+            - JLabel(name=nameLabel, text=Name)
+            - JTextField(name=nameTextField, text=MigLayout in debug mode)
+            - JLabel(name=iteratorTypeLabel, text=Iterator Type)
+            - JTextField(name=iteratorTypeTextField)
+            - JLabel(name=abstractLabel, text=Abstract)
+            - JCheckBox(name=abstractCheckBox, text=" ")
+            - JLabel(name=inheritsLabel, text=Inherits)
+            - JTextField(name=inheritsTextField)
+            - JLabel(name=beanLabel, text=Bean)
+            - JTextField(name=beanTextField)
+            - JBSeparator(name=parentReferences,text=Parent References)
+            - JScrollPane(name=scrollPane): JList(name=parentRefList)
+            - JButton(name=addParentButton, text=Add Parent)
+            - JButton(name=deleteParentButton, text=Delete Parent)
+            - JButton(name=moveUpButton, text=Move Up)
+            - JButton(name=moveDownButton, text=Move Down)
+            - JBSeparator(name=childReferences,text=Child References)
+            - JScrollPane(name=childRefScroll):  JList(name=childRefList)
+            - JButton(name=addChildButton, text=Add Parent)
+            - JButton(name=deleteChildButton, text=Delete Parent)
+            - JButton(name=moveChildUpButton, text=Move Up)
+            - JButton(name=moveChildDownButton, text=Move Down)
+            - JButton(name=dependentsButton, text=Dependents)
+            - JButton(name=saveButton, text=Save)
+            - JButton(name=cancelButton, text=Cancel)
+            - MigLayout: |
+                 [[debug]]
+                 []                  [grow]                    [pref]        [grow]
+                 nameLabel=3x        nameTextField+*
+                 iteratorTypeLabel   iteratorTypeTextField=1   abstractLabel abstractCheckBox  
+                 inheritsLabel=3x    inheritsTextField=1       beanLabel     beanTextField=1
+                 parentReferences+*
+                 scrollPane+*                                                                      [grow,200px]
+                 |addParentButton+*=2,deleteParentButton=2,moveUpButton=2,moveDownButton=2         
+                 childReferences+*
+                 childRefScroll+*                                                                  [grow,200px]
+                 |addChildButton+*=3,deleteChildButton=3,moveChildUpButton=3,moveChildDownButton=3 [] 16lp
+                 |dependentsButton+*,saveButton=4,cancelButton=4
+        - JPanel(name=sourcePanel):
+            - JLabel(name=sourceLabel,text="YAML source:")
+            - JScrollPane(name=scrollSource): JTextArea(name=source,editable=false,font=Monospaced)
+            - MigLayout: |
+               [grow]
+               sourceLabel
+               scrollSource [grow]
+    - MigLayout: |
+         [grow]
+         split1 [grow]    
+bind:
+     - source.text: this.yaml                                  

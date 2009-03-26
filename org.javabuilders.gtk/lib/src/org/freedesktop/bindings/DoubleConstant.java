@@ -1,0 +1,40 @@
+/*
+ * DoubleConstant.java
+ *
+ * Copyright (c) 2008 Operational Dynamics Consulting Pty Ltd
+ * 
+ * The code in this file, and the library it is a part of, are made available
+ * to you by the authors under the terms of the "GNU General Public Licence,
+ * version 2" plus the "Classpath Exception" (you may link to this code as a
+ * library into other programs provided you don't make a derivation of it).
+ * See the LICENCE file for the terms governing usage and redistribution.
+ */
+package org.freedesktop.bindings;
+
+/**
+ * Internal base class which is the parent of strongly typed constants that
+ * are of type <code>double</code>.
+ * 
+ * @author Andrew Cowie
+ * @since 4.0.9
+ * @see Constant
+ */
+/*
+ * This is, obviously, a clone of the Constant class. Extract the value this
+ * class wraps using Plumbing.numOf()
+ */
+public abstract class DoubleConstant
+{
+    final double value;
+
+    final String nickname;
+
+    protected DoubleConstant(double value, String nickname) {
+        this.value = value;
+        this.nickname = nickname;
+    }
+
+    public String toString() {
+        return this.getClass().getSimpleName() + "." + nickname;
+    }
+}

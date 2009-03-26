@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="concept" name="DC.Type">
+<meta name="DC.Title" content="Topic merge">
+<meta scheme="URI" name="DC.Relation" content="../DITA-readme.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="topicmerge" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="..\commonltr.css" type="text/css" rel="stylesheet">
+<title>Topic merge</title>
+</head>
+<body id="topicmerge"><a name="topicmerge"><!-- --></a>
+
+
+<h1 class="topictitle1">Topic merge</h1>
+
+<div>
+<div class="p">The topic merge feature improves the build speed of DITA files and reduces
+the possibility of meeting the out of memory exception in the build process.
+As illustrated in the following figure, when you run the build in previous
+releases of DITA Open Toolkit, the build speed is slow and you are likely
+to get out of memory exception.<div class="fignone">
+<br><img src="outofmemory.jpg" alt="Out of memory exception"><br>
+</div>
+</div>
+
+<p>With this enhanced topic merge feature, you will be less likely to meet
+the out of memory exception error when you build output through DITA files.
+The intermediate merged file will keep the structure information in the DITA
+map, and the structured toc will be reflected in the output.</p>
+
+<p>To know more about this topic feature, you can write a script
+file first. DITA OT 1.3 offers a module, <samp class="codeph">TopicMerge</samp>, that
+helps you implement this feature. You can use this module to generate the
+merged files. A sample usage of this module is as follows.</p>
+
+<div class="p"><p>sample.xml:</p>
+<pre class="codeblock">&lt;project name="sample"&gt;
+	&lt;property name="dita.dir" value="${basedir}"/&gt;
+	&lt;import file="${dita.dir}${file.separator}build.xml"/&gt;
+
+	&lt;target name="premerge"&gt;	
+  		&lt;antcall target="preprocess"&gt;
+  		&lt;param name="args.input" value="${input}"/&gt;
+		&lt;param name="output.dir" value="${dita.dir}${file.separator}output"/&gt;
+		&lt;/antcall&gt;
+	&lt;/target&gt;
+	&lt;target name="merge"  description="Merge topics" depends="premerge"&gt;
+		&lt;basename property="temp.base" file="${input}" suffix=".ditamap"/&gt;
+		&lt;property name="temp.input" value="${basedir}${file.separator}${dita.temp.dir}${file.separator}${temp.base}"/&gt;
+		&lt;dirname property="temp.dir" file="${temp.input}"/&gt;
+		&lt;pipeline message="topicmerge" module="TopicMerge" 
+			inputmap="${temp.dir}${file.separator}${temp.base}.ditamap" 
+			extparam="output=${dita.dir}${file.separator}output${file.separator}${temp.base}_merged.xml;
+      style=${dita.dir}${file.separator}xsl${file.separator}pretty.xsl" /&gt; 
+	&lt;/target&gt;
+&lt;/project&gt;
+</pre>
+</div>
+
+<div class="p">Then, you need to type <samp class="codeph">ant -f sample.xml merge -Dinput="C:\DITA-OT1.3\test.ditamap</samp>"
+in the command window.<div class="note"><span class="notetitle">Note:</span> The path for -Dinput must be an absolute path</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="../DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+</div>
+
+</body>
+</html>

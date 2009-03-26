@@ -1,0 +1,117 @@
+<project name="Java Builders" default="all" basedir=".">
+
+	<property file="build.properties" />
+	
+	<path id="builder.classpath">
+		<fileset dir="${folder.core}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${folder.lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean" description="Remove all files created by the build">
+		<delete dir="${folder.dist}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${folder.dist}" />
+		<mkdir dir="${folder.dist}/bin" />
+		<mkdir dir="${folder.dist}/src" />
+	</target>
+	
+	<!--
+	    COMPILE
+	-->
+	<target name="compile" depends="init">
+		<echo message="Compiling..."/>
+		<javac fork="true" executable="${compiler}" 
+			target="5" srcdir="${folder.core}/src" destdir="${folder.dist}/bin" debug="no">
+			<classpath refid="builder.classpath" />
+		</javac>
+		<javac fork="true" executable="${compiler}" 
+			target="5" srcdir="${folder.src}" destdir="${folder.dist}/bin" debug="no">
+			<classpath refid="builder.classpath" />
+		</javac>
+	</target>
+
+	<!--
+	     JAR
+	-->
+	<target name="jar" depends="compile">
+
+		<echo message="Creating jar file..."/>
+		<jar destfile="${folder.dist}/javabuilder.${domain}.${version.major}.${version.minor}.${version.revision}.jar">
+			<fileset dir="${folder.dist}/bin">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${folder.core}/src">
+				<include name="**/*.*" />
+				<exclude name="**/*.java"/>
+			</fileset>
+			<fileset dir="${folder.src}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java"/>
+			</fileset>
+		</jar>
+		
+	</target>
+
+	
+	<target name="docs" depends="jar">
+		<echo message="Creating JavaDoc..."/>
+		  <javadoc
+		           destdir="${folder.dist}/docs/api"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="Java SwingBuilder">
+
+		    <packageset dir="${folder.core}/src" defaultexcludes="yes">
+		      <include name="**"/>
+		    </packageset>
+		    <packageset dir="${folder.src}" defaultexcludes="yes">
+		      <include name="**"/>
+		    </packageset>
+
+		    <doctitle><![CDATA[<h1>Java SWTBuilder</h1>]]></doctitle>
+		    <bottom><![CDATA[<i>Copyright &#169; 2008 Jacek Furmankiewicz. All Rights Reserved.</i>]]></bottom>
+		    <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+		  </javadoc>
+	</target>
+	
+	<target name="zip" depends="docs">
+		<echo message="Creating zip file..."/>
+		
+		<zip destfile="${folder.dist}/src/src.zip">
+			<fileset dir="${folder.src}">
+				<include name="**/*.*" />
+			</fileset>
+			<fileset dir="${folder.core}/src">
+				<include name="**/*.*" />
+			</fileset>
+		</zip>
+		
+		<zip destfile="${folder.dist}/javabuilder.${domain}.${version.major}.${version.minor}.${version.revision}.zip">
+		    <fileset dir="${folder.dist}" includes="*.jar"/>
+			<zipfileset prefix="source" dir="${folder.dist}/src" includes="*" />
+		    <zipfileset prefix="lib" dir="${folder.lib}" includes="*.jar" />
+			<zipfileset prefix="lib" dir="${folder.core}/lib" includes="*.jar" />
+			<zipfileset prefix="samples" dir="${folder.samples}" includes="**/*.*" />
+			<zipfileset prefix="docs" dir="${folder.dist}/docs" includes="**/*.*" />
+			<zipfileset dir="${folder.core}" includes="LICENSE"/>
+			<zipfileset dir="${folder.core}" includes="NOTICE"/>
+		</zip>
+	</target>
+	
+	<target name="postCleanup" depends="zip">
+		<echo message="Cleaning up..."/>
+		<delete dir="${folder.dist}/bin" />
+		<delete dir="${folder.dist}/docs" />
+		<delete dir="${folder.dist}/src" />
+	</target>
+	
+	<target name="all" depends = "postCleanup"/>
+	
+</project>

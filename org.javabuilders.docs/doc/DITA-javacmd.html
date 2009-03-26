@@ -1,0 +1,688 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us" xml:lang="en-us">
+<head><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta content="concept" name="DC.Type">
+<meta name="DC.Title" content="Building DITA output with Java command line">
+<meta name="abstract" content="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">
+<meta name="description" content="The DITA Open Toolkit release 1.0.2 or above provides a command line interface as an alternative for users with little knowledge of Ant to use the toolkit easily.">
+<meta scheme="URI" name="DC.Relation" content="DITA-readme.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-relnotes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-changes.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-futures.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-tested.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-usingtransforms.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-ant.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-log.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-h2d.html">
+<meta scheme="URI" name="DC.Relation" content="dita2word.html#dita2word/limitation">
+<meta scheme="URI" name="DC.Relation" content="DITA-limitations.html">
+<meta scheme="URI" name="DC.Relation" content="DITA-troubleshooting.html">
+<meta content="XHTML" name="DC.Format">
+<meta content="usingparameterbuildingtool" name="DC.Identifier">
+<meta content="en-us" name="DC.Language">
+<link href="commonltr.css" type="text/css" rel="stylesheet">
+<title>Building DITA output with Java command line</title>
+</head>
+<body id="usingparameterbuildingtool"><a name="usingparameterbuildingtool"><!-- --></a>
+
+
+  <h1 class="topictitle1">Building DITA output with Java command line</h1>
+
+  
+  <div><p>The DITA Open Toolkit release 1.0.2 or above provides a command 
+    line interface as an alternative for users with little knowledge of Ant to 
+    use the toolkit easily.</p>
+
+    <div class="section"><h2 class="sectiontitle">Running example</h2>
+      
+      <br><ol>
+        <li>Change into the DITA Open Toolkit installation directory.</li>
+
+        <li>On the command line, enter the following command: 
+          <pre class="codeblock">java -jar lib/dost.jar /i:samples/sequence.ditamap /outdir:out /transtype:xhtml</pre>
+</li>
+
+      </ol>
+
+      <p>This particular example creates a properties file, and then calls Ant 
+        using this properties to build the sample <samp class="codeph">sequence.ditamap</samp> file 
+        and outputs the xhtml results to the out directory. You can add other 
+        parameters to this properties file. See the following <em><a href="#usingparameterbuildingtool__javacmdinterface">Table 1</a></em> for 
+        details.</p>
+
+      <div class="p">Note:
+        <br><ol>
+          <li>In this example, the character slash preceded by a 
+            space is the separator for each parameter.</li>
+
+          <li>Currently, the parameters <samp class="codeph">/filter</samp>, <samp class="codeph">/ftr</samp>, 
+            <samp class="codeph">/hdr</samp>, and <samp class="codeph">/hdf</samp> require an absolute path.</li>
+ 
+          <li>The properties file is saved in the <samp class="codeph">${args.logdir}</samp> directory. 
+            The following command provides an example using this properties file:
+            <pre class="codeblock">ant -f conductor.xml -propertyfile ${args.logdir}/property.temp</pre>
+
+          </li>
+ </ol>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">Supported parameters</h2>
+      
+      <p><em><a href="#usingparameterbuildingtool__javacmdinterface">Table 1</a></em> lists 
+        the supported parameters (their Ant names are within the braces) that 
+        you can set with this tool.</p>
+
+      
+<div class="tablenoborder"><a name="usingparameterbuildingtool__javacmdinterface"><!-- --></a><table summary="" cellspacing="0" cellpadding="4" id="usingparameterbuildingtool__javacmdinterface" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Table of supported parameters</span></caption>
+          
+          
+          <thead align="left">
+            <tr valign="bottom">
+              <th class="cellrowborder" valign="bottom" id="N100E2">Parameter</th>
+
+              <th class="cellrowborder" valign="bottom" id="N100EB">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "> 
+                <em>/basedir</em>:{basedir}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The path of the working directory for transformations, 
+                        it will be the base of relative paths specified by other parameters.</span>
+                <div class="note"><span class="notetitle">Note:</span> <br><ul>
+                        <li>If input is relative, it will be set relative to the current directory.</li>
+
+                        <li>In Ant scripts, the default is that specified in the Ant buildfile.</li>
+
+                        <li>In Java command line, the default is current directory.</li>
+</ul>
+
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "> 
+                <em>/ditadir</em>:{dita.dir}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The absolute path of the toolkit's home directory.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "> 
+                <em>/i</em>:{args.input}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The path and name of the input file. 
+                        This argument should be in the same upper or lower case 
+                        with the filename on file system.</span>
+                <div class="note"><span class="notetitle">Note:</span> This parameter must be provided 
+                        if <tt>dita.input</tt> and <tt>dita.input.dirname</tt> 
+                        not be provided.</div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/if</em>:{dita.input}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The name of the input file .</span>
+                <div class="note"><span class="notetitle">Note:</span> This parameter must be provided 
+                        if <tt>args.input</tt> not be provided. And this 
+                        parameter must be used together with the 
+                        <tt>dita.input.dirname</tt> parameter. The result of 
+                        this combination is equivalent to use only the 
+                        <tt>args.input</tt> parameter. It is an alternative way 
+                        to specify the path and name of the input file. 
+                        <em><strong>DEPRECATED</strong> - use <samp class="codeph">args.input</samp> 
+                          instead.</em></div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/id</em>:{dita.input.dirname}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The input directory which 
+                        contains the input file.</span>
+                <div class="note"><span class="notetitle">Note:</span> This parameter must be 
+                        provided if <tt>args.input</tt> not be provided. And 
+                        this parameter must be used together with the 
+                        <tt>dita.input</tt> parameter. The result of this 
+                        combination is equivalent to use only the 
+                        <tt>args.input</tt> parameter. It is an alternative way 
+                        to specify the path and name of the input file.
+                        <em><strong>DEPRECATED</strong> - use <samp class="codeph">args.input</samp> 
+                          instead.</em></div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/outdir</em>:{output.dir}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The path of the output directory.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/tempdir</em>:{dita.temp.dir}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The directory of the temporary files. 
+                        The default is 'temp'.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/ditaext</em>:{dita.extname}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The file extension name of the input 
+                        topic files, for example, '.xml' or '.dita'. The 
+                        default is '.xml'.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/transtype</em>:{transtype}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">The transformation type. Currently, the 
+                supported values include xhtml, pdf, javahelp, eclipsehelp, 
+                htmlhelp, eclipsecontent, troff, wordrtf and docbook.</td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/filter</em>:{dita.input.valfile}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The name of the file containing 
+                        <em>filter/flagging/revision </em>information.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/draft</em>:{args.draft}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>Default "hide draft &amp; required-cleanup 
+                        content" processing parameter (<span class="q">"no"</span>= hide 
+                        them); <span class="q">"no"</span> and <span class="q">"yes"</span> are valid values; 
+                        non-<span class="q">"yes"</span> is ignored.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/artlbl</em>:{args.artlbl}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>Default "output artwork 
+                        filenames" processing parameter; <span class="q">"no"</span>and 
+                        <span class="q">"yes"</span>are valid values; non-<span class="q">"yes"</span> is 
+                        ignored.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/ftr</em>:{args.ftr}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The name of the file containing XHTML to 
+                        be placed in the BODY running-footing area.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/hdr</em>:{args.hdr}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The name of the file containing XHTML to 
+                        be placed in the BODY running-heading area.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/hdf</em>:{args.hdf}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The name of the file containing XHTML to 
+                        be placed in the HEAD area.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/csspath</em>:{args.csspath}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The path for css reference. Default is no path.</span>
+                <div class="note"><span class="notetitle">Note:</span> 
+                        <br><ul>
+                          <li>If <samp class="codeph">${args.csspath}</samp> is an URL like path, 
+                            it should starts with <samp class="codeph">http://</samp> or 
+                            <samp class="codeph">https://</samp>. For example: 
+                            <samp class="codeph">http://www.ibm.com/css</samp>.</li>
+
+                          <li>Local absolute paths is not supported for 
+                            <samp class="codeph">${args.csspath}</samp>.</li>
+                            
+                          <li>Use '<samp class="codeph">/</samp>' as the path separator 
+                            and don't append separator at last. 
+                            For example: <samp class="codeph">css/mycss</samp>.</li>
+                            
+                        </ul>
+
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/css</em>:{args.css}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>User specified css file, it can be a 
+                        local file or remote file from website.</span>
+                <div class="note"><span class="notetitle">Note:</span> If <samp class="codeph">${args.csspath}</samp> 
+                        is an URL, the <samp class="codeph">${args.css}</samp> should be a 
+                        filepath relative to the URL.</div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/cssroot</em>:{args.cssroot}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root directory of user specified css file.</span>
+                <div class="note"><span class="notetitle">Note:</span> If this parameter is set, 
+                        the <samp class="codeph">${args.css}</samp> should be a 
+                        filepath relative to <samp class="codeph">args.cssroot</samp>.</div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/copycss</em>:{args.copycss}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify whether copy user 
+                        specified css files to the directory specified by 
+                        <samp class="codeph">{args.outdir}${args.csspath}</samp>. 
+                        "no" and "yes" are valid values. Default is "no".</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/indexshow</em>:{args.indexshow}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify whether each 
+                        index entry should display within the body of the text 
+                        itself. Only "no" and "yes" are valid values.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/outext</em>:{args.outext}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The output file extension name for 
+                        generated xhtml files. Typically, '.html' or '.htm' can 
+                        be used as the extension name for the generated xhtml 
+                        files. You can also specify other extension name. The 
+                        default is '.html'.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/xsl</em>:{args.xsl}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The xsl file to replace the default xsl 
+                        file. It will replace dita2docbook.xsl in docbook 
+                        transformation, dita2fo-shell.xsl in pdf 
+                        transformation, dita2xhtml.xsl in xhtml/eclipsehelp 
+                        transformation, dita2rtfImpl.xsl
+                        in word transformation and dita2html.xsl in javahelp/htmlhelp 
+                        transformation.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/cleantemp</em>:{clean.temp}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify whether to clean 
+                        the temp directory before each build. Only "no" and "yes" 
+                        are valid values. The default is yes.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/foimgext</em>:{args.fo.img.ext}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The extension name of image file in pdf transformation. 
+                    Only '.jpg', '.gif' are valid value. The default is '.jpg'.</span>
+                <div class="note"><span class="notetitle">Note:</span> Only one extension supported in the same 
+                      transformation, image files with other extensions will be renamed 
+                      to the specified extension.</div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/javahelptoc</em>:{args.javahelp.toc}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root file name of the output 
+                        javahelp toc file in javahelp transformation. 
+                        The default is the name of input ditamap file.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/javahelpmap</em>:{args.javahelp.map}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root file name of the output 
+                        javahelp map file in javahelp transformation. 
+                        The default is the name of input ditamap file.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/eclipsehelptoc</em>:{args.eclipsehelp.toc}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root file name of the output 
+                      eclipsehelp toc file in eclipsehelp transformation. 
+                      The default is the name of input ditamap file.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/eclipsecontenttoc</em>:{args.eclipsecontent.toc}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root file name of the output 
+                      Eclipse content provider toc file in eclipsecontent transformation. 
+                      The default is the name of input ditamap file.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/provider</em>:{args.eclipse.provider}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The provider name of the eclipse help output. The default value is DITA.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/version</em>:{args.eclipse.version}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The version number of the eclipse help output. The default value is 1.0</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/xhtmltoc</em>:{args.xhtml.toc}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The root file name of the output xhtml toc 
+                    file in xhtml transformation. The default is 'index'.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/logdir</em>:{args.logdir}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The directory used to keep generated 
+                        log files. Default will be output directory.</span>
+                <div class="note"><span class="notetitle">Note:</span> If several transforms running 
+                        batchly, e.g., ant all:
+                        <br><ul>
+                          <li>If the user has specified a common logdir for all 
+                            transformations, it will be used as log directory.</li>
+
+                          <li>If the user hasn't specified a common dir for all 
+                            transformations:
+                            <br><ul>
+                              <li>If all transformations have same output directory, 
+                                the common output direcory will be used as log 
+                                directory.</li>
+
+                              <li>If there is no same output directory for all 
+                                transformations, the <samp class="codeph">basedir</samp> will be used as 
+                                default log directory.</li>
+
+                            </ul>
+</li>
+
+                        </ul>
+                        
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/ditalocale</em>:{args.dita.locale}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The locale used for  
+                        sorting indexterms. If no locale specified, 
+                        the first occurrence of "xml-lang" will be used as 
+                        default locale; If no "xml-lang" found, "en-us" will 
+                        be used by default.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/fooutputrellinks</em>:{args.fo.output.rel.links}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify 
+                      whether output related links in pdf transformation. 
+                      "yes" and "no" are valid values. Default is "no".</span>
+                <div class="note"><span class="notetitle">Note:</span> Any value that is not 
+                        "yes" is regarded as "no".</div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/fouserconfig</em>:{args.fo.userconfig}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify 
+                      the user configuration file for FOP.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/htmlhelpincludefile</em>:{args.htmlhelp.includefile}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>
+                      The parameter to specify the file that need to be included
+                      by the HTMLHelp output.</span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/validate</em>:{validate}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify whether the ditamap/dita/xml 
+                      files to be validated. Only "true" and "false" are valid values. The default is true. </span>
+                <div class="note"><span class="notetitle">Note:</span> It is not recommended to turn off the validation function , 
+                      which will cause unexpected error during transformation.              
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/outercontrol</em>:{outer.control}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify how to respond to the overflowing dita/topic files. Only "fail", "warn" and "quiet" are valid values. The default is warn. </span>
+                <div class="note"><span class="notetitle">Note:</span> The detailed introduction: 
+                      	<br><ul>
+                      		<li><em>fail</em>: Fail quickly if files are going to be generated/copied outside of that directory</li>
+
+							<li><em>warn</em>: Complete if files will be generated/copied outside, but log a warning</li>
+
+							<li><em>quiet</em>: Quietly finish with only those files (no warning or error)</li>
+             
+                      	</ul>
+
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/generateouter</em>:{generate.copy.outer}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify how to deal with the overflowing dita/topic files. Only "1", "2" and "3" are valid values. The default is 1. </span>
+                <div class="note"><span class="notetitle">Note:</span> The detailed introduction: 
+                      	<br><ul>
+                      		<li><em>1</em>: Only generate/copy files that fit within the designated output directory.</li>
+
+							<li><em>2</em>: Generate/copy all files, even those that will end up outside of the output directory.</li>
+
+							<li><em>3</em>: the old solution,adjust the input.dir according to the referenced files. (not default option any more but keep this as the option of backward compatibility).</li>
+             
+                      	</ul>
+
+                      </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="cellrowborder" valign="top" headers="N100E2 "><em>/onlytopicinmap</em>:{onlytopic.in.map}</td>
+
+              <td class="cellrowborder" valign="top" headers="N100EB ">
+                <span>The parameter to specify whether the referenced dita/topic files which are not referenced by ditamap files should be resolved. Only "true" and "false" are valid values. The default is false. </span>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="sectiontitle">Enhanced command line help</h2>
+      
+      <div class="p">
+        <span>From DITA OT 1.3</span>, the command line help function is enhanced to improve
+        usability. You can know the version of toolkit and the usage of the command line from the
+        command line help by using the following commands: <p><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<samp class="codeph">java -jar lib/dost.jar <strong>-version</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</samp><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<samp class="codeph">java -jar lib/dost.jar <strong>-h</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</samp><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+
+      </div>
+
+      <p>You can see the brief description of the supported parameters in the command line
+        window when you type a specific command. For example, <samp class="codeph">java -jar
+          lib/dost.jar <strong>-h</strong>
+        </samp>
+      </p>
+
+    </div>
+
+  </div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="DITA-readme.html" title="The DITA Open Toolkit is a reference implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, including: XHTML, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br>
+<div><a href="DITA-futures.html" title="Activity on the DITA Open Toolkit project will revolve around maintenance (bug fixes), enhancements (new function based on prioritized requests), demos and experimentation (sandbox activity), and community support (forums, etc.).">DITA futures</a></div>
+<div><a href="DITA-ant.html" title="Ant is an open tool that uses the DITA processes to make producing DITA output easier.">Building DITA output with Ant</a></div>
+<div><a href="DITA-h2d.html">Migrating HTML to DITA</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br>
+<div><a href="DITA-relnotes.html">DITA release notes</a></div>
+<div><a href="DITA-log.html">Problem determination and log analysis</a></div>
+<div><a href="DITA-limitations.html" title="Below are some known limitations categoried by module within the current release of the DITA Open Toolkit.">Known Limitations</a></div>
+<div><a href="DITA-troubleshooting.html" title="This section is used for identifying problems when installing and executing the DITA Open Toolkit.">Troubleshooting</a></div>
+</div>
+<div class="relinfo"><strong>Related information</strong><br>
+<div><a href="DITA-changes.html" title="This document lists major changes and new features by release.">DITA release history</a></div>
+<div><a href="DITA-tested.html" title="See which tools and platforms have been used in testing the DITA processing system.">Tested platforms and tools</a></div>
+<div><a href="DITA-usingtransforms.html" title="The core transforms of the DITA Toolkit represent the Reference Implementation for processing the standard DITA specification as maintained by OASIS Open.">Using DITA transforms</a></div>
+<div><a href="dita2word.html#dita2word__limitation">Transfomring DITA to Word RTF</a></div>
+</div>
+</div>
+
+</body>
+</html>

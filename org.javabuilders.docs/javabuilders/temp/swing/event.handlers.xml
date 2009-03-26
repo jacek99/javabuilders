@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/swing?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="id20081230125536" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:1">Event handlers</title>
+	<prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita">
+		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita">Jacek Furmankiewicz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="body:1">
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:1">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:2">Event handlers</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="p:1">
+				Here's a complete list of event handlers by component type. Next to
+				them is also the
+				event-specific class that can get passed to your Java method if you require it
+				(just remember
+				to make it part of the method's signature), e.g.
+				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="codeblock:1">
+private void someButtonClicked() {
+	//...one valid signature...
+}				
+				
+private void someButtonClicked(ActionEvent evt) {
+	//...another valid signature ...
+}
+
+private void someButtonClicked(JButton source) {
+	//...another valid signature ...
+}
+
+private void someButtonClicked(JButton source, Action evt) {
+	//...yet another valid signature ...
+}
+			</codeblock>
+			</p>
+		</section>
+
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:2">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:3">Action</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:1">
+				<sthead class="- topic/sthead " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="sthead:1">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:1">Name</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:2">Event Class</stentry>
+				</sthead>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:1">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:3">onAction</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:4">ActionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:3">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:4">(Abstract)Button</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:2">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:2">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:5">onAction</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:6">ActionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>
+
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:4">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:5">Component</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:3">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:3">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:7">onFocus</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:8">FocusEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:4">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:9">onFocusLost</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:10">FocusEvent</stentry>
+				</strow>
+
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:5">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:11">onKeyPressed</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:12">KeyEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:6">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:13">onKeyReleased</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:14">KeyEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:7">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:15">onKeyTyped</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:16">KeyEvent</stentry>
+				</strow>
+
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:8">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:17">onMouseClicked</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:18">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:9">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:19">onMouseDoubleClicked</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:20">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:10">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:21">onMouseDragged</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:22">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:11">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:23">onMouseEntered</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:24">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:12">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:25">onMouseExited</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:26">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:13">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:27">onMouseMoved</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:28">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:14">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:29">onMousePressed</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:30">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:15">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:31">onMouseReleased</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:32">MouseEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:16">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:33">onMouseRightClicked</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:34">MouseEvent</stentry>
+				</strow>
+
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:17">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:35">onMouseWheelMoved</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:36">MouseWheelEvent</stentry>
+				</strow>
+
+			</simpletable>			
+		</section>
+
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:5">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:6">JComboBox</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:4">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:18">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:37">onAction</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:38">ActionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:6">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:7">JFrame</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:5">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:19">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:39">onStateChanged</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:40">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:20">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:41">onWindowActivated</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:42">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:21">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:43">onWindowClosed</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:44">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:22">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:45">onWindowClosing</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:46">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:23">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:47">onWindowDeactivated</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:48">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:24">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:49">onWindowDeiconified</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:50">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:25">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:51">onWindowFocus</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:52">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:26">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:53">onWindowFocusLost</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:54">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:27">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:55">onWindowIconified</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:56">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:28">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:57">onWindowOpened</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:58">WindowEvent</stentry>
+				</strow>
+			</simpletable>
+		</section>		
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:7">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:8">JTabbedPane</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:6">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:29">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:59">onChange</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:60">ChangeEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>		
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:8">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:9">JTable</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:7">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:30">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:61">onSelection</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:62">ListSelectionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>		
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:9">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:10">JTextField</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:8">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:31">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:63">onAction</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:64">ActionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>		
+
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:10">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:11">JTree</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:9">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:32">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:65">onSelection</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:66">TreeSelectionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>				
+				
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:11">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:12">JTree</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:10">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:33">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:67">onSelection</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:68">TreeSelectionEvent</stentry>
+				</strow>
+			</simpletable>			
+		</section>				
+				
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="section:12">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:13">Window</title>
+			<simpletable class="- topic/simpletable " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="simpletable:11">
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:34">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:69">onStateChanged</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:70">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:35">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:71">onWindowActivated</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:72">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:36">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:73">onWindowClosed</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:74">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:37">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:75">onWindowClosing</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:76">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:38">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:77">onWindowDeactivated</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:78">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:39">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:79">onWindowDeiconified</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:80">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:40">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:81">onWindowFocus</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:82">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:41">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:83">onWindowFocusLost</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:84">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:42">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:85">onWindowIconified</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:86">WindowEvent</stentry>
+				</strow>
+				<strow class="- topic/strow " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="strow:43">
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:87">onWindowOpened</stentry>
+					<stentry class="- topic/stentry " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="stentry:88">WindowEvent</stentry>
+				</strow>
+			</simpletable>
+		</section>				
+				
+
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" xtrc="topicref:14" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" href="../swing/swing.features.xml" role="parent"/></linkpool></related-links>
+</topic>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090109104957" xml:lang="en-CA">
+	<title>JSplitPane</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<p> In order to use a JSplitPane just list the child components
+				underneath it. The first two will be automatically added as the
+				left/right (or top/bottom) panes,e.g.:
+			<codeblock>
+JPanel:
+    - JSplitPane(name=split1,orientation=verticalSplit):
+        - JCustomPanel1(name=panel1)
+        - JCustomPanel2(name=panel2)			
+			</codeblock>
+			The <apiname>orientation</apiname> property's <apiname>verticalSplit</apiname> or
+			<apiname>horizontalSplit</apiname> values define the type of split.
+			</p>
+		</section>
+	</body>
+</topic>

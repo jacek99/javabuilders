@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd" >
+<map xml:lang="en-CA">
+	<title>Core Features</title>
+	<topicmeta>
+		<author>Jacek Furmankiewicz</author>
+	</topicmeta>
+	<topicref href="core.features.dita">
+		<topicref href="obtaining.references.dita" />
+		<topicref href="event.handling.dita" />
+		<topicref href="databinding.dita" />
+		<topicref href="input.validation.dita" />
+		<topicref href="background.tasks.dita" />
+		<topicref href="internationalization.dita" />
+		<topicref href="enum.dita"/>
+		<topicref href="static.int.constant.dita"/>
+		<topicref href="custom.components.dita"/>
+		<topicref href="custom.global.commands.dita"/>
+		<topicref href="build.events.dita"/>
+		<topicref href="hot.deployment.dita"/>
+	</topicref>
+</map>

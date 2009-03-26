@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20081226113443" xml:lang="en-CA">
+	<title>Obtaining references to created components</title>
+	<prolog>
+		<author>Jacek Furmankiewicz</author>
+	</prolog>
+	<body>
+		<section>
+			<title>Convention over configuration</title>
+			<p>In most cases, we use a straightforward
+				convention-over-configuration approach. If you define an object in
+				YAML and then define a Java instance instance variable with the same
+				name and of compatible type, then JavaBuilders will set the
+				reference on it automatically (even if it is a private variable, it
+				does not need to be public).</p>
+			<p>Simple example:</p>
+			<codeblock spectitle="MyFrame.yaml">
+JFrame:
+    - JButton(name=okButton,text=OK,onAction=save)		
+		</codeblock>
+			<codeblock spectitle="MyFrame.java">
+public class MyFrame extends JFrame {
+
+    //this object's reference will be set automatically
+    private JButton okButton;  
+    private BuildResult result = SwingJavaBuilder.build(this)
+
+    public MyFrame(){
+     
+        //reference is set! NullPointerException will not occur
+        okButton.setText("New text"); 
+    }
+
+    private void save() {
+       //execute some business logic...
+    }
+}		
+		</codeblock>
+		</section>
+		<section>
+			<title>Obtaining references manually</title>
+			<p>
+				You can also just fetch the object reference manually from the
+				returned
+				<apiname>BuildResult</apiname>
+				object:
+				<codeblock>
+public MyFrame()  {
+     JButton okButton = (JButton)result.get("okButton");
+}		
+		</codeblock>
+				But the convention over configuration approach is much preferred.
+			</p>
+		</section>
+	</body>
+</topic>

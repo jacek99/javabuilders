@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="tmp/bindings" path="src/bindings"/>
+	<classpathentry kind="src" output="tmp/tests" path="tests/screenshots"/>
+	<classpathentry kind="src" output="tmp/tests" path="doc/examples"/>
+	<classpathentry kind="src" output="tmp/tests" path="tests/prototype"/>
+	<classpathentry kind="src" output="tmp/tests" path="tests/bindings"/>
+	<classpathentry kind="src" output="tmp/generator" path="src/generator"/>
+	<classpathentry kind="src" output="tmp/tests" path="tests/generator"/>
+	<classpathentry kind="src" output="tmp/bindings/" path="generated/bindings"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
+	<classpathentry kind="output" path="tmp/classes"/>
+</classpath>
