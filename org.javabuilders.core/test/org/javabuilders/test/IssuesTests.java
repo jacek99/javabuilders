@@ -25,7 +25,7 @@ public class IssuesTests {
 	@Test
 	public void testIssue14_EmbeddedParentheses() throws Exception {
 		String yamlContent = "Issue14Class(name=test, constraint=\"aaa and (not bbb or ccc)\")";
-		BuilderConfig config = new BuilderConfig(null, null, null, null);
+		BuilderConfig config = new BuilderConfig(null, null, null);
 		config.addNamedObjectCriteria(JComponent.class, "name");
 		
 		config.addType(Issue14Class.class);

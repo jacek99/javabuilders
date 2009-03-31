@@ -9,6 +9,8 @@ import org.audiolord.database.Database;
 import org.gnome.gdk.Event;
 import org.gnome.gtk.ButtonsType;
 import org.gnome.gtk.Gtk;
+import org.gnome.gtk.Menu;
+import org.gnome.gtk.MenuItem;
 import org.gnome.gtk.MessageDialog;
 import org.gnome.gtk.MessageType;
 import org.gnome.gtk.Widget;
@@ -27,7 +29,43 @@ public class AudioLord extends Window {
 	
 	public AudioLord() {
 		GtkJavaBuilder.build(this);
-		setTitle("AudioLord");
+
+//		fileMenu = new Menu();
+	//	fileMenu.append(new MenuItem("TEST"));
+		//file.setSubmenu(fileMenu);
+		
+		/*
+		VBox box = new VBox(false,0);
+		
+		MenuBar b = new MenuBar();
+		
+		MenuItem file = new MenuItem("File");
+		
+		Menu fileMenu = new Menu();
+		
+		MenuItem save = new MenuItem("Save");
+		
+		
+		
+		file.setSubmenu(fileMenu);
+		
+		
+		b.append(file);
+		
+		fileMenu.append(save);
+		
+		box.packStart(b,false,false,0);
+		
+		box.add(new Button("Test"));
+		
+		Statusbar bar = new Statusbar();
+		bar.setMessage("Ready");
+		box.packEnd(bar, false, false,0);
+		
+		add(box);
+		
+		setMaximize(true);
+		*/
 	}
     
 	/**

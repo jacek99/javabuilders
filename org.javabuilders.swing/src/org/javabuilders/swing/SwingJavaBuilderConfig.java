@@ -1,10 +1,6 @@
 package org.javabuilders.swing;
 
-import static org.javabuilders.swing.SwingJavaBuilder.ACCELERATOR;
-import static org.javabuilders.swing.SwingJavaBuilder.LAYOUT_DATA;
-import static org.javabuilders.swing.SwingJavaBuilder.TEXT;
-import static org.javabuilders.swing.SwingJavaBuilder.TITLE;
-import static org.javabuilders.swing.SwingJavaBuilder.TOOL_TIP_TEXT;
+import static org.javabuilders.swing.SwingJavaBuilder.*;
 
 import java.applet.Applet;
 import java.awt.Button;
@@ -33,6 +29,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -141,6 +138,8 @@ import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
 
 public class SwingJavaBuilderConfig extends BuilderConfig {
 
+	private static final Logger LOGGER = Logger.getLogger(SwingJavaBuilderConfig.class.getSimpleName());
+	
 	private Map<String,Integer> hScrollbars = new HashMap<String, Integer>();
 	private Map<String,Integer> vScrollbars = new HashMap<String, Integer>();
 	
@@ -159,9 +158,19 @@ public class SwingJavaBuilderConfig extends BuilderConfig {
 	 */
 	public SwingJavaBuilderConfig() {
 		super(SwingBackgroundProcessingHandler.getInstance(),
-				BeansBindingTypeHandler.getInstance(),
-			SwingValidationMessageHandler.getInstance(), new ConfirmCommand());
+			SwingValidationMessageHandler.getInstance(), 
+			new ConfirmCommand());
 
+		//allow alternate implementations of data binding for Swing
+		try {
+			Class.forName("org.jdesktop.beansbinding.Bindings");
+			//Beans Binding was found in path, use default binding handler
+			addTypeHandler(BeansBindingTypeHandler.getInstance());
+		} catch (ClassNotFoundException e) {
+			LOGGER.info("Beans Binding (JSR 295) not found in path, default BeansBindingTypeHandler not initialized.");
+		}
+		
+		
 		//define aliases for AWT types
 		addType(
 				Applet.class,

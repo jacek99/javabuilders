@@ -59,7 +59,7 @@ public class ContainerFinishProcessor implements ITypeHandlerFinishProcessor {
 			
 			for(Node node : widgetNodes) {
 				Widget w = (Widget) node.getMainObject();
-				if (!w.equals(c) && !widgets.contains(w)) {
+				if (!w.equals(c) && !widgets.contains(w) && w.getParent() == null)  {
 					c.add(w);
 				}
 			}

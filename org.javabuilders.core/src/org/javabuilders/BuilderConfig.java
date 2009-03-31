@@ -101,8 +101,8 @@ public class BuilderConfig {
 	 * @param backgroundProcessingHandler Domain-specific background processing handler
 	 */
 	public BuilderConfig(IBackgroundProcessingHandler backgroundProcessingHandler, 
-			ITypeHandler bindingTypeHandler,
 			IValidationMessageHandler validationMessageHandler, ICustomCommand<Boolean> confirmCommand) {
+		
 		this.backgroundProcessingHandler = backgroundProcessingHandler;
 		this.validationMessageHandler = validationMessageHandler;
 
@@ -111,9 +111,6 @@ public class BuilderConfig {
 		addType(Builder.BIND, BuilderBindings.class);
 		addType(Builder.VALIDATE, BuilderValidators.class);
 
-		if (bindingTypeHandler != null) {
-			addTypeHandler(bindingTypeHandler);
-		}
 		addTypeHandler(DefaultValidatorTypeHandler.getInstance());
 		
 		//handler for static final int constants

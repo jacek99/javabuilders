@@ -69,8 +69,7 @@ public class DefaultTypeHandler extends AbstractTypeHandler {
 		if (!getApplicableClass().isInstance(instance)) {
 			throw new BuildException("instance is not of type: " + getApplicableClass().getName());
 		}
-		Node node = new Node(parent, key, typeDefinition);
-		node.setMainObject(instance);
+		Node node = new Node(parent, key, typeDefinition, instance);
 		return node;
 	}
 

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.BuildProcess;
+import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.ITypeAsValueSupport;
 import org.javabuilders.InvalidPropertyException;
@@ -52,29 +53,33 @@ public class DefaultPropertyHandler extends AbstractPropertyHandler implements I
 	public void handle(BuilderConfig config, BuildProcess result, Node node,
 			String key) throws InvalidPropertyException {
 		
-		Object mainObject = node.getMainObject();
-		Object value = node.getProperties().get(key);
+		if (key != Builder.CONTENT) {
+			
+			Object mainObject = node.getMainObject();
+			Object value = node.getProperties().get(key);
 		
-		try {
-			PropertyUtils.setProperty(mainObject, key, value);
-		} catch (Exception e) {
-			
-			//try to display more info on which properties are allowed
-			StringBuilder builder = new StringBuilder();
 			try {
-				builder.append("The known property names are:");
-				PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(mainObject.getClass());
-				for (PropertyDescriptor pd : pds) {
-					if (builder.length() > 0) {
-						builder.append("\n");
+				PropertyUtils.setProperty(mainObject, key, value);
+			} catch (Exception e) {
+				
+				//try to display more info on which properties are allowed
+				StringBuilder builder = new StringBuilder();
+				try {
+					builder.append("The known property names for " + mainObject.getClass().getSimpleName() + " are:");
+					PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(mainObject.getClass());
+					for (PropertyDescriptor pd : pds) {
+						if (builder.length() > 0) {
+							builder.append("\n");
+						}
+						builder.append(pd.getName());
 					}
-					builder.append(pd.getName());
-				}
-			} catch (Exception ex) {}
+				} catch (Exception ex) {}
+				
+				logger.log(Level.SEVERE, e.getMessage() + "\n" + builder.toString(),e);
+				
+				throw new InvalidPropertyException(node.getKey(),key,e);
+			}
 			
-			logger.log(Level.SEVERE, e.getMessage() + "\n" + builder.toString(),e);
-			
-			throw new InvalidPropertyException(node.getKey(),key,e);
 		}
 	}
 

@@ -51,6 +51,7 @@ import org.gnome.gtk.LinkButton;
 import org.gnome.gtk.Menu;
 import org.gnome.gtk.MenuBar;
 import org.gnome.gtk.MenuItem;
+import org.gnome.gtk.MenuShell;
 import org.gnome.gtk.MenuToolButton;
 import org.gnome.gtk.Notebook;
 import org.gnome.gtk.Paned;
@@ -99,6 +100,8 @@ import org.javabuilders.gtk.handler.type.ConstantAsValueHandler;
 import org.javabuilders.gtk.handler.type.ContainerFinishProcessor;
 import org.javabuilders.gtk.handler.type.HBoxTypeHandler;
 import org.javabuilders.gtk.handler.type.LabelHandler;
+import org.javabuilders.gtk.handler.type.MenuItemTypeHandler;
+import org.javabuilders.gtk.handler.type.MenuShellFinishProcessor;
 import org.javabuilders.gtk.handler.type.NotebookFinishProcessor;
 import org.javabuilders.gtk.handler.type.PanedFinishProcessor;
 import org.javabuilders.gtk.handler.type.ScrolledWindowFinishProcessor;
@@ -120,7 +123,7 @@ public class GtkJavaBuilderConfig extends BuilderConfig{
 			ITypeHandler bindingTypeHandler,
 			IValidationMessageHandler validationMessageHandler,
 			ICustomCommand<Boolean> confirmCommand) {
-		super(null, null, null, null);
+		super(null,  null, null);
 
 		//widgets
 		addType(
@@ -213,6 +216,7 @@ public class GtkJavaBuilderConfig extends BuilderConfig{
 		forType(Container.class).finishProcessor(new ContainerFinishProcessor());
 		forType(Constant.class).valueHandler(new ConstantAsValueHandler());
 		forType(Entry.class).defaultResize(DefaultResize.X_AXIS);
+		forType(MenuShell.class).finishProcessor(new MenuShellFinishProcessor());
 		forType(Notebook.class).defaultResize(DefaultResize.BOTH).finishProcessor(new NotebookFinishProcessor());
 		forType(Paned.class).defaultResize(DefaultResize.BOTH).finishProcessor(new PanedFinishProcessor());
 		forType(ScrolledWindow.class).finishProcessor(new ScrolledWindowFinishProcessor());
@@ -223,10 +227,11 @@ public class GtkJavaBuilderConfig extends BuilderConfig{
 		
 		//type handlers
 		addTypeHandler(new HBoxTypeHandler());
-		addTypeHandler(new VBoxTypeHandler());
 		addTypeHandler(new LabelHandler());
+		addTypeHandler(new MenuItemTypeHandler());
 		addTypeHandler(new TableTypeHandler());
 		addTypeHandler(new TreeViewColumnTypeHandler());
+		addTypeHandler(new VBoxTypeHandler());
 		
 		//property handlers
 		addPropertyHandler(new WidgetNameHandler());

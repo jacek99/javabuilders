@@ -100,9 +100,11 @@ public class SWTBuilderConfig extends BuilderConfig {
 	 */
 	public SWTBuilderConfig() {
 		super(SWTBackgroundProcessingHandler.getInstance(),
-				JFaceDatabindingHandler.getInstance(), 
 				DefaultValidationMessageHandler.getInstance(),
 				new ConfirmCommand());
+
+		//use JFace Databinding for binding support
+		addTypeHandler(JFaceDatabindingHandler.getInstance());
 		
 		addType(
 				Button.class,

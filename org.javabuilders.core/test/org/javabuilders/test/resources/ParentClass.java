@@ -12,7 +12,7 @@ public class ParentClass {
 	private Issue14Class createdClass = new Issue14Class("test");
 
 	public ParentClass() {
-		BuilderConfig config = new BuilderConfig(null,null,null,null);
+		BuilderConfig config = new BuilderConfig(null,null,null);
 		config.addType(ParentClass.class);
 		config.addType(Issue14Class.class);
 		config.addNamedObjectCriteria(JComponent.class, "name");
