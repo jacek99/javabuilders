@@ -4,17 +4,24 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
+import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
+import org.javabuilders.BuilderPreProcessor;
+import org.javabuilders.BuilderUtils;
+import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.Node;
 import org.javabuilders.TypeDefinition;
 import org.javabuilders.handler.AbstractTypeHandler;
+import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
+import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.layout.Flow;
@@ -22,6 +29,7 @@ import org.javabuilders.layout.HAlign;
 import org.javabuilders.layout.LayoutCell;
 import org.javabuilders.layout.LayoutConstraints;
 import org.javabuilders.layout.VAlign;
+import org.jvyaml.YAML;
 
 /**
  * Abstract MigLayout handler that descendants can customize for Swing or SWT
@@ -31,6 +39,10 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 
 	private final static Map<DefaultResize,String> resizeConstraints = new HashMap<DefaultResize, String>();
 	protected final static Logger logger = Logger.getLogger("MigLayoutHandler");
+	
+	private Class<?> defaultTypeClass = null;
+	private String defaultTypePropertyName = null;
+	
 	/**
 	 * Static constructor
 	 */
@@ -42,9 +54,14 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	
 	/**
 	 * Constructor
+	 * @param defaultTypeClass The class type to create for default objects represented by string literals
+	 * @param defaultTypePropertyName The default property of the default class to use as the key for the string literal value
+	 * 
 	 */
-	protected AbstractMigLayoutHandler() {
+	protected AbstractMigLayoutHandler(Class<?> defaultTypeClass, String defaultTypePropertyName) {
 		super();
+		this.defaultTypeClass = defaultTypeClass;
+		this.defaultTypePropertyName = defaultTypePropertyName;
 	}
 	
 	protected abstract void setLayout(BuildProcess result, Node node, Object migLayout) throws BuildException;
@@ -53,12 +70,14 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	protected abstract void setRowConstraints(Object layout, String constraints) throws BuildException;
 	protected abstract void setColumnConstraints(Object layout, String constraints) throws BuildException;
 	protected abstract void applyControlConstraints(BuildProcess result, Node node, Node components, Map<String,String> layoutConstraints) throws BuildException;
+	protected abstract void setControlName(Object control, String name);
+	
 
 	/* (non-Javadoc)
 	 * @see org.javabuilders.handler.ITypeHandler#useExistingInstance(org.javabuilders.BuilderConfig, org.javabuilders.BuildResult, org.javabuilders.Node, java.lang.String, java.util.Map, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public final Node useExistingInstance(BuilderConfig config, BuildProcess result,
+	public final Node useExistingInstance(BuilderConfig config, BuildProcess process,
 			Node parent, String key, Map<String, Object> typeDefinition,
 			Object instance) throws BuildException {
 		
@@ -69,7 +88,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		Node components = parent;
 
 		//set the actual layout manager on the container - overriden in descendants
-		setLayout(result, node, node.getMainObject());
+		setLayout(process, node, node.getMainObject());
 
 		String layoutCo = "", rowCo = "", columnCo = "";
 		
@@ -97,7 +116,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				for(ControlConstraint co : cell.getControls()) {
 					
 					//Object component = SwingBuilderUtils.getComponent(components,String.valueOf(co.getControlName()));
-					Object component = getComponent(result, components, co.getControlName());
+					Object component = getNamedComponentOrCreateOne(process, components, co);
 					if (component == null) {
 						throw new BuildException("MigLayout unable to find control named \"{0}\" in layout:\n{1}", 
 								co.getControlName(), visualLayout);
@@ -243,7 +262,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		}
 		
 		//process
-		applyControlConstraints(result, node, components, layoutConstraints);
+		applyControlConstraints(process, node, components, layoutConstraints);
 		
 		return node;
 	}
@@ -264,6 +283,57 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	public String getSimpleValuePropertyName() {
 		//if the MigLayout node is a simple String property "move" the value to the "layout" node
 		return Builder.LAYOUT;
+	}
+	
+	/**
+	 * @param process
+	 * @param components
+	 * @param name
+	 * @return
+	 */
+	private Object getNamedComponentOrCreateOne(BuildProcess process, Node components, ControlConstraint co) {
+		
+		String name = co.getControlName();
+		
+		Object component = getComponent(process, components, name);
+		if (component == null) {
+			//component not found - maybe need to creaate it from the string literals?
+			if (name.startsWith("\"") && name.endsWith("\"")) {
+				//string literal -> means create a brand new component from it
+				String text = name.replace("\"","");
+				text = process.getBuildResult().getResource(text); //handle internationalization
+				
+				Object value = YAML.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
+				value =  BuilderPreProcessor.preprocess(process.getConfig(), process, value, null);
+				
+				ITypeHandler handler = process.getConfig().getTypeHandler(defaultTypeClass);
+				
+				Map<String, Object> typeDefinition = (Map<String, Object>) value;
+				typeDefinition.put(defaultTypePropertyName, text);
+				
+				//create name from text value, create node & component and add it to the BuildResult
+				String prefix = null, suffix = null;
+				if (process.getConfig() instanceof IStringLiteralControlConfig) {
+					IStringLiteralControlConfig config = (IStringLiteralControlConfig) process.getConfig();
+					prefix = config.getStringLiteralControlPrefix();
+					suffix = config.getStringLiteralControlSuffix();
+				}
+				
+				name = BuilderUtils.generateName(name, prefix, suffix);
+				Node newNode = handler.createNewInstance(process.getConfig(), process, components, defaultTypeClass.getSimpleName(), typeDefinition);
+
+				component = newNode.getMainObject();
+				co.setControlName(name);
+				setControlName(component, name);
+				process.getBuildResult().put(name, component);
+				
+				IPropertyHandler propHandler = process.getConfig().getPropertyHandler(defaultTypeClass, defaultTypePropertyName);
+				propHandler.handle(process.getConfig(), process, newNode, defaultTypePropertyName);
+				
+			}
+		}
+		
+		return component;
 	}
 	
 }

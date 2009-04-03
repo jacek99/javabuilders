@@ -44,6 +44,9 @@ public class BuilderConfig {
 	public final static String CUSTOM_COMMAND_REGEX = "\\$[a-zA-Z0-9]+"; //e.g. "$validate"
 	public final static String GLOBAL_VARIABLE_REGEX = "\\$\\$\\{[a-zA-Z0-9]+\\}"; //e.g. "$${dateFormat}"
 	private static Set<ResourceBundle> bundles = new LinkedHashSet<ResourceBundle>();
+	
+	public static String PROPERY_STRING_LITERAL_CONTROL_PREFIX = "StringLiteralControl.Prefix";
+	public static String PROPERY_STRING_LITERAL_CONTROL_SUFFIX = "StringLiteralControl.Suffix";
 
 	
 	/**

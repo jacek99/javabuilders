@@ -9,8 +9,6 @@ import org.audiolord.database.Database;
 import org.gnome.gdk.Event;
 import org.gnome.gtk.ButtonsType;
 import org.gnome.gtk.Gtk;
-import org.gnome.gtk.Menu;
-import org.gnome.gtk.MenuItem;
 import org.gnome.gtk.MessageDialog;
 import org.gnome.gtk.MessageType;
 import org.gnome.gtk.Widget;

@@ -22,6 +22,8 @@ public class ControlConstraint {
 	public final static char SIZE_GROUP_X_INDICATOR = 'x';
 	public final static char SIZE_GROUP_Y_INDICATOR = 'y';
 	
+	public final static char QUOTE = '"';
+	
 	private final static List<String> postIdentifiers = new ArrayList<String>();
 	
 	static {

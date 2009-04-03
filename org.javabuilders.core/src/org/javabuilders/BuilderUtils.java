@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,8 @@ public class BuilderUtils {
 	//should accept both ${propertyName} and ${object.propertyName}
 	private static Pattern elPattern = Pattern.compile("[${][a-z][a-zA-Z0-9]*(\\.?[a-z][a-zA-Z0-9]*)*}"); //check for EL pattern
 	private static String beanPattern = "[a-zA-Z][a-zA-Z09]*(\\.?[a-z]?[a-zA-Z0-9]*)*"; //check for bean pattern : either "propertyName" or "object.propertyName" or "object.propertyName.nestedProperty"
+
+	private static Pattern namePattern = Pattern.compile("([A-Z]{0,1}[0-9a-z]+)");
 	
 	/**
 	 * Static constructor
@@ -761,6 +764,39 @@ public class BuilderUtils {
 			}
 		}
 		return is;
+	}
+	
+	/**
+	 * Generates a Java-safe name from an input string
+	 * @param input
+	 * @return
+	 */
+	public static String generateName(String input, String prefix, String suffix) {
+		Matcher m = namePattern.matcher(input);
+		StringBuilder bld = new StringBuilder(input.length());
+		if (prefix != null) {
+			bld.append(prefix);
+		}
+		
+		while (m.find()) {
+			String group = m.group();
+			if (group.length() > 1) {
+				if (bld.length() == 0) {
+					bld.append(group.substring(0,1).toLowerCase());
+					bld.append(group.substring(1));
+				} else {
+					bld.append(group.substring(0,1).toUpperCase());
+					bld.append(group.substring(1));
+				}
+			} else {
+				bld.append(group.toUpperCase());
+			}
+		}
+		
+		if (suffix != null) {
+			bld.append(suffix);
+		}
+		return bld.toString();
 	}
 	
 }

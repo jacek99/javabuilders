@@ -1,15 +1,5 @@
 JPanel:
     - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
-    - JLabel(name=lNameLbl, text=Last Name)
-    - JLabel(name=fNameLbl, text=First Name)
-    - JLabel(name=phoneLbl, text=Phone)
-    - JLabel(name=emailLbl, text=Email)
-    - JLabel(name=address1Lbl, text=Address 1)
-    - JLabel(name=address2Lbl, text=Address 2)
-    - JLabel(name=cityLbl, text=City)
-    - JLabel(name=stateLbl, text=State)
-    - JLabel(name=postalLbl, text=Postal Code)
-    - JLabel(name=countryLbl, text=Country)
     - JTextField(name=lName)
     - JTextField(name=fName)
     - JTextField(name=phone)
@@ -26,14 +16,14 @@ JPanel:
     - JButton(name=saveBtn, text=Save)
     - JButton(name=cancelBtn, text=Cancel)
     - MigLayout: |
-       [200,grow]                   [200,grow]               [200,grow]
-       scroll1+1+*     >lNameLbl    lName       fNameLbl     fName                              
-                       >phoneLbl    phone       emailLbl+2,email               
-                       >address1Lbl address1+*                                  
-                       >address2Lbl address2+*                                  
-                       >cityLbl     city                       
-                       >stateLbl    state       postalLbl    postal
-                       >countryLbl  country                                   
+       [200,grow]      [right]       [200,grow]                  [200,grow]
+       scroll1+1+*     "label.fName" lName       "First Name"    fName                              
+                       "Phone:"      phone       "Email:"+2,email               
+                       "Address 1:"  address1+*                                  
+                       "Address 2:"  address2+*                                  
+                       "City:"       city                       
+                       "State:"      state       "Postal Code:"  postal
+                       "Country:"    country                                   
                        ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]
 bind:
     - source.text: this.yaml

@@ -89,6 +89,7 @@ import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
+import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.TypeDefinition;
 import org.javabuilders.handler.type.FontAsValueHandler;
 import org.javabuilders.handler.type.IconAsValueHandler;
@@ -136,7 +137,7 @@ import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
 import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
 
-public class SwingJavaBuilderConfig extends BuilderConfig {
+public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig {
 
 	private static final Logger LOGGER = Logger.getLogger(SwingJavaBuilderConfig.class.getSimpleName());
 	
@@ -339,6 +340,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig {
 		//define which object types should be treated as named and based on what property value
 		addNamedObjectCriteria(Component.class,"name");
 		
+		setStringLiteralControlSuffix("Label"); 
+		
 	}
 	
 	/* (non-Javadoc)
@@ -366,6 +369,34 @@ public class SwingJavaBuilderConfig extends BuilderConfig {
 			}
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.IStringLiteralControlConfig#getStringLiteralControlPrefix()
+	 */
+	public String getStringLiteralControlPrefix() {
+		return (String) getCustomProperties().get(PROPERY_STRING_LITERAL_CONTROL_PREFIX);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.IStringLiteralControlConfig#getStringLiteralControlSuffix()
+	 */
+	public String getStringLiteralControlSuffix() {
+		return (String) getCustomProperties().get(PROPERY_STRING_LITERAL_CONTROL_SUFFIX);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.IStringLiteralControlConfig#setStringLiteralControlPrefix(java.lang.String)
+	 */
+	public void setStringLiteralControlPrefix(String prefix) {
+		getCustomProperties().put(PROPERY_STRING_LITERAL_CONTROL_PREFIX, prefix);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.IStringLiteralControlConfig#setStringLiteralControlSuffix(java.lang.String)
+	 */
+	public void setStringLiteralControlSuffix(String suffix) {
+		getCustomProperties().put(PROPERY_STRING_LITERAL_CONTROL_SUFFIX, suffix);
 	}
 
 

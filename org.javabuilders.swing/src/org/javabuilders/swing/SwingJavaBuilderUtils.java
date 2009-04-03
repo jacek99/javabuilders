@@ -177,7 +177,9 @@ public class SwingJavaBuilderUtils {
 	
 	/**
 	 * Utility method to find the component by its name
-	 * @throws BuildException 
+	 * @return Component if found, null if not
+	 * @throws BuildException
+	 *  
 	 */
 	public static Component getComponent(Node componentsNode, String name) throws BuildException {
 		if (Builder.CONTENT.equals(componentsNode.getKey())) {
@@ -185,17 +187,14 @@ public class SwingJavaBuilderUtils {
 			for(Node child  : componentsNode.getChildNodes()) {
 				if (child.getMainObject() instanceof Component) {
 					Component temp = (Component)child.getMainObject();
+					
 					if (name.equals(temp.getName())) {
 						component = temp;
 						break;
 					}
 				}
 			}
-			if (component == null) {
-				throw new BuildException(name + " is not a defined in the list of Swing components");
-			} else {				
-				return component;
-			}
+			return component;
 		} else {
 			throw new BuildException("componentsNode is not a valid Components node");
 		}

@@ -308,6 +308,7 @@ public class LayoutConstraints {
 		
 		line = line + " "; //always need one space at end to make parsing simpler
 		boolean rowConstraintFound = false;
+		
 		for(int column = 0; column < line.length(); column++) {
 			character = line.charAt(column);
 			if (character == '[') {
@@ -315,9 +316,10 @@ public class LayoutConstraints {
 				constraints.getRowConstraints().add(line.substring(column).trim());
 				rowConstraintFound = true;
 				break;
-			} else if (character !=' ') {
+			} else if (character !=' ' || character == '"') {
+				
 				//not a space - we're in a control constraint
-				nextSpace = line.indexOf(" ", column);
+				nextSpace = getNextSpacePosition(line, column);
 				controlData = line.substring(column,nextSpace);
 
 				//multiple controls may be in the same cell, comma separated
@@ -337,6 +339,22 @@ public class LayoutConstraints {
         if (!rowConstraintFound) {
         	constraints.getRowConstraints().add(defaultRowConstraint);
         }
+	}
+	
+	//figures out where the next real space is 
+	private static int getNextSpacePosition(String line, int column) {
+		int pos = -1;
+		
+		boolean inSpaceLiteral = false;
+		for(int i = column; i < line.length();i++) {
+			if (line.charAt(i) == '"') {
+				inSpaceLiteral = !inSpaceLiteral;
+			} else if (line.charAt(i) == ' ' && !inSpaceLiteral) {
+				pos = i;
+				break;
+			}
+		}
+		return pos;
 	}
 	
 	private static void handleColumnConstraintsLine(LayoutConstraints co, String line, String defaultColumnConstraint) {

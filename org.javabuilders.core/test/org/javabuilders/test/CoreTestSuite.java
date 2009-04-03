@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
   CoreTests.class,
   ControlConstraintTests.class,
-  IssuesTests.class
+  IssuesTests.class,
+  LayoutConstraintsTests.class
 })
 public class CoreTestSuite {}

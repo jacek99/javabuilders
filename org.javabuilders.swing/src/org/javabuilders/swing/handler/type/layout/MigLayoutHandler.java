@@ -8,6 +8,8 @@ import java.awt.Container;
 import java.util.Map;
 import java.util.logging.Level;
 
+import javax.swing.JLabel;
+
 import net.miginfocom.swing.MigLayout;
 
 import org.javabuilders.BuildException;
@@ -39,7 +41,7 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 	 * Constructor
 	 */
 	private MigLayoutHandler() {
-		super();
+		super(JLabel.class,"text");
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +65,7 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 	 * @see org.javabuilders.layout.mig.AbstractMigLayoutHandler#applyControlConstraints(org.javabuilders.BuildResult, org.javabuilders.Node, org.javabuilders.Node, java.util.Map)
 	 */
 	@Override
-	protected void applyControlConstraints(BuildProcess result, Node node, Node components, Map<String, String> layoutConstraints) throws BuildException {
+	protected void applyControlConstraints(BuildProcess process, Node node, Node components, Map<String, String> layoutConstraints) throws BuildException {
 		Container parentContainer = (Container)node.getParent().getParent().getMainObject();
 		for(String componentName : layoutConstraints.keySet()) {
 			String componentConstraint = layoutConstraints.get(componentName);
@@ -119,6 +121,14 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 	@Override
 	protected void setColumnConstraints(Object layout, String constraints) {
 		((MigLayout)layout).setColumnConstraints(constraints);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.layout.mig.AbstractMigLayoutHandler#setControlName(java.lang.Object, java.lang.String)
+	 */
+	@Override
+	protected void setControlName(Object control, String name) {
+		((Component)control).setName(name);
 	}
 
 }
