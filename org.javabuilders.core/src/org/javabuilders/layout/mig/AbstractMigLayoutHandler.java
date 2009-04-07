@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
-import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.BuilderPreProcessor;
@@ -291,6 +289,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	 * @param name
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Object getNamedComponentOrCreateOne(BuildProcess process, Node components, ControlConstraint co) {
 		
 		String name = co.getControlName();
@@ -306,7 +305,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				Object value = YAML.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
 				value =  BuilderPreProcessor.preprocess(process.getConfig(), process, value, null);
 				
-				ITypeHandler handler = process.getConfig().getTypeHandler(defaultTypeClass);
+				ITypeHandler handler = TypeDefinition.getTypeHandler(process.getConfig(), defaultTypeClass);
 				
 				Map<String, Object> typeDefinition = (Map<String, Object>) value;
 				typeDefinition.put(defaultTypePropertyName, text);
@@ -327,7 +326,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				setControlName(component, name);
 				process.getBuildResult().put(name, component);
 				
-				IPropertyHandler propHandler = process.getConfig().getPropertyHandler(defaultTypeClass, defaultTypePropertyName);
+				IPropertyHandler propHandler = TypeDefinition.getPropertyHandler(process.getConfig(),defaultTypeClass, defaultTypePropertyName);
 				propHandler.handle(process.getConfig(), process, newNode, defaultTypePropertyName);
 				
 			}

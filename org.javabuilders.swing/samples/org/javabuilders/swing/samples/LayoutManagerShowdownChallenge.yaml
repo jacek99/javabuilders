@@ -17,7 +17,7 @@ JPanel:
     - JButton(name=cancelBtn, text=Cancel)
     - MigLayout: |
        [200,grow]      [right]       [200,grow]                  [200,grow]
-       scroll1+1+*     "label.fName" lName       "First Name"    fName                              
+       scroll1+1+*     "Last name:"  lName       "First Name"    fName                              
                        "Phone:"      phone       "Email:"+2,email               
                        "Address 1:"  address1+*                                  
                        "Address 2:"  address2+*                                  

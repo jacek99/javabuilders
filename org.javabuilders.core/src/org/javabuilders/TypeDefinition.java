@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeAsValueHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
@@ -26,7 +27,7 @@ import org.javabuilders.layout.DefaultResize;
  * Used when instantiating new objects
  * @author Jacek Furmankiewicz
  */
-public class TypeDefinition implements IKeyValueConsumer {
+public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 
 	public static final Integer DEFAULT_DELAY_WEIGHT = 1000;
 	public final static Logger logger = Logger.getLogger(TypeDefinition.class.getSimpleName());
@@ -255,6 +256,52 @@ public class TypeDefinition implements IKeyValueConsumer {
 			}
 		}
 		return list;
+	}
+	
+	/**
+	 * Returns the customized type handler for a type
+	 * @param config Config
+	 * @param classType Class type
+	 * @return
+	 */
+	public static ITypeHandler getTypeHandler(BuilderConfig config, Class<?> classType) {
+		if (classType == null) {
+			throw new NullPointerException("classType cannot be null");
+		}
+		
+		ITypeHandler handler = BuilderConfig.defaultTypeHandler;
+		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+			if (def.getTypeHandler() != null) {
+				handler = def.getTypeHandler();
+				break;
+			}
+		}
+		return handler;
+	}
+
+	/**
+	 * Returns the customized property handler for a property
+	 * @param config Config
+	 * @param classType Class type
+	 * @param property Property name
+	 * @return Property handler
+	 */
+	public static IPropertyHandler getPropertyHandler(BuilderConfig config, Class<?> classType, String property) {
+		if (classType == null) {
+			throw new NullPointerException("classType cannot be null");
+		}
+		if (property == null) {
+			throw new NullPointerException("property cannot be null");
+		}
+		
+		IPropertyHandler handler = BuilderConfig.defaultPropertyHandler;
+		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+			if (def.getPropertyHandler(property) != null) {
+				handler = def.getPropertyHandler(property);
+				break;
+			}
+		}
+		return handler;
 	}
 
 	
@@ -491,11 +538,13 @@ public class TypeDefinition implements IKeyValueConsumer {
 	private ITypeHandlerFinishProcessor finishProcessor;
 	private ITypeHandlerAfterCreationProcessor afterCreationProcessor;
 	private ITypeAsValueHandler<? extends Object> typeAsValueHandler;
+	private ITypeHandler typeHandler;
 	private Map<String,String> propertyAliases = new HashMap<String, String>();
 	private Map<String,Map<String, ? extends Object>> mappedProperties = new HashMap<String, Map<String,? extends Object>>();
 	private Map<String,Object> customProperties = new HashMap<String,Object>();
 	private List<String> propertiesAsList = new ArrayList<String>();
 	private Map<String,Class<?>> propertyConstants = new HashMap<String, Class<?>>();
+	private Map<String,IPropertyHandler> propertyHandlers = new HashMap<String, IPropertyHandler>();
 	
 	/**
 	 * Constructor
@@ -931,6 +980,32 @@ public class TypeDefinition implements IKeyValueConsumer {
 		return this;
 	}
 	
+	/**
+	 * @param typeHandler Type handler (takes care of creating a brand new instance, if the constructor call logic needs to be customized)
+	 * @return This
+	 */
+	public TypeDefinition typeHandler(ITypeHandler typeHandler) {
+		if (typeHandler == null) {
+			throw new NullPointerException("typeHandler cannot be null");
+		}		
+		if (typeHandler.getApplicableClass() == null) {
+			throw new NullPointerException("ITypeHandler.getApplicableClass() cannot be null");
+		}		
+		if (this.applicableClass.isAssignableFrom(typeHandler.getApplicableClass())) {
+			this.typeHandler = typeHandler;
+			return this;
+		} else {
+			throw new BuildException("Type handler {0} is not valid to handle type {1}", typeHandler, applicableClass);
+		}
+	}
+	
+	/**
+	 * @return Type handler
+	 */
+	public ITypeHandler getTypeHandler() {
+		return this.typeHandler;
+	}
+	
 
 	/**
 	 * @return the typeAsValueHandler
@@ -1019,6 +1094,37 @@ public class TypeDefinition implements IKeyValueConsumer {
 	 */
 	public Class<?> getPropertyConstants(String propertyName) {
 		return propertyConstants.get(propertyName);
+	}
+	
+	/**
+	 * Defines property handlers for this type
+	 * @param handlers Property handlers
+	 * @return This
+	 */
+	public TypeDefinition propertyHandler(IPropertyHandler...handlers) {
+		
+		for(IPropertyHandler handler : handlers) {
+			if (handler == null) {
+				throw new NullPointerException("handler cannot be null");
+			}
+			if (handler.getApplicableClass() == null) {
+				throw new NullPointerException("IPropertyHandler.getApplicableClass() cannot be null");
+			}
+			//register the handler for each of the keys it is supposed to consume
+			for(String key : handler.getConsumedKeys()) {
+				this.propertyHandlers.put(key, handler);
+			}
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * @param property Property name
+	 * @return Property handler if found or null if not
+	 */
+	public IPropertyHandler getPropertyHandler(String property) {
+		return propertyHandlers.get(property);
 	}
 	
 	

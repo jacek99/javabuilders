@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN"
  "../dtd/bookmap.dtd">
- <bookmap id="swing.javabuilder" toc="yes" locktitle="yes" rev="0.3" >
+ <bookmap id="swing.javabuilder" toc="yes" locktitle="yes" rev="1.0.DEV" >
  	 <booktitle>
 		<mainbooktitle>Swing JavaBuilder</mainbooktitle>
 		<booktitlealt>Achieving maximum productivity with minimum code via declarative UIs</booktitlealt>

@@ -70,7 +70,7 @@ public class BuilderPreProcessor {
 			Class<?> typeClass = BuilderUtils.getClassFromAlias(process, realKey, null);
 			if (typeClass != null) {
 				//we're in business...dealing with a type here...
-				ITypeHandler handler = config.getTypeHandler(typeClass);
+				ITypeHandler handler = TypeDefinition.getTypeHandler(config, typeClass);
 				
 				//handle types that are expressed as a list or single value
 				explodeShortcutTypeToMap(config, process,  handler, key, map);
@@ -145,7 +145,7 @@ public class BuilderPreProcessor {
 					Class<?> typeClass = BuilderUtils.getClassFromAlias(process, realKey, null);
 					if (typeClass != null) {
 						//we're in business...dealing with a type here...
-						ITypeHandler handler = config.getTypeHandler(typeClass);
+						ITypeHandler handler = TypeDefinition.getTypeHandler(config, typeClass);
 					
 						//dealing with a virtual constructor in a list
 						Map<String,Object> rootMap = new HashMap<String, Object>();
@@ -186,7 +186,7 @@ public class BuilderPreProcessor {
 			Class<?> typeClass = BuilderUtils.getClassFromAlias(process, realKey, null);
 			if (typeClass != null) {
 				//we're in business...dealing with a type here...
-				ITypeHandler handler = config.getTypeHandler(typeClass);
+				ITypeHandler handler = TypeDefinition.getTypeHandler(config, typeClass);
 			
 				//dealing with a virtual constructor in a list
 				Map<String,Object> rootMap = new HashMap<String, Object>();
@@ -246,7 +246,7 @@ public class BuilderPreProcessor {
 			if (!realTypeKey.equals(value)) {
 				Class<?> valueClass = BuilderUtils.getClassFromAlias(process, realTypeKey, null);
 				if (valueClass != null) {
-					ITypeHandler valueHandler = config.getTypeHandler(valueClass);
+					ITypeHandler valueHandler = TypeDefinition.getTypeHandler(config, valueClass);
 					Map<String,Object> rootMap = new HashMap<String,Object>();
 					Map<String,Object> typeMap = new HashMap<String,Object>();
 					current.put(key, rootMap);

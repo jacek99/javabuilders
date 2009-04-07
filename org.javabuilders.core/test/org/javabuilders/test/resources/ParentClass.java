@@ -2,7 +2,6 @@ package org.javabuilders.test.resources;
 
 import javax.swing.JComponent;
 
-import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 
@@ -17,9 +16,7 @@ public class ParentClass {
 		config.addType(Issue14Class.class);
 		config.addNamedObjectCriteria(JComponent.class, "name");
 		
-		BuildResult result = Builder.build(config, this);
-		
-		int i = 0;
+		Builder.build(config, this);
 	}
 	
 	/**

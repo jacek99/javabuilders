@@ -37,8 +37,9 @@ public class BuilderConfig {
 	@SuppressWarnings("unused")
 	private static Logger logger = Logger.getLogger(BuilderConfig.class.getSimpleName());
 	
-	private static ITypeHandler defaultTypeHandler = new DefaultTypeHandler();
-	private static IPropertyHandler defaultPropertyHandler =  DefaultPropertyHandler.getInstance();
+	static ITypeHandler defaultTypeHandler = new DefaultTypeHandler();
+	static IPropertyHandler defaultPropertyHandler =  DefaultPropertyHandler.getInstance();
+	
 	private static String devSourceFolder = null;
 	public static final String SOURCE = "javabuilders.dev.src";
 	public final static String CUSTOM_COMMAND_REGEX = "\\$[a-zA-Z0-9]+"; //e.g. "$validate"
@@ -75,8 +76,6 @@ public class BuilderConfig {
 	protected Map<Class<?>,Map<String,IPropertyHandler>> getPropertyHandlers() {
 		return propertyHandlers;
 	}
-	private Map<Class<?>,ITypeHandler> typeHandlers = new HashMap<Class<?>,ITypeHandler>();
-	
 	private Map<Class<?>,TypeDefinition> typeDefinitions = new HashMap<Class<?>, TypeDefinition>();
 	private Map<String,Class<?>> typeAliases = new HashMap<String, Class<?>>();
 	
@@ -127,46 +126,6 @@ public class BuilderConfig {
 				return result.validate();
 			}
 		});
-	}
-	
-	/**
-	 * Registers a handler for one or more key/value pairs for a particular class type (including all of its descendants)
-	 * @param handler Property handler
-	 * @return Current instance, for use in builder pattern
-	 */
-	public BuilderConfig addPropertyHandler(IPropertyHandler handler) {
-		if (handler == null) {
-			throw new NullPointerException("handler cannot be null");
-		}
-		if (handler.getApplicableClass() == null) {
-			throw new NullPointerException("IPropertyHandler.getApplicableClass() cannot be null");
-		}
-		//register the handler for each of the keys it is supposed to consume
-		for(String key : handler.getConsumedKeys()) {
-			Map<String,IPropertyHandler> handlers = propertyHandlers.get(handler.getApplicableClass());
-			if (handlers == null) {
-				handlers = new HashMap<String,IPropertyHandler>();
-				propertyHandlers.put(handler.getApplicableClass(), handlers);
-			}
-			handlers.put(key, handler);
-		}
-		return this;
-	}
-	
-	/**
-	 * Adds a type handler for a particular class and all of its children
-	 * @param typeHandler Type handler
-	 * @return Current instance, for use in Builder pattern
-	 */
-	public BuilderConfig addTypeHandler(ITypeHandler typeHandler) {
-		if (typeHandler == null) {
-			throw new NullPointerException("typeHandler cannot be null");
-		}		
-		if (typeHandler.getApplicableClass() == null) {
-			throw new NullPointerException("ITypeHandler.getApplicableClass() cannot be null");
-		}		
-		typeHandlers.put(typeHandler.getApplicableClass(),typeHandler);
-		return this;
 	}
 	
 	/**
@@ -323,59 +282,6 @@ public class BuilderConfig {
 		}
 		
 		return defs;
-	}
-	
-	/**
-	 * Gets the type handler for a specific type alias
-	 * @param classType Class type
-	 * @return Type handler
-	 */
-	public ITypeHandler getTypeHandler(Class<?> classType) {
-
-		if (classType == null) {
-			throw new NullPointerException("classType cannot be null");
-		}
-		
-		//this alias is a type, not just a property
-		ITypeHandler typeHandler = defaultTypeHandler;
-		Class<?> parentType = classType;
-		
-		//go from the bottom up the hierarchy tree...the lowest
-		//type handler wins
-		while (parentType != null) {
-			if (typeHandlers.containsKey(parentType)) {
-				typeHandler = typeHandlers.get(parentType);
-				break;
-			} 
-			parentType = parentType.getSuperclass();
-		}
-		
-		return typeHandler;
-	}
-	
-	/**
-	 * Returns the handler for a specific property
-	 * @param classType The type of the object being processed
-	 * @param key The name of the property
-	 * @return The handler for that property (and potentially others, if it consumes multiple ones)
-	 */
-	public IPropertyHandler getPropertyHandler(Class<?> classType, String key) {
-		IPropertyHandler handler = defaultPropertyHandler;
-		
-		Class<?> parentClass = classType;
-		
-		//find the first applicable property handler in the object hierarchy,
-		//unless one is found that handles ALL properties
-		while (parentClass != null) {
-			Map<String,IPropertyHandler> handlers = getPropertyHandlers().get(parentClass);
-			if (handlers != null && handlers.containsKey(key)) {
-				handler = handlers.get(key);
-				break;
-			}
-			parentClass = parentClass.getSuperclass();
-		}
-		
-		return handler;
 	}
 	
 	/**
@@ -686,6 +592,36 @@ public class BuilderConfig {
 		}
 		
 		return value;
+	}
+	
+	/**
+	 * @deprecated Use forType(Class<?>).typeHandler() instead
+	 */
+	public BuilderConfig addTypeHandler(ITypeHandler typeHandler) {
+		forType(typeHandler.getApplicableClass()).typeHandler(typeHandler);
+		return this;
+	}
+	
+	/**
+	 * @deprecated Use TypeDefinition.getTypeHandler(BuilderConfig, Class) instead
+	 */
+	public ITypeHandler getTypeHandler(Class<?> classType) {
+		return TypeDefinition.getTypeHandler(this, classType);
+	}
+
+	/**
+	 * @deprecated use forType(Class).propertyHandler() instead
+	 */
+	public BuilderConfig addPropertyHandler(IPropertyHandler handler) {
+		forType(handler.getApplicableClass()).propertyHandler(handler);
+		return this;
+	}
+
+	/**
+	 * @deprecated user TypeDefinition.getPropertyHandler(BuilderConfig,Class,String) instead
+	 */
+	public IPropertyHandler getPropertyHandler(Class<?> classType, String key) {
+		return TypeDefinition.getPropertyHandler(this, classType, key);
 	}
 
 }

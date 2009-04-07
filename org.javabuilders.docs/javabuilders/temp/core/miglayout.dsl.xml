@@ -131,28 +131,54 @@ MigLayout: |
 		</section>
 		
 		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="section:9">
-			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="title:10">Complex Example</title>
-			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="p:14">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="title:10">String Literal Controls</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="p:14">In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals (embedded in double quotes) instead of control names.
+		  Such entries will automatically be interpreted as labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the need
+		  to manually specify it in the YAML.</p>
+          <codeblock spectitle="Using string literal controls" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="codeblock:3">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]             [grow,100] [pref]           [grow,100] 
+        "label.firstName"  fName      "label.lastName" lName
+        "label.email"      email+*
+        &gt;save+*=1,cancel=1          
+          </codeblock> 
+          or the more verbose, traditional way:
+          <codeblock spectitle="Using explicit label definitions" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="codeblock:4">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JLabel(name=fNameLbl, text=label.firstName)
+    - JLabel(name=lNameLbl, text=label.lastName)
+    - JLabel(name=emailLbl, text=label.email)
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]    [grow,100]  [pref]   [grow,100] 
+        fNameLbl  fName       lNameLbl lName
+        emailLbl  email+*
+        &gt;save+*=1,cancel=1          
+        </codeblock> 
+		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="section:10">
+			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="title:11">Complex Example</title>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="p:15">
 				From John O'Conners Layout Manager Challenge: 
 				<xref href="http://weblogs.java.net/blog/joconner/archive/2006/10/layout_manager.html" format="html" scope="external" class="- topic/xref " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="xref:2">http://weblogs.java.net/blog/joconner/archive/2006/10/layout_manager.html</xref>
 				<image href="img/addressbookdemo_mac.gif" placement="inline" class="- topic/image " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="image:2"/>
 			</p>
-			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="p:15">Here's how it would look implemented in the Swing JavaBuilder:
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="p:16">Here's how it would look implemented in the Swing JavaBuilder:
 			<image href="img/miglayout.complex.1.gif" placement="inline" class="- topic/image " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="image:3"/>
-			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="codeblock:3">
+			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/miglayout.dsl.dita" xtrc="codeblock:5">
 JPanel:
-    - JScrollPane(name=scroll1): 
-        JTextArea(name=source,font=Monospaced,editable=false)
-    - JLabel(name=lNameLbl, text=Last Name)
-    - JLabel(name=fNameLbl, text=First Name)
-    - JLabel(name=phoneLbl, text=Phone)
-    - JLabel(name=emailLbl, text=Email)
-    - JLabel(name=address1Lbl, text=Address 1)
-    - JLabel(name=address2Lbl, text=Address 2)
-    - JLabel(name=cityLbl, text=City)
-    - JLabel(name=stateLbl, text=State)
-    - JLabel(name=postalLbl, text=Postal Code)
-    - JLabel(name=countryLbl, text=Country)
+    - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
     - JTextField(name=lName)
     - JTextField(name=fName)
     - JTextField(name=phone)
@@ -169,18 +195,18 @@ JPanel:
     - JButton(name=saveBtn, text=Save)
     - JButton(name=cancelBtn, text=Cancel)
     - MigLayout: |
-       [200,grow]               [200,grow]               [200,grow]
-       scroll1+1+* &gt;lNameLbl    lName       fNameLbl     fName                              
-                   &gt;phoneLbl    phone       emailLbl+2,email               
-                   &gt;address1Lbl address1+*                                  
-                   &gt;address2Lbl address2+*                                  
-                   &gt;cityLbl     city                       
-                   &gt;stateLbl    state       postalLbl    postal
-                   &gt;countryLbl  country                                   
-                   ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]			
+       [200,grow]      [right]       [200,grow]                  [200,grow]
+       scroll1+1+*     "Last name:"  lName       "First Name"    fName                              
+                       "Phone:"      phone       "Email:"+2,email               
+                       "Address 1:"  address1+*                                  
+                       "Address 2:"  address2+*                                  
+                       "City:"       city                       
+                       "State:"      state       "Postal Code:"  postal
+                       "Country:"    country                                   
+                       ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]
 			</codeblock>
 			</p>
 		</section>
 	</body>
-<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:1" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="0.3" type="" xtrc="chapter:7" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="../swing/swing.layout.xml" role="parent"/></linkpool></related-links>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:1" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:7" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="../swing/swing.layout.xml" role="parent"/></linkpool></related-links>
 </topic>

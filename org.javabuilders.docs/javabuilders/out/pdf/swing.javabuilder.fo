@@ -163,7 +163,7 @@
 <fo:block line-height="1.5" font-weight="bold" font-size="11pt">Jacek Furmankiewicz</fo:block>
 <fo:block margin-bottom="1in" line-height="140%" font-weight="bold" font-size="8pt">
             Version
-0.3</fo:block>
+1.0.DEV</fo:block>
 <fo:block line-height="normal" font-size="8pt" text-align="right" margin-top="3pc">
 			© Copyright  2008-2009 Jacek Furmankiewicz
 			</fo:block>
@@ -3860,6 +3860,45 @@ MigLayout: |
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
 <fo:inline id="N1182F"></fo:inline>
+<fo:block font-weight="bold">String Literal Controls</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals (embedded in double quotes) instead of control names.
+		  Such entries will automatically be interpreted as labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the need
+		  to manually specify it in the YAML.</fo:block>
+<fo:block font-weight="bold">Using string literal controls</fo:block>
+<fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]             [grow,100] [pref]           [grow,100] 
+        "label.firstName"  fName      "label.lastName" lName
+        "label.email"      email+*
+        &gt;save+*=1,cancel=1          
+          </fo:block> 
+          or the more verbose, traditional way:
+          <fo:block font-weight="bold">Using explicit label definitions</fo:block>
+<fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JLabel(name=fNameLbl, text=label.firstName)
+    - JLabel(name=lNameLbl, text=label.lastName)
+    - JLabel(name=emailLbl, text=label.email)
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]    [grow,100]  [pref]   [grow,100] 
+        fNameLbl  fName       lNameLbl lName
+        emailLbl  email+*
+        &gt;save+*=1,cancel=1          
+        </fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N1184C"></fo:inline>
 <fo:block font-weight="bold">Complex Example</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 				From John O'Conners Layout Manager Challenge: 
@@ -3872,18 +3911,7 @@ MigLayout: |
 			<fo:external-graphic src="url(core/img/miglayout.complex.1.gif)"/>
 <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
 JPanel:
-    - JScrollPane(name=scroll1): 
-        JTextArea(name=source,font=Monospaced,editable=false)
-    - JLabel(name=lNameLbl, text=Last Name)
-    - JLabel(name=fNameLbl, text=First Name)
-    - JLabel(name=phoneLbl, text=Phone)
-    - JLabel(name=emailLbl, text=Email)
-    - JLabel(name=address1Lbl, text=Address 1)
-    - JLabel(name=address2Lbl, text=Address 2)
-    - JLabel(name=cityLbl, text=City)
-    - JLabel(name=stateLbl, text=State)
-    - JLabel(name=postalLbl, text=Postal Code)
-    - JLabel(name=countryLbl, text=Country)
+    - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
     - JTextField(name=lName)
     - JTextField(name=fName)
     - JTextField(name=phone)
@@ -3900,15 +3928,15 @@ JPanel:
     - JButton(name=saveBtn, text=Save)
     - JButton(name=cancelBtn, text=Cancel)
     - MigLayout: |
-       [200,grow]               [200,grow]               [200,grow]
-       scroll1+1+* &gt;lNameLbl    lName       fNameLbl     fName                              
-                   &gt;phoneLbl    phone       emailLbl+2,email               
-                   &gt;address1Lbl address1+*                                  
-                   &gt;address2Lbl address2+*                                  
-                   &gt;cityLbl     city                       
-                   &gt;stateLbl    state       postalLbl    postal
-                   &gt;countryLbl  country                                   
-                   ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]			
+       [200,grow]      [right]       [200,grow]                  [200,grow]
+       scroll1+1+*     "Last name:"  lName       "First Name"    fName                              
+                       "Phone:"      phone       "Email:"+2,email               
+                       "Address 1:"  address1+*                                  
+                       "Address 2:"  address2+*                                  
+                       "City:"       city                       
+                       "State:"      state       "Postal Code:"  postal
+                       "Country:"    country                                   
+                       ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]
 			</fo:block>
 </fo:block>
 </fo:block>
@@ -3921,7 +3949,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11888"></fo:inline>
+<fo:inline id="N118A5"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			If for whatever reason you do not want to use the MigLayout DSL, you can still use regular MigLayout
 			properties and syntax, e.g.:
@@ -3957,7 +3985,7 @@ JFrame(title=My Frame):
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N118C4"></fo:inline>
+<fo:inline id="N118E1"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			CardLayout support is provided by adding a CardLayout node at the end of the list of child components, e.g.
 			<fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
@@ -3984,7 +4012,7 @@ private CardLayout cards;
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1190A"></fo:inline>
+<fo:inline id="N11927"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 In order to use FlowLayout, just create a FlowLayout node at the end of the list of child components. 
 No need to specify which ones to add, they all get added automatically, e.g.:
@@ -4012,7 +4040,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1194A"></fo:inline>
+<fo:inline id="N11967"></fo:inline>
 <fo:block font-weight="bold">Overview</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">The core JavaBuilders engine is domain-agnostic, i.e. there is no logic in it
 			specific to any particular toolkit such as Swing or SWT. Each of domain-specific
@@ -4027,7 +4055,7 @@ JPanel:
 			of a control.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1197A"></fo:inline>
+<fo:inline id="N11997"></fo:inline>
 <fo:block font-weight="bold">Registering new component types</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">All you need to do is call the <fo:inline font-family="Courier">BuilderConfig.addType(Class clazz)</fo:inline>
 			method, presumably from your application's <fo:inline font-family="Courier">main()</fo:inline>:

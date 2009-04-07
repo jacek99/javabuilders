@@ -132,6 +132,43 @@ MigLayout: |
 		</section>
 		
 		<section>
+		  <title>String Literal Controls</title>
+		  <p>In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals (embedded in double quotes) instead of control names.
+		  Such entries will automatically be interpreted as labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the need
+		  to manually specify it in the YAML.</p>
+          <codeblock spectitle="Using string literal controls">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]             [grow,100] [pref]           [grow,100] 
+        "label.firstName"  fName      "label.lastName" lName
+        "label.email"      email+*
+        >save+*=1,cancel=1          
+          </codeblock> 
+          or the more verbose, traditional way:
+          <codeblock spectitle="Using explicit label definitions">
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JLabel(name=fNameLbl, text=label.firstName)
+    - JLabel(name=lNameLbl, text=label.lastName)
+    - JLabel(name=emailLbl, text=label.email)
+    - JTextField(name=fName)
+    - JTextField(name=lName)
+    - JTextField(name=email)
+    - JButton(name=save, text=button.save, onAction=($validate,save,done))
+    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - MigLayout: |
+        [pref]    [grow,100]  [pref]   [grow,100] 
+        fNameLbl  fName       lNameLbl lName
+        emailLbl  email+*
+        >save+*=1,cancel=1          
+        </codeblock> 
+		</section>
+		
+		<section>
 			<title>Complex Example</title>
 			<p>
 				From John O'Conners Layout Manager Challenge: 
@@ -142,18 +179,7 @@ MigLayout: |
 			<image href="img/miglayout.complex.1.gif"/>
 			<codeblock>
 JPanel:
-    - JScrollPane(name=scroll1): 
-        JTextArea(name=source,font=Monospaced,editable=false)
-    - JLabel(name=lNameLbl, text=Last Name)
-    - JLabel(name=fNameLbl, text=First Name)
-    - JLabel(name=phoneLbl, text=Phone)
-    - JLabel(name=emailLbl, text=Email)
-    - JLabel(name=address1Lbl, text=Address 1)
-    - JLabel(name=address2Lbl, text=Address 2)
-    - JLabel(name=cityLbl, text=City)
-    - JLabel(name=stateLbl, text=State)
-    - JLabel(name=postalLbl, text=Postal Code)
-    - JLabel(name=countryLbl, text=Country)
+    - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
     - JTextField(name=lName)
     - JTextField(name=fName)
     - JTextField(name=phone)
@@ -170,15 +196,15 @@ JPanel:
     - JButton(name=saveBtn, text=Save)
     - JButton(name=cancelBtn, text=Cancel)
     - MigLayout: |
-       [200,grow]               [200,grow]               [200,grow]
-       scroll1+1+* >lNameLbl    lName       fNameLbl     fName                              
-                   >phoneLbl    phone       emailLbl+2,email               
-                   >address1Lbl address1+*                                  
-                   >address2Lbl address2+*                                  
-                   >cityLbl     city                       
-                   >stateLbl    state       postalLbl    postal
-                   >countryLbl  country                                   
-                   ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]			
+       [200,grow]      [right]       [200,grow]                  [200,grow]
+       scroll1+1+*     "Last name:"  lName       "First Name"    fName                              
+                       "Phone:"      phone       "Email:"+2,email               
+                       "Address 1:"  address1+*                                  
+                       "Address 2:"  address2+*                                  
+                       "City:"       city                       
+                       "State:"      state       "Postal Code:"  postal
+                       "Country:"    country                                   
+                       ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1  [grow]
 			</codeblock>
 			</p>
 		</section>

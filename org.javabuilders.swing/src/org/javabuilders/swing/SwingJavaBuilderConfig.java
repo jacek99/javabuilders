@@ -166,7 +166,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		try {
 			Class.forName("org.jdesktop.beansbinding.Bindings");
 			//Beans Binding was found in path, use default binding handler
-			addTypeHandler(BeansBindingTypeHandler.getInstance());
+			forType(BeansBindingTypeHandler.getInstance().getApplicableClass()).typeHandler(BeansBindingTypeHandler.getInstance());
 		} catch (ClassNotFoundException e) {
 			LOGGER.info("Beans Binding (JSR 295) not found in path, default BeansBindingTypeHandler not initialized.");
 		}
@@ -250,92 +250,125 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.finishProcessor(ContainerTypeHandler.getInstance())
 			.defaultResize(DefaultResize.BOTH);
 
-		forType(AbstractButton.class).localize(TEXT);
-		forType(ButtonGroup.class).finishProcessor(ButtonGroupTypeHandler.getInstance()).ignore(Builder.CONTENT);
-		forType(Component.class).ignore(LAYOUT_DATA);
-		forType(Font.class).valueHandler(FontAsValueHandler.getInstance());
+		forType(AbstractButton.class)
+			.localize(TEXT)
+			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),AbstractButtonActionListenerHandler.getInstance());
+		forType(ButtonGroup.class)
+			.finishProcessor(ButtonGroupTypeHandler.getInstance())
+			.ignore(Builder.CONTENT);
+		forType(Component.class)
+			.ignore(LAYOUT_DATA)
+			.propertyHandler(ComponentSizeHandler.getInstance(), ComponentFocusListenerHandler.getInstance(),
+					ComponentKeyListenerHandler.getInstance(), ComponentMouseListenerHandler.getInstance(), 
+		  		    ComponentMouseWheelListenerHandler.getInstance(), ComponentMouseMotionListenerHandler.getInstance());
+		forType(Font.class)
+			.valueHandler(FontAsValueHandler.getInstance());
 		forType(Frame.class).localize(TITLE)
-			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE);
-		forType(TableColumn.class).ignore(Builder.NAME).localize("headerValue");
+			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
+			.propertyHandler(FrameExtendedStateHandler.getInstance());
+		forType(TableColumn.class).ignore(Builder.NAME)
+			.localize("headerValue");
 		forType(Window.class).localize(TITLE)
-			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE);
+			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
+			.propertyHandler(WindowListenerHandler.getInstance());
 		
-		forType(JComboBox.class).defaultResize(DefaultResize.X_AXIS);
-		forType(DefaultComboBoxModel.class).afterCreationProcessor(new DefaultComboBoxModelHandler());
+		forType(JComboBox.class)
+			.defaultResize(DefaultResize.X_AXIS)
+			.propertyHandler(JComboBoxActionListenerHandler.getInstance());
+		forType(DefaultComboBoxModel.class)
+			.afterCreationProcessor(new DefaultComboBoxModelHandler());
 		forType(JComponent.class)
 			.localize(TOOL_TIP_TEXT, JComponentGroupTitleHandler.GROUP_TITLE,
 				JTabbedPaneTypeHandler.TAB_ICON, 
 				JTabbedPaneTypeHandler.TAB_TITLE, 
 				JTabbedPaneTypeHandler.TAB_TOOLTIP)
 			.ignore(JTabbedPaneTypeHandler.TAB_ICON, JTabbedPaneTypeHandler.TAB_TITLE, 
-				JTabbedPaneTypeHandler.TAB_TOOLTIP, JTabbedPaneTypeHandler.TAB_ENABLED);
-		forType(JDialog.class).typeAsMethod(JMenuBar.class, "setJMenuBar").finishProcessor(JDialogTypeHandler.getInstance());
-		forType(JFormattedTextField.class).defaultResize(DefaultResize.X_AXIS);
-		forType(JLabel.class).localize(TEXT);
-		forType(JList.class).defaultResize(DefaultResize.BOTH);
-		forType(JMenuBar.class).allowParent(JFrame.class,JDialog.class);
-		forType(JMenuItem.class).localize(ACCELERATOR);
-		forType(JFrame.class).typeAsMethod(JMenuBar.class, "setJMenuBar").finishProcessor(JFrameTypeHandler.getInstance());
-		forType(JPanel.class).defaultResize(DefaultResize.BOTH);
-		forType(JProgressBar.class).defaultResize(DefaultResize.X_AXIS);
-		forType(JSeparator.class).defaultResize(DefaultResize.BOTH);
-		forType(JScrollPane.class).defaultResize(DefaultResize.BOTH)	.asMapped("verticalScrollBarPolicy", vScrollbars)
-			.asMapped("horizontalScrollBarPolicy", hScrollbars).typeAsMethod(Component.class, "setViewportView")
+				JTabbedPaneTypeHandler.TAB_TOOLTIP, JTabbedPaneTypeHandler.TAB_ENABLED)
+			.propertyHandler(JComponentGroupTitleHandler.getInstance());
+		forType(JDialog.class)
+			.typeAsMethod(JMenuBar.class, "setJMenuBar")
+			.finishProcessor(JDialogTypeHandler.getInstance());
+		forType(JFormattedTextField.class)
+			.defaultResize(DefaultResize.X_AXIS)
+			.typeHandler(JFormattedTextFieldTypeHandler.getInstance());
+		forType(JFrame.class)
+			.propertyHandler(JFrameWindowListenerHandler.getInstance());
+		forType(JLabel.class)
+			.localize(TEXT);
+		forType(JList.class)
+			.defaultResize(DefaultResize.BOTH);
+		forType(JMenuBar.class)
+			.allowParent(JFrame.class,JDialog.class);
+		forType(JMenuItem.class)
+			.localize(ACCELERATOR)
+			.propertyHandler(JMenuItemTextHandler.getInstance(),JMenuItemAcceleratorHandler.getInstance());
+		forType(JFrame.class)
+			.typeAsMethod(JMenuBar.class, "setJMenuBar")
+			.finishProcessor(JFrameTypeHandler.getInstance());
+		forType(JPanel.class)
+			.defaultResize(DefaultResize.BOTH);
+		forType(JProgressBar.class)
+			.defaultResize(DefaultResize.X_AXIS);
+		forType(JSeparator.class)
+			.defaultResize(DefaultResize.BOTH);
+		forType(JScrollPane.class)
+			.defaultResize(DefaultResize.BOTH)	
+			.asMapped("verticalScrollBarPolicy", vScrollbars)
+			.asMapped("horizontalScrollBarPolicy", hScrollbars)
+			.typeAsMethod(Component.class, "setViewportView")
 			.propertyAlias("verticalScrollBarPolicy","vScrollBar").propertyAlias("horizontalScrollBarPolicy", "hScrollBar");
-		forType(JSlider.class).defaultResize(DefaultResize.BOTH);
-		forType(JSplitPane.class).defaultResize(DefaultResize.BOTH)
-			.afterCreationProcessor(JSpiltPaneTypeHandler.getInstance()).finishProcessor(JSpiltPaneTypeHandler.getInstance());
-		forType(JTabbedPane.class).finishProcessor(JTabbedPaneTypeHandler.getInstance()).defaultResize(DefaultResize.BOTH);
-		forType(JTable.class).finishProcessor(JTableTypeHandler.getInstance())
-			.propertyConstants("selectionMode", ListSelectionModel.class);
-		forType(JTextComponent.class).defaultResize(DefaultResize.BOTH);
-		forType(JTextField.class).defaultResize(DefaultResize.X_AXIS)
-			.propertyAlias("horizontalAlignment","hAlign");
+		forType(JSlider.class)
+			.defaultResize(DefaultResize.BOTH);
+		forType(JSplitPane.class)
+			.defaultResize(DefaultResize.BOTH)
+			.afterCreationProcessor(JSpiltPaneTypeHandler.getInstance())
+			.finishProcessor(JSpiltPaneTypeHandler.getInstance());
+		forType(JTabbedPane.class)
+			.finishProcessor(JTabbedPaneTypeHandler.getInstance())
+			.defaultResize(DefaultResize.BOTH)
+			.propertyHandler(JTabbedPaneChangeListenerHandler.getInstance());
+		forType(JTable.class)
+			.finishProcessor(JTableTypeHandler.getInstance())
+			.propertyConstants("selectionMode", ListSelectionModel.class)
+			.propertyHandler(JTableListSelectionListenerHandler.getInstance());
+		forType(JTextComponent.class)
+			.defaultResize(DefaultResize.BOTH);
+		forType(JTextField.class)
+			.defaultResize(DefaultResize.X_AXIS)
+			.propertyAlias("horizontalAlignment","hAlign")
+			.propertyHandler(JTextFieldActionCommandHandler.getInstance(),JTextFieldActionCommandHandler.getInstance());
+		forType(JTree.class)
+			.defaultResize(DefaultResize.BOTH)
+			.propertyHandler(JTreeSelectionListenerHandler.getInstance());
 		
-		forType(CardLayout.class).ignore(Builder.CONTENT,Builder.NAME).finishProcessor(CardLayoutTypeHandler.getInstance());
-		forType(FlowLayout.class).ignore(Builder.CONTENT,Builder.NAME).finishProcessor(FlowLayoutTypeHandler.getInstance());
+		forType(MigLayout.class)
+			.typeHandler(MigLayoutHandler.getInstance());
+		forType(CardLayout.class)
+			.ignore(Builder.CONTENT,Builder.NAME)
+			.finishProcessor(CardLayoutTypeHandler.getInstance());
+		forType(FlowLayout.class)
+			.ignore(Builder.CONTENT,Builder.NAME)
+			.finishProcessor(FlowLayoutTypeHandler.getInstance());
 		
-		forType(Color.class).valueHandler(ColorAsValueHandler.getInstance());
-		forType(Icon.class).valueHandler(IconAsValueHandler.getInstance());
-		forType(Image.class).valueHandler(ImageAsValueHandler.getInstance());
-		forType(Border.class).valueHandler(BorderAsValueHandler.getInstance());
+		forType(Color.class)
+			.valueHandler(ColorAsValueHandler.getInstance());
+		forType(Icon.class)
+			.valueHandler(IconAsValueHandler.getInstance());
+		forType(Image.class)
+			.valueHandler(ImageAsValueHandler.getInstance());
+		forType(Border.class)
+			.valueHandler(BorderAsValueHandler.getInstance());
 		
-		forType(SwingAction.class).localize(SwingJavaBuilder.TEXT, SwingJavaBuilder.TOOL_TIP_TEXT, SwingActionHandler.LONG_DESCRIPTION)
-				.propertyAlias(SwingActionHandler.LONG_DESCRIPTION, SwingActionHandler.LONG_DESC);
-		forType(Action.class).valueHandler(ActionAsValueHandler.getInstance());
+		forType(SwingAction.class)
+			.localize(SwingJavaBuilder.TEXT, SwingJavaBuilder.TOOL_TIP_TEXT, SwingActionHandler.LONG_DESCRIPTION)
+			.propertyAlias(SwingActionHandler.LONG_DESCRIPTION, SwingActionHandler.LONG_DESC)
+			.typeHandler(SwingActionHandler.getInstance())
+			.propertyHandler(SwingActionOnActionHandler.getInstance(),SwingActionTextHandler.getInstance());
+		forType(Action.class)
+			.valueHandler(ActionAsValueHandler.getInstance());
 		
-		forType(JBSeparator.class).localize(TEXT);
-		
-		//define custom type handlers
-		addTypeHandler(MigLayoutHandler.getInstance());
-		addTypeHandler(SwingActionHandler.getInstance());
-		addTypeHandler(JFormattedTextFieldTypeHandler.getInstance());
-				
-		//define custom property handlers
-		addPropertyHandler(ComponentSizeHandler.getInstance())
-			.addPropertyHandler(FrameExtendedStateHandler.getInstance())
-			.addPropertyHandler(JMenuItemTextHandler.getInstance())
-			.addPropertyHandler(JMenuItemAcceleratorHandler.getInstance())
-			.addPropertyHandler(JComponentGroupTitleHandler.getInstance())
-			.addPropertyHandler(AbstractButtonActionCommandHandler.getInstance())
-			.addPropertyHandler(JTextFieldActionCommandHandler.getInstance());
-		
-		//define property handlers for events
-		addPropertyHandler(AbstractButtonActionListenerHandler.getInstance())
-			.addPropertyHandler(ComponentFocusListenerHandler.getInstance())
-			.addPropertyHandler(ComponentKeyListenerHandler.getInstance())
-			.addPropertyHandler(ComponentMouseListenerHandler.getInstance())
-  		    .addPropertyHandler(ComponentMouseWheelListenerHandler.getInstance())
-		    .addPropertyHandler(ComponentMouseMotionListenerHandler.getInstance())
-		    .addPropertyHandler(JComboBoxActionListenerHandler.getInstance())
-		    .addPropertyHandler(JTreeSelectionListenerHandler.getInstance())
-		    .addPropertyHandler(JTableListSelectionListenerHandler.getInstance())
-		    .addPropertyHandler(WindowListenerHandler.getInstance())
-		    .addPropertyHandler(JFrameWindowListenerHandler.getInstance())
-		    .addPropertyHandler(JTabbedPaneChangeListenerHandler.getInstance())
-		    .addPropertyHandler(SwingActionOnActionHandler.getInstance())
-		    .addPropertyHandler(SwingActionTextHandler.getInstance())
-		    .addPropertyHandler(JTextFieldActionCommandHandler.getInstance());
+		forType(JBSeparator.class)
+			.localize(TEXT);
 	
 		//define which object types should be treated as named and based on what property value
 		addNamedObjectCriteria(Component.class,"name");

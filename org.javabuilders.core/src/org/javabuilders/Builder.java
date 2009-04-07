@@ -425,7 +425,7 @@ public class Builder {
 		//validate the current entry - can throw exceptions in there...
 		validate(config, process, parent, currentKey, data, currentType);
 		
-		ITypeHandler typeHandler = config.getTypeHandler(currentType);
+		ITypeHandler typeHandler = TypeDefinition.getTypeHandler(config, currentType);
 		
 		Node current = null;
 		
@@ -521,7 +521,7 @@ public class Builder {
 				Class<?> childClass = BuilderUtils.getClassFromAlias(process, childKey, null);
 				if (childClass != null) {
 					//is a type, but may need to be delayed till the end
-					ITypeHandler childTypeHandler = config.getTypeHandler(childClass);
+					ITypeHandler childTypeHandler = TypeDefinition.getTypeHandler(config, childClass);
 					
 					Integer delayedWeight = TypeDefinition.getDelayedWeight(childTypeHandler, config.getTypeDefinitions(createdClassType));
 					if (childTypeHandler != null && delayedWeight > 0) {
@@ -627,7 +627,7 @@ public class Builder {
 			}
 			
 			//regular property handling starts here...
-			IPropertyHandler handler = config.getPropertyHandler(parent.getMainObject().getClass(),currentKey);
+			IPropertyHandler handler = TypeDefinition.getPropertyHandler(config, parent.getMainObject().getClass(),currentKey);
 
 			//debug info
 			if (logger.isLoggable(Level.FINE)) {
