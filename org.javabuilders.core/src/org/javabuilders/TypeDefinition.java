@@ -1107,9 +1107,6 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 			if (handler == null) {
 				throw new NullPointerException("handler cannot be null");
 			}
-			if (handler.getApplicableClass() == null) {
-				throw new NullPointerException("IPropertyHandler.getApplicableClass() cannot be null");
-			}
 			//register the handler for each of the keys it is supposed to consume
 			for(String key : handler.getConsumedKeys()) {
 				this.propertyHandlers.put(key, handler);

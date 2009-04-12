@@ -10,7 +10,7 @@ import java.util.Set;
  * a build document
  * @author Jacek Furmankiewicz
  */
-public interface IKeyValueConsumer extends IApplicable {
+public interface IKeyValueConsumer {
 	
 	/**
 	 * @return The list of keys that the object <b>can</b> consume

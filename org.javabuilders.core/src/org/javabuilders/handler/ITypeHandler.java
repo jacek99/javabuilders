@@ -8,6 +8,7 @@ import java.util.Map;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
+import org.javabuilders.IApplicable;
 import org.javabuilders.IKeyValueConsumer;
 import org.javabuilders.InvalidTypeException;
 import org.javabuilders.Node;
@@ -18,7 +19,7 @@ import org.javabuilders.Node;
  * @author Jacek Furmankiewicz
  *
  */
-public interface ITypeHandler extends IKeyValueConsumer {
+public interface ITypeHandler extends IKeyValueConsumer, IApplicable {
 
 	/**
 	 * Main method that handles types

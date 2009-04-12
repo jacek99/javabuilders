@@ -46,3 +46,5 @@ Composite:
         yaml+*
         source+*+*                                                                                                    [grow]
         {sep1: growy, sep2: growy, sep3: growy, sep4: growy, sld2: growy}
+bind:
+    - this.yaml: source.text

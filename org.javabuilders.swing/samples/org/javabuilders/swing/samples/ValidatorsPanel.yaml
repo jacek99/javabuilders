@@ -1,48 +1,35 @@
 JPanel:
     - JSplitPane(name=split1):
         - JPanel(name=panel1):
-            - JLabel(name=mandatoryLbl,text="Mandatory (*):")
             - JTextField(name=mandatory)
             - JButton(name=validate1,text=Validate All, onAction=$validate)
-            - JLabel(name=dateLbl,text="Date (yyyy/mm/dd):")
             - JTextField(name=date)
-            - JLabel(name=emailLbl,text="Email:")
             - JTextField(name=email)
-            - JLabel(name=minLbl,text="Min/Max Length (5-10):")
             - JTextField(name=minmax)
-            - JLabel(name=regexLbl,text="Regex (numbers and letters):")
             - JTextField(name=regex)
-            - JLabel(name=regex2Lbl,text="Regex (numbers and letters) with custom msg:")
             - JTextField(name=regex2)
-            - JLabel(name=minMaxLbl,text="Min/Max Long Value (5-50):")
             - JTextField(name=minMax)
-            - JLabel(name=intLbl,text="Int:")
             - JTextField(name=int, horizontalAlignment=right) # full property name
-            - JLabel(name=longLbl,text="Long:")  
             - JTextField(name=long, hAlign=right)  # hAlign alias property
-            - JLabel(name=shortLbl,text="Short:")
             - JTextField(name=short, hAlign=right)
-            - JLabel(name=byteLbl,text="Byte:")
             - JTextField(name=byte, hAlign=right)
-            - JLabel(name=doubleLbl,text="Double:")
             - JTextField(name=double, hAlign=right)
-            - JLabel(name=floatLbl,text="Float:")
             - JTextField(name=float, hAlign=right)
             - MigLayout: |
-                [pref,right]    [200:min,grow]  [pref]
-                mandatoryLbl    mandatory       validate1
-                dateLbl         date
-                emailLbl        email
-                minLbl          minmax
-                regexLbl        regex
-                regex2Lbl       regex2
-                minMaxLbl       minMax
-                intLbl          int
-                longLbl         long
-                shortLbl        short
-                byteLbl         byte
-                doubleLbl       double
-                floatLbl        float
+                [pref,right]                                     [200:min,grow]  [pref]
+                "Mandatory (*):"                                 mandatory       validate1
+                "Date (yyyy/mm/dd):"                             date
+                "Email:"                                         email
+                "Min/Max Length (5-10):"                         minmax
+                "Regex (numbers and letters):"                   regex
+                "Regex (numbers and letters) with custom msg:"   regex2
+                "Min/Max Long Value (5-50):"                     minMax
+                "Int:"                                           int
+                "Long:"                                          long
+                "Short:"                                         short
+                "Byte:"                                          byte
+                "Double:"                                        double
+                "Float:"                                         float
         - JScrollPane(name=scroll1): JTextArea(name=source,editable=false, font=Monospaced)
     - MigLayout: |
         [grow]

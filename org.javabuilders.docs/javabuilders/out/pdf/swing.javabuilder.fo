@@ -4075,6 +4075,34 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 			</fo:block>
 </fo:block>
 </fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N119CB"></fo:inline>
+<fo:block font-weight="bold">Customizing object creation : ITypeHandler</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to write your own custom creation code for a class instance (e.g. for a control that has
+		  a constructor that expects parameters during initialization), you need to implement an instance of
+		  <fo:inline font-family="Courier">ITypeHandler</fo:inline>, usually by extending <fo:inline font-family="Courier">AbstractTypeHandler</fo:inline>. 
+		  It needs to be then registered for the class-specific <fo:inline font-family="Courier">TypeDefinition</fo:inline> object within
+		  the <fo:inline font-family="Courier">BuilderConfig</fo:inline> instance.
+		  TODO: add more detail
+		  </fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N119F1"></fo:inline>
+<fo:block font-weight="bold">Customizing initialization logic: ITypeHandlerAfterCreationProcessor</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
+		  If your object does not need special constructor logic, but just some post-creation initialization, then
+		  you need to implement the simple <fo:inline font-family="Courier">IAfterCreationProcessor</fo:inline> interface and register it 
+		  with your type's <fo:inline font-family="Courier">TypeDefinition</fo:inline>. It's logic will be executed after the object is created,
+		  but before any children get processed.
+		  </fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N11A0B"></fo:inline>
+<fo:block font-weight="bold">Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to inject some logic after a parent's child nodes have been all processed, you need to
+		  implement the <fo:inline font-family="Courier">ITypeHandlerFinishProcessor</fo:inline> interface and add it to the appropriate
+		  <fo:inline font-family="Courier">TypeDefinition</fo:inline> object.</fo:block>
+</fo:block>
 </fo:block>
 </fo:block>
 <fo:block>

@@ -79,7 +79,6 @@ import javax.swing.JViewport;
 import javax.swing.JWindow;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
-import javax.swing.event.SwingPropertyChangeSupport;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
@@ -98,18 +97,16 @@ import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.swing.controls.JBSeparator;
 import org.javabuilders.swing.handler.SwingValidationMessageHandler;
 import org.javabuilders.swing.handler.binding.BeansBindingTypeHandler;
-import org.javabuilders.swing.handler.event.AbstractButtonActionListenerHandler;
+import org.javabuilders.swing.handler.event.CommonActionListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentFocusListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentKeyListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentMouseListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentMouseMotionListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentMouseWheelListenerHandler;
-import org.javabuilders.swing.handler.event.JComboBoxActionListenerHandler;
 import org.javabuilders.swing.handler.event.JFrameWindowListenerHandler;
 import org.javabuilders.swing.handler.event.JTabbedPaneChangeListenerHandler;
-import org.javabuilders.swing.handler.event.JTableListSelectionListenerHandler;
+import org.javabuilders.swing.handler.event.JTableSelectionListenerHandler;
 import org.javabuilders.swing.handler.event.JTreeSelectionListenerHandler;
-import org.javabuilders.swing.handler.event.SwingActionOnActionHandler;
 import org.javabuilders.swing.handler.event.WindowListenerHandler;
 import org.javabuilders.swing.handler.event.background.SwingBackgroundProcessingHandler;
 import org.javabuilders.swing.handler.property.AbstractButtonActionCommandHandler;
@@ -252,7 +249,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 
 		forType(AbstractButton.class)
 			.localize(TEXT)
-			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),AbstractButtonActionListenerHandler.getInstance());
+			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance());
 		forType(ButtonGroup.class)
 			.finishProcessor(ButtonGroupTypeHandler.getInstance())
 			.ignore(Builder.CONTENT);
@@ -274,7 +271,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		
 		forType(JComboBox.class)
 			.defaultResize(DefaultResize.X_AXIS)
-			.propertyHandler(JComboBoxActionListenerHandler.getInstance());
+			.propertyHandler(CommonActionListenerHandler.getInstance());
 		forType(DefaultComboBoxModel.class)
 			.afterCreationProcessor(new DefaultComboBoxModelHandler());
 		forType(JComponent.class)
@@ -330,13 +327,13 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JTable.class)
 			.finishProcessor(JTableTypeHandler.getInstance())
 			.propertyConstants("selectionMode", ListSelectionModel.class)
-			.propertyHandler(JTableListSelectionListenerHandler.getInstance());
+			.propertyHandler(JTableSelectionListenerHandler.getInstance());
 		forType(JTextComponent.class)
 			.defaultResize(DefaultResize.BOTH);
 		forType(JTextField.class)
 			.defaultResize(DefaultResize.X_AXIS)
 			.propertyAlias("horizontalAlignment","hAlign")
-			.propertyHandler(JTextFieldActionCommandHandler.getInstance(),JTextFieldActionCommandHandler.getInstance());
+			.propertyHandler(JTextFieldActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance());
 		forType(JTree.class)
 			.defaultResize(DefaultResize.BOTH)
 			.propertyHandler(JTreeSelectionListenerHandler.getInstance());
@@ -363,12 +360,13 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.localize(SwingJavaBuilder.TEXT, SwingJavaBuilder.TOOL_TIP_TEXT, SwingActionHandler.LONG_DESCRIPTION)
 			.propertyAlias(SwingActionHandler.LONG_DESCRIPTION, SwingActionHandler.LONG_DESC)
 			.typeHandler(SwingActionHandler.getInstance())
-			.propertyHandler(SwingActionOnActionHandler.getInstance(),SwingActionTextHandler.getInstance());
+			.propertyHandler(CommonActionListenerHandler.getInstance(),SwingActionTextHandler.getInstance());
 		forType(Action.class)
 			.valueHandler(ActionAsValueHandler.getInstance());
 		
 		forType(JBSeparator.class)
-			.localize(TEXT);
+			.localize(TEXT)
+			.defaultResize(DefaultResize.X_AXIS);
 	
 		//define which object types should be treated as named and based on what property value
 		addNamedObjectCriteria(Component.class,"name");
@@ -382,7 +380,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 	 */
 	@Override
 	public PropertyChangeSupport createPropertyChangeSupport(Object source) {
-		return new SwingPropertyChangeSupport(source);
+		return new org.jdesktop.swingworker.SwingPropertyChangeSupport(source);
 	}
 
 	private static  class ConfirmCommand implements ICustomCommand<Boolean>  {

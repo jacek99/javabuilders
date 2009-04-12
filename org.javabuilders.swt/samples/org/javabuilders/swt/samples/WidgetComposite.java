@@ -3,7 +3,6 @@
  */
 package org.javabuilders.swt.samples;
 
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.javabuilders.BuildResult;
@@ -14,7 +13,7 @@ import org.javabuilders.swt.SWTBuilder;
  * @author Jacek Furmankiewicz
  *
  */
-public class WidgetComposite extends Composite {
+public class WidgetComposite extends SamplesComposite {
 
 	private Text text1;
 	private Text text3;

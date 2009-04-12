@@ -40,5 +40,34 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 			</codeblock>
 			</p>
 		</section>
+		
+		<section>
+		  <title>Customizing object creation : ITypeHandler</title>
+		  <p>If you need to write your own custom creation code for a class instance (e.g. for a control that has
+		  a constructor that expects parameters during initialization), you need to implement an instance of
+		  <apiname>ITypeHandler</apiname>, usually by extending <apiname>AbstractTypeHandler</apiname>. 
+		  It needs to be then registered for the class-specific <apiname>TypeDefinition</apiname> object within
+		  the <apiname>BuilderConfig</apiname> instance.
+		  </p>
+		</section>
+		
+		<section>
+		  <title>Customizing initialization logic: ITypeHandlerAfterCreationProcessor</title>
+		  <p>
+		  If your object does not need special constructor logic, but just some post-creation initialization, then
+		  you need to implement the simple <apiname>IAfterCreationProcessor</apiname> interface and register it 
+		  with your type's <apiname>TypeDefinition</apiname>. It's logic will be executed after the object is created,
+		  but before any children get processed.
+		  </p>
+		</section>
+		
+		<section>
+		  <title>Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</title>
+		  <p>If you need to inject some logic after a parent's child nodes have been all processed, you need to
+		  implement the <apiname>ITypeHandlerFinishProcessor</apiname> interface and add it to the appropriate
+		  <apiname>TypeDefinition</apiname> object.</p>
+		</section>
+		
+		
 	</body>
 </topic>

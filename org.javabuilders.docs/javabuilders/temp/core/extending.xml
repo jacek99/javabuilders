@@ -40,5 +40,35 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 			</codeblock>
 			</p>
 		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="section:3">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:4">Customizing object creation : ITypeHandler</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="p:5">If you need to write your own custom creation code for a class instance (e.g. for a control that has
+		  a constructor that expects parameters during initialization), you need to implement an instance of
+		  <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:1">ITypeHandler</apiname>, usually by extending <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:2">AbstractTypeHandler</apiname>. 
+		  It needs to be then registered for the class-specific <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:3">TypeDefinition</apiname> object within
+		  the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:4">BuilderConfig</apiname> instance.
+		  TODO: add more detail
+		  </p>
+		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="section:4">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:5">Customizing initialization logic: ITypeHandlerAfterCreationProcessor</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="p:6">
+		  If your object does not need special constructor logic, but just some post-creation initialization, then
+		  you need to implement the simple <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:5">IAfterCreationProcessor</apiname> interface and register it 
+		  with your type's <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:6">TypeDefinition</apiname>. It's logic will be executed after the object is created,
+		  but before any children get processed.
+		  </p>
+		</section>
+		
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="section:5">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:6">Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="p:7">If you need to inject some logic after a parent's child nodes have been all processed, you need to
+		  implement the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:7">ITypeHandlerFinishProcessor</apiname> interface and add it to the appropriate
+		  <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:8">TypeDefinition</apiname> object.</p>
+		</section>
+		
+		
 	</body>
 </topic>

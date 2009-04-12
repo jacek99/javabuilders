@@ -5,6 +5,7 @@ package org.javabuilders.swt;
 
 import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 import net.miginfocom.swt.MigLayout;
 
@@ -69,6 +70,7 @@ import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
+import org.javabuilders.handler.binding.BuilderBindings;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.swt.handler.DefaultValidationMessageHandler;
 import org.javabuilders.swt.handler.binding.JFaceDatabindingHandler;
@@ -93,6 +95,8 @@ import org.javabuilders.swt.handler.type.layout.StackLayoutHandler;
  */
 public class SWTBuilderConfig extends BuilderConfig {
 
+	private static final Logger LOGGER = Logger.getLogger(SWTBuilderConfig.class.getSimpleName());
+	
 	/**
 	 * Constructor 
 	 * @throws NoSuchMethodException 
@@ -104,7 +108,7 @@ public class SWTBuilderConfig extends BuilderConfig {
 				new ConfirmCommand());
 
 		//use JFace Databinding for binding support
-		addTypeHandler(JFaceDatabindingHandler.getInstance());
+		forType(BuilderBindings.class).typeHandler(JFaceDatabindingHandler.getInstance());
 		
 		addType(
 				Button.class,
@@ -163,57 +167,46 @@ public class SWTBuilderConfig extends BuilderConfig {
 				RowLayout.class,
 				StackLayout.class
 				);
-
+		
         //define type-specific metadata
 		forType(Browser.class).defaultResize(DefaultResize.BOTH);
+		forType(Button.class).propertyHandler(ButtonSelectionListenerHandler.getInstance());
 		forType(Canvas.class).defaultResize(DefaultResize.BOTH);
 		forType(CCombo.class).defaultResize(DefaultResize.X_AXIS);
 		forType(Composite.class).delay(Layout.class).defaultResize(DefaultResize.BOTH);
         forType(Combo.class).defaultResize(DefaultResize.X_AXIS);
+        forType(Dialog.class).typeHandler(DialogHandler.getInstance());
         forType(ExpandBar.class).defaultResize(DefaultResize.BOTH);
+        forType(FillLayout.class).typeHandler(FillLayoutHandler.getInstance());
         forType(Group.class).defaultResize(DefaultResize.BOTH);
+        forType(Image.class).valueHandler(ImageAsValueHandler.getInstance());
+        forType(Layout.class).propertyHandler(LayoutNameHandler.getInstance());
         forType(List.class).defaultResize(DefaultResize.BOTH);
+        forType(MenuItem.class).typeHandler(MenuItemTypeHandler.getInstance()).propertyHandler(MenuItemSelectionListenerHandler.getInstance());
+        forType(MigLayout.class).typeHandler(MigSWTLayoutHandler.getInstance());
         forType(ProgressBar.class).defaultResize(DefaultResize.X_AXIS);
+        forType(Sash.class).propertyHandler(SashBoundsHandler.getInstance());
         forType(Scale.class).defaultResize(DefaultResize.X_AXIS);
         forType(ScrolledComposite.class).defaultResize(DefaultResize.BOTH);
         forType(Slider.class).defaultResize(DefaultResize.X_AXIS);
+        forType(Shell.class).typeHandler(ShellHandler.getInstance());
+        forType(StackLayout.class).typeHandler(StackLayoutHandler.getInstance());
         forType(Spinner.class).defaultResize(DefaultResize.X_AXIS);
         forType(StyledText.class).defaultResize(DefaultResize.BOTH);
         forType(Table.class).defaultResize(DefaultResize.BOTH);
         forType(TabItem.class).typeAsMethod(Control.class, "setControl").localize("text","toolTipText");
         forType(Text.class).defaultResize(DefaultResize.BOTH);
         forType(Tree.class).defaultResize(DefaultResize.BOTH);
-        forType(Widget.class).ignore(SWTBuilder.STYLE);
+        forType(Widget.class).ignore(SWTBuilder.STYLE).typeHandler(WidgetTypeHandler.getInstance()).propertyHandler(WidgetNameHandler.getInstance());
         
+        //work around weird issue
         Method method;
 		try {
 			method = Shell.class.getMethod("setMenuBar", Menu.class);
 			forType(Shell.class).typeAsMethod(Menu.class, method);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-        
-		forType(Image.class).valueHandler(ImageAsValueHandler.getInstance());
-		
-        //register specialized type handlers
-        addTypeHandler(WidgetTypeHandler.getInstance());
-        addTypeHandler(ShellHandler.getInstance());
-        addTypeHandler(DialogHandler.getInstance());
-        addTypeHandler(MenuItemTypeHandler.getInstance());
-        
-        addTypeHandler(FillLayoutHandler.getInstance());
-        addTypeHandler(MigSWTLayoutHandler.getInstance());
-        addTypeHandler(StackLayoutHandler.getInstance());
-        
-        //register property handlers
-        addPropertyHandler(ButtonSelectionListenerHandler.getInstance());
-        addPropertyHandler(MenuItemSelectionListenerHandler.getInstance());
-        addPropertyHandler(WidgetNameHandler.getInstance());
-        addPropertyHandler(SashBoundsHandler.getInstance());
-        //addPropertyHandler(SashFormWeightHandler.getInstance());
-        addPropertyHandler(LayoutNameHandler.getInstance());
+		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
+		} 
         
 	}
 

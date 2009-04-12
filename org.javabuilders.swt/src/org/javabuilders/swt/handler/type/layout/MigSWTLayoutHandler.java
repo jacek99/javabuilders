@@ -10,6 +10,7 @@ import net.miginfocom.swt.MigLayout;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
@@ -35,7 +36,7 @@ public class MigSWTLayoutHandler extends AbstractMigLayoutHandler {
 	 * Constructor
 	 */
 	private MigSWTLayoutHandler() {
-		super();
+		super(Label.class,"text");
 	}
 
 	/* (non-Javadoc)
@@ -119,5 +120,13 @@ public class MigSWTLayoutHandler extends AbstractMigLayoutHandler {
 		} else {
 			throw new BuildException("MigLayout can only be present under a parent Composite: {0}", node);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.layout.mig.AbstractMigLayoutHandler#setControlName(java.lang.Object, java.lang.String)
+	 */
+	@Override
+	protected void setControlName(Object control, String name) {
+		//do nothing for SWT -> they do not have a name property
 	}
 }

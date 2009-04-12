@@ -66,6 +66,8 @@ public class ControlConstraint {
 		//need to parse the constraint text
 		ConstraintType type = ConstraintType.ALIGNMENT;
 		
+		boolean inQuotes = false;
+		
 		for(int i = 0; i < constraintText.length(); i++) {
 			
 			char character = constraintText.charAt(i);
@@ -77,26 +79,37 @@ public class ControlConstraint {
 			case VALIGN_BOTTOM:
 			case VALIGN_MIDDLE:
 			case VALIGN_TOP:
-				if (type != ConstraintType.ALIGNMENT) {
-					throw new LayoutException("Alignment goes before the control name: " + constraintText);
-				}				
-				break;
-			case LayoutCell.SPAN_INDICATOR:
-				if (type == ConstraintType.HSPAN) {
-					type = ConstraintType.VSPAN;
-				} else if (type == ConstraintType.CONTROL_NAME){
-					type = ConstraintType.HSPAN;
+				if (!inQuotes) {
+					if (type != ConstraintType.ALIGNMENT) {
+						throw new LayoutException("Alignment goes before the control name: " + constraintText);
+					}				
+					break;
 				} else {
-					throw new LayoutException("Span information must go after control name: " + constraintText);
+					continue;
+				}
+			case LayoutCell.SPAN_INDICATOR:
+				if (!inQuotes) {
+					if (type == ConstraintType.HSPAN) {
+						type = ConstraintType.VSPAN;
+					} else if (type == ConstraintType.CONTROL_NAME){
+						type = ConstraintType.HSPAN;
+					} else {
+						throw new LayoutException("Span information must go after control name: " + constraintText);
+					}
 				}
 				continue;
 			case SIZE_GROUP_INDICATOR:
-				if (type.getOrder() >= ConstraintType.CONTROL_NAME.getOrder()) {
-					type = ConstraintType.SIZE_GROUP;
-				} else {
-					throw new LayoutException("Size group indicator found in unexpected location: " + constraintText);
+				if (!inQuotes) {
+					if (type.getOrder() >= ConstraintType.CONTROL_NAME.getOrder()) {
+						type = ConstraintType.SIZE_GROUP;
+					} else {
+						throw new LayoutException("Size group indicator found in unexpected location: " + constraintText);
+					}
 				}
 				continue;
+			case QUOTE:
+				inQuotes = !inQuotes;
+				//fall through and continue to default logic
 			default:
 				if (type == ConstraintType.ALIGNMENT) {
 					type = ConstraintType.CONTROL_NAME;

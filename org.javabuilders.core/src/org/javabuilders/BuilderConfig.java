@@ -612,8 +612,8 @@ public class BuilderConfig {
 	/**
 	 * @deprecated use forType(Class).propertyHandler() instead
 	 */
-	public BuilderConfig addPropertyHandler(IPropertyHandler handler) {
-		forType(handler.getApplicableClass()).propertyHandler(handler);
+	public BuilderConfig addPropertyHandler(Class<?> type, IPropertyHandler handler) {
+		forType(type).propertyHandler(handler);
 		return this;
 	}
 

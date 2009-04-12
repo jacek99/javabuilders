@@ -3,16 +3,7 @@
  */
 package org.javabuilders.swing.handler.event;
 
-import static org.javabuilders.swing.SwingBuilder.ON_STATE_CHANGED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_ACTIVATED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_CLOSED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_CLOSING;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_DEACTIVATED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_DEICONIFIED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_FOCUS;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_FOCUS_LOST;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_ICONIFIED;
-import static org.javabuilders.swing.SwingBuilder.ON_WINDOW_OPENED;
+import static org.javabuilders.swing.SwingJavaBuilder.*;
 
 import java.awt.Window;
 import java.awt.event.WindowEvent;
