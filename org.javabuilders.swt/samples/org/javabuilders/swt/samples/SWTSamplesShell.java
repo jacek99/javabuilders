@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Text;
 import org.javabuilders.BuildResult;
 import org.javabuilders.annotations.DoInBackground;
 import org.javabuilders.event.BackgroundEvent;
-import org.javabuilders.swt.SWTBuilder;
+import org.javabuilders.swt.SwtJavaBuilder;
 
 /**
  * @author Jacek Furmankiewcz
@@ -47,7 +47,7 @@ public class SWTSamplesShell  {
 	private SashComposite sash;
 	
 	private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-	private BuildResult result = SWTBuilder.build(this);
+	private BuildResult result = SwtJavaBuilder.build(this);
 	
 	private SWTSamplesShell() throws Exception {
 		InputStream stream = SWTSamplesShell.class.getResourceAsStream(this.getClass().getSimpleName() + ".yaml");

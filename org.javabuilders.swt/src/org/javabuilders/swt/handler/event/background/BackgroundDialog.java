@@ -18,7 +18,7 @@ import org.javabuilders.Builder;
 import org.javabuilders.BuilderUtils;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
-import org.javabuilders.swt.SWTBuilder;
+import org.javabuilders.swt.SwtJavaBuilder;
 
 /**
  * Background dialog
@@ -52,7 +52,7 @@ public class BackgroundDialog  {
 				}
 			}
 		});
-		SWTBuilder.build(this, Builder.getResourceBundle());
+		SwtJavaBuilder.build(this, Builder.getResourceBundle());
 	}
 
 	/**

@@ -13,7 +13,9 @@ import org.junit.runners.Suite;
 	TypeDefinitionTest.class,
 	IssuesTests.class,
 	LayoutConstraintsTest.class,
-	ValidationsTest.class
+	ValidationsTest.class,
+	DataBindingTests.class,
+	SamplesTests.class
 })
 
 public class SwingTestSuite {}

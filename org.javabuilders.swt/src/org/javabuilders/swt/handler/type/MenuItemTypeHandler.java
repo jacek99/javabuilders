@@ -13,8 +13,8 @@ import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
-import org.javabuilders.swt.SWTBuilder;
-import org.javabuilders.swt.SWTBuilderUtils;
+import org.javabuilders.swt.SwtJavaBuilder;
+import org.javabuilders.swt.SwtBuilderUtils;
 
 /**
  * Handler for creating menu items
@@ -33,7 +33,7 @@ public class MenuItemTypeHandler extends AbstractTypeHandler {
 	 * Constructor
 	 */
 	private MenuItemTypeHandler() {
-		super(SWTBuilder.STYLE);
+		super(SwtJavaBuilder.STYLE);
 	}
 
 	/* (non-Javadoc)
@@ -45,7 +45,7 @@ public class MenuItemTypeHandler extends AbstractTypeHandler {
 		
 		Object parentMenu = parent.getMainObject();
 		MenuItem instance =null;
-		int style = SWTBuilderUtils.getSWTStyle((String) typeDefinition.get(SWTBuilder.STYLE));
+		int style = SwtBuilderUtils.getSWTStyle((String) typeDefinition.get(SwtJavaBuilder.STYLE));
 		
 		if (parentMenu instanceof Menu) {
 			Menu menu = (Menu) parentMenu;
@@ -55,7 +55,7 @@ public class MenuItemTypeHandler extends AbstractTypeHandler {
 			Menu menu = item.getMenu();
 			
 			if (menu == null) {
-				menu = new Menu(SWTBuilderUtils.getShell(parent),SWT.DROP_DOWN);
+				menu = new Menu(SwtBuilderUtils.getShell(parent),SWT.DROP_DOWN);
 				item.setMenu(menu);
 			}
 			instance = new MenuItem(menu,style);
@@ -78,8 +78,8 @@ public class MenuItemTypeHandler extends AbstractTypeHandler {
 		
 		
 		//handle the accelerator automatically
-		if (node.containsProperty(SWTBuilder.TEXT)) {
-			String[] parts = node.getStringProperty(SWTBuilder.TEXT).split("\t");
+		if (node.containsProperty(SwtJavaBuilder.TEXT)) {
+			String[] parts = node.getStringProperty(SwtJavaBuilder.TEXT).split("\t");
 			if (parts.length > 1) {
 				String acc = parts[1];
 				String[] components = acc.split("\\+");
@@ -87,7 +87,7 @@ public class MenuItemTypeHandler extends AbstractTypeHandler {
 				
 				for(int i = 0; i < components.length; i++) {
 					if (i < (components.length - 1)) {
-						int metaKey = SWTBuilderUtils.getSWTConstantFromExactName(components[i].toUpperCase());
+						int metaKey = SwtBuilderUtils.getSWTConstantFromExactName(components[i].toUpperCase());
 						accelerator = accelerator | metaKey;
 					} else {
 						//last one must be the letter

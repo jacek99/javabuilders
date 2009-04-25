@@ -24,8 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.event.BuildEvent;
 import org.javabuilders.event.BuildListener;
+import org.javabuilders.exception.InvalidFormatException;
 import org.javabuilders.handler.GlobalVariablePropertyHandler;
 import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeAsValueHandler;
@@ -143,7 +145,32 @@ public class Builder {
 	 */
 	public static BuildResult build(BuilderConfig config,Object caller, Map<String, ?> customProperties, 
 			ResourceBundle...resourceBundles)  {
-		String fileName = caller.getClass().getSimpleName() + ".yaml";
+		
+		Class<?> type = caller.getClass();
+		String fileName = null;
+
+		//@BuildFile annotation overrides any convention over configuration
+		if (type.isAnnotationPresent(BuildFile.class)) {
+			fileName = type.getAnnotation(BuildFile.class).value();
+		} else {
+		
+			Class<?> declaringType = type.getDeclaringClass();
+			if (declaringType == null) {
+				fileName = type.getSimpleName() + ".yaml";
+			} else {
+				//build a nested name from the class hierarchy
+				StringBuilder bld = new StringBuilder(type.getSimpleName());
+				while (declaringType != null) {
+					bld.insert(0, declaringType.getSimpleName());
+					bld.insert(declaringType.getSimpleName().length(),".");
+					declaringType = declaringType.getDeclaringClass();
+				}
+				bld.append(".yaml");
+				fileName = bld.toString();
+			}
+		}
+		
+		
 		BuildResult result;
 		result = build(config, caller, fileName, customProperties, resourceBundles);
 		return result;
@@ -230,6 +257,7 @@ public class Builder {
 			throw new BuildException(ex);
 		}
 		
+		BuilderUtils.validateYamlContent(bld.toString());
 		Object document = YAML.load(bld.toString());
 		executeBuild(document, config, process);
 		return process.getBuildResult();
@@ -250,10 +278,9 @@ public class Builder {
 			throw new NullPointerException("Caller cannot be null or empty");
 		}
 		
-		BuilderUtils.validateYamlContent(yamlContent);
-		
 		BuildProcess result = new BuildProcess(config, caller, resourceBundles);
 
+		BuilderUtils.validateYamlContent(yamlContent);
 		Object document = YAML.load(yamlContent);
 		executeBuild(document, config, result);
 		return result.getBuildResult();
@@ -405,8 +432,12 @@ public class Builder {
 			}
 			
 		} else  {
-			//PROPERTY VALUE
-			handleProperty(config, process, parent, currentKey);
+			if (parent != null) {
+				//PROPERTY VALUE
+				handleProperty(config, process, parent, currentKey);
+			} else {
+				throw new InvalidFormatException("Unable to process document node : {0}", rawDocumentNode);
+			}
 		}
 	}
 	
@@ -603,7 +634,6 @@ public class Builder {
 	private static void handleProperty(BuilderConfig config, BuildProcess process, Node parent, String currentKey) throws BuildException {
 		//PROPERTY VALUE
 		if (!parent.getConsumedKeys().contains(currentKey)) { //each property should be processed only once by any handler
-
 			
 			//does this property point to a named object?
 			if (parent.getProperty(currentKey) instanceof String) {

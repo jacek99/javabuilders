@@ -17,7 +17,7 @@ import org.javabuilders.TypeDefinition;
  * @author Jacek Furmankiewicz
  *
  */
-public class SWTBuilderUtils {
+public class SwtBuilderUtils {
 
 	/**
 	 * Get the SWT.constant value from a string description

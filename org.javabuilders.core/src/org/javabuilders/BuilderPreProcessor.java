@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.javabuilders.exception.UnrecognizedAliasException;
 import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.jvyaml.YAML;
@@ -203,7 +204,7 @@ public class BuilderPreProcessor {
 				
 				
 			} else {
-				throw new BuildException("{0} is not a recognized alias", realKey);
+				throw new UnrecognizedAliasException("\"{0}\" is not a recognized alias", realKey);
 			}
 		
 		} else {

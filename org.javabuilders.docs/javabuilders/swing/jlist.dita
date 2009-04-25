@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107112550" xml:lang="en-CA">
+    <title>JList</title>
+    <prolog>
+        <author>Jacek Furmankiewicz</author>
+    </prolog>
+    <body>
+        <section>
+          <title>Databinding</title>
+          <p>In order to bind a <apiname>List</apiname> to a JList, you need to bind it to its <codeph>model</codeph>
+          property, e.g.
+          <codeblock>
+bind:
+    - jList.model: this.books         
+          </codeblock>
+          </p>
+        </section>
+    </body>
+</topic>

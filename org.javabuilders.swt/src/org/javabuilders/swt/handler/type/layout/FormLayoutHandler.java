@@ -3,13 +3,13 @@
  */
 package org.javabuilders.swt.handler.type.layout;
 
-import static org.javabuilders.swt.SWTBuilder.MARGIN_BOTTOM;
-import static org.javabuilders.swt.SWTBuilder.MARGIN_HEIGHT;
-import static org.javabuilders.swt.SWTBuilder.MARGIN_LEFT;
-import static org.javabuilders.swt.SWTBuilder.MARGIN_RIGHT;
-import static org.javabuilders.swt.SWTBuilder.MARGIN_TOP;
-import static org.javabuilders.swt.SWTBuilder.MARGIN_WIDTH;
-import static org.javabuilders.swt.SWTBuilder.SPACING;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_BOTTOM;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_HEIGHT;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_LEFT;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_RIGHT;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_TOP;
+import static org.javabuilders.swt.SwtJavaBuilder.MARGIN_WIDTH;
+import static org.javabuilders.swt.SwtJavaBuilder.SPACING;
 
 import java.util.Map;
 

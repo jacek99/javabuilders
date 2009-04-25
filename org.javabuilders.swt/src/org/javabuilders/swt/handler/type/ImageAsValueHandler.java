@@ -13,7 +13,7 @@ import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeAsValueHandler;
-import org.javabuilders.swt.SWTBuilderUtils;
+import org.javabuilders.swt.SwtBuilderUtils;
 
 /**
  * Handler for creating images that are arguments into methods
@@ -52,7 +52,7 @@ public class ImageAsValueHandler implements ITypeAsValueHandler<Image> {
 	 */
 	public Image getValue(BuildProcess process, Node node, String key,
 			Object inputValue) throws BuildException {
-		Shell shell = SWTBuilderUtils.getShell(node);
+		Shell shell = SwtBuilderUtils.getShell(node);
 		
 		String name = String.valueOf(inputValue);
 		InputStream stream = BuilderUtils.getResourceInputStream(process, name);

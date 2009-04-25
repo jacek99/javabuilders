@@ -23,6 +23,7 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -81,8 +82,10 @@ import org.javabuilders.swt.handler.property.LayoutNameHandler;
 import org.javabuilders.swt.handler.property.SashBoundsHandler;
 import org.javabuilders.swt.handler.property.WidgetNameHandler;
 import org.javabuilders.swt.handler.type.DialogHandler;
+import org.javabuilders.swt.handler.type.FontAsValueHandler;
 import org.javabuilders.swt.handler.type.ImageAsValueHandler;
 import org.javabuilders.swt.handler.type.MenuItemTypeHandler;
+import org.javabuilders.swt.handler.type.ScrolledCompositeFinishProcessor;
 import org.javabuilders.swt.handler.type.ShellHandler;
 import org.javabuilders.swt.handler.type.WidgetTypeHandler;
 import org.javabuilders.swt.handler.type.layout.FillLayoutHandler;
@@ -93,16 +96,16 @@ import org.javabuilders.swt.handler.type.layout.StackLayoutHandler;
  * SWT builder config
  * @author Jacek Furmankiewicz
  */
-public class SWTBuilderConfig extends BuilderConfig {
+public class SwtJavaBuilderConfig extends BuilderConfig {
 
-	private static final Logger LOGGER = Logger.getLogger(SWTBuilderConfig.class.getSimpleName());
+	private static final Logger LOGGER = Logger.getLogger(SwtJavaBuilderConfig.class.getSimpleName());
 	
 	/**
 	 * Constructor 
 	 * @throws NoSuchMethodException 
 	 * @throws SecurityException 
 	 */
-	public SWTBuilderConfig() {
+	public SwtJavaBuilderConfig() {
 		super(SWTBackgroundProcessingHandler.getInstance(),
 				DefaultValidationMessageHandler.getInstance(),
 				new ConfirmCommand());
@@ -178,6 +181,7 @@ public class SWTBuilderConfig extends BuilderConfig {
         forType(Dialog.class).typeHandler(DialogHandler.getInstance());
         forType(ExpandBar.class).defaultResize(DefaultResize.BOTH);
         forType(FillLayout.class).typeHandler(FillLayoutHandler.getInstance());
+        forType(Font.class).valueHandler(new FontAsValueHandler());
         forType(Group.class).defaultResize(DefaultResize.BOTH);
         forType(Image.class).valueHandler(ImageAsValueHandler.getInstance());
         forType(Layout.class).propertyHandler(LayoutNameHandler.getInstance());
@@ -187,7 +191,7 @@ public class SWTBuilderConfig extends BuilderConfig {
         forType(ProgressBar.class).defaultResize(DefaultResize.X_AXIS);
         forType(Sash.class).propertyHandler(SashBoundsHandler.getInstance());
         forType(Scale.class).defaultResize(DefaultResize.X_AXIS);
-        forType(ScrolledComposite.class).defaultResize(DefaultResize.BOTH);
+        forType(ScrolledComposite.class).defaultResize(DefaultResize.BOTH).finishProcessor(new ScrolledCompositeFinishProcessor());
         forType(Slider.class).defaultResize(DefaultResize.X_AXIS);
         forType(Shell.class).typeHandler(ShellHandler.getInstance());
         forType(StackLayout.class).typeHandler(StackLayoutHandler.getInstance());
@@ -197,7 +201,7 @@ public class SWTBuilderConfig extends BuilderConfig {
         forType(TabItem.class).typeAsMethod(Control.class, "setControl").localize("text","toolTipText");
         forType(Text.class).defaultResize(DefaultResize.BOTH);
         forType(Tree.class).defaultResize(DefaultResize.BOTH);
-        forType(Widget.class).ignore(SWTBuilder.STYLE).typeHandler(WidgetTypeHandler.getInstance()).propertyHandler(WidgetNameHandler.getInstance());
+        forType(Widget.class).ignore(SwtJavaBuilder.STYLE).typeHandler(WidgetTypeHandler.getInstance()).propertyHandler(WidgetNameHandler.getInstance());
         
         //work around weird issue
         Method method;

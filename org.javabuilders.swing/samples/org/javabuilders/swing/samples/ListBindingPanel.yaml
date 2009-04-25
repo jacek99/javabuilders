@@ -1,0 +1,22 @@
+JPanel:
+     - JComboBox(name=combo)
+     - JScrollPane(name=listS): JList(name=list)
+     - JScrollPane(name=tableS): JTable(name=table)
+     - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
+     - JButton(name=listAdd,text=Add)
+     - JButton(name=listDelete,text=Delete)
+     - JButton(name=tableAdd,text=Add)
+     - JButton(name=tableDelete,text=Delete)     
+     - MigLayout: |
+          [grow]                   [grow]
+          "Combo box:"             "Table:"
+          combo                    tableS+1+3   
+          "List:"       
+          listS                                              [grow]
+          listAdd=1,listDelete=1   tableAdd=1,tableDelete=1
+          "YAML:"
+          scroll1+*                                          [grow]
+bind:
+    - source.text: this.yaml  
+    - combo.model: this.people
+    - list.model: this.people

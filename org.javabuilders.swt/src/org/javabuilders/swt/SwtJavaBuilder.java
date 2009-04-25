@@ -10,7 +10,7 @@ import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 
-public class SWTBuilder {
+public class SwtJavaBuilder {
 
 	public static final String MARGIN_BOTTOM = "marginBottom";
 	public static final String MARGIN_HEIGHT = "marginHeight";
@@ -26,12 +26,12 @@ public class SWTBuilder {
 	
 	public static final String PARENT = "parent";
 
-	private static final SWTBuilderConfig config = new SWTBuilderConfig();
+	private static final SwtJavaBuilderConfig config = new SwtJavaBuilderConfig();
 	
 	/**
 	 * @return SWT builder config
 	 */
-	public static SWTBuilderConfig getConfig() {return config;}
+	public static SwtJavaBuilderConfig getConfig() {return config;}
 	
 	/**
 	 * Main SWT building method
@@ -56,7 +56,7 @@ public class SWTBuilder {
 	 */
 	public static BuildResult build(Widget parent, Object caller, ResourceBundle...bundles) throws BuildException {
 		Map<String,Widget> map = new HashMap<String, Widget>();
-		map.put(SWTBuilder.PARENT, parent);
+		map.put(SwtJavaBuilder.PARENT, parent);
 		return Builder.build(getConfig(),caller, map, bundles);
 	}
 }

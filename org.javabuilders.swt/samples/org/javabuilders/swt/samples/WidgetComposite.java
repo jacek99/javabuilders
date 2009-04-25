@@ -6,7 +6,7 @@ package org.javabuilders.swt.samples;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.javabuilders.BuildResult;
-import org.javabuilders.swt.SWTBuilder;
+import org.javabuilders.swt.SwtJavaBuilder;
 
 /**
  * Widgets Composite
@@ -18,7 +18,7 @@ public class WidgetComposite extends SamplesComposite {
 	private Text text1;
 	private Text text3;
 	
-	private BuildResult result = SWTBuilder.build(this);
+	private BuildResult result = SwtJavaBuilder.build(this);
 	
 	/**
 	 * @param parent

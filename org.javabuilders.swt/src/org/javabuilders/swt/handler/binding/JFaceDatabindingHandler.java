@@ -23,7 +23,7 @@ import org.javabuilders.NamedObjectProperty;
 import org.javabuilders.Node;
 import org.javabuilders.handler.binding.AbstractBuilderBindingsHandler;
 import org.javabuilders.handler.binding.BindingSourceDefinition;
-import org.javabuilders.swt.SWTBuilderUtils;
+import org.javabuilders.swt.SwtBuilderUtils;
 
 /**
  * Implements data binding for the SWT domain using JFace Databinding
@@ -129,7 +129,7 @@ public class JFaceDatabindingHandler extends AbstractBuilderBindingsHandler {
 		Object source = root;
 		if (isNestedProperty(sourceExpression)) {
 			try {
-				String[] parts = SWTBuilderUtils.getNestedBindingExpressionParts(sourceExpression);
+				String[] parts = SwtBuilderUtils.getNestedBindingExpressionParts(sourceExpression);
 				
 				source = PropertyUtils.getNestedProperty(root, parts[0]);
 				sourceExpression = parts[1];

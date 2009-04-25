@@ -16,7 +16,7 @@ import org.javabuilders.InvalidPropertyFormatException;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
-import org.javabuilders.swt.SWTBuilder;
+import org.javabuilders.swt.SwtJavaBuilder;
 
 /**
  * FillLayout handler
@@ -41,7 +41,7 @@ public class FillLayoutHandler extends AbstractTypeHandler implements ITypeChild
 	 * Constructor
 	 */
 	public FillLayoutHandler() {
-		super(SWTBuilder.MARGIN_HEIGHT,SWTBuilder.MARGIN_WIDTH,SWTBuilder.SPACING,SWTBuilder.STYLE);
+		super(SwtJavaBuilder.MARGIN_HEIGHT,SwtJavaBuilder.MARGIN_WIDTH,SwtJavaBuilder.SPACING,SwtJavaBuilder.STYLE);
 		
 		styleMap.put("horizontal", SWT.HORIZONTAL);
 		styleMap.put("vertical", SWT.VERTICAL);
@@ -70,44 +70,44 @@ public class FillLayoutHandler extends AbstractTypeHandler implements ITypeChild
 		FillLayout layout = (FillLayout)instance;
 		
 		//handle all 4 potential properties
-		if (typeDefinition.containsKey(SWTBuilder.MARGIN_HEIGHT)) {
-			String value = String.valueOf(typeDefinition.get(SWTBuilder.MARGIN_HEIGHT));
+		if (typeDefinition.containsKey(SwtJavaBuilder.MARGIN_HEIGHT)) {
+			String value = String.valueOf(typeDefinition.get(SwtJavaBuilder.MARGIN_HEIGHT));
 			try {
 				int intValue = Integer.parseInt(value);
 				layout.marginHeight = intValue;
 			} catch (NumberFormatException ex) {
-				throw new InvalidPropertyFormatException(key,SWTBuilder.MARGIN_HEIGHT,value,SWTBuilder.MARGIN_HEIGHT + ": int",SWTBuilder.MARGIN_HEIGHT + ": 8",ex);
+				throw new InvalidPropertyFormatException(key,SwtJavaBuilder.MARGIN_HEIGHT,value,SwtJavaBuilder.MARGIN_HEIGHT + ": int",SwtJavaBuilder.MARGIN_HEIGHT + ": 8",ex);
 			}
 		}
 		
-		if (typeDefinition.containsKey(SWTBuilder.MARGIN_WIDTH)) {
-			String value = String.valueOf(typeDefinition.get(SWTBuilder.MARGIN_WIDTH));
+		if (typeDefinition.containsKey(SwtJavaBuilder.MARGIN_WIDTH)) {
+			String value = String.valueOf(typeDefinition.get(SwtJavaBuilder.MARGIN_WIDTH));
 			try {
 				int intValue = Integer.parseInt(value);
 				layout.marginWidth = intValue;
 			} catch (NumberFormatException ex) {
-				throw new InvalidPropertyFormatException(key,SWTBuilder.MARGIN_WIDTH,value,SWTBuilder.MARGIN_WIDTH + ": int",SWTBuilder.MARGIN_WIDTH + ": 8",ex);
+				throw new InvalidPropertyFormatException(key,SwtJavaBuilder.MARGIN_WIDTH,value,SwtJavaBuilder.MARGIN_WIDTH + ": int",SwtJavaBuilder.MARGIN_WIDTH + ": 8",ex);
 			}
 		}
 		
-		if (typeDefinition.containsKey(SWTBuilder.SPACING)) {
-			String value = String.valueOf(typeDefinition.get(SWTBuilder.SPACING));
+		if (typeDefinition.containsKey(SwtJavaBuilder.SPACING)) {
+			String value = String.valueOf(typeDefinition.get(SwtJavaBuilder.SPACING));
 			try {
 				int intValue = Integer.parseInt(value);
 				layout.spacing = intValue;
 			} catch (NumberFormatException ex) {
-				throw new InvalidPropertyFormatException(key,SWTBuilder.SPACING,value,SWTBuilder.SPACING + ": int",SWTBuilder.SPACING + ": 8",ex);
+				throw new InvalidPropertyFormatException(key,SwtJavaBuilder.SPACING,value,SwtJavaBuilder.SPACING + ": int",SwtJavaBuilder.SPACING + ": 8",ex);
 			}
 		}
 		
-		if (typeDefinition.containsKey(SWTBuilder.STYLE)) {
-			String value = String.valueOf(typeDefinition.get(SWTBuilder.STYLE)).toLowerCase();
+		if (typeDefinition.containsKey(SwtJavaBuilder.STYLE)) {
+			String value = String.valueOf(typeDefinition.get(SwtJavaBuilder.STYLE)).toLowerCase();
 			
 			if (styleMap.containsKey(value)) {
 				Integer type = styleMap.get(value);
 				layout.type = type;
 			} else {
-				throw new InvalidPropertyFormatException(key,SWTBuilder.STYLE,value,SWTBuilder.STYLE + ": horizontal|vertical",SWTBuilder.STYLE + ": vertical");
+				throw new InvalidPropertyFormatException(key,SwtJavaBuilder.STYLE,value,SwtJavaBuilder.STYLE + ": horizontal|vertical",SwtJavaBuilder.STYLE + ": vertical");
 			}
 		}
 		

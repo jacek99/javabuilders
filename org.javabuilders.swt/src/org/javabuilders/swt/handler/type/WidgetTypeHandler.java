@@ -18,8 +18,8 @@ import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
-import org.javabuilders.swt.SWTBuilder;
-import org.javabuilders.swt.SWTBuilderUtils;
+import org.javabuilders.swt.SwtJavaBuilder;
+import org.javabuilders.swt.SwtBuilderUtils;
 
 /**
  * Generic handler for instantiating all SWT Widgets/Controls
@@ -54,11 +54,11 @@ public class WidgetTypeHandler extends AbstractTypeHandler implements ITypeHandl
 		
 		//parent Control can be in a parent Node or sent explicitly
 		if ((parent != null && parent.getMainObject() != null) ||
-				process.getBuildResult().getProperties().get(SWTBuilder.PARENT) != null) {
+				process.getBuildResult().getProperties().get(SwtJavaBuilder.PARENT) != null) {
 			
 			Class<?> type = BuilderUtils.getClassFromAlias(process, key, null);
 
-			int style = SWTBuilderUtils.getSWTStyle(typeDefinition.get(SWTBuilder.STYLE));
+			int style = SwtBuilderUtils.getSWTStyle(typeDefinition.get(SwtJavaBuilder.STYLE));
 			try {
 				
 				instance = executeConstructor(parent, type, style, process);
@@ -90,7 +90,7 @@ public class WidgetTypeHandler extends AbstractTypeHandler implements ITypeHandl
 		
 		//parent Control can be from parent node or specified explicitly
 		//the explicit parent should be used only on the root (first object being created)
-		Object explicitParent = process.getBuildResult().getProperties().get(SWTBuilder.PARENT);
+		Object explicitParent = process.getBuildResult().getProperties().get(SwtJavaBuilder.PARENT);
 		
 		Object parentControl = (explicitParent != null && parent == null) ? 
 				explicitParent : parent.getMainObject();

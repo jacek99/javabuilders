@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.javabuilders.BuilderUtils;
+import org.javabuilders.JBStringUtils;
 import org.jvyaml.YAML;
 
 /**
@@ -304,7 +305,7 @@ public class LayoutConstraints {
 		int nextSpace = -1;
 		String controlData = null;
 		char character = ' ';
-		String[] controls = null;
+		List<String> controls = null;
 		
 		line = line + " "; //always need one space at end to make parsing simpler
 		boolean rowConstraintFound = false;
@@ -323,16 +324,17 @@ public class LayoutConstraints {
 				controlData = line.substring(column,nextSpace);
 
 				//multiple controls may be in the same cell, comma separated
-				controls = controlData.split(",");
+				//but commas may be allowed if embedded in quotes (string literal controls)...hell to parse
+
 				LayoutCell cell = new LayoutCell(row,column);
-				
+
+				controls = JBStringUtils.split(controlData, ',');
 				for(String control : controls) {
 					ControlConstraint constraint = new ControlConstraint(control);
 					cell.getControls().add(constraint);
 				}
 				
 				constraints.getCells().add(cell);
-				
 				column = nextSpace;
 			} 
 		}

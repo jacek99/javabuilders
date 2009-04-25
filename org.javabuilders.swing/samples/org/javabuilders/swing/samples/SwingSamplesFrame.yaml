@@ -60,7 +60,8 @@ JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose, iconImag
          - EventsPanel(name=eventsPanel,tabTitle=tab.events)
          - ValidatorsPanel(name=validatorsPanel, tabTitle=tab.validators)
          - UserSubmissionsPanel(name=usersPanel, tabTitle=tab.userSubmissions)
-         - FormattedInputPanel(name=formattedInputPanel, tabTitle=tab.formattedInput)
+         #- FormattedInputPanel(name=formattedInputPanel, tabTitle=tab.formattedInput)
+         - ListBindingPanel(name=listPanel, tabTitle=List Databinding)
     - MigLayout: |
         [grow]
         toolbar

@@ -79,6 +79,7 @@ public class FrameExtendedStateHandler extends AbstractPropertyHandler implement
 		//this Swing functionality is buggy on non-Windows platforms
 		//even Toolkit.getDefaultToolkit().isFrameStateSupported(state) returns the wrong value under GTK+
 		//need to fix it manually
+		
 		if (BuilderUtils.getOS() == BuilderUtils.OperatingSystem.LinuxUnix) {
 		
 			if (logger.isLoggable(Level.FINE)) {

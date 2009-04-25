@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +33,7 @@ import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
+import org.javabuilders.exception.InvalidFormatException;
 
 /**
  * Various common utilities
@@ -40,35 +43,19 @@ import org.javabuilders.event.ObjectMethod;
  */
 public class BuilderUtils {
 
-	private final static java.util.logging.Logger logger = Logger
-			.getLogger(BuilderUtils.class.getSimpleName());
-	private static OperatingSystem os = OperatingSystem.Windows; // it's the
-																	// most
-																	// likely
-																	// default,
-																	// let's be
-																	// honest
+	private final static java.util.logging.Logger logger = Logger.getLogger(BuilderUtils.class.getSimpleName());
+	private static OperatingSystem os = OperatingSystem.Windows; // it's the most likely
 
 	// should accept both ${propertyName} and ${object.propertyName}
-	private static Pattern elPattern = Pattern
-			.compile("[${][a-z][a-zA-Z0-9]*(\\.?[a-z][a-zA-Z0-9]*)*}"); // check
-																		// for
-																		// EL
-																		// pattern
-	private static String beanPattern = "[a-zA-Z][a-zA-Z09]*(\\.?[a-z]?[a-zA-Z0-9]*)*"; // check
-																						// for
-																						// bean
-																						// pattern
-																						// :
-																						// either
-																						// "propertyName"
-																						// or
-																						// "object.propertyName"
-																						// or
-																						// "object.propertyName.nestedProperty"
+	private static Pattern elPattern = Pattern.compile("[${][a-z][a-zA-Z0-9]*(\\.?[a-z][a-zA-Z0-9]*)*}"); // check for EL pattern
+	private static String beanPattern = "[a-zA-Z][a-zA-Z09]*(\\.?[a-z]?[a-zA-Z0-9]*)*"; // check bean pattern:either 
+	// "propertyName"
+	// or
+	// "object.propertyName"
+	// or
+	// "object.propertyName.nestedProperty"
 
-	private static Pattern namePattern = Pattern
-			.compile("([A-Z]{0,1}[0-9a-z]+)");
+	private static Pattern namePattern = Pattern.compile("([A-Z]{0,1}[0-9a-z]+)");
 
 	/**
 	 * Static constructor
@@ -125,12 +112,10 @@ public class BuilderUtils {
 	 *            KeyEvent or MouseEvent for Swing key event listeners)
 	 * @return
 	 */
-	public static ObjectMethod getCallerEventMethod(BuildProcess result,
-			Node node, String methodKey, Class<?>... eventClasses)
+	public static ObjectMethod getCallerEventMethod(BuildProcess result, Node node, String methodKey, Class<?>... eventClasses)
 			throws BuildException {
 		String methodName = String.valueOf(node.getProperties().get(methodKey));
-		return getCallerEventMethod(result, methodName, node.getMainObject()
-				.getClass(), eventClasses);
+		return getCallerEventMethod(result, methodName, node.getMainObject().getClass(), eventClasses);
 	}
 
 	/**
@@ -161,27 +146,21 @@ public class BuilderUtils {
 	 *            KeyEvent or MouseEvent for Swing key event listeners)
 	 * @return Method to call or null if none found
 	 */
-	public static ObjectMethod getCallerEventMethod(BuildProcess result,
-			String methodName, Class<?> mainObjectClass,
+	public static ObjectMethod getCallerEventMethod(BuildProcess result, String methodName, Class<?> mainObjectClass,
 			Class<?>... eventClasses) throws BuildException {
 
 		Set<Method> methods = new HashSet<Method>();
 
 		// custom command
 		if (result.getConfig().getCustomCommands().containsKey(methodName)) {
-			ICustomCommand<? extends Object> command = result.getConfig()
-					.getCustomCommands().get(methodName);
+			ICustomCommand<? extends Object> command = result.getConfig().getCustomCommands().get(methodName);
 			try {
-				Method method = command.getClass().getMethod("process",
-						BuildResult.class, Object.class);
-				ObjectMethod noMethod = new ObjectMethod(command, method,
-						ObjectMethod.MethodType.CustomCommand);
+				Method method = command.getClass().getMethod("process", BuildResult.class, Object.class);
+				ObjectMethod noMethod = new ObjectMethod(command, method, ObjectMethod.MethodType.CustomCommand);
 				return noMethod;
 			} catch (Exception ex) {
 				logger.severe(ex.getMessage());
-				throw new BuildException(ex,
-						"Unable to get custom command method: {0}", ex
-								.getMessage());
+				throw new BuildException(ex, "Unable to get custom command method: {0}", ex.getMessage());
 			}
 		}
 
@@ -194,8 +173,7 @@ public class BuilderUtils {
 				// find methods with the specified name or annotated with @Name
 				// with the same value
 				if (method.isAnnotationPresent(Alias.class)) {
-					if (method.getAnnotation(Alias.class).value().equals(
-							methodName)) {
+					if (method.getAnnotation(Alias.class).value().equals(methodName)) {
 						methods.add(method);
 					}
 				} else if (method.getName().equals(methodName)) {
@@ -210,7 +188,7 @@ public class BuilderUtils {
 		TreeMap<Integer, Method> methodsByPreference = new TreeMap<Integer, Method>();
 
 		preferenceSearch: // start the search for compatible methods by
-							// preference
+		// preference
 		for (Method method : methods) {
 
 			// find the best methods to call
@@ -224,25 +202,22 @@ public class BuilderUtils {
 				Class<?> parameterType = method.getParameterTypes()[0];
 				if (parameterType.isAssignableFrom(mainObjectClass)) {
 					methodsByPreference.put(2, method); // second in terms of
-														// preference
+					// preference
 				} else if (eventClasses != null && eventClasses.length > 0) {
 
 					for (Class<?> eventClass : eventClasses) {
 						if (parameterType.isAssignableFrom(eventClass)) {
 							methodsByPreference.put(3, method); // third in
-																// terms of
-																// preference
+							// terms of
+							// preference
 							break;
-						} else if (method
-								.isAnnotationPresent(DoInBackground.class)
-								&& BackgroundEvent.class
-										.isAssignableFrom(method
-												.getParameterTypes()[0])) {
+						} else if (method.isAnnotationPresent(DoInBackground.class)
+								&& BackgroundEvent.class.isAssignableFrom(method.getParameterTypes()[0])) {
 							// background event method
 							methodsByPreference.put(5, method); // background
-																// methods have
-																// highest
-																// preference
+							// methods have
+							// highest
+							// preference
 						}
 					}
 				}
@@ -260,11 +235,10 @@ public class BuilderUtils {
 					}
 				}
 
-				if (firstParameterType.isAssignableFrom(mainObjectClass)
-						&& isSecondParameterAnEventClass) {
+				if (firstParameterType.isAssignableFrom(mainObjectClass) && isSecondParameterAnEventClass) {
 					methodsByPreference.put(4, method); // best preference
 					break preferenceSearch; // no need to search further - we
-											// already found the best method
+					// already found the best method
 				}
 
 				break;
@@ -282,11 +256,9 @@ public class BuilderUtils {
 
 		if (methodToCall != null) {
 			methodToCall.setAccessible(true); // make sure we can call it, even
-												// if it's private
+			// if it's private
 		} else {
-			throw new BuildException(
-					"Unable to find method to call for name \"{0}\"",
-					methodName);
+			throw new BuildException("Unable to find method to call for name \"{0}\"", methodName);
 		}
 
 		return new ObjectMethod(target, methodToCall);
@@ -306,11 +278,9 @@ public class BuilderUtils {
 	 *            The event-specific class type (can be null)
 	 * @see getCallerEventMethod()
 	 */
-	public static void invokeCallerEventMethods(final BuildResult result,
-			Node node, Collection<ObjectMethod> methods,
+	public static void invokeCallerEventMethods(final BuildResult result, Node node, Collection<ObjectMethod> methods,
 			Object eventClassInstance) {
-		invokeCallerEventMethods(result, node.getMainObject(), methods,
-				eventClassInstance);
+		invokeCallerEventMethods(result, node.getMainObject(), methods, eventClassInstance);
 	}
 
 	/**
@@ -327,8 +297,7 @@ public class BuilderUtils {
 	 *            The event-specific class type (can be null)
 	 * @see getCallerEventMethod()
 	 */
-	public static void invokeCallerEventMethods(final BuildResult result,
-			Object mainObject, Collection<ObjectMethod> methods,
+	public static void invokeCallerEventMethods(final BuildResult result, Object mainObject, Collection<ObjectMethod> methods,
 			Object eventClassInstance) {
 
 		Object invocationResult = null;
@@ -339,8 +308,7 @@ public class BuilderUtils {
 				// custom command?
 				if (method.getType() == ObjectMethod.MethodType.CustomCommand) {
 					method.getMethod().setAccessible(true);
-					invocationResult = method.getMethod().invoke(
-							method.getInstance(), result, mainObject);
+					invocationResult = method.getMethod().invoke(method.getInstance(), result, mainObject);
 
 					if (Boolean.FALSE.equals(invocationResult)) {
 						// abort
@@ -349,31 +317,24 @@ public class BuilderUtils {
 				} else {
 
 					// is this a background method?
-					if (method.getMethod().isAnnotationPresent(
-							DoInBackground.class)) {
+					if (method.getMethod().isAnnotationPresent(DoInBackground.class)) {
 
-						DoInBackground ann = method.getMethod().getAnnotation(
-								DoInBackground.class);
+						DoInBackground ann = method.getMethod().getAnnotation(DoInBackground.class);
 
-						final BackgroundEvent event = new BackgroundEvent(
-								mainObject, eventClassInstance, ann.blocking(),
-								result.getConfig());
+						final BackgroundEvent event = new BackgroundEvent(mainObject, eventClassInstance, ann.blocking(), result
+								.getConfig());
 						event.setCancelable(ann.cancelable());
-						event.setProgressIndeterminate(ann
-								.indeterminateProgress());
+						event.setProgressIndeterminate(ann.indeterminateProgress());
 						event.setProgressStart(ann.progressStart());
 						event.setProgressEnd(ann.progressEnd());
 						event.setProgressValue(ann.progressValue());
 
 						// handle internationalizing the progress message
-						String resource = result.getResource(ann
-								.progressMessage());
+						String resource = result.getResource(ann.progressMessage());
 						event.setProgressMessage(resource);
 
 						if (logger.isLoggable(Level.FINE)) {
-							logger.log(Level.FINE,
-									"Executing background method: %s", method
-											.getMethod().getName());
+							logger.log(Level.FINE, "Executing background method: %s", method.getMethod().getName());
 						}
 
 						// create the list of methods that should be executed
@@ -397,27 +358,20 @@ public class BuilderUtils {
 
 							public void done(Object returnValue) {
 								// only continue if task was not cancelled
-								if (event.getCancelStatus().getStatus() <= CancelStatus.NONE
-										.getStatus()
-										&& outstandingMethods != null
-										&& outstandingMethods.size() > 0) {
-									BuilderUtils.invokeCallerEventMethods(
-											result, event.getSource(),
-											outstandingMethods, event
-													.getOriginalEvent());
+								if (event.getCancelStatus().getStatus() <= CancelStatus.NONE.getStatus()
+										&& outstandingMethods != null && outstandingMethods.size() > 0) {
+									BuilderUtils.invokeCallerEventMethods(result, event.getSource(), outstandingMethods, event
+											.getOriginalEvent());
 								}
 							}
 
 						};
 
-						result.getConfig().getBackgroundProcessingHandler()
-								.doInBackground(result, result.getCaller(),
-										method.getMethod(), event, callback);
+						result.getConfig().getBackgroundProcessingHandler().doInBackground(result, result.getCaller(),
+								method.getMethod(), event, callback);
 
 						if (logger.isLoggable(Level.FINE)) {
-							logger
-									.fine("Finished executing background method: "
-											+ method.getMethod().getName());
+							logger.fine("Finished executing background method: " + method.getMethod().getName());
 						}
 						// stop executing the methods - it is the background
 						// handler's responsibility
@@ -429,47 +383,36 @@ public class BuilderUtils {
 					switch (method.getMethod().getParameterTypes().length) {
 					case 0:
 						// no arguments
-						invocationResult = method.getMethod().invoke(
-								method.getInstance());
+						invocationResult = method.getMethod().invoke(method.getInstance());
 						break;
 					case 1:
 						// one argument - can be caller or event class
-						Class<?> parameterType = method.getMethod()
-								.getParameterTypes()[0];
-						if (parameterType.isAssignableFrom(mainObject
-								.getClass())) {
-							invocationResult = method.getMethod().invoke(
-									method.getInstance(), mainObject);
+						Class<?> parameterType = method.getMethod().getParameterTypes()[0];
+						if (parameterType.isAssignableFrom(mainObject.getClass())) {
+							invocationResult = method.getMethod().invoke(method.getInstance(), mainObject);
 						} else {
-							invocationResult = method.getMethod().invoke(
-									method.getInstance(), eventClassInstance);
+							invocationResult = method.getMethod().invoke(method.getInstance(), eventClassInstance);
 						}
 						break;
 					case 2:
 						// two arguments - must be caller, event class instance
-						invocationResult = method.getMethod().invoke(
-								result.getCaller(), mainObject,
-								eventClassInstance);
+						invocationResult = method.getMethod().invoke(result.getCaller(), mainObject, eventClassInstance);
 						break;
 					}
 
 					// if invoked method return false, abort calling the rest of
 					// the methods
-					if (invocationResult != null
-							&& invocationResult.equals(Boolean.FALSE)) {
+					if (invocationResult != null && invocationResult.equals(Boolean.FALSE)) {
 						break;
 					}
 
 					if (logger.isLoggable(Level.FINE)) {
-						logger.fine("Finished executing method: "
-								+ method.getMethod().getName());
+						logger.fine("Finished executing method: " + method.getMethod().getName());
 					}
 				}
 
 			} catch (Exception ex) {
-				throw new BuildException(ex,
-						"Failed to invoke method: {0}. {1}", method.getMethod()
-								.getName(), ex.getMessage());
+				throw new BuildException(ex, "Failed to invoke method: {0}. {1}", method.getMethod().getName(), ex.getMessage());
 			}
 		}
 	}
@@ -505,49 +448,37 @@ public class BuilderUtils {
 
 					if (fromName.equals(name)) {
 						field.setAccessible(true); // ensure we have access to
-													// the field, even if
-													// private
+						// the field, even if
+						// private
 						Object value = null;
 						try {
 							value = field.get(caller);
 							if (value == null) {
-								Object namedObject = result.getBuildResult()
-										.get(name);
+								Object namedObject = result.getBuildResult().get(name);
 
-								if (field.getType().isAssignableFrom(
-										namedObject.getClass())) {
+								if (field.getType().isAssignableFrom(namedObject.getClass())) {
 									field.set(caller, namedObject);
 									if (logger.isLoggable(Level.FINE)) {
-										logger
-												.fine("Successfully set reference to caller's variable: "
-														+ name);
+										logger.fine("Successfully set reference to caller's variable: " + name);
 									}
 								} else {
 									if (logger.isLoggable(Level.INFO)) {
-										logger
-												.info("Failed to set value for caller's variable: "
-														+ name
-														+ ". Incompatible types.");
+										logger.info("Failed to set value for caller's variable: " + name + ". Incompatible types.");
 									}
 								}
 							} else {
 								// instance can be pre-existing
 								if (logger.isLoggable(Level.FINE)) {
-									logger
-											.info("Unable to set caller's instance variable: "
-													+ name
-													+ ". It is not null.");
+									logger.info("Unable to set caller's instance variable: " + name + ". It is not null.");
 								}
 							}
 						} catch (IllegalArgumentException e) {
 							if (logger.isLoggable(Level.INFO)) {
-								logger.log(Level.INFO,
-										"Failed to access property " + name, e);
+								logger.log(Level.INFO, "Failed to access property " + name, e);
 							}
 						} catch (IllegalAccessException e) {
 							if (logger.isLoggable(Level.INFO)) {
-								logger.log(Level.INFO,
-										"Failed to access property " + name, e);
+								logger.log(Level.INFO, "Failed to access property " + name, e);
 							}
 						}
 					}
@@ -566,13 +497,11 @@ public class BuilderUtils {
 	 */
 	public static void validateNotNullAndNotEmpty(String name, Object value) {
 		if (value == null) {
-			throw new NullPointerException(String.format("%s cannot be null",
-					name));
+			throw new NullPointerException(String.format("%s cannot be null", name));
 		}
 
 		if (value instanceof String && ((String) value).length() == 0) {
-			throw new NullPointerException(String.format(
-					"%s cannot be empty String", name));
+			throw new NullPointerException(String.format("%s cannot be empty String", name));
 		}
 	}
 
@@ -605,8 +534,7 @@ public class BuilderUtils {
 	 *            Estimated length (for performance reasons)
 	 * @return String
 	 */
-	public static String convertListToString(List<Object> list, char delimiter,
-			int estimatedLength) {
+	public static String convertListToString(List<Object> list, char delimiter, int estimatedLength) {
 		StringBuilder builder = new StringBuilder(estimatedLength);
 		for (Object value : list) {
 			if (builder.length() > 0) {
@@ -628,15 +556,13 @@ public class BuilderUtils {
 	 * @throws BuildException
 	 *             Thrown if unable to set property
 	 */
-	public static void populateObjectPropertiesFromMap(Object target,
-			Map<String, Object> properties) throws BuildException {
+	public static void populateObjectPropertiesFromMap(Object target, Map<String, Object> properties) throws BuildException {
 		for (String property : properties.keySet()) {
 			Object value = properties.get(property);
 			try {
 				PropertyUtils.setProperty(target, property, value);
 			} catch (Exception e) {
-				throw new BuildException(
-						"Unable to set value on object for key: " + property, e);
+				throw new BuildException("Unable to set value on object for key: " + property, e);
 			}
 		}
 	}
@@ -650,8 +576,7 @@ public class BuilderUtils {
 	 * @return List of properties
 	 * @throws BuildException
 	 */
-	public static List<NamedObjectProperty> getParsedPropertyExpression(
-			String text) throws BuildException {
+	public static List<NamedObjectProperty> getParsedPropertyExpression(String text) throws BuildException {
 		List<NamedObjectProperty> properties = new ArrayList<NamedObjectProperty>();
 
 		// look for EL expressions in the source path
@@ -670,9 +595,8 @@ public class BuilderUtils {
 				NamedObjectProperty property = getParsedProperty(text);
 				properties.add(property);
 			} else {
-				throw new BuildException(
-						"Unable to parse property expression. It is recognized as neither EL or regular Bean: "
-								+ text);
+				throw new BuildException("Unable to parse property expression. It is recognized as neither EL or regular Bean: "
+						+ text);
 			}
 		}
 		return properties;
@@ -686,8 +610,7 @@ public class BuilderUtils {
 	 * @return Parsed properety
 	 * @throws BuildException
 	 */
-	public static NamedObjectProperty getParsedProperty(String property)
-			throws BuildException {
+	public static NamedObjectProperty getParsedProperty(String property) throws BuildException {
 
 		if (property.indexOf('.') <= 0) {
 			property = String.format("this.%s", property);
@@ -695,12 +618,10 @@ public class BuilderUtils {
 
 		int pos = property.indexOf('.');
 		if (pos > 0) {
-			NamedObjectProperty objectProperty = new NamedObjectProperty(
-					property.substring(0, pos), property.substring(pos + 1));
+			NamedObjectProperty objectProperty = new NamedObjectProperty(property.substring(0, pos), property.substring(pos + 1));
 			return objectProperty;
 		} else {
-			throw new BuildException("Unable to parse named object property: "
-					+ property);
+			throw new BuildException("Unable to parse named object property: " + property);
 		}
 	}
 
@@ -713,8 +634,7 @@ public class BuilderUtils {
 	 * @param objectName
 	 * @return Class (or null if none found)
 	 */
-	public static Class<?> getClassFromCallerFields(Object caller,
-			String className, String objectName) {
+	public static Class<?> getClassFromCallerFields(Object caller, String className, String objectName) {
 		Class<?> typeClass = null;
 		Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
@@ -748,13 +668,11 @@ public class BuilderUtils {
 	 *            (optionall name of the class instance)
 	 * @return Class or null if not found
 	 */
-	public static Class<?> getClassFromAlias(BuildProcess process, String key,
-			String instanceName) {
+	public static Class<?> getClassFromAlias(BuildProcess process, String key, String instanceName) {
 		Class<?> typeClass = process.getConfig().getClassType(key);
 		if (typeClass == null) {
 			// try treating the key as if it was a complete class name
-			typeClass = BuilderUtils.getClassFromCallerFields(process
-					.getCaller(), key, instanceName);
+			typeClass = BuilderUtils.getClassFromCallerFields(process.getCaller(), key, instanceName);
 		}
 		return typeClass;
 	}
@@ -762,8 +680,7 @@ public class BuilderUtils {
 	/**
 	 * @return All fields, including protected fields from superclasses
 	 */
-	public static Map<String, Field> getAllFields(
-			Class<? extends Object> typeClass) {
+	public static Map<String, Field> getAllFields(Class<? extends Object> typeClass) {
 		Map<String, Field> allFields = new HashMap<String, Field>();
 
 		for (Field field : typeClass.getDeclaredFields()) {
@@ -776,8 +693,7 @@ public class BuilderUtils {
 			Field[] fields = typeClass.getDeclaredFields();
 			for (Field field : fields) {
 				int mod = field.getModifiers();
-				if (!Modifier.isStatic(mod)
-						&& (Modifier.isProtected(mod) || Modifier.isPublic(mod))) {
+				if (!Modifier.isStatic(mod) && (Modifier.isProtected(mod) || Modifier.isPublic(mod))) {
 					allFields.put(field.getName(), field);
 					field.setAccessible(true);
 				}
@@ -809,8 +725,7 @@ public class BuilderUtils {
 			Method[] methods = typeClass.getDeclaredMethods();
 			for (Method method : methods) {
 				int mod = method.getModifiers();
-				if (!Modifier.isStatic(mod)
-						&& (Modifier.isProtected(mod) || Modifier.isPublic(mod))) {
+				if (!Modifier.isStatic(mod) && (Modifier.isProtected(mod) || Modifier.isPublic(mod))) {
 					allMethods.add(method);
 					method.setAccessible(true);
 				}
@@ -831,8 +746,7 @@ public class BuilderUtils {
 	 *            Method lists
 	 * @return true if needed, false if not
 	 */
-	public static boolean isListenerNeeded(
-			Values<String, ObjectMethod>... methods) {
+	public static boolean isListenerNeeded(Values<String, ObjectMethod>... methods) {
 		boolean needed = false;
 
 		for (Values<String, ObjectMethod> methodList : methods) {
@@ -853,10 +767,8 @@ public class BuilderUtils {
 	 */
 	public static void validateYamlContent(String yaml) {
 		int pos = yaml.indexOf("\t");
-		if (pos > 0) {
-			throw new BuildException(
-					"Found a tab in the YAML content starting at\n{0}", yaml
-							.substring(pos));
+		if (pos >= 0) {
+			throw new InvalidFormatException("Found a tab in the YAML content starting at\n{0}", yaml.substring(pos));
 		}
 	}
 
@@ -866,8 +778,7 @@ public class BuilderUtils {
 	 * @param caller
 	 * @return
 	 */
-	public static Object getExistingInstanceIfAvailable(Object caller,
-			Class<?> expectedClass, BuilderConfig config,
+	public static Object getExistingInstanceIfAvailable(Object caller, Class<?> expectedClass, BuilderConfig config,
 			Map<String, Object> data) {
 
 		Object instance = null;
@@ -882,9 +793,7 @@ public class BuilderUtils {
 						possible = fields.get(name).get(caller);
 					}
 				} catch (Exception e) {
-					throw new BuildException(e,
-							"Failed to get value for {0}: {1}", name, e
-									.getMessage());
+					throw new BuildException(e, "Failed to get value for {0}: {1}", name, e.getMessage());
 				}
 
 				if (possible != null) {
@@ -946,18 +855,15 @@ public class BuilderUtils {
 	 *            bundle it would say "image.fileNew=/resources/picture.png")
 	 * @return URL or null if not found
 	 */
-	public static InputStream getResourceInputStream(BuildProcess process,
-			String path) {
-		InputStream is = process.getCaller().getClass().getResourceAsStream(
-				path);
+	public static InputStream getResourceInputStream(BuildProcess process, String path) {
+		InputStream is = process.getCaller().getClass().getResourceAsStream(path);
 		if (is == null) {
 			// path not found...check if the path points to a key in the
 			// resource bundle instead
 			if (process.getBuildResult().isInternationalizationActive()) {
 				path = process.getBuildResult().getResource(path);
 				if (path != null) {
-					is = process.getCaller().getClass().getResourceAsStream(
-							path);
+					is = process.getCaller().getClass().getResourceAsStream(path);
 				}
 			}
 		}
@@ -1000,24 +906,24 @@ public class BuilderUtils {
 
 	/**
 	 * Reads the YAML file for a particular class
-	 * @param baseClass Class
+	 * 
+	 * @param baseClass
+	 *            Class
 	 * @return YAML content for that class
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static String getYamlContent(Class<?> baseClass) throws IOException {
-		
+
 		StringBuilder builder = new StringBuilder();
 
-		InputStream is = baseClass.getResourceAsStream(baseClass
-				.getSimpleName()
-				+ ".yaml");
+		InputStream is = baseClass.getResourceAsStream(baseClass.getSimpleName() + ".yaml");
 		InputStreamReader isr = null;
 		BufferedReader rdr = null;
 		try {
 
 			isr = new InputStreamReader(is);
 			rdr = new BufferedReader(isr);
-			
+
 			String line = "";
 			while ((line = rdr.readLine()) != null) {
 				builder.append(line).append("\n");
@@ -1033,5 +939,24 @@ public class BuilderUtils {
 
 		return builder.toString();
 	}
+	
+    /**
+     * Gets generics info despite runtime type erasure. Hack alert, obviously.
+     * @param field Field
+     * @return Class (if found) or null if not
+     */
+    public static Class<?> getGenericsTypeFromCollectionField(Field field) {
+        Class<?> clazz = null;
+        if (field.getType().equals(List.class) || field.getType().equals(Set.class)) {
+            field.setAccessible(true);
+            ParameterizedType ptype = (ParameterizedType) field.getGenericType();
+            Type[] types = ptype.getActualTypeArguments();
+            if (types != null && types.length > 0) {
+                clazz = (Class<?>)types[0];
+            }
+        }
+        return clazz;
+    }
+    
 
 }

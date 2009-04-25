@@ -43,6 +43,34 @@
 MainApplicationFrame.java
 MainApplicationFrame.yaml
 			</codeblock>
+			     If you are using an inner class, e.g.
+			 <codeblock>
+public class CommonPanels
+{
+  public static class SomePanel
+  {
+    SwingBuilder.build(this);
+  }
+}
+			 </codeblock>
+then you can define a YAML file using the <codeph>"DeclaringClass.InnerClass.yaml"</codeph> format, e.g.
+<codeblock>
+CommonPanels.SomePanel.yaml
+</codeblock> 
+                in order to build an instance of the inner class.			   
+			</p>
+			<p>
+			Alternatively, you may even specify a build file explicitly by using the class-level <apiname>@BuildFile</apiname>
+			annotation, which accepts a local or absolute file path within the classpath:
+			<codeblock spectitle="Local package file path">
+@BuildFile("Common.yaml")
+public class LocalBuildFilePanel extends JPanel
+			</codeblock>
+			or:
+			<codeblock spectitle="Absolute file path">
+@BuildFile("/org/javabuilders/test/resources/Common.yaml")
+public class GlobalBuildFilePanel extends JPanel 
+			</codeblock>
 			</p>
 		</section>
 		<section>

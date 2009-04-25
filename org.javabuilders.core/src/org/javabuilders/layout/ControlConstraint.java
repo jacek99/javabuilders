@@ -2,6 +2,8 @@ package org.javabuilders.layout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -10,7 +12,23 @@ import java.util.List;
  */
 public class ControlConstraint {
 
-	public static final char HALIGN_RIGHT = '>';
+	//regex: ^([\<\|\>\^\-/]*)?(".+")?([a-zA-Z0-9]+)?(\+\*)?(\+[0-9]+)?(\+\*)?(\+[0-9]+)?(=[0-9])?(x*y*)?$
+	private static final Pattern pattern = Pattern.compile("^([\\<\\|\\>\\^\\-/]*)?(\".+\")?([a-zA-Z0-9]+)?(\\+\\*)?(\\+[0-9]+)?(\\+\\*)?(\\+[0-9]+)?(=[0-9])?(x*y*)?$");
+	
+	/**
+	 * REGEX GROUPS
+	 * 1: alignment
+	 * 2: name if embedded in quotes
+	 * 3: name if not embedded in quotes
+	 * 4: +* for rows
+	 * 5: +X for rows
+	 * 6: +* for columns
+	 * 7: +Y for columns
+	 * 8: =X size group
+	 * 9 = x/y size group indicator
+	 */
+	
+	public static final char HALIGN_RIGHT ='>';
 	public static final char HALIGN_CENTER = '|';
 	public static final char HALIGN_LEFT = '<';
 	
@@ -19,8 +37,8 @@ public class ControlConstraint {
 	public static final char VALIGN_TOP = '^';
 	
 	public final static char SIZE_GROUP_INDICATOR = '=';
-	public final static char SIZE_GROUP_X_INDICATOR = 'x';
-	public final static char SIZE_GROUP_Y_INDICATOR = 'y';
+	public final static String SIZE_GROUP_X_INDICATOR = "x";
+	public final static String SIZE_GROUP_Y_INDICATOR = "y";
 	
 	public final static char QUOTE = '"';
 	
@@ -54,133 +72,79 @@ public class ControlConstraint {
 	 */
 	public ControlConstraint(String constraintText) throws LayoutException {
 		
-		StringBuilder nameBld = new StringBuilder(constraintText.length());
-		StringBuilder vspanBld = new StringBuilder(2);
-		StringBuilder hspanBld = new StringBuilder(2);
-		StringBuilder sizeGroupBld = new StringBuilder(2);
 		this.constraintText = constraintText;
 		
-		//early sanity checks
-		checkEndingFormat(constraintText);
-		
-		//need to parse the constraint text
-		ConstraintType type = ConstraintType.ALIGNMENT;
-		
-		boolean inQuotes = false;
-		
-		for(int i = 0; i < constraintText.length(); i++) {
+		Matcher m = pattern.matcher(constraintText);
+		if (m.find()) {
 			
-			char character = constraintText.charAt(i);
-			
-			switch (character) {
-			case HALIGN_LEFT:
-			case HALIGN_CENTER:
-			case HALIGN_RIGHT:
-			case VALIGN_BOTTOM:
-			case VALIGN_MIDDLE:
-			case VALIGN_TOP:
-				if (!inQuotes) {
-					if (type != ConstraintType.ALIGNMENT) {
-						throw new LayoutException("Alignment goes before the control name: " + constraintText);
-					}				
-					break;
-				} else {
-					continue;
-				}
-			case LayoutCell.SPAN_INDICATOR:
-				if (!inQuotes) {
-					if (type == ConstraintType.HSPAN) {
-						type = ConstraintType.VSPAN;
-					} else if (type == ConstraintType.CONTROL_NAME){
-						type = ConstraintType.HSPAN;
-					} else {
-						throw new LayoutException("Span information must go after control name: " + constraintText);
-					}
-				}
-				continue;
-			case SIZE_GROUP_INDICATOR:
-				if (!inQuotes) {
-					if (type.getOrder() >= ConstraintType.CONTROL_NAME.getOrder()) {
-						type = ConstraintType.SIZE_GROUP;
-					} else {
-						throw new LayoutException("Size group indicator found in unexpected location: " + constraintText);
-					}
-				}
-				continue;
-			case QUOTE:
-				inQuotes = !inQuotes;
-				//fall through and continue to default logic
-			default:
-				if (type == ConstraintType.ALIGNMENT) {
-					type = ConstraintType.CONTROL_NAME;
-				}
-				break;
-			}
-			
-			//now that we know what we are dealing with
-			if (type == ConstraintType.ALIGNMENT) {
-				//we're still at the beginning - optional alignment indicators go first
-				switch (character) {
-				case HALIGN_LEFT:
-					hAlign = HAlign.LEFT;
-					break;
-				case HALIGN_CENTER:
-					hAlign = HAlign.CENTER;
-					break;
-				case HALIGN_RIGHT:
-					hAlign = HAlign.RIGHT;
-					break;
-				case VALIGN_BOTTOM:
-					vAlign = VAlign.BOTTOM;
-					break;
-				case VALIGN_MIDDLE:
-					vAlign = VAlign.MIDDLE;
-					break;
-				case VALIGN_TOP:
-					vAlign = VAlign.TOP;
-					break;
-				default:
-					throw new LayoutException("Unable to parse alignment: " + constraintText);
-				}
-			} else if (type == ConstraintType.CONTROL_NAME) {
-				nameBld.append(character);
-			} else if (type == ConstraintType.HSPAN) {
-				hspanBld.append(character);
-			} else if (type == ConstraintType.VSPAN) {
-				vspanBld.append(character);
-			} else if (type == ConstraintType.SIZE_GROUP) {
-				if (character == SIZE_GROUP_X_INDICATOR) {
-					sizeGroupX = true;
-				} else if (character == SIZE_GROUP_Y_INDICATOR) {
-					sizeGroupY = true;
-				} else {
-					sizeGroupBld.append(character);
-				}
-			}
-			
-		}
-		
-		//apply all the parsed values
-		this.controlName = nameBld.toString();
-		try {
-			if (hspanBld.length() == 1 && hspanBld.toString().equals(String.valueOf(LayoutCell.MAX_SPAN_VALUE))) {
-				this.setMaxHSpan(true);
-			} else if (hspanBld.length() > 0) {
-				this.hSpan = Integer.parseInt(hspanBld.toString());
-			} 
+			//hAlign & valign
+			if (m.group(1) != null) {
+				char[] chars = m.group(1).toCharArray();
+				for(char c : chars) {
 
-			if (vspanBld.length() == 1 && vspanBld.toString().equals(String.valueOf(LayoutCell.MAX_SPAN_VALUE))) {
-				this.setMaxVSpan(true);
-			} else if (vspanBld.length() > 0) {
-				this.vSpan = Integer.parseInt(vspanBld.toString());
+					switch(c) {
+					case HALIGN_LEFT:
+						hAlign = HAlign.LEFT;
+						break;
+					case HALIGN_CENTER:
+						hAlign = HAlign.CENTER;
+						break;
+					case HALIGN_RIGHT:
+						hAlign = HAlign.RIGHT;
+						break;
+					case VALIGN_TOP:
+						vAlign = VAlign.TOP;
+						break;
+					case VALIGN_MIDDLE:
+						vAlign = VAlign.MIDDLE;
+						break;
+					case VALIGN_BOTTOM:
+						vAlign = VAlign.BOTTOM;
+						break;
+					}
+				}
 			}
 			
-			if (sizeGroupBld.length() > 0) {
-				this.sizeGroup = Integer.parseInt(sizeGroupBld.toString());
+			//name (in quotes or not)
+			if (m.group(2) != null) {
+				this.controlName = m.group(2);
 			}
-		} catch (NumberFormatException ex) {
-			throw new LayoutException("Unable to parse expected integer value : " + constraintText,ex);
+			if (m.group(3) != null) {
+				this.controlName = m.group(3);
+			}
+			
+			//row span
+			if (m.group(4) != null) {
+				this.setMaxHSpan(true);
+			}
+			if (m.group(5) != null) {
+				this.setHSpan(Integer.parseInt(m.group(5).substring(1)));
+			}
+			
+			//column span
+			if (m.group(6) != null) {
+				this.setMaxVSpan(true);
+			}
+			if (m.group(7) != null) {
+				this.setVSpan(Integer.parseInt(m.group(7).substring(1)));
+			}
+			
+			//size group
+			if (m.group(8) != null) {
+				this.setSizeGroup(Integer.parseInt(m.group(8).substring(1)));
+			}
+			
+			if (SIZE_GROUP_X_INDICATOR.equals(m.group(9))) {
+				sizeGroupX = true;
+			} else if (SIZE_GROUP_Y_INDICATOR.equals(m.group(9))) {
+				sizeGroupY = true;
+			}
+			
+			
+		} else {
+			throw new LayoutException("Unable to parse {0} control constraint",constraintText);
 		}
+		
 	}
 
 	/**
@@ -283,24 +247,6 @@ public class ControlConstraint {
 	public void setSizeGroup(Integer sizeGroup) {
 		this.sizeGroup = sizeGroup;
 	}
-	
-	/**
-	 * Enum used for parsing
-	 */
-	private enum ConstraintType {
-		
-		ALIGNMENT(0), CONTROL_NAME(1), HSPAN(2), VSPAN (3), SIZE_GROUP (4);
-		
-		private int order = 0;
-		
-		ConstraintType(int order) {
-			this.order = order;
-		}
-		
-		private int getOrder() {
-			return order;
-		}
-	}
 
 	/**
 	 * @return the isMaxHSpan
@@ -342,14 +288,5 @@ public class ControlConstraint {
 	 */
 	public boolean isSizeGroupY() {
 		return sizeGroupY;
-	}
-	//additional checks
-	private void checkEndingFormat(String constraintText) {
-		String last = String.valueOf(constraintText.charAt(constraintText.length() - 1));
-		if (postIdentifiers.contains(last)) {
-			throw new LayoutException("Constraint text {0} cannot end with {1}", 
-					constraintText, last);
-			
-		}
 	}
 }

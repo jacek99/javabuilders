@@ -81,7 +81,7 @@ public class ControlConstraintTests {
 	
 	@Test
 	public void middleAndCenter() throws Exception {
-		ControlConstraint c = new ControlConstraint("" + VALIGN_MIDDLE + HALIGN_CENTER + control1);
+		ControlConstraint c = new ControlConstraint("" + HALIGN_CENTER + VALIGN_MIDDLE +  control1);
 
 		assertEquals(control1,c.getControlName());
 		assertEquals(HAlign.CENTER, c.getHAlign());

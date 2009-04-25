@@ -31,8 +31,6 @@ public class LayoutConstraintsTest {
 		LayoutConstraints c = LayoutConstraints.getParsedLayoutConstraints(layout, MigLayoutCommon.DEFAULT_ROW_COLUMN_CONSTRAINT,
 				MigLayoutCommon.DEFAULT_ROW_COLUMN_CONSTRAINT);
 		
-		System.out.println(c);
-		
 		assertEquals("gap 5px 10px", c.getLayoutConstraints());
 		assertEquals("[fill] 20",c.getRowConstraints().get(0));
 		assertEquals("[top] 20",c.getRowConstraints().get(1));

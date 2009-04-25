@@ -39,6 +39,7 @@ public class SwingSamplesFrame extends JFrame {
 	private ValidatorsPanel validatorsPanel;
 	private UserSubmissionsPanel usersPanel;
 	private FormattedInputPanel formattedInputPanel;
+	private ListBindingPanel listPanel;
 	private JTextArea eventsLog;
 	
 	//usually the last variable in the list of instance variables...
@@ -137,8 +138,8 @@ public class SwingSamplesFrame extends JFrame {
             		});
             		
             		//set up global formats
-            		SwingJavaBuilder.getConfig().addGlobalVariable("$${date}", DateFormat.getInstance());
-            		SwingJavaBuilder.getConfig().addGlobalVariable("$${time}", DateFormat.getTimeInstance());
+            		//SwingJavaBuilder.getConfig().addGlobalVariable("$${date}", DateFormat.getInstance());
+            		//SwingJavaBuilder.getConfig().addGlobalVariable("$${time}", DateFormat.getTimeInstance());
             		
             		new SwingSamplesFrame().setVisible(true);
             	} catch (Exception ex) {

@@ -1,6 +1,6 @@
 package org.javabuilders.swt.handler.event;
 
-import static org.javabuilders.swt.SWTBuilder.ON_SELECTION;
+import static org.javabuilders.swt.SwtJavaBuilder.ON_SELECTION;
 
 import java.util.List;
 

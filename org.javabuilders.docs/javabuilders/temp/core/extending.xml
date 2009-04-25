@@ -48,7 +48,6 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:1">ITypeHandler</apiname>, usually by extending <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:2">AbstractTypeHandler</apiname>. 
 		  It needs to be then registered for the class-specific <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:3">TypeDefinition</apiname> object within
 		  the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="apiname:4">BuilderConfig</apiname> instance.
-		  TODO: add more detail
 		  </p>
 		</section>
 		

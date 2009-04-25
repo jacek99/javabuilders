@@ -77,7 +77,7 @@ public class DefaultPropertyHandler extends AbstractPropertyHandler implements I
 				
 				logger.log(Level.SEVERE, e.getMessage() + "\n" + builder.toString(),e);
 				
-				throw new InvalidPropertyException(node.getKey(),key,e);
+				throw new InvalidPropertyException(e, node.getKey(),key, value, builder.toString());
 			}
 			
 		}

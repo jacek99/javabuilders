@@ -6,7 +6,7 @@ package org.javabuilders.swt.samples;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.javabuilders.BuildResult;
-import org.javabuilders.swt.SWTBuilder;
+import org.javabuilders.swt.SwtJavaBuilder;
 
 /**
  * 
@@ -16,7 +16,7 @@ import org.javabuilders.swt.SWTBuilder;
 public class SashComposite extends SashForm {
 
 	@SuppressWarnings("unused")
-	private BuildResult result = SWTBuilder.build(this);
+	private BuildResult result = SwtJavaBuilder.build(this);
 	/**
 	 * @param parent
 	 * @param style
