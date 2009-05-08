@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.javabuilders.exception.UnrecognizedAliasException;
 import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.handler.ITypeHandler;
+import org.javabuilders.util.BuilderUtils;
 import org.jvyaml.YAML;
 
 /**

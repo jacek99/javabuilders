@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.Widget;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.swt.SwtJavaBuilder;
 import org.javabuilders.swt.SwtBuilderUtils;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Generic handler for instantiating all SWT Widgets/Controls

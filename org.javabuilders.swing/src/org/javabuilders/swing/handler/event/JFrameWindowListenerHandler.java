@@ -11,10 +11,10 @@ import java.awt.event.WindowStateListener;
 import javax.swing.JFrame;
 
 import org.javabuilders.BuildProcess;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.Values;
 import org.javabuilders.event.ObjectMethod;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handles JFrame window events/listeners

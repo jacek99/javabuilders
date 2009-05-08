@@ -5,8 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 
 import org.eclipse.swt.widgets.Composite;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.swt.worker.SWTPropertyChangeSupport;
+import org.javabuilders.util.BuilderUtils;
 
 public class SamplesComposite extends Composite {
 

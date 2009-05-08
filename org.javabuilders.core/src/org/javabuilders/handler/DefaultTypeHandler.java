@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.InvalidTypeException;
 import org.javabuilders.Node;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * The standard handler to take care of simple object instantiation
@@ -49,8 +49,8 @@ public class DefaultTypeHandler extends AbstractTypeHandler {
 			}
 			
 			return useExistingInstance(config, result, parent, key, typeDefinition, instance);
-			
-			
+		} catch (BuildException ex) {
+			throw ex;
 		} catch (Exception ex) {
 			logger.severe("Failed to create class " + key + " : " + ex.getMessage());
 			throw new InvalidTypeException(key,ex);

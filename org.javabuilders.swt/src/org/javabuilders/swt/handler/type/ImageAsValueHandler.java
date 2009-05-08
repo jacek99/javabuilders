@@ -10,10 +10,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeAsValueHandler;
 import org.javabuilders.swt.SwtBuilderUtils;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handler for creating images that are arguments into methods

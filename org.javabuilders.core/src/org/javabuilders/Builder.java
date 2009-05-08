@@ -35,6 +35,8 @@ import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
+import org.javabuilders.util.BuilderUtils;
+import org.javabuilders.util.ChildrenCardinalityUtils;
 import org.jvyaml.YAML;
 
 /**
@@ -45,8 +47,10 @@ public class Builder {
 	
 	private final static Logger logger = Logger.getLogger(Builder.class.getSimpleName());
 	
-	public final static Map<String,?> EMPTY_PROPERTIES = new HashMap<String, Object>();
-	
+	public final static Map<String,?> EMPTY_PROPERTIES = null;
+
+	public final static String NAME = "name";
+
 	/**
 	 * The standard property names used throughout the builder types
 	 */
@@ -186,7 +190,7 @@ public class Builder {
 	 * @throws BuildException 
 	 */
 	public static BuildResult build(BuilderConfig config,Object caller, String fileName, ResourceBundle...resourceBundles)  {
-		return build(config, caller, fileName, EMPTY_PROPERTIES, resourceBundles);
+		return build(config, caller, fileName, null, resourceBundles);
 	}
 	
 	/**
@@ -198,19 +202,11 @@ public class Builder {
 	 * @throws IOException 
 	 * @throws BuildException 
 	 */
-	@SuppressWarnings("unchecked")
 	public static BuildResult build(BuilderConfig config,Object caller, String fileName, 
 			Map<String,?> customProperties, ResourceBundle...resourceBundles)  {
 		
 		if (caller == null) {
 			throw new NullPointerException("Caller cannot be null or empty");
-		}
-		BuildProcess process = new BuildProcess(config, caller, resourceBundles);
-		//apply custom properties
-		if (customProperties != null) {
-			for(String key : customProperties.keySet()) {
-				process.getBuildResult().getProperties().put(key, customProperties.get(key));
-			}
 		}
 		
 		//handle case when during development time the YAML content is loaded from the IDEs /src folder
@@ -257,12 +253,9 @@ public class Builder {
 			throw new BuildException(ex);
 		}
 		
-		BuilderUtils.validateYamlContent(bld.toString());
-		Object document = YAML.load(bld.toString());
-		executeBuild(document, config, process);
-		return process.getBuildResult();
+		return buildFromString(config, caller, bld.toString(), customProperties, resourceBundles);
 	}
-	
+
 	/**
 	 * Builds assuming the root object has already been instantiated
 	 * (e.g. for loading from within the constructor of an object and creating
@@ -273,17 +266,37 @@ public class Builder {
 	 * @throws BuildException 
 	 */
 	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, ResourceBundle...resourceBundles)  {
+		return buildFromString(config,caller, yamlContent,null,resourceBundles);
+	}
+	/**
+	 * Builds assuming the root object has already been instantiated
+	 * (e.g. for loading from within the constructor of an object and creating
+	 * it dynamically at that time)
+	 * @param caller The caller
+	 * @return Build result
+	 * @throws IOException 
+	 * @throws BuildException 
+	 */
+	@SuppressWarnings("unchecked")
+	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, Map<String,?> customProperties, 
+			ResourceBundle...resourceBundles)  {
 		
 		if (caller == null) {
 			throw new NullPointerException("Caller cannot be null or empty");
 		}
 		
-		BuildProcess result = new BuildProcess(config, caller, resourceBundles);
-
+		BuildProcess process = new BuildProcess(config, caller, resourceBundles);
+		//apply custom properties
+		if (customProperties != null) {
+			for(String key : customProperties.keySet()) {
+				process.getBuildResult().getProperties().put(key, customProperties.get(key));
+			}
+		}
+		
 		BuilderUtils.validateYamlContent(yamlContent);
 		Object document = YAML.load(yamlContent);
-		executeBuild(document, config, result);
-		return result.getBuildResult();
+		executeBuild(document, config, process);
+		return process.getBuildResult();
 	}
 	
 	/**
@@ -304,6 +317,7 @@ public class Builder {
 		
 		//pre-processing
 		document = BuilderPreProcessor.preprocess(config, process, document, null);
+		process.setDocument(document);
 		
 		if (logger.isLoggable(Level.FINE)) {
 			logger.log(Level.FINE, "Building from YAML document:\n%s",document);
@@ -406,29 +420,33 @@ public class Builder {
 			//collection of objects or values
 			List items = (List)rawDocumentNode;
 			
-			Node itemsNode = new Node(parent,currentKey);
-			
-			if (parent != null) {
-				parent.addChildNode(itemsNode);
-				//propagate parent properties to collection node - makes it faster for child nodes to get to parent's
-				//most important attributes
-				itemsNode.setMainObject(parent.getMainObject());
-				itemsNode.setConsumedKeys(parent.getConsumedKeys());
-			}
-			
-			boolean treatListAsPropertyValue = true;
-			for(Object item : items) {
-				if (item instanceof Map) {
-					Map<String,Object> itemMap = (Map<String,Object>)item;
-					for(String itemKey : itemMap.keySet()) {
-						Object itemValue = itemMap.get(itemKey);
-						processDocumentNode(config, process, itemsNode, itemKey, itemValue);
-						treatListAsPropertyValue = false;
-					}
-				} 
-			}
-			if (treatListAsPropertyValue) {
-				handleProperty(config, process, parent, currentKey);
+			Class<?> type = BuilderUtils.getClassFromAlias(process, currentKey, null);
+			//create child nodes only for types, not for properties that are lists (e.g. event listeners with multiple events)
+			if (Builder.CONTENT.equals(currentKey) || type != null) {
+				Node itemsNode = new Node(parent,currentKey);
+				
+				if (parent != null) {
+					parent.addChildNode(itemsNode);
+					//propagate parent properties to collection node - makes it faster for child nodes to get to parent's
+					//most important attributes
+					itemsNode.setMainObject(parent.getMainObject());
+					itemsNode.setConsumedKeys(parent.getConsumedKeys());
+				}
+				
+				boolean treatListAsPropertyValue = true;
+				for(Object item : items) {
+					if (item instanceof Map) {
+						Map<String,Object> itemMap = (Map<String,Object>)item;
+						for(String itemKey : itemMap.keySet()) {
+							Object itemValue = itemMap.get(itemKey);
+							processDocumentNode(config, process, itemsNode, itemKey, itemValue);
+							treatListAsPropertyValue = false;
+						}
+					} 
+				}
+				if (treatListAsPropertyValue) {
+					handleProperty(config, process, parent, currentKey);
+				}
 			}
 			
 		} else  {
@@ -589,6 +607,9 @@ public class Builder {
 					processDocumentNode(config,process,current,delayedKey, delayedValue);
 				}
 			}
+			
+			//check cardinality
+			ChildrenCardinalityUtils.checkChildrenCardinality(config,current);
 		}
 		
 		//register main object as root if we are running this at the root level
@@ -868,8 +889,6 @@ public class Builder {
 			}
 		}
 	}
-
-	public final static String NAME = "name";
-
+	
 	
 }

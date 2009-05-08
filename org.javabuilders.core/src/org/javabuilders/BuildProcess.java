@@ -30,6 +30,8 @@ public class BuildProcess {
 	
 	private BuilderConfig config = null;
 	
+	private Object document = null;
+	
 
 	/**
 	 * Constructor
@@ -134,6 +136,22 @@ public class BuildProcess {
 	 */
 	public BuilderConfig getConfig() {
 		return config;
+	}
+
+
+	/**
+	 * @return the fully parsed and pre-processed YAML document
+	 */
+	public Object getDocument() {
+		return document;
+	}
+
+
+	/**
+	 * @param document the fully parsed and pre-processed YAML document
+	 */
+	public void setDocument(Object document) {
+		this.document = document;
 	}
 	
 

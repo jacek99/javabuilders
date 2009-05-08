@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.javabuilders.JBStringUtils;
 import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.LayoutConstraints;
+import org.javabuilders.util.JBStringUtils;
 import org.junit.Test;
 
 public class LayoutConstraintsTests {

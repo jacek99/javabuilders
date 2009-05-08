@@ -10,9 +10,9 @@ import javax.swing.ImageIcon;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeAsValueHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handler for all Icon objects

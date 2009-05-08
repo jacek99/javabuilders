@@ -1,5 +1,7 @@
 package org.javabuilders.test.resources;
 
+import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,6 +17,7 @@ public class LocalBuildFilePanel extends JPanel {
 	
 	public LocalBuildFilePanel() {
 		BuilderConfig config = new TestBuilderConfig(JPanel.class,JLabel.class);
+		config.forType(JPanel.class).children(Component.class,0,Integer.MAX_VALUE);
 		Builder.build(config, this);
 	}
 	

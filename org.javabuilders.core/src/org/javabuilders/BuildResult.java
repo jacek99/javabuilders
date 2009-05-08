@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.javabuilders.handler.validation.BuilderValidators;
 import org.javabuilders.handler.validation.IValidationMessageHandler;
 import org.javabuilders.handler.validation.ValidationMessageList;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * The return of any build process. That's what both the YAML and Java side see and

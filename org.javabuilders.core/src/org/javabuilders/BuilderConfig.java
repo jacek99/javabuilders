@@ -27,6 +27,7 @@ import org.javabuilders.handler.type.IntegerArrayAsValueHandler;
 import org.javabuilders.handler.validation.BuilderValidators;
 import org.javabuilders.handler.validation.DefaultValidatorTypeHandler;
 import org.javabuilders.handler.validation.IValidationMessageHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Represents the configuration for a builder (e.g. Swing vs SWT, etc)
@@ -299,7 +300,7 @@ public class BuilderConfig {
 	 * @param alias Alias
 	 * @return Class (null if none found)
 	 */
-	Class<?> getClassType(String alias)  {
+	public Class<?> getClassType(String alias)  {
 		Class<?> classType = typeAliases.get(alias);
 		return classType;
 	}
@@ -461,7 +462,7 @@ public class BuilderConfig {
 	/**
 	 * @return Custom commands
 	 */
-	Map<String,ICustomCommand<? extends Object>> getCustomCommands() {
+	public Map<String,ICustomCommand<? extends Object>> getCustomCommands() {
 		return customCommands;
 	}
 

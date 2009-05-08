@@ -12,7 +12,6 @@ import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.BuilderPreProcessor;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.Node;
 import org.javabuilders.TypeDefinition;
@@ -27,6 +26,7 @@ import org.javabuilders.layout.HAlign;
 import org.javabuilders.layout.LayoutCell;
 import org.javabuilders.layout.LayoutConstraints;
 import org.javabuilders.layout.VAlign;
+import org.javabuilders.util.BuilderUtils;
 import org.jvyaml.YAML;
 
 /**

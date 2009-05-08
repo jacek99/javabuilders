@@ -21,6 +21,7 @@ import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.layout.DefaultResize;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Defines the metadata for a specific type
@@ -129,7 +130,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	public static Set<Class<?>> getAllowedParents(BuilderConfig config, Class<?> classType) {
 		Set<Class<?>> allowed = new HashSet<Class<?>>();
 		
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			for(Class<?> parentClass : def.getAllowedParents()) {
 				allowed.add(parentClass);
 			}
@@ -144,7 +146,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Set<String> getRequiredKeys(BuilderConfig config, Class<?> classType) {
 		Set<String> keys = new HashSet<String>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			keys.addAll(def.getRequiredKeys());
 		}
 		return keys;
@@ -156,7 +159,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Set<Class<?>> getRequiredTypes(BuilderConfig config, Class<?> classType) {
 		Set<Class<?>> keys = new HashSet<Class<?>>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			keys.addAll(def.getRequiredTypes());
 		}
 		return keys;
@@ -170,7 +174,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Map<String,Object> getDefaults(BuilderConfig config, Class<?> classType) {
 		Map<String,Object> map = new HashMap<String, Object>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			map.putAll(def.getDefaults());
 		}
 		return map;
@@ -184,7 +189,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Set<String> getIgnored(BuilderConfig config, Class<?> classType) {
 		Set<String> ignored = new HashSet<String>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			ignored.addAll(def.getAllIgnored());
 			
 		}
@@ -199,7 +205,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static DefaultResize getDefaultResize(BuilderConfig config, Class<?> classType) {
 		DefaultResize resize = DefaultResize.NONE;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			resize = def.getDefaultResize();
 			break;
 		}
@@ -215,11 +222,15 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Method getTypeAsMethod(BuilderConfig config, Class<?> parentClassType, Class<?> classType) {
 		Method target = null;
-		for(TypeDefinition def : config.getTypeDefinitions(parentClassType)) {
-			for(Class<?> mappedType : def.getTypesAsMethods().keySet()) {
+		
+		Set<TypeDefinition> defs = config.getTypeDefinitions(parentClassType);
+		root:
+		for(TypeDefinition def : defs) {
+			Set<Class<?>> keySet = def.getTypesAsMethods().keySet();
+			for(Class<?> mappedType : keySet) {
 				if (mappedType.isAssignableFrom(classType)) {
 					target = def.getTypesAsMethods().get(mappedType);
-					break;
+					break root;
 				}
 			}
 		}
@@ -234,7 +245,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static List<ITypeHandlerFinishProcessor> getFinishProcessors(BuilderConfig config, Class<?> classType) {
 		List<ITypeHandlerFinishProcessor> list = new LinkedList<ITypeHandlerFinishProcessor>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getFinishProcessor() != null) {
 				list.add(def.getFinishProcessor());
 			}
@@ -250,7 +262,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static List<ITypeHandlerAfterCreationProcessor> getAfterCreationProcessors(BuilderConfig config, Class<?> classType) {
 		List<ITypeHandlerAfterCreationProcessor> list = new LinkedList<ITypeHandlerAfterCreationProcessor>();
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getAfterCreationProcessor() != null) {
 				list.add(def.getAfterCreationProcessor());
 			}
@@ -270,7 +283,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		}
 		
 		ITypeHandler handler = BuilderConfig.defaultTypeHandler;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getTypeHandler() != null) {
 				handler = def.getTypeHandler();
 				break;
@@ -295,7 +309,9 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		}
 		
 		IPropertyHandler handler = BuilderConfig.defaultPropertyHandler;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getPropertyHandler(property) != null) {
 				handler = def.getPropertyHandler(property);
 				break;
@@ -327,7 +343,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 			}
 		}
 		
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getTypeAsValueHandler() != null) {
 				handler = def.getTypeAsValueHandler();
 				break;
@@ -427,7 +444,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		
 		Object returnValue = value; //default
 		
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			Map<String,? extends Object> mappedValues = def.getMappedPropertyValues(propertyName);
 			if (mappedValues != null) {
 				if (mappedValues.containsKey(value)) {
@@ -453,7 +471,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static String getPropertyForAlias(BuilderConfig config, Class<?> classType, String alias)  {
 		String actual = null;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			actual = def.getPropertyForAlias(alias);
 			if (actual != null) {
 				//stop on the first alias definition
@@ -473,7 +492,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Object getCustomProperty(BuilderConfig config, Class<?> classType, String propertyName)  {
 		Object value = null;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.getCustomProperties().containsKey(propertyName))  {
 				value = def.getCustomProperties().get(propertyName);
 				break;
@@ -492,7 +512,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Object isList(BuilderConfig config, Class<?> classType, String propertyName) {
 		boolean list = false;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			if (def.isList(propertyName)) {
 				list = true;
 				break;
@@ -510,7 +531,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public static Class<?> getPropertyConstantsClass(BuilderConfig config, Class<?> classType, String propertyName) {
 		Class<?> constants = null;
-		for(TypeDefinition def : config.getTypeDefinitions(classType)) {
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs) {
 			constants = def.getPropertyConstants(propertyName);
 			if (constants != null) {
 				break;
@@ -519,11 +541,48 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		return constants;
 	}
 	
+	/**
+	 * Number of allowed children underneath a type
+	 * @param config Config
+	 * @param classType Type
+	 * @return Number of children expected
+	 */
+	public static Map<Class<?>,int[]> getChildrenCardinality(BuilderConfig config, Class<?> classType) {
+		Map<Class<?>,int[]> children = new HashMap<Class<?>, int[]>();
+		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
+		for(TypeDefinition def : defs ) {
+			Map<Class<?>,int[]> current = def.getChildrenCardinality();
+			boolean override = def.isChildrenCardinalityOverriden();
+			if (override) {
+				//does not inherit cardinality from parents
+				if (current.size() > 0) {
+					children = current;
+					break;
+				}
+			} else {
+				//inherits cardinality from parent and extends it
+				for(Class<?> type : current.keySet()) {
+					//merge values across TypeDefinition inheritance
+					if (!children.containsKey(type)) {
+						children.put(type, current.get(type));
+					}
+				}
+			}
+		}
+		
+		//assume everyone is a lead node if not defined
+		/*
+		if (children.size() == 0) {
+			children.put(Object.class, new int[]{0,0});
+		}
+		*/
+		
+		return children;
+	}
 	
 	/*
 	 * INSTANCE METHODS
 	 */
-	
 	private Class<?> applicableClass = null;
 	private Set<String> requiredKeys = new HashSet<String>();
 	private Set<Class<?>> requiredTypes = new HashSet<Class<?>>();
@@ -545,6 +604,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	private List<String> propertiesAsList = new ArrayList<String>();
 	private Map<String,Class<?>> propertyConstants = new HashMap<String, Class<?>>();
 	private Map<String,IPropertyHandler> propertyHandlers = new HashMap<String, IPropertyHandler>();
+	private Map<Class<?>,int[]> childrenCardinality = new HashMap<Class<?>, int[]>();
+	private boolean childrenCardinalityOverride = false;
 	
 	/**
 	 * Constructor
@@ -1124,5 +1185,67 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		return propertyHandlers.get(property);
 	}
 	
+	/**
+	 * Controls if the children cardinalities are inherited from the parents or not
+	 * @param override Override parent children cardinalities
+	 * @return This
+	 */
+	public TypeDefinition childrenOverride(boolean override) {
+		this.childrenCardinalityOverride = override;
+		return this;
+	}
+	
+	/**
+	 * Defines how many children are expected under this type in a build file
+	 * @param children Children
+	 * @return Builder
+	 */
+	public TypeDefinition children(Class<?> type, int min, int max) {
+		int[] cardinality = new int[]{min,max};
+		childrenCardinality.put(type, cardinality);
+		return this;
+	}
+
+	/**
+	 * Defines how many children are expected under this type in a build file
+	 * @param children Children
+	 * @return Builder
+	 */
+	public TypeDefinition children(Class<?> type, int exact) {
+		return children(type,exact,exact);
+	}
+	
+	/**
+	 * Defines how many children are expected under this type in a build file
+	 * @param children Children
+	 * @return Builder
+	 */
+	public TypeDefinition children(int min, int max) {
+		return children(Object.class,min,max);
+	}
+
+	
+	/**
+	 * Defines how many children are expected under this type in a build file
+	 * @param children Children
+	 * @return Builder
+	 */
+	public TypeDefinition children(int exact) {
+		return children(Object.class,exact,exact);
+	}
+
+	/**
+	 * @return Number of children allowed under this type
+	 */
+	public Map<Class<?>,int[]> getChildrenCardinality() {
+		return this.childrenCardinality;
+	}
+	
+	/**
+	 * @return True if overrides, false if inherits children cardinality from parents and extends it
+	 */
+	public boolean isChildrenCardinalityOverriden() {
+		return this.childrenCardinalityOverride;
+	}
 	
 }

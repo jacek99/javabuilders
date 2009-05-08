@@ -8,6 +8,8 @@ public class Person {
 	private String lastName;
 	private Calendar birthDate;
 
+	public Person() {}
+	
 	public Person(String firstName, String lastName, Calendar birthDate) {
 		super();
 		this.firstName = firstName;

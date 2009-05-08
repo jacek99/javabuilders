@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.javabuilders.event.ObjectMethod;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Defines a value, it's optional default and allowed values

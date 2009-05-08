@@ -7,21 +7,26 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import org.javabuilders.BuildResult;
-import org.javabuilders.Builder;
-import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.test.issues.resources.Book;
+import org.javabuilders.swing.test.resources.Author;
+import org.javabuilders.swing.test.resources.AuthorsPanel;
 import org.javabuilders.swing.test.resources.BooksPanel;
 import org.javabuilders.swing.util.SwingYamlBuilder;
-import org.javabuilders.util.YamlBuilder;
+import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JListBinding;
+import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,6 +49,7 @@ public class DataBindingTests {
 		books.clear();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testJComboBoxBeansBinding() {
 		JComboBox box = new JComboBox();
@@ -113,8 +119,89 @@ public class DataBindingTests {
 		assertEquals("Carl Sagan: Cosmos", list.getModel().getElementAt(1).toString());
 	}
 	
+	@Test @Ignore
+	public void testJListNestedModel() {
+		AuthorsPanel panel = new AuthorsPanel();
+		
+		JList authors = (JList) panel.result.get("authors");
+		assertNotNull(authors);
+		JList books = (JList) panel.result.get("books");
+		assertNotNull(books);
+		JTextField firstName = (JTextField) panel.result.get("firstName");
+		assertNotNull(firstName);
+		JTextField lastName = (JTextField) panel.result.get("lastName");
+		assertNotNull(lastName);
+		JTextField bookTitle = (JTextField) panel.result.get("bookTitle");
+		assertNotNull(bookTitle);
+		
+		List<Author> list = panel.getAuthors();
+		assertEquals(list.size(), authors.getModel().getSize());
+		
+		for(Author author : list) {
+
+			authors.setSelectedValue(author, true);
+			
+			assertEquals(author, authors.getSelectedValue());
+			
+			assertEquals(author.getFirstName(),firstName.getText());
+			assertEquals(author.getLastName(),lastName.getText());
+			
+			List<Book> authorBooks = author.getBooks();
+			assertEquals(authorBooks.size(), books.getModel().getSize());
+			
+			for(Book book : authorBooks) {
+				books.setSelectedValue(book,true);
+				assertEquals(book.getTitle(), bookTitle.getText());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testJTableBeansBinding() {
+		BooksPanel panel = new BooksPanel();
+		panel.setBooks(books);
+		
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JTable(name=table)");
+		}}.build(panel);
+
+		JTable table = (JTable) r.get("table");
+		assertNotNull(table);
+		TableModel model = table.getModel();
+		
+		//create columns
+		TableColumn col = new TableColumn(0);
+		col.setHeaderValue("Author Column");
+		table.getColumnModel().addColumn(col);
+		
+		JTableBinding bind = SwingBindings.createJTableBinding(UpdateStrategy.READ_WRITE, books, table);
+		bind.addColumnBinding(0, BeanProperty.create("author")).setColumnClass(String.class).setEditable(true);
+		bind.addColumnBinding(1, BeanProperty.create("title")).setColumnClass(String.class).setEditable(true);
+		bind.addColumnBinding(2, BeanProperty.create("price")).setColumnClass(double.class).setEditable(true);
+		bind.bind();
+		
+		assertEquals(books.size(), table.getRowCount());
+		assertEquals(3, table.getColumnCount());
+		
+		//check values
+		for(int i = 0; i < table.getRowCount();i++) {
+			Book book = books.get(i);
+			assertEquals(book.getAuthor(), table.getValueAt(i, 0));
+			assertEquals(book.getTitle(), table.getValueAt(i, 1));
+			assertEquals(book.getPrice(), table.getValueAt(i, 2));
+		}
+		
+		//BB overrides the default model
+		assertFalse(model.equals(table.getModel()));
+		
+		//BB overrides the table column
+		assertFalse("Author Column".equals(table.getColumnModel().getColumn(0).getHeaderValue()));
+		
+	}
+	
+	@Test @Ignore
+	public void testJTableModel() {
 		BooksPanel panel = new BooksPanel();
 		panel.setBooks(books);
 		
@@ -127,6 +214,6 @@ public class DataBindingTests {
 	}
 	
 	
-	
-	
 }
+
+

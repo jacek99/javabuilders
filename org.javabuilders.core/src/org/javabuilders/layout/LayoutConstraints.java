@@ -12,8 +12,8 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.javabuilders.BuilderUtils;
-import org.javabuilders.JBStringUtils;
+import org.javabuilders.util.BuilderUtils;
+import org.javabuilders.util.JBStringUtils;
 import org.jvyaml.YAML;
 
 /**

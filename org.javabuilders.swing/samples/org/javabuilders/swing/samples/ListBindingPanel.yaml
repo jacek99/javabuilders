@@ -3,9 +3,9 @@ JPanel:
      - JScrollPane(name=listS): JList(name=list)
      - JScrollPane(name=tableS): JTable(name=table)
      - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
-     - JButton(name=listAdd,text=Add)
-     - JButton(name=listDelete,text=Delete)
-     - JButton(name=tableAdd,text=Add)
+     - JButton(name=listAdd,text=Add, onAction=addPerson)
+     - JButton(name=listDelete,text=Delete, onAction=($confirm,deleteFromList))
+     - JButton(name=tableAdd,text=Add, onAction=addPerson)
      - JButton(name=tableDelete,text=Delete)     
      - MigLayout: |
           [grow]                   [grow]

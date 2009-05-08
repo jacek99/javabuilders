@@ -103,6 +103,6 @@ public class SwingJavaBuilder  {
 	public static BuildResult build(Object caller, String yaml, ResourceBundle...bundles)  {
 		return Builder.buildFromString(getConfig(),caller, yaml, bundles);
 	}
-
+	
 }
 

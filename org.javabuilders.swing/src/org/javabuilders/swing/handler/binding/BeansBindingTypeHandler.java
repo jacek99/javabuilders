@@ -163,7 +163,6 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 	}
 
 	// create Swing binding
-	@SuppressWarnings("unchecked")
 	private Binding<Object, Object, Object, Object> createJTableBinding(Object sourceObject, String sourcePropertyPath,
 			JTable targetObject, String targetPropertyName, UpdateStrategy strategy, BuildProcess result) {
 

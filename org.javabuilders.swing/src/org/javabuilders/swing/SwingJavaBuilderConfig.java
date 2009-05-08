@@ -79,7 +79,10 @@ import javax.swing.JViewport;
 import javax.swing.JWindow;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
@@ -129,6 +132,7 @@ import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTableTypeHandler;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
+import org.javabuilders.swing.handler.type.TableColumnFinishProcessor;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
@@ -233,7 +237,9 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 				JToggleButton.class,
 				JViewport.class,
 				JWindow.class,
-				JBSeparator.class
+				JBSeparator.class,
+				TableCellEditor.class,
+				TableCellRenderer.class
 				);
 		
 		//define aliases for Swing layout managers
@@ -241,30 +247,38 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		addType("Action",SwingAction.class);
 		
 		//define metadata about types
-		forType(Container.class)
-			.ignore(Builder.CONSTRAINTS)
-			.delay(TypeDefinition.DEFAULT_DELAY_WEIGHT,LayoutManager.class)  
-			.finishProcessor(ContainerTypeHandler.getInstance())
-			.defaultResize(DefaultResize.BOTH);
-
 		forType(AbstractButton.class)
 			.localize(TEXT)
 			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance());
 		forType(ButtonGroup.class)
 			.finishProcessor(ButtonGroupTypeHandler.getInstance())
-			.ignore(Builder.CONTENT);
+			.ignore(Builder.CONTENT)
+			.children(AbstractButton.class,0,Integer.MAX_VALUE);
 		forType(Component.class)
 			.ignore(LAYOUT_DATA)
 			.propertyHandler(ComponentSizeHandler.getInstance(), ComponentFocusListenerHandler.getInstance(),
 					ComponentKeyListenerHandler.getInstance(), ComponentMouseListenerHandler.getInstance(), 
 		  		    ComponentMouseWheelListenerHandler.getInstance(), ComponentMouseMotionListenerHandler.getInstance());
+		forType(Container.class)
+			.ignore(Builder.CONSTRAINTS)
+			.delay(TypeDefinition.DEFAULT_DELAY_WEIGHT,LayoutManager.class)  
+			.finishProcessor(ContainerTypeHandler.getInstance())
+			.defaultResize(DefaultResize.BOTH)
+			.children(Component.class, 0,Integer.MAX_VALUE)
+			.children(LayoutManager.class, 0,1)
+			.children(ButtonGroup.class, 0, Integer.MAX_VALUE);
 		forType(Font.class)
 			.valueHandler(FontAsValueHandler.getInstance());
 		forType(Frame.class).localize(TITLE)
 			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
 			.propertyHandler(FrameExtendedStateHandler.getInstance());
 		forType(TableColumn.class).ignore(Builder.NAME)
-			.localize("headerValue");
+			.localize("headerValue")
+			.children(TableCellEditor.class, 0,1)
+			.children(TableCellRenderer.class,0,2)
+			.children(JComboBox.class,0,1)
+			.children(JTextField.class,0,1)
+			.children(JCheckBox.class,0,1);
 		forType(Window.class).localize(TITLE)
 			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
 			.propertyHandler(WindowListenerHandler.getInstance());
@@ -284,26 +298,34 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.propertyHandler(JComponentGroupTitleHandler.getInstance());
 		forType(JDialog.class)
 			.typeAsMethod(JMenuBar.class, "setJMenuBar")
-			.finishProcessor(JDialogTypeHandler.getInstance());
+			.finishProcessor(JDialogTypeHandler.getInstance())
+			.children(Action.class,0,Integer.MAX_VALUE)
+			.children(JMenuBar.class, 0,1);
 		forType(JFormattedTextField.class)
 			.defaultResize(DefaultResize.X_AXIS)
 			.typeHandler(JFormattedTextFieldTypeHandler.getInstance());
 		forType(JFrame.class)
-			.propertyHandler(JFrameWindowListenerHandler.getInstance());
+			.typeAsMethod(JMenuBar.class, "setJMenuBar")
+			.finishProcessor(JFrameTypeHandler.getInstance())
+			.propertyHandler(JFrameWindowListenerHandler.getInstance())
+			.children(Action.class, 0,Integer.MAX_VALUE)
+			.children(JMenuBar.class, 0,1);
 		forType(JLabel.class)
 			.localize(TEXT);
 		forType(JList.class)
 			.defaultResize(DefaultResize.BOTH);
+		forType(JMenu.class)
+			.children(ButtonGroup.class,0,Integer.MAX_VALUE);
 		forType(JMenuBar.class)
 			.allowParent(JFrame.class,JDialog.class);
 		forType(JMenuItem.class)
 			.localize(ACCELERATOR)
-			.propertyHandler(JMenuItemTextHandler.getInstance(),JMenuItemAcceleratorHandler.getInstance());
-		forType(JFrame.class)
-			.typeAsMethod(JMenuBar.class, "setJMenuBar")
-			.finishProcessor(JFrameTypeHandler.getInstance());
+			.propertyHandler(JMenuItemTextHandler.getInstance(),JMenuItemAcceleratorHandler.getInstance())
+			.children(JMenuItem.class,0,Integer.MAX_VALUE);
 		forType(JPanel.class)
 			.defaultResize(DefaultResize.BOTH);
+		forType(JPopupMenu.class)
+			.children(JMenuItem.class,0,Integer.MAX_VALUE);
 		forType(JProgressBar.class)
 			.defaultResize(DefaultResize.X_AXIS);
 		forType(JSeparator.class)
@@ -313,13 +335,17 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.asMapped("verticalScrollBarPolicy", vScrollbars)
 			.asMapped("horizontalScrollBarPolicy", hScrollbars)
 			.typeAsMethod(Component.class, "setViewportView")
-			.propertyAlias("verticalScrollBarPolicy","vScrollBar").propertyAlias("horizontalScrollBarPolicy", "hScrollBar");
+			.propertyAlias("verticalScrollBarPolicy","vScrollBar").propertyAlias("horizontalScrollBarPolicy", "hScrollBar")
+			.childrenOverride(true)
+			.children(Component.class,0,1);
 		forType(JSlider.class)
 			.defaultResize(DefaultResize.BOTH);
 		forType(JSplitPane.class)
 			.defaultResize(DefaultResize.BOTH)
 			.afterCreationProcessor(JSpiltPaneTypeHandler.getInstance())
-			.finishProcessor(JSpiltPaneTypeHandler.getInstance());
+			.finishProcessor(JSpiltPaneTypeHandler.getInstance())
+			.childrenOverride(true)
+			.children(Component.class, 0, 2);
 		forType(JTabbedPane.class)
 			.finishProcessor(JTabbedPaneTypeHandler.getInstance())
 			.defaultResize(DefaultResize.BOTH)
@@ -327,7 +353,10 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JTable.class)
 			.finishProcessor(JTableTypeHandler.getInstance())
 			.propertyConstants("selectionMode", ListSelectionModel.class)
-			.propertyHandler(JTableSelectionListenerHandler.getInstance());
+			.typeAsMethod(TableModel.class, "setModel")
+			.propertyHandler(JTableSelectionListenerHandler.getInstance())
+			.children(TableColumn.class, 0, Integer.MAX_VALUE)
+			.children(TableModel.class,0,1);
 		forType(JTextComponent.class)
 			.defaultResize(DefaultResize.BOTH);
 		forType(JTextField.class)
@@ -337,7 +366,9 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JTree.class)
 			.defaultResize(DefaultResize.BOTH)
 			.propertyHandler(JTreeSelectionListenerHandler.getInstance());
-		
+		forType(TableCellRenderer.class)
+			.ignore(TableColumnFinishProcessor.FOR_HEADER);
+
 		forType(MigLayout.class)
 			.typeHandler(MigLayoutHandler.getInstance());
 		forType(CardLayout.class)
@@ -370,9 +401,9 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 	
 		//define which object types should be treated as named and based on what property value
 		addNamedObjectCriteria(Component.class,"name");
+		addNamedObjectCriteria(TableModel.class,"name");
 		
 		setStringLiteralControlSuffix("Label"); 
-		
 	}
 	
 	/* (non-Javadoc)

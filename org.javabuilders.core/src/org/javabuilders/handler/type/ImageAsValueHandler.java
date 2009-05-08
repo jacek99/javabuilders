@@ -9,9 +9,9 @@ import java.net.URL;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeAsValueHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handles Image objects in a fashion similar to Icon

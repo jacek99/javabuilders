@@ -12,13 +12,13 @@ import javax.swing.event.ListSelectionListener;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.IPropertyList;
 import org.javabuilders.Node;
 import org.javabuilders.ValueListDefinition;
 import org.javabuilders.Values;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.handler.AbstractPropertyHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * JTable.getSelectionModel().addListSelectionListener() handler, e.g.

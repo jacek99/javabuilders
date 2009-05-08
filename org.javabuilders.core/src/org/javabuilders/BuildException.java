@@ -5,6 +5,8 @@ package org.javabuilders;
 
 import java.text.MessageFormat;
 
+import org.javabuilders.util.BuilderUtils;
+
 /**
  * Abstract build exception
  * @author Jacek Furmankiewicz
@@ -34,7 +36,7 @@ public class BuildException extends RuntimeException {
 	 * @param messageArguments Arguments
 	 */
 	public BuildException(Throwable cause,String messageFormat, Object...messageArguments) {
-		super(MessageFormat.format(messageFormat, messageArguments), cause);
+		super(MessageFormat.format(messageFormat, BuilderUtils.getMessageFormatSafeArguments(messageArguments)), cause);
 	}
 	
 

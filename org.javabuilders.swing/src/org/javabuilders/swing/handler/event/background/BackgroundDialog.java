@@ -16,11 +16,11 @@ import javax.swing.JProgressBar;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.Builder;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.SwingJavaBuilderUtils;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Background dialog

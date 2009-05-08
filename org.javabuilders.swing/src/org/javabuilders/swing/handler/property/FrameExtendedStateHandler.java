@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.IAllowedValues;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractPropertyHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handles java.awt.Frame.setExtendedState().

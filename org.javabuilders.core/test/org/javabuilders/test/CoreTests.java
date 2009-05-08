@@ -2,8 +2,12 @@ package org.javabuilders.test;
 
 import static org.junit.Assert.*;
 
-import org.javabuilders.BuilderUtils;
+import javax.swing.JPanel;
+
+import org.javabuilders.BuildResult;
+import org.javabuilders.Builder;
 import org.javabuilders.test.resources.ParentClass;
+import org.javabuilders.util.BuilderUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,6 +38,18 @@ public class CoreTests {
 		assertEquals("labelName", BuilderUtils.generateName("label.name", null, null));
 		assertEquals("labelFirstName", BuilderUtils.generateName("label.firstName", null, null));
 		assertEquals("firstName", BuilderUtils.generateName("First Name", null, null));
+	}
+
+	@Test
+	public void testBuildContentProvider() {
+		TestBuilderConfig config = new TestBuilderConfig(JPanel.class);
+		
+		String yaml =  "JPanel(name=testPanel)"; 
+		
+		BuildResult r = Builder.buildFromString(config, this, yaml);
+		assertNotNull(r.get("testPanel"));
+		assertTrue(r.get("testPanel") instanceof JPanel);
+		
 	}
 	
 }

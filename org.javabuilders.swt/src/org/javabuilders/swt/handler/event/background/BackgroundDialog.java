@@ -15,10 +15,10 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.javabuilders.BuildException;
 import org.javabuilders.Builder;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.swt.SwtJavaBuilder;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Background dialog

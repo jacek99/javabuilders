@@ -11,11 +11,11 @@ import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.NamedObjectProperty;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Abstract ancestor for binding support implementations

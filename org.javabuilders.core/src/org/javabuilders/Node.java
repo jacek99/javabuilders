@@ -153,12 +153,14 @@ public class Node  {
 	 * @param classFilter Class filter
 	 * @return All child nodes
 	 */
-	public Set<Node> getChildNodes(Class<?> classFilter) {
+	public Set<Node> getChildNodes(Class<?>... classFilter) {
 		Set<Node> nodes = new LinkedHashSet<Node>();
 		
 		for(Node child : getChildNodes()) {
-			if (classFilter.isAssignableFrom(child.getMainObject().getClass())) {
-				nodes.add(child);
+			for(Class<?> type : classFilter) {
+				if (type.isAssignableFrom(child.getMainObject().getClass())) {
+					nodes.add(child);
+				}
 			}
 		}
 		
@@ -173,6 +175,20 @@ public class Node  {
 	public Node getContentNode() {
 		return getChildNode(Builder.CONTENT);
 	}
+
+	/**
+	 * Helper method to quickly get children in the content node
+	 * @return List of content nodes (or null if none)
+	 */
+	public Set<Node> getContentNodes() {
+		Node content = getContentNode();
+		if (content != null) {
+			return content.getChildNodes();
+		} else {
+			return null;
+		}
+	}
+
 	
 	/**
 	 * Helper method to quickly get children in the content node of a particular
@@ -180,7 +196,7 @@ public class Node  {
 	 * @param classFilter Class type to filter on
 	 * @return List of relevant child nodes
 	 */
-	public Set<Node> getContentNodes(Class<?> classFilter) {
+	public Set<Node> getContentNodes(Class<?>... classFilter) {
 		Node content = getContentNode();
 		if (content != null) {
 			return content.getChildNodes(classFilter);

@@ -16,7 +16,6 @@ import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderUtils;
 import org.javabuilders.IPropertyList;
 import org.javabuilders.Node;
 import org.javabuilders.ValueListDefinition;
@@ -25,6 +24,7 @@ import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.handler.AbstractPropertyHandler;
 import org.javabuilders.swing.SwingAction;
 import org.javabuilders.swing.SwingAction.IActionHandler;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * Handles the onAction event (via an ActionListener) on all Swing controls that support it
