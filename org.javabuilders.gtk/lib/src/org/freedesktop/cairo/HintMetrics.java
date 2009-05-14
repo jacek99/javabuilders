@@ -34,7 +34,7 @@ public class HintMetrics extends Constant
 
     /**
      * Default is like "unset"; the existing value from the surrounding
-     * environment (Context, Surface, Font in used, Font rendering back end,
+     * environment (Context, Surface, Font in use, Font rendering back end,
      * etc) will be used.
      * 
      * @since 4.0.10

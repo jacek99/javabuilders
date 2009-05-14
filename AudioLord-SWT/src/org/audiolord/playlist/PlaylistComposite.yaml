@@ -1,0 +1,14 @@
+Composite:
+    - SashForm():
+        - CTabFolder(style=border, tabPosition=1024):
+            - CTabItem(text=Library)
+            - CTabItem(text=Files)
+            - CTabItem(text=Devices)
+        - Table(name=filesTable,style=(multi,border,fullSelection),linesVisible=true,headerVisible=true):
+             - TableColumn(text="#")
+             - TableColumn(text="Artist")
+             - TableColumn(text="Album")
+             - TableColumn(text="Title")
+             - TableColumn(text="Duration")
+             - TableColumn(text="Bitrate")
+    - FillLayout()

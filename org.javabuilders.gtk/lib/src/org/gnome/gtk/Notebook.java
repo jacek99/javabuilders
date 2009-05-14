@@ -11,8 +11,6 @@
  */
 package org.gnome.gtk;
 
-import com.sun.java.swing.plaf.gtk.GTKNativeEngine;
-
 /**
  * A tabbed notebook container. These are common sights in web browsers and
  * text editors and are the recommended way to create user interfaces that
@@ -29,7 +27,7 @@ import com.sun.java.swing.plaf.gtk.GTKNativeEngine;
  * 
  * @author Sebastian Mancke
  * @author Andrew Cowie
- * @author Stefan Prelleose
+ * @author Stefan Prelle
  * @author Stefan Schweizer
  * @since 4.0.3
  */

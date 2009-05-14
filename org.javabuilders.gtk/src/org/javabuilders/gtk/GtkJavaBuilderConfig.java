@@ -28,6 +28,7 @@ import org.gnome.gtk.DrawingArea;
 import org.gnome.gtk.Entry;
 import org.gnome.gtk.EventBox;
 import org.gnome.gtk.Expander;
+import org.gnome.gtk.FileChooserAction;
 import org.gnome.gtk.FileChooserButton;
 import org.gnome.gtk.FileChooserWidget;
 import org.gnome.gtk.Fixed;
@@ -62,6 +63,7 @@ import org.gnome.gtk.RadioMenuItem;
 import org.gnome.gtk.RecentChooserMenu;
 import org.gnome.gtk.RecentChooserWidget;
 import org.gnome.gtk.Ruler;
+import org.gnome.gtk.Scale;
 import org.gnome.gtk.ScaleButton;
 import org.gnome.gtk.ScrolledWindow;
 import org.gnome.gtk.SeparatorMenuItem;
@@ -94,11 +96,15 @@ import org.gnome.gtk.Window;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
 import org.javabuilders.event.IBackgroundProcessingHandler;
+import org.javabuilders.gtk.handler.property.ScaleDrawValueHandler;
 import org.javabuilders.gtk.handler.property.TreeViewColumnNameHandler;
 import org.javabuilders.gtk.handler.property.WidgetNameHandler;
 import org.javabuilders.gtk.handler.type.ConstantAsValueHandler;
 import org.javabuilders.gtk.handler.type.ContainerFinishProcessor;
+import org.javabuilders.gtk.handler.type.FileChooserActionAsValue;
+import org.javabuilders.gtk.handler.type.FileChooserButtonTypeHandler;
 import org.javabuilders.gtk.handler.type.HBoxTypeHandler;
+import org.javabuilders.gtk.handler.type.HScaleTypeHandler;
 import org.javabuilders.gtk.handler.type.LabelHandler;
 import org.javabuilders.gtk.handler.type.MenuItemTypeHandler;
 import org.javabuilders.gtk.handler.type.MenuShellFinishProcessor;
@@ -128,114 +134,131 @@ public class GtkJavaBuilderConfig extends BuilderConfig{
 		//widgets
 		addType(
 				Action.class,
+				AccelLabel.class,
+				Alignment.class,
+				Arrow.class,
+				AspectFrame.class,
+				Assistant.class,
+				Box.class,
+				Button.class,
+				ButtonBox.class,
 				Calendar.class,
 				CellView.class,
-				Alignment.class,
-				Button.class,
-				ColorButton.class,
-				FontButton.class,
-				LinkButton.class,
-				ScaleButton.class,
-				ToggleButton.class,
 				CheckButton.class,
-				RadioButton.class,
+				CheckMenuItem.class,
+				ColorButton.class,
+				ColorSelection.class,
 				ComboBox.class,
 				ComboBoxEntry.class,
-				TextComboBoxEntry.class,
-				TextComboBox.class,
-				EventBox.class,
-				Expander.class,
-				Frame.class,
-				AspectFrame.class,
-				HandleBox.class,
-				MenuItem.class,
-				CheckMenuItem.class,
-				RadioMenuItem.class,
-				ImageMenuItem.class,
-				SeparatorMenuItem.class,
-				TearoffMenuItem.class,
-				ScrolledWindow.class,
-				ToolItem.class,
-				SeparatorToolItem.class,
-				ToolButton.class,
-				MenuToolButton.class,
-				ToggleToolButton.class,
-//				RadioButton.class,
-				Viewport.class,
-				Window.class,
-				Assistant.class,
 				Dialog.class,
-				Plug.class,
-				Box.class,
-				ButtonBox.class,
-				HButtonBox.class,
-				VButtonBox.class,
-				HBox.class,
-				FileChooserButton.class,
-				Statusbar.class,
-				VBox.class,
-				ColorSelection.class,
-				FileChooserWidget.class,
-				FontSelection.class,
-				RecentChooserWidget.class,
-				Fixed.class,
-				IconView.class,
-				Layout.class,
-				Menu.class,
-				RecentChooserMenu.class,
-				MenuBar.class,
-				Notebook.class,
-				HPaned.class,
-				VPaned.class,
-				Socket.class,
-				Table.class,
-				TextView.class,
-				Toolbar.class,
-				TreeView.class,
-				TreeViewColumn.class,
 				DrawingArea.class,
 				Entry.class,
-				SpinButton.class,
-				Arrow.class,
-				Image.class,
-				Label.class,
-				AccelLabel.class,
-				ProgressBar.class,
-				HScale.class,
-				VScale.class,
-				HScrollbar.class,
-				VScrollbar.class,
-				Ruler.class,
+				EventBox.class,
+				Expander.class,
+				FileChooserButton.class,
+				FileChooserWidget.class,
+				Fixed.class,
+				FontButton.class,
+				FontSelection.class,
+				Frame.class,
+				HandleBox.class,
+				HBox.class,
+				HButtonBox.class,
+				HPaned.class,
 				HRuler.class,
-				VRuler.class,
+				HScale.class,
+				HScrollbar.class,
 				HSeparator.class,
-				VSeparator.class);
-	
+				IconView.class,
+				Image.class,
+				ImageMenuItem.class,
+				Label.class,
+				Layout.class,
+				LinkButton.class,
+				Menu.class,
+				MenuBar.class,
+				MenuItem.class,
+				MenuToolButton.class,
+				Notebook.class,
+				Plug.class,
+				ProgressBar.class,
+				RadioButton.class,
+				RadioMenuItem.class,
+				RecentChooserMenu.class,
+				RecentChooserWidget.class,
+				Ruler.class,
+				ScaleButton.class,
+				ScrolledWindow.class,
+				SeparatorMenuItem.class,
+				SeparatorToolItem.class,
+				Socket.class,
+				SpinButton.class,
+				Statusbar.class,
+				Table.class,
+				TearoffMenuItem.class,
+				TextComboBox.class,
+				TextComboBoxEntry.class,
+				TextView.class,
+				ToggleButton.class,
+				ToggleToolButton.class,
+				Toolbar.class,
+				ToolButton.class,
+				ToolItem.class,
+				TreeView.class,
+				TreeViewColumn.class,
+				VBox.class,
+				VButtonBox.class,
+				Viewport.class,
+				VPaned.class,
+				VRuler.class,
+				VScale.class,
+				VScrollbar.class,
+				VSeparator.class,
+				Window.class);	
 		//type customizations
 		forType(Button.class).defaultResize(DefaultResize.NONE);
-		forType(Container.class).finishProcessor(new ContainerFinishProcessor());
+		forType(Container.class)
+			.finishProcessor(new ContainerFinishProcessor())
+			.children(Widget.class,0,Integer.MAX_VALUE);
 		forType(Constant.class).valueHandler(new ConstantAsValueHandler());
 		forType(Entry.class).defaultResize(DefaultResize.X_AXIS);
+		forType(FileChooserAction.class)
+			.valueHandler(new FileChooserActionAsValue());
+		forType(FileChooserButton.class)
+			.typeHandler(new FileChooserButtonTypeHandler());
+		forType(HBox.class).typeHandler(new HBoxTypeHandler());
+		forType(HScale.class).typeHandler(new HScaleTypeHandler());
+		forType(Label.class).typeHandler(new LabelHandler());
+		forType(Menu.class)
+			.children(MenuItem.class,0,Integer.MAX_VALUE);
+		forType(MenuBar.class)
+			.children(MenuItem.class, 0, Integer.MAX_VALUE);
+		forType(MenuItem.class)
+			.typeHandler(new MenuItemTypeHandler())
+			.children(Menu.class,0,Integer.MAX_VALUE);		
 		forType(MenuShell.class).finishProcessor(new MenuShellFinishProcessor());
 		forType(Notebook.class).defaultResize(DefaultResize.BOTH).finishProcessor(new NotebookFinishProcessor());
 		forType(Paned.class).defaultResize(DefaultResize.BOTH).finishProcessor(new PanedFinishProcessor());
+		forType(Scale.class)
+			.defaultValue("min", 1).defaultValue("max",100).defaultValue("step", 1)
+			.propertyHandler(new ScaleDrawValueHandler());
 		forType(ScrolledWindow.class).finishProcessor(new ScrolledWindowFinishProcessor());
+		forType(Table.class).typeHandler(new TableTypeHandler());
 		forType(TextView.class).defaultResize(DefaultResize.BOTH);
-		
-		forType(Widget.class).localize(LABEL, NotebookFinishProcessor.TAB_LABEL).ignore(NotebookFinishProcessor.IS_TAB_LABEL,
-				NotebookFinishProcessor.TAB_LABEL);
-		
-		//type handlers
-		addTypeHandler(new HBoxTypeHandler());
-		addTypeHandler(new LabelHandler());
-		addTypeHandler(new MenuItemTypeHandler());
-		addTypeHandler(new TableTypeHandler());
-		addTypeHandler(new TreeViewColumnTypeHandler());
-		addTypeHandler(new VBoxTypeHandler());
-		
-		//property handlers
-		addPropertyHandler(new WidgetNameHandler());
-		addPropertyHandler(new TreeViewColumnNameHandler());
+		forType(TreeView.class)
+			.defaultResize(DefaultResize.BOTH)
+			.childrenOverride(true)
+			.children(TreeViewColumn.class, 0, Integer.MAX_VALUE);
+		forType(TreeViewColumn.class)
+			.typeHandler(new TreeViewColumnTypeHandler())
+			.propertyHandler(new TreeViewColumnNameHandler());
+		forType(VBox.class).typeHandler(new VBoxTypeHandler());
+		forType(Widget.class)
+			.localize(LABEL, NotebookFinishProcessor.TAB_LABEL)
+			.ignore(NotebookFinishProcessor.IS_TAB_LABEL,NotebookFinishProcessor.TAB_LABEL)
+			.propertyHandler(new WidgetNameHandler());
+		forType(Window.class)
+			.localize("title");
 	}
 
 	/* (non-Javadoc)

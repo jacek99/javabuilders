@@ -1,7 +1,7 @@
 /*
  * ScrolledWindow.java
  *
- * Copyright (c) 2007-2008 Operational Dynamics Consulting Pty Ltd, and Others
+ * Copyright (c) 2007-2009 Operational Dynamics Consulting Pty Ltd, and Others
  *
  * The code in this file, and the library it is a part of, are made available
  * to you by the authors under the terms of the "GNU General Public Licence,
@@ -135,12 +135,11 @@ public class ScrolledWindow extends Bin
 
     /**
      * Set the type of decoration you want around the child Widget in the
-     * ScrolledWindow.
+     * ScrolledWindow. You probably don't need this.
+     * 
+     * @since 4.0.11
      */
-    /*
-     * FIXME This doesn't work!?! GTK bug?
-     */
-    void setShadowType(ShadowType type) {
+    public void setShadowType(ShadowType type) {
         GtkScrolledWindow.setShadowType(this, type);
     }
 }

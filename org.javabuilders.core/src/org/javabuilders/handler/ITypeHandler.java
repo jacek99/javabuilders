@@ -88,4 +88,9 @@ public interface ITypeHandler extends IKeyValueConsumer, IApplicable {
 	 */
 	String getSimpleValuePropertyName();
 	
+	/**
+	 * @return True if should be used for subclasses, false if not
+	 */
+	boolean isApplicableToSubclasses();
+	
 }

@@ -6,6 +6,7 @@ package org.javabuilders.gtk;
  */
 public class GtkConstants {
 
+	public static final String ACTION = "action";
 	public static final String LABEL = "label";
 	public static final String LAYOUT = "layout";
 	public static final String HOMOGENOUS = "homogenous";

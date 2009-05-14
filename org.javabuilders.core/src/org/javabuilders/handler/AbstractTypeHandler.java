@@ -54,4 +54,12 @@ public abstract class AbstractTypeHandler implements ITypeHandler {
 	public String getSimpleValuePropertyName() {
 		return Builder.VALUE;
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.javabuilders.handler.ITypeHandler#isApplicableToSubclasses()
+	 */
+	public boolean isApplicableToSubclasses() {
+		return true;
+	}
 }

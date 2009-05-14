@@ -6,7 +6,32 @@
 		<author>Jacek Furmankiewicz</author>
 	</prolog>
 	<body>
+	    <section>
+	       <title>Custom Table Models</title>
+	       <p>
+	       You can integrate custom table models into your JTables. First, you must register your custom model (usually in the <codeph>main()</codeph>, 
+	       so that the Swing JavaBuilder engine is aware of it, e.g.:
+	       <codeblock>
+SwingJavaBuilder.getConfig().addType(MyCustomTableModel.class);
+	       </codeblock>
+	       Then you can just refer to it directly:
+	       <codeblock>
+JPanel:
+    - JScrollPane(name=scroll2): 
+        JTable(name=table1):
+            - MyCustomTableModel(name=model)
+	       </codeblock>
+	       <note>Your custom table does not actualy need to have <codeph>name</codeph> property. If it does not
+	       exist, the Swing JavaBuilder will handle it as a virtual property. A named instance
+	       of the model (that you can manipulate from the Java code) will be created, e.g.:
+	       <codeblock>
+private MyCustomTableModel model;  //reference will be set during build process	       
+	       </codeblock>
+	       </note>
+	       </p>
+	    </section>
 		<section>
+		     <title>Table Columns</title>
 			<p> JTable provides an easy way to create table columns, by just
 				specifying a list of TableColumn objects underneath it, e.g.:
 			<codeblock>

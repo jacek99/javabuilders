@@ -1,7 +1,7 @@
 /*
  * ComboBox.java
  *
- * Copyright (c) 2007-2008 Operational Dynamics Consulting Pty Ltd, and Others
+ * Copyright (c) 2007-2009 Operational Dynamics Consulting Pty Ltd, and Others
  *
  * The code in this file, and the library it is a part of, are made available
  * to you by the authors under the terms of the "GNU General Public Licence,
@@ -105,6 +105,9 @@ public class ComboBox extends Bin implements CellEditable, CellLayout
      * Returns the index of the active item in the ComboBox. This counts from
      * a zero origin, so a return value of <code>2</code> means the third item
      * in the list is currently the active item.
+     * 
+     * <p>
+     * This will return <code>-1</code> if there is no active item.
      * 
      * @since 4.0.6
      */

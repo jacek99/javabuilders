@@ -140,7 +140,6 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 
 			JList list = (JList) targetObject;
 			ELProperty listProperty = getELProperty(sourcePropertyPath);
-
 			binding = SwingBindings.createJListBinding(strategy, sourceObject, listProperty, list);
 			binding.bind();
 

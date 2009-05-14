@@ -1,0 +1,15 @@
+Composite:
+    - TabFolder():
+        - TabItem(text=tab.playlists):
+            - PlaylistComposite(name=playlists)
+        - TabItem(text=tab.libraryManager)
+        - TabItem(text=tab.converter)
+        - TabItem(text=tab.ripper)
+    - Composite():
+         - Button(text=Previous)
+         - Button(text=Rewind)
+         - Button(text=Play)
+         - Button(text=Forward)
+         - Button(text=Next)
+         - FillLayout()
+    - FillLayout(style=vertical)

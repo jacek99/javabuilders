@@ -1,7 +1,19 @@
-Window(title=AudioLord):
+Window(title=app.name, maximize=true):
     - VBox(homogenous=false):
-        - MenuBar(name=menuBar):
-            - MenuItem(name=file,label=File):
-                 - Menu(name=fileMenu):
-                     - MenuItem(label=Save)
-        - Button(label=Test)
+        - Notebook():
+            - VBox(tabLabel=tab.playlists):
+            - VBox(tabLabel=tab.libraryManager)
+            - VBox(tabLabel=tab.converter)
+            - VBox(tabLabel=tab.ripper)
+            - VBox(tabLabel=tab.processes)
+        - HBox(expand=false):
+            - HButtonBox():
+                - Button(label=Previous)
+                - Button(label=Rewind)
+                - Button(label=Play)
+                - Button(label=Forward)
+                - Button(label=Next)
+            - VBox():
+                - Label()
+                - HScale(drawValue=false)
+        - Statusbar()

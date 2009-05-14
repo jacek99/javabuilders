@@ -272,6 +272,7 @@ public class BuilderConfig {
 			//first request - lazy creation
 			defs = new TreeSet<TypeDefinition>(new TypeDefinitionClassHierarchyComparator());
 			
+			//classes
 			Class<?> superClass = classType;
 			while (superClass != null) {
 				if (typeDefinitions.containsKey(superClass)) {
@@ -279,6 +280,19 @@ public class BuilderConfig {
 				}			
 				superClass = superClass.getSuperclass();
 			}
+			
+			//interfaces
+			Class<?>[] interfaces = classType.getInterfaces();
+			for(Class<?> interfaceType : interfaces) {
+				superClass = interfaceType;
+				while (superClass != null) {
+					if (typeDefinitions.containsKey(superClass)) {
+						defs.add(typeDefinitions.get(superClass));
+					}			
+					superClass = superClass.getSuperclass();
+				}
+			}
+			
 			typeDefinitionsForClassCache.put(classType, defs);
 		}
 		

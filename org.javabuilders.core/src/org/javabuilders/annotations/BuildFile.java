@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * @author Jacek Furmankiewicz
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE})
 public @interface BuildFile {
 	String value();
 }

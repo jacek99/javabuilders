@@ -39,7 +39,11 @@ Java_org_freedesktop_cairo_Plumbing_createPattern
 	
 	// convert pointer
 	pattern = (cairo_pattern_t*) _pointer;
-	
+
+	// increment reference count
+	cairo_pattern_reference(pattern);
+
+	// now figure out Proxy class and create
 	switch (cairo_pattern_get_type(pattern)) {
 	case CAIRO_PATTERN_TYPE_SOLID:
 		if (SolidPattern == NULL) {
@@ -119,6 +123,10 @@ Java_org_freedesktop_cairo_Plumbing_createSurface
 	// convert pointer
 	surface = (cairo_surface_t*) _pointer;
 
+	// increment reference count
+	cairo_surface_reference(surface);
+
+        // now figure out Proxy class and create
 	switch (cairo_surface_get_type(surface)) {
 	case CAIRO_SURFACE_TYPE_IMAGE:
 		if (ImageSurface == NULL) {

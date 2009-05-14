@@ -48,6 +48,14 @@ Java_org_gnome_pango_PangoAttributeOverride_pango_1attribute_1set_1indexes
 	// convert parameter width
 	width = (gint) _width;
 
+	/*
+	 * We use Integer.MIN_VALUE as our sentinel that we mean unbounded.
+	 */
+
+	if (width == 0x80000000) {
+		width = G_MAXUINT;
+	}
+
 	// convert to bounds
 	/*
 	 * Get the text out of the layout, and then work out what
@@ -77,17 +85,3 @@ Java_org_gnome_pango_PangoAttributeOverride_pango_1attribute_1set_1indexes
 	// local text should not be modified or freed
 }
 
-
-/*
- * Express shortcut to determine the width of this String in bytes.
- */
-JNIEXPORT int JNICALL
-Java_org_gnome_pango_PangoAttributeOverride_strlen
-(
-	JNIEnv* env,
-	jclass cls,
-	jstring _str
-)
-{
-	return (*env)->GetStringUTFLength(env, _str);
-}

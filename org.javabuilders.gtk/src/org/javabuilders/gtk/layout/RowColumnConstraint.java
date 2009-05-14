@@ -9,7 +9,7 @@ import org.javabuilders.layout.VAlign;
 /**
  * A row or column constraint that can handle 3 separate modes:
  * <pre>
- * pref = preffered width
+ * pref = preferred width
  * grow = grows (resizes)
  * number = explicit width in pixels
  * + also a spacer indicator in pixels (that would be after the row or column)

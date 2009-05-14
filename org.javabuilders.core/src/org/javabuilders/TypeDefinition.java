@@ -192,7 +192,6 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
 		for(TypeDefinition def : defs) {
 			ignored.addAll(def.getAllIgnored());
-			
 		}
 		return ignored;
 	}
@@ -286,7 +285,15 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 		Set<TypeDefinition> defs = config.getTypeDefinitions(classType);
 		for(TypeDefinition def : defs) {
 			if (def.getTypeHandler() != null) {
-				handler = def.getTypeHandler();
+				ITypeHandler defHandler = def.getTypeHandler();
+				if (defHandler.isApplicableToSubclasses()) {
+					handler = defHandler;
+				} else {
+					//applicable to this class only and not its descendants
+					if (classType.equals(def.getApplicableClass())) {
+						handler = defHandler;
+					}
+				}
 				break;
 			}
 		}

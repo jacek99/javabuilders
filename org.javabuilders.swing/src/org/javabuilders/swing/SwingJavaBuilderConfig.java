@@ -93,6 +93,7 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.TypeDefinition;
+import org.javabuilders.handler.GenericNameHandler;
 import org.javabuilders.handler.type.FontAsValueHandler;
 import org.javabuilders.handler.type.IconAsValueHandler;
 import org.javabuilders.handler.type.ImageAsValueHandler;
@@ -130,7 +131,7 @@ import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
 import org.javabuilders.swing.handler.type.JFrameTypeHandler;
 import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
-import org.javabuilders.swing.handler.type.JTableTypeHandler;
+import org.javabuilders.swing.handler.type.JTableFinishProcessor;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
 import org.javabuilders.swing.handler.type.TableColumnFinishProcessor;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
@@ -253,6 +254,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(ButtonGroup.class)
 			.finishProcessor(ButtonGroupTypeHandler.getInstance())
 			.ignore(Builder.CONTENT)
+			.childrenOverride(true)
 			.children(AbstractButton.class,0,Integer.MAX_VALUE);
 		forType(Component.class)
 			.ignore(LAYOUT_DATA)
@@ -282,7 +284,12 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(Window.class).localize(TITLE)
 			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
 			.propertyHandler(WindowListenerHandler.getInstance());
-		
+		forType(JBSeparator.class)
+			.localize(TEXT)
+			.defaultResize(DefaultResize.X_AXIS)
+			.childrenOverride(true).children(0);
+		forType(JButton.class)
+			.childrenOverride(true).children(0);
 		forType(JComboBox.class)
 			.defaultResize(DefaultResize.X_AXIS)
 			.propertyHandler(CommonActionListenerHandler.getInstance());
@@ -311,9 +318,11 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.children(Action.class, 0,Integer.MAX_VALUE)
 			.children(JMenuBar.class, 0,1);
 		forType(JLabel.class)
-			.localize(TEXT);
+			.localize(TEXT)
+			.childrenOverride(true).children(0);
 		forType(JList.class)
-			.defaultResize(DefaultResize.BOTH);
+			.defaultResize(DefaultResize.BOTH)
+			.childrenOverride(true).children(0);
 		forType(JMenu.class)
 			.children(ButtonGroup.class,0,Integer.MAX_VALUE);
 		forType(JMenuBar.class)
@@ -327,9 +336,11 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JPopupMenu.class)
 			.children(JMenuItem.class,0,Integer.MAX_VALUE);
 		forType(JProgressBar.class)
-			.defaultResize(DefaultResize.X_AXIS);
+			.defaultResize(DefaultResize.X_AXIS)
+			.childrenOverride(true).children(0);
 		forType(JSeparator.class)
-			.defaultResize(DefaultResize.BOTH);
+			.defaultResize(DefaultResize.BOTH)
+			.childrenOverride(true).children(0);
 		forType(JScrollPane.class)
 			.defaultResize(DefaultResize.BOTH)	
 			.asMapped("verticalScrollBarPolicy", vScrollbars)
@@ -339,7 +350,10 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.childrenOverride(true)
 			.children(Component.class,0,1);
 		forType(JSlider.class)
-			.defaultResize(DefaultResize.BOTH);
+			.defaultResize(DefaultResize.BOTH)
+			.childrenOverride(true).children(0);
+		forType(JSpinner.class)
+			.childrenOverride(true).children(0);
 		forType(JSplitPane.class)
 			.defaultResize(DefaultResize.BOTH)
 			.afterCreationProcessor(JSpiltPaneTypeHandler.getInstance())
@@ -351,7 +365,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.defaultResize(DefaultResize.BOTH)
 			.propertyHandler(JTabbedPaneChangeListenerHandler.getInstance());
 		forType(JTable.class)
-			.finishProcessor(JTableTypeHandler.getInstance())
+			.finishProcessor(JTableFinishProcessor.getInstance())
 			.propertyConstants("selectionMode", ListSelectionModel.class)
 			.typeAsMethod(TableModel.class, "setModel")
 			.propertyHandler(JTableSelectionListenerHandler.getInstance())
@@ -362,7 +376,10 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JTextField.class)
 			.defaultResize(DefaultResize.X_AXIS)
 			.propertyAlias("horizontalAlignment","hAlign")
-			.propertyHandler(JTextFieldActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance());
+			.propertyHandler(JTextFieldActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance())
+			.childrenOverride(true).children(0);
+		forType(JToggleButton.class)
+			.childrenOverride(true).children(0);
 		forType(JTree.class)
 			.defaultResize(DefaultResize.BOTH)
 			.propertyHandler(JTreeSelectionListenerHandler.getInstance());
@@ -378,30 +395,27 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.ignore(Builder.CONTENT,Builder.NAME)
 			.finishProcessor(FlowLayoutTypeHandler.getInstance());
 		
+		forType(Action.class)
+			.valueHandler(ActionAsValueHandler.getInstance());
+		forType(Border.class)
+			.valueHandler(BorderAsValueHandler.getInstance());
 		forType(Color.class)
-			.valueHandler(ColorAsValueHandler.getInstance());
+		.valueHandler(ColorAsValueHandler.getInstance());
 		forType(Icon.class)
 			.valueHandler(IconAsValueHandler.getInstance());
 		forType(Image.class)
 			.valueHandler(ImageAsValueHandler.getInstance());
-		forType(Border.class)
-			.valueHandler(BorderAsValueHandler.getInstance());
-		
 		forType(SwingAction.class)
 			.localize(SwingJavaBuilder.TEXT, SwingJavaBuilder.TOOL_TIP_TEXT, SwingActionHandler.LONG_DESCRIPTION)
 			.propertyAlias(SwingActionHandler.LONG_DESCRIPTION, SwingActionHandler.LONG_DESC)
 			.typeHandler(SwingActionHandler.getInstance())
-			.propertyHandler(CommonActionListenerHandler.getInstance(),SwingActionTextHandler.getInstance());
-		forType(Action.class)
-			.valueHandler(ActionAsValueHandler.getInstance());
-		
-		forType(JBSeparator.class)
-			.localize(TEXT)
-			.defaultResize(DefaultResize.X_AXIS);
+			.propertyHandler(CommonActionListenerHandler.getInstance(),SwingActionTextHandler.getInstance())
+			.childrenOverride(true).children(0);
+		forType(TableModel.class)
+			.propertyHandler(GenericNameHandler.getDefaultInstance());
 	
 		//define which object types should be treated as named and based on what property value
-		addNamedObjectCriteria(Component.class,"name");
-		addNamedObjectCriteria(TableModel.class,"name");
+		addNamedObjectCriteria(Component.class,Builder.NAME);
 		
 		setStringLiteralControlSuffix("Label"); 
 	}

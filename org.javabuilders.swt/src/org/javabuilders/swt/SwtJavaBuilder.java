@@ -9,6 +9,8 @@ import org.eclipse.swt.widgets.Widget;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
+import org.javabuilders.BuilderConfig;
+import org.javabuilders.annotations.BuildFile;
 
 public class SwtJavaBuilder {
 
@@ -46,6 +48,17 @@ public class SwtJavaBuilder {
 	}
 	
 	/**
+	 * SwingBuilder method that accepts passed in YAML instead of looking for a separate file
+	 * @param caller The calling object 
+	 * @param bundles Optional list of bundles
+	 * @param yaml Valid YAML content
+	 * @return Buld result
+	 */
+	public static BuildResult build(Object caller, String yaml, ResourceBundle...bundles)  {
+		return Builder.buildFromString(getConfig(),caller, yaml, bundles);
+	}
+	
+	/**
 	 * Main SWT building method
 	 * @param caller
 	 * @param bundles
@@ -59,4 +72,33 @@ public class SwtJavaBuilder {
 		map.put(SwtJavaBuilder.PARENT, parent);
 		return Builder.build(getConfig(),caller, map, bundles);
 	}
+	
+	/**
+	 * SwingBuilder method that accepts passed in YAML instead of looking for a separate file
+	 * @param caller The calling object 
+	 * @param bundles Optional list of bundles
+	 * @param yaml Valid YAML content
+	 * @return Buld result
+	 */
+	public static BuildResult build(Widget parent, Object caller, String yaml, ResourceBundle...bundles)  {
+		Map<String,Widget> map = new HashMap<String, Widget>();
+		map.put(SwtJavaBuilder.PARENT, parent);
+		return Builder.buildFromString(getConfig(),caller, yaml, map, bundles);
+	}
+	
+	/**
+	 * Builds from a specific file
+	 * @param parent Parent
+	 * @param caller Caller
+	 * @param fileName File name  (relative to caller's location)
+	 * @param resourceBundles Resource Bundles
+	 * @return
+	 */
+	public static BuildResult buildFromFile(Widget parent, Object caller, String fileName, 
+			ResourceBundle...resourceBundles)  {
+		Map<String,Widget> map = new HashMap<String, Widget>();
+		map.put(SwtJavaBuilder.PARENT, parent);
+		return Builder.build(getConfig(),caller, fileName, map, resourceBundles);
+	}
+
 }

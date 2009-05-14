@@ -23,7 +23,7 @@ import org.javabuilders.swt.SwtJavaBuilder;
  * @author Jacek Furmankiewicz
  *
  */
-public class FillLayoutHandler extends AbstractTypeHandler implements ITypeChildrenHandler {
+public class FillLayoutHandler extends AbstractTypeHandler implements ITypeChildrenHandler{
 
 	private static final FillLayoutHandler singleton = new FillLayoutHandler();
 	

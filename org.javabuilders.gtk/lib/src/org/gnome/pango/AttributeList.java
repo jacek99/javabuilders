@@ -11,6 +11,9 @@
  */
 package org.gnome.pango;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gnome.glib.Boxed;
 
 /**
@@ -35,11 +38,11 @@ import org.gnome.glib.Boxed;
  * 
  * <pre>
  * attr = new StyleAttribute(Style.ITALIC);
- * attr.setIndexes(layout, 15, 4);
+ * attr.setIndexes(15, 4);
  * list.insert(attr);
  * 
  * attr = new ForegroundColorAttribute(0.1, 0.5, 0.9);
- * attr.setIndexes(layout, 15, 4);
+ * attr.setIndexes(15, 4);
  * list.insert(attr);
  * </pre>
  * 
@@ -63,8 +66,18 @@ import org.gnome.glib.Boxed;
  */
 public final class AttributeList extends Boxed
 {
+    final ArrayList<Attribute> attributes;
+
+    private boolean used;
+
+    /*
+     * This is probably broken, but there isn't anything is actually exposing
+     * a getAttributes() type functionality at the moment.
+     */
     protected AttributeList(long pointer) {
         super(pointer);
+        attributes = null;
+        used = true;
     }
 
     /**
@@ -75,10 +88,16 @@ public final class AttributeList extends Boxed
      */
     public AttributeList() {
         super(PangoAttrList.createAttributeList());
+        attributes = new ArrayList<Attribute>(4);
+        used = false;
     }
 
     protected void release() {
         PangoAttrList.unref(this);
+    }
+
+    final List<Attribute> getAttributes() {
+        return attributes;
     }
 
     /**
@@ -87,9 +106,21 @@ public final class AttributeList extends Boxed
      * index</var>.
      * 
      * @since 4.0.10
+     * @throws IllegalStateException
+     *             If you attempt to reuse an Attribute that is already in an
+     *             AttributeList.
+     */
+    /*
+     * Actual native insertion is carried out in Layout's setAttributes().
      */
     public void insert(Attribute attr) {
-        PangoAttrList.insert(this, attr);
+        if (attr.isInserted()) {
+            throw new IllegalStateException("Attribute already in an AttributeList");
+        }
+
+        attributes.add(attr);
+
+        attr.markInserted();
     }
 
     /**
@@ -98,8 +129,45 @@ public final class AttributeList extends Boxed
      * already in the list possessing the same <var>start index</var>.
      * 
      * @since 4.0.10
+     * @throws IllegalStateException
+     *             If you attempt to reuse an Attribute that is already in an
+     *             AttributeList.
+     */
+    /*
+     * The logic below is a somewhat cumbersome attempt to preserve the order
+     * of insertion to correspond to what the actual native behaviour is
+     * supposed to be, given our constraint of not being able to set the
+     * actual offsets until Layout's setAttributes().
      */
     public void insertBefore(Attribute attr) {
-        PangoAttrList.insertBefore(this, attr);
+        final int len;
+        int i;
+        Attribute existing;
+
+        if (attr.isInserted()) {
+            throw new IllegalStateException("Attribute already in an AttributeList");
+        }
+
+        len = attributes.size();
+
+        for (i = 0; i < len; i++) {
+            existing = attributes.get(i);
+            if (existing.getOffset() >= attr.getOffset()) {
+                attributes.add(i, attr);
+                attr.markInserted();
+                return;
+            }
+        }
+
+        attributes.add(attr);
+        attr.markInserted();
+    }
+
+    final boolean isUsed() {
+        return used;
+    }
+
+    final void markUsed() {
+        used = true;
     }
 }

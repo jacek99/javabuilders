@@ -238,8 +238,8 @@ public class TextView extends Container
      * 
      * @since 4.0.9
      */
-    public void setWrapMode(WrapMode wrapMode) {
-        GtkTextView.setWrapMode(this, wrapMode);
+    public void setWrapMode(WrapMode mode) {
+        GtkTextView.setWrapMode(this, mode);
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
  * AboutDialog.java
  *
- * Copyright (c) 2007-2008 Operational Dynamics Consulting Pty Ltd
+ * Copyright (c) 2007-2009 Operational Dynamics Consulting Pty Ltd, and Others
  *
  * The code in this file, and the library it is a part of, are made available
  * to you by the authors under the terms of the "GNU General Public Licence,
@@ -90,6 +90,19 @@ public class AboutDialog extends Dialog
      */
     public void setComments(String text) {
         GtkAboutDialog.setComments(this, text);
+    }
+
+    /**
+     * Set a link to your website. It is recommended to do in the standard
+     * <code>http://www.example.com/</code> format.
+     * 
+     * <p>
+     * <i>At the moment this "link" is just plain text and not live.</i>
+     * 
+     * @since 4.0.11
+     */
+    public void setWebsite(String website) {
+        GtkAboutDialog.setWebsite(this, website);
     }
 
     /**

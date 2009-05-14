@@ -57,6 +57,10 @@ public abstract class Plumbing extends org.freedesktop.bindings.Plumbing
      * abstract class as the type argument; however, C side, cairo allows us
      * to look up the fully qualified type given the abstract and so we can
      * then map that to the appropriate Java Proxy.
+     * 
+     * Both of these implementations increment the reference count of the
+     * underlying native library object; we are creating our Proxy for the
+     * first time and need to assume an ownership of it.
      */
 
     private static native Entity createSurface(long pointer);

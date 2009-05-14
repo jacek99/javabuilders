@@ -206,6 +206,23 @@ public class Node  {
 	}
 	
 	/**
+	 * Helper method to quickly get children in the content node of a particular
+	 * type
+	 * @param classFilter Class type to filter on
+	 * @return List of relevant child objects
+	 */
+	@SuppressWarnings("unchecked")
+	public <C> Set<C> getContentObjects(Class<? extends C> classFilter) {
+		Set<Node> contents = getContentNodes(classFilter);
+		Set<C> objects = new LinkedHashSet<C>();
+		for(Node node : contents) {
+			objects.add((C) node.getMainObject());
+		}
+		return objects;
+	}
+
+	
+	/**
 	 * Returns the child node identified by a particular key
 	 * @param key Key
 	 * @return Child node (or null if none found)

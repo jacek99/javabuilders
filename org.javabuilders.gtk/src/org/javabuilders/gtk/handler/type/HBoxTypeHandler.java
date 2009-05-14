@@ -66,5 +66,12 @@ public class HBoxTypeHandler extends AbstractTypeHandler {
 	public Class<HBox> getApplicableClass() {
 		return HBox.class;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.javabuilders.handler.ITypeHandler#isApplicableToSubclasses()
+	 */
+	public boolean isApplicableToSubclasses() {
+		return false;
+	}
 
 }

@@ -595,7 +595,7 @@ public class TextBuffer extends Object
      */
     /*
      * Convenience method. This doesn't need to be here, but it lends a
-     * certain elegence when used alongside the insert() overload
+     * certain elegance when used alongside the insert() overload
      */
     public void applyTag(TextTag[] tags, TextIter start, TextIter end) {
         if (tags == null) {
@@ -1053,5 +1053,77 @@ public class TextBuffer extends Object
      */
     public int getCursorPosition() {
         return getPropertyInteger("cursor-position");
+    }
+
+    /**
+     * Mark the beginning of a user initiated action. Calls to
+     * <code>beginUserAction()</code> can nest, but they need to be paired
+     * with calls to {@link #endUserAction() endUserAction()}. The outer-most
+     * call to this method will raise <code>TextBuffer.BeginUserAction</code>.
+     * Note that user input into a TextView that is handled by GTK's default
+     * <code>Widget.KeyPressEvent</code> handler will likewise begin a user
+     * action sequence.
+     * 
+     * @since 4.0.11
+     */
+    public void beginUserAction() {
+        GtkTextBuffer.beginUserAction(this);
+    }
+
+    /**
+     * Calls to <code>endUserAction()</code> close off the matching
+     * {@link #beginUserAction() beginUserAction()} call.
+     * <code>TextBuffer.EndUserAction</code> will only be emitted when the
+     * outer most user action is closed.
+     * 
+     * @since 4.0.11
+     */
+    public void endUserAction() {
+        GtkTextBuffer.endUserAction(this);
+    }
+
+    /**
+     * Signal emitted when a "user action" is initiated. This can be fired
+     * programmatically by calling TextBuffer's
+     * {@link TextBuffer#beginUserAction() beginUserAction()}, but is also
+     * raised by the default Input Method handler when the user types into a
+     * TextView.
+     * 
+     * @author Andrew Cowie
+     * @since 4.0.11
+     */
+    public interface BeginUserAction extends GtkTextBuffer.BeginUserActionSignal
+    {
+        public void onBeginUserAction(TextBuffer source);
+    }
+
+    /**
+     * Hookup a <code>TextBuffer.BeginUserAction</code> signal handler.
+     * 
+     * @since 4.0.11
+     */
+    public void connect(BeginUserAction handler) {
+        GtkTextBuffer.connect(this, handler, false);
+    }
+
+    /**
+     * The signal emitted when a "user action" stops. See TextBuffer's
+     * {@link TextBuffer#beginUserAction() beginUserAction()} for details.
+     * 
+     * @author Andrew Cowie
+     * @since 4.0.11
+     */
+    public interface EndUserAction extends GtkTextBuffer.EndUserActionSignal
+    {
+        public void onEndUserAction(TextBuffer source);
+    }
+
+    /**
+     * Hookup a <code>TextBuffer.EndUserAction</code> signal handler.
+     * 
+     * @since 4.0.11
+     */
+    public void connect(EndUserAction handler) {
+        GtkTextBuffer.connect(this, handler, false);
     }
 }

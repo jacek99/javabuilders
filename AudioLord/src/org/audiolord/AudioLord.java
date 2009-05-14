@@ -79,6 +79,8 @@ public class AudioLord extends Window {
 	         * trying to use any other elements provided by java-gnome.
 	         */
 
+			GtkJavaBuilder.getConfig().addResourceBundle("org/audiolord/AudioLord");
+			
 	        Gtk.init(args);
 	        final AudioLord window = new AudioLord();
 	        
@@ -87,7 +89,9 @@ public class AudioLord extends Window {
 				public boolean onDeleteEvent(Widget source, Event event) {
 	                
 	                try {
-						Database.close();
+	                	if (1==2) {
+	                		Database.close();
+	                	}
 					} catch (SQLException e) {
 						LOGGER.error("AudioLord Database Close Error",e);
 						MessageDialog dialog = new MessageDialog(window,true,MessageType.ERROR,ButtonsType.OK,e.getMessage());
@@ -101,7 +105,7 @@ public class AudioLord extends Window {
 				}
 	        });
 	        
-	        Database.init();
+	        //Database.init();
 	        window.showAll();
 	        Gtk.main();
 

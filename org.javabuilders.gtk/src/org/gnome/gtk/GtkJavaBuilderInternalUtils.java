@@ -1,6 +1,7 @@
 package org.gnome.gtk;
 
 
+
 /**
  * Hack class for getting around some permissions in java-gnome
  * @author Jacek Furmankiewicz
@@ -14,6 +15,15 @@ public class GtkJavaBuilderInternalUtils {
 	 */
 	public static Stock getStock(String stockId) {
 		return Stock.instanceFor(stockId);
+	}
+	
+	/**
+	 * Hack around missing Java-GNOME stuff
+	 * @param scale
+	 * @param drawValue
+	 */
+	public static void setScaleDrawValue(Scale scale, boolean drawValue) {
+		GtkScale.setDrawValue(scale, drawValue);
 	}
 
 }

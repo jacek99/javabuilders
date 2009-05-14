@@ -8,6 +8,7 @@
 	<classpathentry kind="lib" path="lib/beansbinding-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/swing-worker-1.2.jar" sourcepath="lib/swing-worker-src-1.2.zip"/>
 	<classpathentry kind="lib" path="lib/miglayout-3.7-swing.jar"/>
+	<classpathentry kind="lib" path="lib/experimental/glazedlists-1.8.0_java15.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -298,4 +298,13 @@ public final class FontDescription extends Boxed
     public void setSizeAbsolute(double size) {
         PangoFontDescription.setAbsoluteSize(this, size * Pango.SCALE);
     }
+
+    /**
+     * Make a deep copy of this FontDescription object.
+     * 
+     * @since 4.0.11
+     */
+    public FontDescription copy() {
+        return PangoFontDescription.copy(this);
+    }
 }
