@@ -59,12 +59,6 @@ public class CardLayoutTypeHandler implements ITypeHandlerFinishProcessor  {
 					container.add(c,c.getName());
 				}
 			}
-			
-			//handle CardLayout name
-			String name = current.getStringProperty(Builder.NAME);
-			if (name != null) {
-				process.addNamedObject(name,layout);
-			}
 
 		} else {
 			throw new BuildException("Unable to process CardLayout since no parent JComponent was found: {0}",

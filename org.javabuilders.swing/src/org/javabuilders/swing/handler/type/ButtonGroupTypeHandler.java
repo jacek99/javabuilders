@@ -45,11 +45,6 @@ public class ButtonGroupTypeHandler implements ITypeHandlerFinishProcessor {
 			throws BuildException {
 
 		try {
-			String name = current.getStringProperty(Builder.NAME);
-			if (name != null) {
-				process.addNamedObject(name, current.getMainObject());
-			}
-			
 			ButtonGroup group = (ButtonGroup)current.getMainObject();
 	
 			//add all the buttons in the list to the button group

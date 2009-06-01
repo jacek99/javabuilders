@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.event.BuildListener;
 import org.javabuilders.event.IBackgroundProcessingHandler;
 import org.javabuilders.handler.DefaultPropertyHandler;
@@ -28,6 +27,7 @@ import org.javabuilders.handler.validation.BuilderValidators;
 import org.javabuilders.handler.validation.DefaultValidatorTypeHandler;
 import org.javabuilders.handler.validation.IValidationMessageHandler;
 import org.javabuilders.util.BuilderUtils;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Represents the configuration for a builder (e.g. Swing vs SWT, etc)
@@ -50,7 +50,6 @@ public class BuilderConfig {
 	public static String PROPERY_STRING_LITERAL_CONTROL_PREFIX = "StringLiteralControl.Prefix";
 	public static String PROPERY_STRING_LITERAL_CONTROL_SUFFIX = "StringLiteralControl.Suffix";
 
-	
 	/**
 	 * Static constructor
 	 */
@@ -80,8 +79,6 @@ public class BuilderConfig {
 	private Map<Class<?>,TypeDefinition> typeDefinitions = new HashMap<Class<?>, TypeDefinition>();
 	private Map<String,Class<?>> typeAliases = new HashMap<String, Class<?>>();
 	
-	private Map<Class<?>,String> namedObjectCriteria = new HashMap<Class<?>,String>();
-	
 	private boolean markInvalidResourceBundleKeys = true;
 
 	//internal cache used to avoid re-creating the hierarchy of type definitions with every request
@@ -98,6 +95,8 @@ public class BuilderConfig {
 	private Map<String,Object> customProperties = new HashMap<String, Object>();
 	
 	private Map<String,Object> globals = new HashMap<String, Object>();
+	
+	private String namePropertyName = Builder.NAME;
 	
 	/**
 	 * Constructor
@@ -320,43 +319,13 @@ public class BuilderConfig {
 	}
 	
 	/**
-	 * Indicates if an object instance should be treated as a unique
-	 * named objects and added to the list of named objects in the
-	 * BuildResult
-	 * @param instance
-	 * @return true if named, false if not
-	 */
-	public boolean isNamedObject(Object instance) {
-		boolean isNamed = false;
-		
-		for(Class<?> classType : namedObjectCriteria.keySet()) {
-			if (classType.isInstance(instance)) {
-				isNamed = true;
-				break;
-			}
-		}
-		
-		return isNamed;
-	}
-	
-	/**
 	 * Checks the raw data (before an object has been even handled) to extract its name, 
 	 * if it has been specified
-	 * @param currentType Class type
 	 * @param data Raw parses data
 	 * @return Name or null if not found
 	 */
-	public String getNameIfAvailable(Class<?> currentType, Map<String,Object> data) {
-		String name = null;
-		
-		for(Class<?> classType : namedObjectCriteria.keySet()) {
-			if (classType.isAssignableFrom(currentType)) {
-				String propertyName = namedObjectCriteria.get(classType);
-				name = (String) data.get(propertyName);
-				break;
-			}
-		}
-		
+	public String getNameIfAvailable(Map<String,Object> data) {
+		String name = (String) data.get(namePropertyName);
 		return name;
 	}
 	
@@ -368,35 +337,32 @@ public class BuilderConfig {
 	 */
 	public String getObjectName(Object instance) throws ConfigurationException {
 		String name = null;
-		for(Class<?> classType : namedObjectCriteria.keySet()) {
-			if (classType.isInstance(instance)) {
-				String nameProperty = namedObjectCriteria.get(classType);
-				try {
-					//Issue #20 - fix for null names
-					Object value = PropertyUtils.getProperty(instance,nameProperty);
-					if (value == null) {
-						name = null;
-					} else {
-						name = String.valueOf(value);
-					}
-					
-				} catch (Exception e) {
-					throw new ConfigurationException("Invalid named objects configuration",e);
-				}
+		try {
+			Object value = PropertyUtils.getProperty(instance, namePropertyName);
+			if (value != null) {
+				name = String.valueOf(value);
 			}
+		} catch (Exception ex) {
+			//ignore
 		}
+		
 		return name;
 	}
 	
 	/**
-	 * Specifies that any object of this type with this property should be
-	 * added to the list of named objects in the BuildResult, using the
-	 * value of the specified property as the name
-	 * @param classType Class type
-	 * @param nameProperty Property name
+	 * Defines the property name that will be used for defining named objects (usually "name").
+	 * Even if class type does not have a name property, the builder will handle it transparently
 	 */
-	public void addNamedObjectCriteria(Class<?> classType, String nameProperty) {
-		namedObjectCriteria.put(classType, nameProperty);
+	public void setNamePropertyName(String namePropertyName) {
+		this.namePropertyName = namePropertyName;
+	}
+	
+	
+	/**
+	 * @return The name of the property used to define names (usually "name")
+	 */
+	public String getNamePropertyName() {
+		return this.namePropertyName;
 	}
 
 	/**

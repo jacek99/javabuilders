@@ -1,10 +1,10 @@
 package org.javabuilders.handler;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Generic handler for those cases where the property value is defined as a reference to a
@@ -33,7 +33,7 @@ public class GlobalVariablePropertyHandler extends AbstractPropertyHandler {
 		String name = node.getStringProperty(key);
 		
 		try {
-			Class<?> type = PropertyUtils.getPropertyDescriptor(main, key).getPropertyType();
+			Class<?> type = PropertyUtils.getPropertyType(main, key);
 			Object value = config.getGlobalVariable(name, type);
 			PropertyUtils.setProperty(main, key, value);
 		} catch (BuildException ex) {

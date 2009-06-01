@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.Realm;
@@ -24,6 +23,7 @@ import org.javabuilders.Node;
 import org.javabuilders.handler.binding.AbstractBuilderBindingsHandler;
 import org.javabuilders.handler.binding.BindingSourceDefinition;
 import org.javabuilders.swt.SwtBuilderUtils;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Implements data binding for the SWT domain using JFace Databinding
@@ -144,6 +144,7 @@ public class JFaceDatabindingHandler extends AbstractBuilderBindingsHandler {
 		
 			if (source instanceof Control) {
 				//SWT control
+				
 				Control control = (Control) source;
 				if (BACKGROUND.equals(sourceExpression)) {
 					value = SWTObservables.observeBackground(control);
@@ -179,7 +180,7 @@ public class JFaceDatabindingHandler extends AbstractBuilderBindingsHandler {
 				}
 				
 			} else {
-				if (List.class.isAssignableFrom(PropertyUtils.getPropertyDescriptor(source, sourceExpression).getPropertyType())) {
+				if (List.class.isAssignableFrom(PropertyUtils.getPropertyType(source, sourceExpression))) {
 					list = BeansObservables.observeList(Realm.getDefault(), source, sourceExpression);
 				} else {
 					//JavaBean observable

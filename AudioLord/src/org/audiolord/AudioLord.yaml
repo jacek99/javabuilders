@@ -1,19 +1,22 @@
 Window(title=app.name, maximize=true):
     - VBox(homogenous=false):
-        - Notebook():
-            - VBox(tabLabel=tab.playlists):
-            - VBox(tabLabel=tab.libraryManager)
-            - VBox(tabLabel=tab.converter)
-            - VBox(tabLabel=tab.ripper)
-            - VBox(tabLabel=tab.processes)
-        - HBox(expand=false):
-            - HButtonBox():
+        - Table():
+            - Notebook(name=tabs):
+                - VBox(tabLabel=tab.playlists):
+                - VBox(tabLabel=tab.libraryManager)
+                - VBox(tabLabel=tab.converter)
+                - VBox(tabLabel=tab.ripper)
+                - VBox(tabLabel=tab.processes)
+            - HButtonBox(name=buttons):
                 - Button(label=Previous)
                 - Button(label=Rewind)
                 - Button(label=Play)
                 - Button(label=Forward)
                 - Button(label=Next)
-            - VBox():
-                - Label()
-                - HScale(drawValue=false)
-        - Statusbar()
+            - HScale(name=scale,drawValue=false)
+            - Statusbar(name=statusbar)
+            - attach: |
+                [expand]
+                tabs            [expand]
+                buttons   scale
+                statusbar

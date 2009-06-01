@@ -10,7 +10,7 @@ import org.javabuilders.layout.VAlign;
  * A row or column constraint that can handle 3 separate modes:
  * <pre>
  * pref = preferred width
- * grow = grows (resizes)
+ * expand = grows (resizes)
  * number = explicit width in pixels
  * + also a spacer indicator in pixels (that would be after the row or column)
  * spacer = pixels
@@ -31,7 +31,7 @@ public class RowColumnConstraint {
 	private static final Pattern pattern = Pattern.compile(REGEX);
 	
 	private static final String PREF = "pref";
-	private static final String GROW = "grow";
+	private static final String EXPAND = "expand";
 	private static final String RIGHT = "right";
 	private static final String LEFT = "left";
 	private static final String CENTER = "center";
@@ -66,7 +66,7 @@ public class RowColumnConstraint {
 				for(String part : parts) {
 					if (PREF.equals(part)) {
 						value = Integer.MIN_VALUE;
-					} else if (GROW.equals(part)) {
+					} else if (EXPAND.equals(part)) {
 						value = Integer.MAX_VALUE;
 					} else if (RIGHT.equals(part)) {
 						hAlign = HAlign.RIGHT;

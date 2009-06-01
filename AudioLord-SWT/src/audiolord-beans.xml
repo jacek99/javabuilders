@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="org.audiolord" />
+
+	<bean id="dataSource" autowire="byType" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.sqlite.JDBC" />
+		<property name="url" value="jdbc:sqlite:audiolord.db" />
+		<property name="initialSize" value="5" />
+	</bean>
+
+</beans>

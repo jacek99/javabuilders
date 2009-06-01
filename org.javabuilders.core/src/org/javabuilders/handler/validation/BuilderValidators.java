@@ -3,7 +3,6 @@ package org.javabuilders.handler.validation;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.handler.validation.validator.DateFormatValidator;
@@ -15,6 +14,7 @@ import org.javabuilders.handler.validation.validator.MinLengthValidator;
 import org.javabuilders.handler.validation.validator.MinValueValidator;
 import org.javabuilders.handler.validation.validator.RegexValidator;
 import org.javabuilders.handler.validation.validator.TypeValidator;
+import org.javabuilders.util.PropertyUtils;
 
 
 

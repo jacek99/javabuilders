@@ -1,0 +1,11 @@
+Composite:
+     - Label(name=folderLabel,text="Folder:")
+     - Combo(name=folder,style=border)
+     - Button(name=browse,text=Browse, onSelection=browse)
+     - Tree(name=library,style=border)
+     - MigLayout: |
+         [pref]      [grow]    [pref]
+         folderLabel folder    browse=1
+         library+*                      [grow]
+#bind:
+#   - folder.text: this.currentFolder

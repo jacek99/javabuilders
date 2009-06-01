@@ -3,18 +3,17 @@
  */
 package org.javabuilders.handler;
 
-import java.beans.PropertyDescriptor;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.ITypeAsValueSupport;
 import org.javabuilders.InvalidPropertyException;
 import org.javabuilders.Node;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Default class for handling type properties
@@ -58,6 +57,11 @@ public class DefaultPropertyHandler extends AbstractPropertyHandler implements I
 			Object mainObject = node.getMainObject();
 			Object value = node.getProperties().get(key);
 		
+			//ignore default 'name' property if object does not have it
+			if (config.getNamePropertyName().equals(key) && !PropertyUtils.isValid(mainObject, config.getNamePropertyName())) {
+				return;
+			}
+			
 			try {
 				PropertyUtils.setProperty(mainObject, key, value);
 			} catch (Exception e) {
@@ -66,14 +70,16 @@ public class DefaultPropertyHandler extends AbstractPropertyHandler implements I
 				StringBuilder builder = new StringBuilder();
 				try {
 					builder.append("The known property names for " + mainObject.getClass().getSimpleName() + " are:");
-					PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(mainObject.getClass());
-					for (PropertyDescriptor pd : pds) {
+					Set<String> names = PropertyUtils.getPropertyNames(mainObject);
+					for (String name : names) {
 						if (builder.length() > 0) {
 							builder.append("\n");
 						}
-						builder.append(pd.getName());
+						builder.append(name);
 					}
-				} catch (Exception ex) {}
+				} catch (Exception ex) {
+					logger.log(Level.SEVERE, ex.getMessage());
+				}
 				
 				logger.log(Level.SEVERE, e.getMessage() + "\n" + builder.toString(),e);
 				

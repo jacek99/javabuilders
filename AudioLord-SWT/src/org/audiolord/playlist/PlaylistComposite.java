@@ -6,6 +6,13 @@ import org.javabuilders.swt.SwtJavaBuilder;
 
 public class PlaylistComposite extends Composite {
 
+	@SuppressWarnings("unused")
+	private LibraryComposite library;
+	@SuppressWarnings("unused")
+	private FilesComposite files;
+	@SuppressWarnings("unused")
+	private DeviceComposite devices;
+	
 	/**
 	 * @param parent
 	 */
@@ -13,5 +20,4 @@ public class PlaylistComposite extends Composite {
 		super(parent,SWT.NONE);
 		SwtJavaBuilder.build(this);
 	}
-
 }

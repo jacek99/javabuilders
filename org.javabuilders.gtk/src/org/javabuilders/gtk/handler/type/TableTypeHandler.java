@@ -212,7 +212,9 @@ public class TableTypeHandler extends AbstractTypeHandler implements ITypeHandle
 					}
 					
 					Alignment alignment = new Alignment(xAlign,yAlign,xScale,yScale,widgetToAdd);
-					alignment.setSizeRequest(columnConstraint.getWidth(), rowConstraint.getWidth());
+					if (columnConstraint != null && rowConstraint != null) {
+						alignment.setSizeRequest(columnConstraint.getWidth(), rowConstraint.getWidth());
+					}
 					table.attach(alignment, col, col + first.getHSpan(), row, row + first.getVSpan(), colAttachOption, rowAttachOption,0,0);
 					
 					//size groups

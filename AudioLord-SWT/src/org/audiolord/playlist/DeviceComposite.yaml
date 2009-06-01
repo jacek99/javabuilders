@@ -1,0 +1,10 @@
+Composite:
+     - Label(name=label,text="Device:")
+     - Combo(name=select,style=border)
+     - Button(name=connect,text=Connect)
+     - Button(name=disconnect,text=Disconnect)
+     - Tree(name=library,style=border)
+     - MigLayout: |
+         [pref]      [grow]    [pref]
+         label       select    connect=1,disconnect=1
+         library+*                                    [grow]

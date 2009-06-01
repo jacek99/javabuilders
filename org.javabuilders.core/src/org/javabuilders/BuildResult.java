@@ -64,7 +64,7 @@ public class BuildResult extends HashMap<String, Object> {
 		if (key == null) {
 			throw new BuildException("Null keys are not allowed in BuildResult: {0}", value);
 		} else if (keySet().contains(key)) {
-			throw new BuildException("Duplicate name \"{0}\" specified in YAML file", key);
+			throw new BuildException("Duplicate name \"{0}\" specified in YAML file : {1}", key, value.getClass().getSimpleName());
 		} else {
 			return super.put(key, value);
 		}

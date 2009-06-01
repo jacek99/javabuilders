@@ -16,7 +16,6 @@ public class TestBuilderConfig extends BuilderConfig {
 	 */
 	public TestBuilderConfig(Class<?>... types) {
 		super(null,null,null);
-		addNamedObjectCriteria(JComponent.class, "name");
 		
 		addType(types);
 	}

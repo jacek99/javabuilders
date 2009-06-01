@@ -3198,7 +3198,7 @@ JPanel:
             - MyCustomTableModel(name=model)
 	       </fo:block>
 <fo:block>
-<fo:inline font-weight="bold" border-right-width="0pt" border-left-width="0pt">Note: </fo:inline>  Your custom table does not actualy need to have <fo:inline font-family="Courier">name</fo:inline> property. If it does not
+<fo:inline font-weight="bold" border-right-width="0pt" border-left-width="0pt">Note: </fo:inline>  Your custom table does not actually need to have <fo:inline font-family="Courier">name</fo:inline> property. If it does not
 	       exist, the Swing JavaBuilder will handle it as a virtual property. A named instance
 	       of the model (that you can manipulate from the Java code) will be created, e.g.:
 	       <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
@@ -3218,8 +3218,53 @@ JPanel:
         JTable(name=table1):
             - TableColumn(name=col1,resizable=true, headerValue=Column 1)
             - TableColumn(name=col2,resizable=true, headerValue=Column 2)
-            - TableColumn(name=col2,resizable=false, headerValue=Column 3)			
+            - TableColumn(name=col3,resizable=false, headerValue=Column 3)			
 			</fo:block>
+			When processing the list of table columns, the builder will evaluate the columns that are there already.
+			If it can match based on the <fo:inline font-family="Courier">identifier</fo:inline> or <fo:inline font-family="Courier">headerValue</fo:inline> then it
+			will use that existing columns, otherwise it will create a new one and add it to the JTable.
+			</fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N1144D"></fo:inline>
+<fo:block font-weight="bold">Cell Editor</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
+		      Adding cell editors to a column is very easy. You can either define an explicit <fo:inline font-family="Courier">TableCellEditor</fo:inline>
+		      implementation:
+		      <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomCellEditor(name=col1Editor)
+		      </fo:block>
+		      or you can define an explicit <fo:inline font-family="Courier">JCheckBox, JComboBox or JTextField</fo:inline> underneath it. In this
+		      case the builder will automatically wrap it with a <fo:inline font-family="Courier">DefaultCellEdior</fo:inline> wrapper:
+              <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+ JTable(name=table1):
+     - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+         - JComboBox(name=col1Box)
+     - TableColumn(name=col2,resizable=true, headerValue=Column 2):
+         - JCheckBox(name=col2Box)
+     - TableColumn(name=col3,resizable=false, headerValue=Column 3):
+         - JTextField(name=col3Field)
+              </fo:block>
+</fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N1147A"></fo:inline>
+<fo:block font-weight="bold">Cell Renderer</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
+		      Similarly, you can define a <fo:inline font-family="Courier">TableCellRenderer</fo:inline> underneath a column:
+		      <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomRenderer(name=col1Renderer)
+		      </fo:block>
+		      If you want to define a column header renderer, just add a <fo:inline font-family="Courier">forHeader=true</fo:inline> property:
+              <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomRenderer(name=col1Renderer, forHeader=true)
+              </fo:block>
 </fo:block>
 </fo:block>
 </fo:block>
@@ -3231,7 +3276,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11471"></fo:inline>
+<fo:inline id="N114D2"></fo:inline>
 <fo:block font-weight="bold">Event handlers</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 				Here's a complete list of event handlers by component type. Next to
@@ -3259,7 +3304,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11485"></fo:inline>
+<fo:inline id="N114E6"></fo:inline>
 <fo:block font-weight="bold">Action</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3287,7 +3332,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N114AE"></fo:inline>
+<fo:inline id="N1150F"></fo:inline>
 <fo:block font-weight="bold">(Abstract)Button</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3307,7 +3352,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N114C9"></fo:inline>
+<fo:inline id="N1152A"></fo:inline>
 <fo:block font-weight="bold">Component</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3439,7 +3484,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N115A8"></fo:inline>
+<fo:inline id="N11609"></fo:inline>
 <fo:block font-weight="bold">JComboBox</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3459,7 +3504,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N115C3"></fo:inline>
+<fo:inline id="N11624"></fo:inline>
 <fo:block font-weight="bold">JFrame</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3551,7 +3596,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1165C"></fo:inline>
+<fo:inline id="N116BD"></fo:inline>
 <fo:block font-weight="bold">JTabbedPane</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3571,7 +3616,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11677"></fo:inline>
+<fo:inline id="N116D8"></fo:inline>
 <fo:block font-weight="bold">JTable</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3591,7 +3636,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11692"></fo:inline>
+<fo:inline id="N116F3"></fo:inline>
 <fo:block font-weight="bold">JTextField</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3611,7 +3656,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N116AD"></fo:inline>
+<fo:inline id="N1170E"></fo:inline>
 <fo:block font-weight="bold">JTree</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3631,7 +3676,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N116C8"></fo:inline>
+<fo:inline id="N11729"></fo:inline>
 <fo:block font-weight="bold">JTree</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3651,7 +3696,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N116E3"></fo:inline>
+<fo:inline id="N11744"></fo:inline>
 <fo:block font-weight="bold">Window</fo:block>
 <fo:block space-before="12pt">
 <fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
@@ -3762,7 +3807,7 @@ private void someButtonClicked(JButton source, Action evt) {
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N117FD"></fo:inline>
+<fo:inline id="N1185E"></fo:inline>
 <fo:block font-weight="bold">What is MigLayout?</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">MigLayout is a revolutionary layout manager for Swing and SWT, written by Mikael Grev and released
 			under the open source BSD license. It revolutionizes layout management by making
@@ -3777,7 +3822,7 @@ private void someButtonClicked(JButton source, Action evt) {
 			JGoodies Forms layout manager obsolete.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11819"></fo:inline>
+<fo:inline id="N1187A"></fo:inline>
 <fo:block font-weight="bold">Visual MigLayout DSL syntax (a GUI builder in pure text)</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">The visual layout DSL is basically a way to have a GUI builder, but in a pure text format. 
 			In short, it allows you to define controls' layout in a text file (by using their names) and from 
@@ -3789,7 +3834,7 @@ private void someButtonClicked(JButton source, Action evt) {
 			of MigLayout.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1182C"></fo:inline>
+<fo:inline id="N1188D"></fo:inline>
 <fo:block font-weight="bold">Quick Example</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">Let's say we need to create a simple dialog with 3 rows: a table/text field in the first two rows, 
 			and OK/Cancel buttons (right aligned) in the last row.
@@ -3813,7 +3858,7 @@ MigLayout: |
 			</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1184B"></fo:inline>
+<fo:inline id="N118AC"></fo:inline>
 <fo:block font-weight="bold">General format</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
@@ -3827,7 +3872,7 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1185E"></fo:inline>
+<fo:inline id="N118BF"></fo:inline>
 <fo:block font-weight="bold">Alignment</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			Goes before the control name, e.g. "&gt;fieldNameLabel". If none are presents it defaults to "top, left".
@@ -3898,7 +3943,7 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N118D2"></fo:inline>
+<fo:inline id="N11933"></fo:inline>
 <fo:block font-weight="bold">Cell Spanning</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In "+X+Y" format (X= horizontal cells to span, Y= vertical cells to span), e.g. "okButton+2".</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">Examples:
@@ -3951,7 +3996,7 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11911"></fo:inline>
+<fo:inline id="N11972"></fo:inline>
 <fo:block font-weight="bold">Cell Splitting</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In <fo:inline font-family="Courier">"controlName1,controlName2"</fo:inline> format (i.e. control names separated with a comma). 
 			Used when you want to place multiple controls into the same cell. All the general cell constraints 
@@ -3959,7 +4004,7 @@ MigLayout: |
 			</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N1192B"></fo:inline>
+<fo:inline id="N1198C"></fo:inline>
 <fo:block font-weight="bold">Size Groups</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In <fo:inline font-family="Courier">"=X"</fo:inline> format (X = size group number), e.g. "okButton=1 cancelButton=1"</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">Allows to specify which controls should have the same preferred size. Useful especially when you want different command buttons 
@@ -3970,7 +4015,7 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11949"></fo:inline>
+<fo:inline id="N119AA"></fo:inline>
 <fo:block font-weight="bold">String Literal Controls</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals (embedded in double quotes) instead of control names.
 		  Such entries will automatically be interpreted as labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the need
@@ -4009,7 +4054,7 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
         </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11966"></fo:inline>
+<fo:inline id="N119C7"></fo:inline>
 <fo:block font-weight="bold">Complex Example</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 				From John O'Conners Layout Manager Challenge: 
@@ -4060,7 +4105,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N119BF"></fo:inline>
+<fo:inline id="N11A20"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			If for whatever reason you do not want to use the MigLayout DSL, you can still use regular MigLayout
 			properties and syntax, e.g.:
@@ -4096,7 +4141,7 @@ JFrame(title=My Frame):
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N119FB"></fo:inline>
+<fo:inline id="N11A5C"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			CardLayout support is provided by adding a CardLayout node at the end of the list of child components, e.g.
 			<fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
@@ -4123,7 +4168,7 @@ private CardLayout cards;
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11A41"></fo:inline>
+<fo:inline id="N11AA2"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 In order to use FlowLayout, just create a FlowLayout node at the end of the list of child components. 
 No need to specify which ones to add, they all get added automatically, e.g.:
@@ -4151,7 +4196,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11A81"></fo:inline>
+<fo:inline id="N11AE2"></fo:inline>
 <fo:block font-weight="bold">Overview</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">The core JavaBuilders engine is domain-agnostic, i.e. there is no logic in it
 			specific to any particular toolkit such as Swing or SWT. Each of domain-specific
@@ -4166,7 +4211,7 @@ JPanel:
 			of a control.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11AB1"></fo:inline>
+<fo:inline id="N11B12"></fo:inline>
 <fo:block font-weight="bold">Registering new component types</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">All you need to do is call the <fo:inline font-family="Courier">BuilderConfig.addType(Class clazz)</fo:inline>
 			method, presumably from your application's <fo:inline font-family="Courier">main()</fo:inline>:
@@ -4187,7 +4232,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11AE5"></fo:inline>
+<fo:inline id="N11B46"></fo:inline>
 <fo:block font-weight="bold">Customizing object creation : ITypeHandler</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to write your own custom creation code for a class instance (e.g. for a control that has
 		  a constructor that expects parameters during initialization), you need to implement an instance of
@@ -4197,7 +4242,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11B0B"></fo:inline>
+<fo:inline id="N11B6C"></fo:inline>
 <fo:block font-weight="bold">Customizing initialization logic: ITypeHandlerAfterCreationProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 		  If your object does not need special constructor logic, but just some post-creation initialization, then
@@ -4207,7 +4252,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11B25"></fo:inline>
+<fo:inline id="N11B86"></fo:inline>
 <fo:block font-weight="bold">Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to inject some logic after a parent's child nodes have been all processed, you need to
 		  implement the <fo:inline font-family="Courier">ITypeHandlerFinishProcessor</fo:inline> interface and add it to the appropriate

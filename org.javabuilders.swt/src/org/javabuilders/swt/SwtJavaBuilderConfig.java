@@ -12,7 +12,6 @@ import net.miginfocom.swt.MigLayout;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressIndicator;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CBanner;
 import org.eclipse.swt.custom.CCombo;
@@ -80,9 +79,8 @@ import org.javabuilders.swt.handler.binding.JFaceDatabindingHandler;
 import org.javabuilders.swt.handler.event.ButtonSelectionListenerHandler;
 import org.javabuilders.swt.handler.event.MenuItemSelectionListenerHandler;
 import org.javabuilders.swt.handler.event.background.SWTBackgroundProcessingHandler;
-import org.javabuilders.swt.handler.property.LayoutNameHandler;
 import org.javabuilders.swt.handler.property.SashBoundsHandler;
-import org.javabuilders.swt.handler.property.WidgetNameHandler;
+import org.javabuilders.swt.handler.type.CTabFolderFinishProcessor;
 import org.javabuilders.swt.handler.type.DialogHandler;
 import org.javabuilders.swt.handler.type.FontAsValueHandler;
 import org.javabuilders.swt.handler.type.ImageAsValueHandler;
@@ -182,13 +180,17 @@ public class SwtJavaBuilderConfig extends BuilderConfig {
 			.children(Widget.class, 0, Integer.MAX_VALUE)
 			.children(Layout.class, 0, 1);
         forType(Combo.class).defaultResize(DefaultResize.X_AXIS);
+        forType(CTabFolder.class)
+        	.finishProcessor(new CTabFolderFinishProcessor());
+        forType(CTabItem.class)
+        	.typeAsMethod(Control.class, "setControl")
+        	.childrenOverride(true).children(Control.class,0,1);
         forType(Dialog.class).typeHandler(DialogHandler.getInstance());
         forType(ExpandBar.class).defaultResize(DefaultResize.BOTH);
         forType(FillLayout.class).typeHandler(FillLayoutHandler.getInstance());
         forType(Font.class).valueHandler(new FontAsValueHandler());
         forType(Group.class).defaultResize(DefaultResize.BOTH);
         forType(Image.class).valueHandler(ImageAsValueHandler.getInstance());
-        forType(Layout.class).propertyHandler(LayoutNameHandler.getInstance());
         forType(List.class).defaultResize(DefaultResize.BOTH);
         forType(Menu.class)
         	.children(MenuItem.class, 0, Integer.MAX_VALUE);
@@ -211,7 +213,7 @@ public class SwtJavaBuilderConfig extends BuilderConfig {
         	.children(Composite.class, 0, Integer.MAX_VALUE);
         forType(Text.class).defaultResize(DefaultResize.BOTH);
         forType(Tree.class).defaultResize(DefaultResize.BOTH);
-        forType(Widget.class).ignore(SwtJavaBuilder.STYLE).typeHandler(WidgetTypeHandler.getInstance()).propertyHandler(WidgetNameHandler.getInstance());
+        forType(Widget.class).ignore(SwtJavaBuilder.STYLE).typeHandler(WidgetTypeHandler.getInstance());
         
         //work around weird issue
         Method method;

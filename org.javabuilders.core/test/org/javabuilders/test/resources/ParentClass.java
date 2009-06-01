@@ -14,8 +14,7 @@ public class ParentClass {
 		BuilderConfig config = new BuilderConfig(null,null,null);
 		config.addType(ParentClass.class).forType(ParentClass.class).children(Issue14Class.class, 0,2);
 		config.addType(Issue14Class.class);
-		config.addNamedObjectCriteria(JComponent.class, "name");
-		
+	
 		Builder.build(config, this);
 	}
 	

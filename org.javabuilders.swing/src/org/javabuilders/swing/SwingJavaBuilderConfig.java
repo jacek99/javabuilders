@@ -93,7 +93,6 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.TypeDefinition;
-import org.javabuilders.handler.GenericNameHandler;
 import org.javabuilders.handler.type.FontAsValueHandler;
 import org.javabuilders.handler.type.IconAsValueHandler;
 import org.javabuilders.handler.type.ImageAsValueHandler;
@@ -133,7 +132,7 @@ import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTableFinishProcessor;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
-import org.javabuilders.swing.handler.type.TableColumnFinishProcessor;
+import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
@@ -280,7 +279,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.children(TableCellRenderer.class,0,2)
 			.children(JComboBox.class,0,1)
 			.children(JTextField.class,0,1)
-			.children(JCheckBox.class,0,1);
+			.children(JCheckBox.class,0,1)
+			.typeHandler(TableColumnTypeHandler.getInstance());
 		forType(Window.class).localize(TITLE)
 			.delay(Integer.MAX_VALUE,ComponentSizeHandler.SIZE)
 			.propertyHandler(WindowListenerHandler.getInstance());
@@ -384,7 +384,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.defaultResize(DefaultResize.BOTH)
 			.propertyHandler(JTreeSelectionListenerHandler.getInstance());
 		forType(TableCellRenderer.class)
-			.ignore(TableColumnFinishProcessor.FOR_HEADER);
+			.ignore(TableColumnTypeHandler.FOR_HEADER);
 
 		forType(MigLayout.class)
 			.typeHandler(MigLayoutHandler.getInstance());
@@ -411,11 +411,6 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.typeHandler(SwingActionHandler.getInstance())
 			.propertyHandler(CommonActionListenerHandler.getInstance(),SwingActionTextHandler.getInstance())
 			.childrenOverride(true).children(0);
-		forType(TableModel.class)
-			.propertyHandler(GenericNameHandler.getDefaultInstance());
-	
-		//define which object types should be treated as named and based on what property value
-		addNamedObjectCriteria(Component.class,Builder.NAME);
 		
 		setStringLiteralControlSuffix("Label"); 
 	}

@@ -53,16 +53,12 @@ public class SwingActionHandler extends AbstractTypeHandler {
 			Object instance) throws BuildException {
 		
 		Node node = new Node(parent, key, typeDefinition);
-		SwingAction action = (SwingAction) instance;
 		node.setMainObject(instance);
 		
 		String name = node.getStringProperty(Builder.NAME);
 		if (name == null) {
 			throw new BuildException("An Action requires a 'name' attribute: {0}",typeDefinition);
 		}
-		
-		//save it in the list of named objects
-		process.getBuildResult().put(name,action);
 		
 		return node;
 	}

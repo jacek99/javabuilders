@@ -3,7 +3,7 @@ package org.javabuilders;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Simple class to keep track of properties whose value is a named object.

@@ -83,7 +83,7 @@ public class BuildProcess {
 	 * @param name Object name
 	 * @param object Object
 	 */
-	public void addNamedObject(String name, Object object) throws BuildException {
+	void addNamedObject(String name, Object object) throws BuildException {
 		if (Builder.THIS.equals(name) && result.containsKey(Builder.THIS)) {
 			throw new BuildException("A named object canot be called 'this', as it is a reserved keyword");
 		} else {

@@ -105,6 +105,45 @@ public class Node  {
 	}
 	
 	/**
+	 * Attempts to find the first parent of a particular type
+	 * @return The parent node (null if none found)
+	 */
+	public Object getParentObject(Class<?>...parentTypes) {
+		
+		Node parentNode = null;
+		
+		Class<?> type = getMainObject().getClass();
+		Node currentNode = this;
+		
+		root:
+		while (type != null) {
+			for(Class<?> parentType : parentTypes) {
+				if (parentType.isAssignableFrom(type)) {
+					parentNode = currentNode;
+					break root;
+				}
+			}
+			
+			//go up one level
+			currentNode = currentNode.getParent();
+			if (currentNode != null) {
+				type = currentNode.getMainObject().getClass();
+			} else {
+				type = null;
+			}
+			
+		}
+		
+		if (parentNode != null) {
+			return parentNode.getMainObject();
+		} else {
+			return null;
+		}
+		
+	}
+
+	
+	/**
 	 * Returns the list of all the children nodes belonging to this parent
 	 * @return
 	 */

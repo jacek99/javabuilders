@@ -1,8 +1,8 @@
 package org.javabuilders.swt.handler.binding;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.javabuilders.BuildException;
+import org.javabuilders.util.PropertyUtils;
 
 /**
  * Adds nested property support to JFace Databinding (to match Beans Binding functionality from Swing)

@@ -23,7 +23,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.event.BuildEvent;
 import org.javabuilders.event.BuildListener;
@@ -37,6 +36,7 @@ import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.ChildrenCardinalityUtils;
+import org.javabuilders.util.PropertyUtils;
 import org.jvyaml.YAML;
 
 /**
@@ -517,8 +517,6 @@ public class Builder {
 				}
 			}
 		}
-			
-		
 		
 		Class<?> createdClassType = current.getMainObject().getClass();
 		Set<TypeDefinition> typeDefinitions = config.getTypeDefinitions(createdClassType);
@@ -629,8 +627,8 @@ public class Builder {
 		}
 		
 		//should it be added to the list of named objects?
-		if (config.isNamedObject(current.getMainObject())) {
-			String name = config.getObjectName(current.getMainObject());
+		String name = config.getNameIfAvailable(data);
+		if (name != null) {
 			process.addNamedObject(name, current.getMainObject());
 		}
 
@@ -720,7 +718,7 @@ public class Builder {
 			
 			//handling regular properties that are types and have specialized "type as value" handlers
 			try {
-				if (handler instanceof ITypeAsValueSupport && PropertyUtils.getPropertyDescriptor(parent.getMainObject(),currentKey) != null) {
+				if (handler instanceof ITypeAsValueSupport && PropertyUtils.isValid(parent.getMainObject(), currentKey)) {
 					
 					Class<?> propertyType = PropertyUtils.getPropertyType(parent.getMainObject(),currentKey);
 					

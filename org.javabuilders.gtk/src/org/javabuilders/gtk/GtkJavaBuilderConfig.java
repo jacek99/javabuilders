@@ -97,8 +97,6 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.ICustomCommand;
 import org.javabuilders.event.IBackgroundProcessingHandler;
 import org.javabuilders.gtk.handler.property.ScaleDrawValueHandler;
-import org.javabuilders.gtk.handler.property.TreeViewColumnNameHandler;
-import org.javabuilders.gtk.handler.property.WidgetNameHandler;
 import org.javabuilders.gtk.handler.type.ConstantAsValueHandler;
 import org.javabuilders.gtk.handler.type.ContainerFinishProcessor;
 import org.javabuilders.gtk.handler.type.FileChooserActionAsValue;
@@ -250,13 +248,11 @@ public class GtkJavaBuilderConfig extends BuilderConfig{
 			.childrenOverride(true)
 			.children(TreeViewColumn.class, 0, Integer.MAX_VALUE);
 		forType(TreeViewColumn.class)
-			.typeHandler(new TreeViewColumnTypeHandler())
-			.propertyHandler(new TreeViewColumnNameHandler());
+			.typeHandler(new TreeViewColumnTypeHandler());
 		forType(VBox.class).typeHandler(new VBoxTypeHandler());
 		forType(Widget.class)
 			.localize(LABEL, NotebookFinishProcessor.TAB_LABEL)
-			.ignore(NotebookFinishProcessor.IS_TAB_LABEL,NotebookFinishProcessor.TAB_LABEL)
-			.propertyHandler(new WidgetNameHandler());
+			.ignore(NotebookFinishProcessor.IS_TAB_LABEL,NotebookFinishProcessor.TAB_LABEL);
 		forType(Window.class)
 			.localize("title");
 	}

@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -793,7 +792,7 @@ public class BuilderUtils {
 
 		if (caller != null) {
 			Map<String, Field> fields = getAllFields(caller.getClass());
-			String name = config.getNameIfAvailable(expectedClass, data);
+			String name = config.getNameIfAvailable(data);
 			if (name != null) {
 				Object possible = null;
 				try {

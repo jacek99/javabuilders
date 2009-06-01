@@ -1934,7 +1934,7 @@ JPanel:
         JTable(name=table1):
             - MyCustomTableModel(name=model)
 	       </codeblock>
-	       <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="note:1">Your custom table does not actualy need to have <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeph:2">name</codeph> property. If it does not
+	       <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="note:1">Your custom table does not actually need to have <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeph:2">name</codeph> property. If it does not
 	       exist, the Swing JavaBuilder will handle it as a virtual property. A named instance
 	       of the model (that you can manipulate from the Java code) will be created, e.g.:
 	       <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:3">
@@ -1953,9 +1953,52 @@ JPanel:
         JTable(name=table1):
             - TableColumn(name=col1,resizable=true, headerValue=Column 1)
             - TableColumn(name=col2,resizable=true, headerValue=Column 2)
-            - TableColumn(name=col2,resizable=false, headerValue=Column 3)			
+            - TableColumn(name=col3,resizable=false, headerValue=Column 3)			
 			</codeblock>
+			When processing the list of table columns, the builder will evaluate the columns that are there already.
+			If it can match based on the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:1">identifier</apiname> or <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:2">headerValue</apiname> then it
+			will use that existing columns, otherwise it will create a new one and add it to the JTable.
 			</p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="section:3">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="title:4">Cell Editor</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="p:3">
+		      Adding cell editors to a column is very easy. You can either define an explicit <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:3">TableCellEditor</apiname>
+		      implementation:
+		      <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:5">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomCellEditor(name=col1Editor)
+		      </codeblock>
+		      or you can define an explicit <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:4">JCheckBox, JComboBox or JTextField</apiname> underneath it. In this
+		      case the builder will automatically wrap it with a <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:5">DefaultCellEdior</apiname> wrapper:
+              <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:6">
+ JTable(name=table1):
+     - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+         - JComboBox(name=col1Box)
+     - TableColumn(name=col2,resizable=true, headerValue=Column 2):
+         - JCheckBox(name=col2Box)
+     - TableColumn(name=col3,resizable=false, headerValue=Column 3):
+         - JTextField(name=col3Field)
+              </codeblock>
+		  </p>
+		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="section:4">
+		  <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="title:5">Cell Renderer</title>
+		  <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="p:4">
+		      Similarly, you can define a <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="apiname:6">TableCellRenderer</apiname> underneath a column:
+		      <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:7">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomRenderer(name=col1Renderer)
+		      </codeblock>
+		      If you want to define a column header renderer, just add a <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeph:3">forHeader=true</codeph> property:
+              <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:8">
+JTable(name=table1):
+    - TableColumn(name=col1,resizable=true, headerValue=Column 1):
+        - MyCustomRenderer(name=col1Renderer, forHeader=true)
+              </codeblock>
+		  </p>
 		</section>
 	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" xtrc="topicref:15" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap" href="#N1E0006" role="parent"/></linkpool></related-links></topic><!--Start of imbed for swing/event.handlers.xml--><topic id="N2D0006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita" xtrc="title:1">Event handlers</title><prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita">
 		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/swing.features.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/event.handlers.dita">Jacek Furmankiewicz</author>

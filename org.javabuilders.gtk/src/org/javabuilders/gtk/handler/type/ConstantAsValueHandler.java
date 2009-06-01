@@ -3,13 +3,13 @@ package org.javabuilders.gtk.handler.type;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.freedesktop.bindings.Constant;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Node;
 import org.javabuilders.TypeDefinition;
 import org.javabuilders.handler.ITypeAsValueHandler;
+import org.javabuilders.util.PropertyUtils;
 
 public class ConstantAsValueHandler implements ITypeAsValueHandler<Constant> {
 
@@ -35,7 +35,7 @@ public class ConstantAsValueHandler implements ITypeAsValueHandler<Constant> {
 		
 		Constant c = null;
 		try {
-			Class<?> type = PropertyUtils.getPropertyDescriptor(node.getMainObject(), key).getPropertyType();
+			Class<?> type = PropertyUtils.getPropertyType(node.getMainObject(), key);
 			Field[] fields = type.getFields();
 			for(Field field : fields) {
 				
