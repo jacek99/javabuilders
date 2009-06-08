@@ -30,6 +30,10 @@ private MigLayoutPanel1 migLayoutPanel1;
 private BorderPanel borderPanel;				
 				</codeblock>
 			</p>
+			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.components.dita" xtrc="p:3">
+			If your custom component variable is <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.components.dita" xtrc="codeph:1">null</codeph> then the builder will create a brand new instance.
+			If it has already been pre-instantiated, the builder will use the existing instance instead (matching it by type and name).
+			</p>
 		</section>
 	</body>
 <related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" xtrc="topicref:10" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" href="../core/core.features.xml" role="parent"/></linkpool></related-links>

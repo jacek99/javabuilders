@@ -30,6 +30,10 @@ private MigLayoutPanel1 migLayoutPanel1;
 private BorderPanel borderPanel;				
 				</codeblock>
 			</p>
+			<p>
+			If your custom component variable is <codeph>null</codeph> then the builder will create a brand new instance.
+			If it has already been pre-instantiated, the builder will use the existing instance instead (matching it by type and name).
+			</p>
 		</section>
 	</body>
 </topic>

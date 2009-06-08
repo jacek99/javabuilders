@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
-import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;

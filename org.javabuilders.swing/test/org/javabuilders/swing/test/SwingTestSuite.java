@@ -17,7 +17,8 @@ import org.junit.runners.Suite;
 	DataBindingTests.class,
 	SamplesTests.class,
 	JTableTests.class,
-	ChildrenCardinalityTests.class
+	ChildrenCardinalityTests.class,
+	GlazedListsTests.class
 })
 
 public class SwingTestSuite {}

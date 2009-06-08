@@ -24,6 +24,9 @@
 		<topicref href="swing/cardlayout.dita"/>
 		<topicref href="swing/flowlayout.dita"/>
 	</chapter>
+    <chapter href="swing/glazed_lists.dita">
+        <topicref href="swing/glazed_lists.jlist.dita"/>
+    </chapter>	
 	<chapter format="ditamap" href="core/extending.ditamap"/>
 	<!--
 		<chapter href="taskbook/configuring.dita"> <topicref

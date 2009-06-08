@@ -20,6 +20,8 @@ import org.javabuilders.test.resources.LocalBuildFilePanel;
 import org.javabuilders.test.resources.GlobalBuildFilePanel;
 import org.javabuilders.test.resources.Issue14Class;
 import org.javabuilders.test.resources.Issue38Class;
+import org.javabuilders.util.YamlBuilder;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,6 +32,13 @@ import org.junit.Test;
  */
 public class IssuesTests {
 
+	private GlobalBuildFilePanel testPanel = null;
+	
+	@After
+	public void tearDown() {
+		testPanel = null;
+	}
+	
 	@Test
 	public void testIssue14_EmbeddedParentheses() throws Exception {
 		String yamlContent = "Issue14Class(name=test, constraint=\"aaa and (not bbb or ccc)\")";
@@ -110,6 +119,34 @@ public class IssuesTests {
 		assertNotNull(p);
 		assertNotNull(p.getLabel());
 		assertEquals("Test", p.getLabel().getText());
+	}
+	
+	@Test
+	public void issue44_customComponentInstantiation() {
+		testPanel = new GlobalBuildFilePanel();
+		testPanel.getLabel().setText("ISSUE_44");
+		
+		BuilderConfig c = new TestBuilderConfig(JPanel.class);
+		c.forType(JPanel.class).children(JPanel.class, 0, Integer.MAX_VALUE);
+		
+		YamlBuilder bld = new YamlBuilder("JPanel(name=panel):") {{
+				___("- GlobalBuildFilePanel(name=testPanel)");
+				___("- GlobalBuildFilePanel(name=testPanel2)");
+		}};
+		BuildResult r = Builder.buildFromString(c, this, bld.toString());
+		
+		//existing name should refer to existing instance
+		GlobalBuildFilePanel gp = (GlobalBuildFilePanel) r.get("testPanel");
+		assertNotNull(gp);
+		assertSame(testPanel, gp);
+		assertEquals("ISSUE_44",gp.getLabel().getText());
+		
+		//non-existant name should create new instance
+		GlobalBuildFilePanel gp2 = (GlobalBuildFilePanel) r.get("testPanel2");
+		assertNotNull(gp2);
+		assertNotSame(testPanel, gp2);
+		assertFalse(gp.getLabel().getText().equals(gp2.getLabel().getText()));
+		
 	}
 	
 }

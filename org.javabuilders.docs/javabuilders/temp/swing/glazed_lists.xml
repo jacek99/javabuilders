@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/temp/swing?>
+<?path2project ../?>
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="zciid6avvl4b" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="topic:1">
+	<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="title:1">GlazedLists databinding for list controls</title>
+	<prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="prolog:1">
+		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="author:1">Jacek Furmankiewcz</author>
+	</prolog>
+	<body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="body:1">
+	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="section:1">
+	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="title:2">GlazedLists</title>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="p:1">
+	       GlazedLists is a best-of-breed open source library geared towards making databinding, sorting and filtering
+	       for Swing and SWT controls easier and more productive.
+	       For a full overview on how GlazedList works, please visit their website:
+	       <xref href="http://publicobject.com/glazedlists/" format="html" scope="external" class="- topic/xref " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="xref:1">http://publicobject.com/glazedlists/</xref>
+	       </p>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="p:2">
+	       In particular, check out their detailed tutorial:
+	       <xref href="https://docs.google.com/Doc?id=dc5md22b_0g456kwd8" format="html" scope="external" class="- topic/xref " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="xref:2">https://docs.google.com/Doc?id=dc5md22b_0g456kwd8</xref>
+	       and screencasts:
+	       <xref href="http://publicobject.com/glazedlists/media/Glazed_Lists_in_25_lines_of_code.mov" format="html" scope="external" class="- topic/xref " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="xref:3">http://publicobject.com/glazedlists/media/Glazed_Lists_in_25_lines_of_code.mov</xref>
+	       </p>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.dita" xtrc="p:3">
+	       Below you will find information on how GlazedLists are integrated into the JavaBuilders library.
+	       </p>
+	   </section>
+	
+	</body>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8" mapkeyref="swing.javabuilder"><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8"><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:5" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="../swing/glazed_lists.jlist.xml" role="child"/></linkpool></linkpool></related-links>
+</topic>

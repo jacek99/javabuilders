@@ -3,12 +3,9 @@ package org.javabuilders.swing.test.issues;
 import static org.junit.Assert.*;
 
 import java.awt.event.ActionEvent;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,11 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.javabuilders.BuildException;
-import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.controls.JBSeparator;
-import org.javabuilders.swing.test.issues.resources.Book;
 import org.javabuilders.swing.test.issues.resources.Issue10;
 import org.javabuilders.swing.test.issues.resources.Issue11;
 import org.javabuilders.swing.test.issues.resources.Issue12_JPopupMenuException;
@@ -31,9 +26,6 @@ import org.javabuilders.swing.test.issues.resources.Issue23_Exception;
 import org.javabuilders.swing.test.issues.resources.Issue7;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue2;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.jdesktop.swingbinding.JComboBoxBinding;
-import org.jdesktop.swingbinding.SwingBindings;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -190,6 +182,7 @@ public class IssuesTests {
 		JFrame frame= (JFrame) Builder.buildFromString(SwingJavaBuilder.getConfig(), this, yaml, ResourceBundle.getBundle("TestResources")).get("frame");
 		assertNotNull("JFrame.image was null", frame.getIconImage());
 	}
+	
 	
 	
 }

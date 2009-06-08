@@ -259,6 +259,22 @@ public class Node  {
 		}
 		return objects;
 	}
+	
+	/**
+	 * Helper method to quickly get child objects of a particular type
+	 * @param <C>
+	 * @param classFilter
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <C> Set<C> getChildObjects(Class<? extends C> classFilter) {
+		Set<Node> contents = getChildNodes(classFilter);
+		Set<C> objects = new LinkedHashSet<C>();
+		for(Node node : contents) {
+			objects.add((C) node.getMainObject());
+		}
+		return objects;
+	}
 
 	
 	/**

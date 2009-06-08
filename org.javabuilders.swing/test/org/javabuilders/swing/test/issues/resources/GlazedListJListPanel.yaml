@@ -1,0 +1,3 @@
+JPanel:
+    - JList(name=list): 
+        EventListModel(name=model,source=values)

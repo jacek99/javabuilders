@@ -711,6 +711,27 @@ public class BuilderUtils {
 
 		return allFields;
 	}
+	
+	/**
+	 * Looks for a field with a particular name and type
+	 * @param name Name 
+	 * @param typeClass Type class
+	 * @return Field or null if not found
+	 */
+	public static Field getField(Object caller, String name, Class<? extends Object> typeClass) {
+		Map<String,Field> fields = getAllFields(caller.getClass());
+		Field field = null;
+		for(String fieldName : fields.keySet()) {
+			if (name.equals(fieldName)) {
+				Field temp = fields.get(fieldName);
+				if (typeClass.isAssignableFrom(temp.getType())) {
+					field = temp;
+				}
+				break;
+			}
+		}
+		return field;
+	}
 
 	/**
 	 * Gets all accessible method from the entire object hierarchy

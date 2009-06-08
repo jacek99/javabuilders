@@ -1,5 +1,6 @@
 JPanel:
      - JButton(name=btn1,text="onAction Test",onAction=onActionTest)
+     - JTextField(name=txt1,text="onAction Test (Press Enter)",onAction=onActionTest)
      - JLabel(name=lbl1,text=onAction)
      - JScrollPane(name=scroll1) : 
          JTextArea(name=source,editable=false,font=Monospaced): 
@@ -28,7 +29,7 @@ JPanel:
      - JLabel(name=help, text=Click/right-click/double-click on the different controls to see different events being fired, font=bold)
      - MigLayout: |
          [grow]       [200]
-         btn1         lbl1
+         btn1,txt1    lbl1
          scroll1+1+11 focusLabel       
                       focusLostLabel 
                       keyPressedLabel 

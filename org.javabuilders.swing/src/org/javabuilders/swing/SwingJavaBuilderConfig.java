@@ -77,6 +77,7 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.JWindow;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
@@ -128,15 +129,20 @@ import org.javabuilders.swing.handler.type.ContainerTypeHandler;
 import org.javabuilders.swing.handler.type.JDialogTypeHandler;
 import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
 import org.javabuilders.swing.handler.type.JFrameTypeHandler;
+import org.javabuilders.swing.handler.type.JListFinishProcessor;
 import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTableFinishProcessor;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
 import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
+import org.javabuilders.swing.handler.type.glazedlists.EventListModelTypeHandler;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
 import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
+
+import ca.odell.glazedlists.swing.EventListModel;
+import ca.odell.glazedlists.swing.EventTableModel;
 
 public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig {
 
@@ -163,16 +169,6 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			SwingValidationMessageHandler.getInstance(), 
 			new ConfirmCommand());
 
-		//allow alternate implementations of data binding for Swing
-		try {
-			Class.forName("org.jdesktop.beansbinding.Bindings");
-			//Beans Binding was found in path, use default binding handler
-			forType(BeansBindingTypeHandler.getInstance().getApplicableClass()).typeHandler(BeansBindingTypeHandler.getInstance());
-		} catch (ClassNotFoundException e) {
-			LOGGER.info("Beans Binding (JSR 295) not found in path, default BeansBindingTypeHandler not initialized.");
-		}
-		
-		
 		//define aliases for AWT types
 		addType(
 				Applet.class,
@@ -322,7 +318,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.childrenOverride(true).children(0);
 		forType(JList.class)
 			.defaultResize(DefaultResize.BOTH)
-			.childrenOverride(true).children(0);
+			.finishProcessor(new JListFinishProcessor())
+			.childrenOverride(true).children(ListModel.class,0,1);
 		forType(JMenu.class)
 			.children(ButtonGroup.class,0,Integer.MAX_VALUE);
 		forType(JMenuBar.class)
@@ -413,6 +410,40 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.childrenOverride(true).children(0);
 		
 		setStringLiteralControlSuffix("Label"); 
+		
+		initializedBeansBinding();
+		initializeGlazedLists();
+
+	}
+
+	/**
+	 * Adds GlazedLists support, if in path
+	 */
+	private void initializeGlazedLists() {
+		//allow GlazedLists as an option
+		try {
+			Class.forName("ca.odell.glazedlists.BasicEventList");
+			//add GlazedLists support if in path
+			addType(EventListModel.class,EventTableModel.class);
+			forType(EventListModel.class)
+				.typeHandler(new EventListModelTypeHandler());
+		} catch (ClassNotFoundException e) {
+			LOGGER.info("GlazedLists not found in path, GlazedLists support not initialized.");
+		}
+	}
+
+	/**
+	 * Adds BeansBinding support, if in path
+	 */
+	private void initializedBeansBinding() {
+		//allow alternate implementations of data binding for Swing
+		try {
+			Class.forName("org.jdesktop.beansbinding.Bindings");
+			//Beans Binding was found in path, use default binding handler
+			forType(BeansBindingTypeHandler.getInstance().getApplicableClass()).typeHandler(BeansBindingTypeHandler.getInstance());
+		} catch (ClassNotFoundException e) {
+			LOGGER.info("Beans Binding (JSR 295) not found in path, default BeansBindingTypeHandler not initialized.");
+		}
 	}
 	
 	/* (non-Javadoc)
