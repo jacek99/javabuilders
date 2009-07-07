@@ -13,9 +13,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.javabuilders.BuildException;
+import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
+import org.javabuilders.BuilderConfig;
+import org.javabuilders.handler.validation.ICustomValidator;
+import org.javabuilders.handler.validation.IValidator;
+import org.javabuilders.handler.validation.ValidationMessage;
+import org.javabuilders.handler.validation.ValidationMessageList;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.controls.JBSeparator;
+import org.javabuilders.swing.test.issues.resources.CustomGenericPanel;
 import org.javabuilders.swing.test.issues.resources.Issue10;
 import org.javabuilders.swing.test.issues.resources.Issue11;
 import org.javabuilders.swing.test.issues.resources.Issue12_JPopupMenuException;
@@ -26,6 +33,9 @@ import org.javabuilders.swing.test.issues.resources.Issue23_Exception;
 import org.javabuilders.swing.test.issues.resources.Issue7;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue2;
+import org.javabuilders.swing.util.SwingYamlBuilder;
+import org.javabuilders.test.TestBuilderConfig;
+import org.javabuilders.util.YamlBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -183,6 +193,105 @@ public class IssuesTests {
 		assertNotNull("JFrame.image was null", frame.getIconImage());
 	}
 	
+	@Test
+	public void issue47_chainedConfirmValidate() {
+		String yaml="JButton(name=button,onAction=($confirm,$validate))";
+		JButton button = (JButton) SwingJavaBuilder.build(this, yaml).get("button");
+		assertNotNull(button.getActionListeners());
+		assertEquals(1,button.getActionListeners().length);
+	}
 	
 	
+	@Test
+	public void issue48_customValidator() {
+
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JTextField(name=text)");
+			validate();
+			___("- text.text: {mandatory: true}");
+			
+		}}.build(this);
+		
+		JTextField text = (JTextField) r.get("text");
+		assertNotNull(text);
+		assertFalse(r.validate(false)); //validation should fail
+		text.setText("TEST");
+		assertTrue(r.validate(false)); //validation should pass
+		
+		//add custom validator
+		r.getValidators().add(new ICustomValidator() {
+			public void validate(ValidationMessageList list) {
+				list.add(new ValidationMessage("TEST"));
+			}
+		});
+		
+		assertFalse(r.validate(false)); //validation should fail
+		ValidationMessageList list = r.getValidationMessages();
+		assertEquals(1,list.size());
+		assertEquals("TEST",list.get(0).getMessage());
+		
+		//validate again, should still be the same
+		assertFalse(r.validate(false)); //validation should fail
+		list = r.getValidationMessages();
+		assertEquals(1,list.size());
+		assertEquals("TEST",list.get(0).getMessage());
+		
+		//make both standard and custom fail - we should have 2 error messages
+		text.setText(null);
+		
+		assertFalse(r.validate(false)); //validation should fail
+		list = r.getValidationMessages();
+		assertEquals(2,list.size());
+		assertEquals("TEST",list.get(1).getMessage());
+		
+		text.setText("");
+		assertFalse(r.validate(false)); //validation should fail
+		list = r.getValidationMessages();
+		assertEquals(2,list.size());
+		assertEquals("TEST",list.get(1).getMessage());
+	}
+	
+
+	//variation where the custom validator is added BEFORE the first validate
+	@Test
+	public void issue48_customValidator2() {
+
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JTextField(name=text)");
+			validate();
+			___("- text.text: {mandatory: true}");
+			
+		}}.build(this);
+
+		//add custom validator
+		r.getValidators().add(new ICustomValidator() {
+			public void validate(ValidationMessageList list) {
+				if (list.size() > 0) {
+					//only add error if another one exists
+					list.add(new ValidationMessage("TEST"));
+				}
+			}
+		});
+		
+		JTextField text = (JTextField) r.get("text");
+		assertNotNull(text);
+		assertFalse(r.validate(false)); //validation should fail
+		ValidationMessageList list = r.getValidationMessages();
+		assertEquals(2,list.size());
+		assertEquals("TEST",list.get(1).getMessage());
+		
+		text.setText("TEST");
+		assertTrue(r.validate(false)); //validation should pass
+		assertEquals(0, r.getValidationMessages().size());
+	}
+	
+	@Test
+	public void issue50_referenceSuperclassProtectedVariables() {
+		CustomGenericPanel panel = new CustomGenericPanel();
+		
+		assertNotNull("superclass text field is null",panel.getGenericTextField());
+		assertNotNull("class text field is null",panel.getCustomTextField());
+		
+	}
+
 }

@@ -52,4 +52,13 @@ public class JBStringUtils {
 		return list;
 	}
 	
+	/**
+	 * Turns a JavaBean property name into a display value (e.g. "priceList" => "Price List")
+	 * @param propertyName
+	 * @return
+	 */
+	public static String getDisplayName(String propertyName) {
+		return propertyName; //TODO
+	}
+	
 }

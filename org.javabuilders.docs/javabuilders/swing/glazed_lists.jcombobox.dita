@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
 <topic id="o8qdqx3m4lw3" xml:lang="en-CA">
-	<title>JComboBox</title>
+	<title>JList</title>
 	<prolog>
 		<author>Jacek Furmankiewicz</author>
 	</prolog>
 	<body>
 	   <section>
-	       <title>EventComboBoxModel</title>
+	       <title>EventListModel</title>
 	       <p>
-	       The <apiname>JComboBox</apiname>-specific model in GlazedLists is called <apiname>EventComboBoxModel</apiname>.
+	       The <apiname>JList</apiname>-specific model in GlazedLists is called <apiname>EventListModel</apiname>.
 	       You will need to define a GlazedLists <apiname>EventList</apiname> in your Java code to hold the master
-	       list of objects and point the <apiname>EventComboBoxModel.source</apiname> property in the YAML file to it.
+	       list of objects and point the <apiname>EventListModel.source</apiname> property in the YAML file to it.
 	       <codeblock spectitle="Java">
 public class GlazedListJListPanel extends JPanel {
 
@@ -25,11 +25,11 @@ public class GlazedListJListPanel extends JPanel {
 	       </codeblock>
 	       <codeblock spectitle="YAML">
 JPanel:
-    - JComboBox(name=box): 
-        EventComboBoxModel(name=model,source=values)	       
+    - JList(name=list): 
+        EventListModel(name=model,source=values)	       
 	       </codeblock>
 	       When you add/remove items in your <apiname>EventList</apiname>, they will automatically be propagated to the
-	       <apiname>JComboBox</apiname> <apiname>EventComboBoxModel</apiname>.
+	       <apiname>JList</apiname> <apiname>EventListModel</apiname>.
 	       </p>
 	   </section>
 	</body>

@@ -144,7 +144,7 @@ validate:
 			<title>Adding custom validators</title>
 			<p>The default validator routines not powerful enough for you? You can easily add custom validation logic to be executed together with the built-in routines via Java-side code: 
 			<codeblock>
-result.getValidators().add(new IValidator() {
+result.getValidators().add(new ICustomValidator() {
 
     public void validate(Object value, ValidationMessageList list) {
         if (!isValid) {

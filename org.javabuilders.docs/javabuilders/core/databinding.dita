@@ -42,7 +42,7 @@ bind:
 				must fire a "property change" event on the "set" and the parent
 				class must provide the "addPropertyChangeListener" and
 				"removePropertyChangeListener" methods. This is all part of the
-				standard Beans Binding requirements.</p>
+				standard BetterBeansBinding requirements.</p>
 			<p>A good example can be found in the Bound Properties Java tutorial:
 			http://java.sun.com/docs/books/tutorial/javabeans/properties/bound.html
 			</p> 
@@ -51,7 +51,7 @@ bind:
 			<title>Supported features</title>
 			<p>In order to integrate as best as possible with each UI toolkit, JavaBuilders rely
 			on the best toolkit-specific library for databinding. This means that the Swing JavaBuilder
-			uses Beans Binding (JSR 295), while the SWT JavaBuilder uses JFace DataBinding.</p>
+			uses BetterBeansBinding (the actively maintained fork of JSR 295), while the SWT JavaBuilder uses JFace DataBinding.</p>
 			<p>Not all databinding engines provide the same functionality. For example, Beans Binding
 			does provide support for EL expressions in data binding (hence you can use them for
 			the Swing JavaBuilder), but the JFace Databinding engine does not (and therefore they

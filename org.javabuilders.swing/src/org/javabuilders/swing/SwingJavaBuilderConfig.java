@@ -35,6 +35,7 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -126,6 +127,7 @@ import org.javabuilders.swing.handler.type.BorderAsValueHandler;
 import org.javabuilders.swing.handler.type.ButtonGroupTypeHandler;
 import org.javabuilders.swing.handler.type.ColorAsValueHandler;
 import org.javabuilders.swing.handler.type.ContainerTypeHandler;
+import org.javabuilders.swing.handler.type.JComboBoxFinishProcessor;
 import org.javabuilders.swing.handler.type.JDialogTypeHandler;
 import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
 import org.javabuilders.swing.handler.type.JFrameTypeHandler;
@@ -135,12 +137,15 @@ import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTableFinishProcessor;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
 import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
+import org.javabuilders.swing.handler.type.glazedlists.EventComboBoxModelTypeHandler;
 import org.javabuilders.swing.handler.type.glazedlists.EventListModelTypeHandler;
+import org.javabuilders.swing.handler.type.glazedlists.EventTableModelTypeHandler;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
 import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
 
+import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventListModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -271,6 +276,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.propertyHandler(FrameExtendedStateHandler.getInstance());
 		forType(TableColumn.class).ignore(Builder.NAME)
 			.localize("headerValue")
+			.ignore("source")
 			.children(TableCellEditor.class, 0,1)
 			.children(TableCellRenderer.class,0,2)
 			.children(JComboBox.class,0,1)
@@ -288,7 +294,9 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.childrenOverride(true).children(0);
 		forType(JComboBox.class)
 			.defaultResize(DefaultResize.X_AXIS)
-			.propertyHandler(CommonActionListenerHandler.getInstance());
+			.propertyHandler(CommonActionListenerHandler.getInstance())
+			.finishProcessor(new JComboBoxFinishProcessor())
+			.childrenOverride(true).children(ComboBoxModel.class, 0,1);
 		forType(DefaultComboBoxModel.class)
 			.afterCreationProcessor(new DefaultComboBoxModelHandler());
 		forType(JComponent.class)
@@ -411,7 +419,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		
 		setStringLiteralControlSuffix("Label"); 
 		
-		initializedBeansBinding();
+		initializeBeansBinding();
 		initializeGlazedLists();
 
 	}
@@ -424,9 +432,15 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		try {
 			Class.forName("ca.odell.glazedlists.BasicEventList");
 			//add GlazedLists support if in path
-			addType(EventListModel.class,EventTableModel.class);
+			addType(EventListModel.class,EventTableModel.class, EventComboBoxModel.class);
 			forType(EventListModel.class)
 				.typeHandler(new EventListModelTypeHandler());
+			forType(EventComboBoxModel.class)
+				.typeHandler(new EventComboBoxModelTypeHandler());
+			forType(EventTableModel.class)
+				.typeHandler(new EventTableModelTypeHandler());
+			
+			
 		} catch (ClassNotFoundException e) {
 			LOGGER.info("GlazedLists not found in path, GlazedLists support not initialized.");
 		}
@@ -435,7 +449,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 	/**
 	 * Adds BeansBinding support, if in path
 	 */
-	private void initializedBeansBinding() {
+	private void initializeBeansBinding() {
 		//allow alternate implementations of data binding for Swing
 		try {
 			Class.forName("org.jdesktop.beansbinding.Bindings");

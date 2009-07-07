@@ -275,7 +275,6 @@ public class Node  {
 		}
 		return objects;
 	}
-
 	
 	/**
 	 * Returns the child node identified by a particular key

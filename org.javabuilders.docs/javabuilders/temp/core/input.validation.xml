@@ -144,7 +144,7 @@ validate:
 			<title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="title:6">Adding custom validators</title>
 			<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="p:6">The default validator routines not powerful enough for you? You can easily add custom validation logic to be executed together with the built-in routines via Java-side code: 
 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:6">
-result.getValidators().add(new IValidator() {
+result.getValidators().add(new ICustomValidator() {
 
     public void validate(Object value, ValidationMessageList list) {
         if (!isValid) {

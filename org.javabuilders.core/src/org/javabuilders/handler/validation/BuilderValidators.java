@@ -49,6 +49,8 @@ public class BuilderValidators extends LinkedList<PropertyValidations> {
 	
 	private List<IValidator> validators = new LinkedList<IValidator>();
 	
+	private boolean validatorsCreated = false;
+	
 	/**
 	 * @param result Current build result
 	 */
@@ -63,9 +65,7 @@ public class BuilderValidators extends LinkedList<PropertyValidations> {
 	public ValidationMessageList getValidationMessages(IValidationMessageHandler validationMessageHandler) {
 		ValidationMessageList list = new ValidationMessageList();
 		
-		if (validators.size() == 0) {
-			createValidators(validationMessageHandler);
-		}
+		createValidators(validationMessageHandler);
 		
 		for(PropertyValidations validator : this) {
 			
@@ -266,85 +266,101 @@ public class BuilderValidators extends LinkedList<PropertyValidations> {
 	 * @param validator Custom validator
 	 * @return This
 	 */
-	public BuilderValidators add(IValidator validator) {
+	public BuilderValidators add(ICustomValidator validator) {
 		getValidators().add(validator);
 		return this;
 	}
-	
+
+	/**
+	 * Adds a standard property validator
+	 * @param validator Property validator
+	 * @return This
+	 */
+	public BuilderValidators add(IPropertyValidator validator) {
+		getValidators().add(validator);
+		return this;
+	}
+
 	//creates the validators
 	private void createValidators(IValidationMessageHandler validationMessageHandler) {
-		for(PropertyValidations validator : this) {
-			
-			Object namedObject = result.get(validator.getProperty().getName());
-			
-			String parsedLabel = validator.getLabel();
-			if (parsedLabel == null || parsedLabel.length() == 0) {
-				//no label defined .... try to get it in a domain-specific way
-				parsedLabel = validationMessageHandler.getNamedObjectLabel(namedObject);
-			} else {
-				//attempt to localize it
-				parsedLabel = result.getResource(parsedLabel);
-			}
-			
-			if (validator.isMandatory()) {
-				MandatoryValidator v = new MandatoryValidator(validator.getProperty(),parsedLabel,
-						getMandatoryMessage(),result);
-				validators.add(v);
-			}
-			
-			if (validator.getType() != null) {
-				TypeValidator v = new TypeValidator(validator.getProperty(),parsedLabel,
-						null, result, validator.getType());
-				validators.add(v);
-			}
- 			
-			if (validator.getMinLength() != null) {
-				MinLengthValidator v = new MinLengthValidator(validator.getProperty(),parsedLabel,
-						getMinLengthMessage(),result, validator.getMinLength());
-				validators.add(v);
-			}
-			
-			if (validator.getMaxLength() != null) {
-				MaxLengthValidator v = new MaxLengthValidator(validator.getProperty(),parsedLabel,
-						getMaxLengthMessage(),result, validator.getMaxLength());
-				validators.add(v);
-			}
-			
-			if (validator.getDateFormat() != null) {
-				DateFormatValidator v = new DateFormatValidator(validator.getProperty(),parsedLabel,
-						getDateFormatMessage(),result, validator.getDateFormat(),
-						validator.getLocaleInstance());
-				validators.add(v);
-			}
-			
-			if (validator.isEmailAddress()) {
-				EmailAddressValidator v = new EmailAddressValidator(validator.getProperty(),
-						parsedLabel,
-						getEmailAddressMessage(),result);
-				validators.add(v);
-			}
-			
-			if (validator.getRegex() != null) {
-				String msgFormat = (validator.getRegexMessage() == null) ? getRegexMessage() : validator.getRegexMessage();
-				RegexValidator v = new RegexValidator(validator.getProperty(),parsedLabel,
-						msgFormat, result, validator.getRegex());
-				validators.add(v);
-			}
-			
-			if (validator.getMinValue() != null) {
-				MinValueValidator v = new MinValueValidator(validator.getProperty(),parsedLabel,
-						getMinValueMessage(),result,validator.getMinValue());
-				validators.add(v);
-			}
-
-			if (validator.getMaxValue() != null) {
-				MaxValueValidator v = new MaxValueValidator(validator.getProperty(),parsedLabel,
-						getMaxValueMessage(),result,validator.getMaxValue());
-				validators.add(v);
-			}
-
-		}
 		
+		if (!validatorsCreated) {
+		
+			for(PropertyValidations validator : this) {
+				
+				Object namedObject = result.get(validator.getProperty().getName());
+				
+				String parsedLabel = validator.getLabel();
+				if (parsedLabel == null || parsedLabel.length() == 0) {
+					//no label defined .... try to get it in a domain-specific way
+					parsedLabel = validationMessageHandler.getNamedObjectLabel(namedObject);
+				} else {
+					//attempt to localize it
+					parsedLabel = result.getResource(parsedLabel);
+				}
+				
+				if (validator.isMandatory()) {
+					MandatoryValidator v = new MandatoryValidator(validator.getProperty(),parsedLabel,
+							getMandatoryMessage(),result);
+					validators.add(v);
+				}
+				
+				if (validator.getType() != null) {
+					TypeValidator v = new TypeValidator(validator.getProperty(),parsedLabel,
+							null, result, validator.getType());
+					validators.add(v);
+				}
+	 			
+				if (validator.getMinLength() != null) {
+					MinLengthValidator v = new MinLengthValidator(validator.getProperty(),parsedLabel,
+							getMinLengthMessage(),result, validator.getMinLength());
+					validators.add(v);
+				}
+				
+				if (validator.getMaxLength() != null) {
+					MaxLengthValidator v = new MaxLengthValidator(validator.getProperty(),parsedLabel,
+							getMaxLengthMessage(),result, validator.getMaxLength());
+					validators.add(v);
+				}
+				
+				if (validator.getDateFormat() != null) {
+					DateFormatValidator v = new DateFormatValidator(validator.getProperty(),parsedLabel,
+							getDateFormatMessage(),result, validator.getDateFormat(),
+							validator.getLocaleInstance());
+					validators.add(v);
+				}
+				
+				if (validator.isEmailAddress()) {
+					EmailAddressValidator v = new EmailAddressValidator(validator.getProperty(),
+							parsedLabel,
+							getEmailAddressMessage(),result);
+					validators.add(v);
+				}
+				
+				if (validator.getRegex() != null) {
+					String msgFormat = (validator.getRegexMessage() == null) ? getRegexMessage() : validator.getRegexMessage();
+					RegexValidator v = new RegexValidator(validator.getProperty(),parsedLabel,
+							msgFormat, result, validator.getRegex());
+					validators.add(v);
+				}
+				
+				if (validator.getMinValue() != null) {
+					MinValueValidator v = new MinValueValidator(validator.getProperty(),parsedLabel,
+							getMinValueMessage(),result,validator.getMinValue());
+					validators.add(v);
+				}
+	
+				if (validator.getMaxValue() != null) {
+					MaxValueValidator v = new MaxValueValidator(validator.getProperty(),parsedLabel,
+							getMaxValueMessage(),result,validator.getMaxValue());
+					validators.add(v);
+				}
+	
+			}
+			
+			//create validators only one
+			validatorsCreated = true;
+		}
 	}
 
 	/**

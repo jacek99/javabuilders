@@ -50,17 +50,17 @@ public class PropertyUtils {
 		Method setter = getSetter(instance, name);
 		return setter.getParameterTypes()[0];
 	}
-	
+
 	/**
 	 * @param instance Object instance
 	 * @param propertyName Property name
 	 * @return Type of the property
 	 */
-	public static Set<String> getPropertyNames(Object instance) {
+	public static Set<String> getPropertyNames(Class<?> clazz) {
 		Set<String> names = new TreeSet<String>();
 		StringBuilder bld = new StringBuilder();
-		if (instance != null) {
-			Method[] methods = instance.getClass().getMethods();
+		if (clazz != null) {
+			Method[] methods = clazz.getMethods();
 			for(Method method : methods) {
 				if (method.getName().startsWith("set") && method.getParameterTypes().length == 1		) {
 					bld.setLength(0);
@@ -75,6 +75,20 @@ public class PropertyUtils {
 		}
 		return names;
 	}
+
+	/**
+	 * @param instance Object instance
+	 * @param propertyName Property name
+	 * @return Type of the property
+	 */
+	public static Set<String> getPropertyNames(Object instance) {
+		Set<String> names = new TreeSet<String>();
+		if (instance != null) {
+			names = getPropertyNames(instance.getClass());
+		}
+		return names;
+	}
+
 	
 	/**
 	 * Sets the value via reflection on an object

@@ -13,10 +13,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -440,9 +443,16 @@ public class BuilderUtils {
 
 		Object caller = result.getCaller();
 
+		//get a list of all the fields in the full object hierarchy, so that
+		//setting references on superclass fields is possible too (Issue #51)
+		List<Field> fields = new LinkedList<Field>();
+		Class<?> parent = caller.getClass();
+		while (parent != null) {
+			fields.addAll(Arrays.asList(parent.getDeclaredFields()));
+			parent = parent.getSuperclass();
+		}
+		
 		if (caller != null) {
-
-			Field[] fields = caller.getClass().getDeclaredFields();
 
 			for (String name : result.getBuildResult().keySet()) {
 
@@ -455,8 +465,7 @@ public class BuilderUtils {
 
 					if (fromName.equals(name)) {
 						field.setAccessible(true); // ensure we have access to
-						// the field, even if
-						// private
+						// the field, even if private
 						Object value = null;
 						try {
 							value = field.get(caller);
@@ -468,6 +477,7 @@ public class BuilderUtils {
 									if (logger.isLoggable(Level.FINE)) {
 										logger.fine("Successfully set reference to caller's variable: " + name);
 									}
+									continue;
 								} else {
 									if (logger.isLoggable(Level.INFO)) {
 										logger.info("Failed to set value for caller's variable: " + name + ". Incompatible types.");
@@ -681,6 +691,18 @@ public class BuilderUtils {
 			// try treating the key as if it was a complete class name
 			typeClass = BuilderUtils.getClassFromCallerFields(process.getCaller(), key, instanceName);
 		}
+		//if still null, check if the name is in the class hierarchy of the caller
+		if (typeClass == null) {
+			Class<?> parent = process.getCaller().getClass();
+			while (parent != null) {
+				if (parent.getSimpleName().equals(key)) {
+					typeClass = parent;
+					break;
+				}
+				parent = parent.getSuperclass();
+			}
+		}
+		
 		return typeClass;
 	}
 
@@ -794,9 +816,44 @@ public class BuilderUtils {
 	 * @param yaml
 	 */
 	public static void validateYamlContent(String yaml) {
-		int pos = yaml.indexOf("\t");
-		if (pos >= 0) {
-			throw new InvalidFormatException("Found a tab in the YAML content starting at\n{0}", yaml.substring(pos));
+		StringBuilder errors = new StringBuilder();
+		String[] lines = yaml.split("\n");
+		for(int i = 0; i < lines.length;i++) {
+			String line = lines[i];
+			//check for tabs
+			int pos = line.indexOf("\t");
+			if (pos >= 0) {
+				errors.append(MessageFormat.format("Found a tab in line {0} starting at\n{1}\n", (i+1), line.substring(pos)));
+			}
+			//check for unmatched parentheses
+			int left = 0, right = 0;
+			int startingQuotes = 0, endingQuotes = 0;
+			boolean inQuotes = false;
+			for(int c = 0; c < line.length(); c++) {
+				char charAt = line.charAt(c);
+				if (charAt == '"') {
+					inQuotes = !inQuotes;
+					if (inQuotes) {
+						startingQuotes++;
+					} else {
+						endingQuotes++;
+					}
+				} else if (charAt == '(' && !inQuotes) {
+					left++;
+				} else if (charAt == ')' && !inQuotes) {
+					right++;
+				}
+			}
+			if (left != right) {
+				errors.append(MessageFormat.format("Unamtched number of left and right parentheseson in line {0}: {1}\n", (i+1), line));
+			}
+			if (startingQuotes != endingQuotes) {
+				errors.append(MessageFormat.format("Unamtched number of opening and closing quotes in line {0}: {1}\n", (i+1), line));
+			}
+		}
+		
+		if (errors.length() > 0) {
+			throw new InvalidFormatException(errors.toString());
 		}
 	}
 
@@ -975,7 +1032,7 @@ public class BuilderUtils {
      */
     public static Class<?> getGenericsTypeFromCollectionField(Field field) {
         Class<?> clazz = null;
-        if (field.getType().equals(List.class) || field.getType().equals(Set.class)) {
+        if (List.class.isAssignableFrom(field.getType()) || Set.class.isAssignableFrom(field.getType())) {
             field.setAccessible(true);
             ParameterizedType ptype = (ParameterizedType) field.getGenericType();
             Type[] types = ptype.getActualTypeArguments();

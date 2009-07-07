@@ -18,6 +18,7 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
+import org.javabuilders.util.JBStringUtils;
 /**
  * TableColumn handler
  * @author Jacek Furmankiewicz
@@ -65,7 +66,7 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 				
 				//attempt to find the column by identifier or headerValue
 				if ((col.getIdentifier() != null && col.getIdentifier().equals(id)) ||
-						(col.getHeaderValue() != null && col.getHeaderRenderer().equals(headerValue))
+						(col.getHeaderValue() != null && headerValue.equals(col.getHeaderRenderer()))
 						) {
 					instance = col;
 					break;
@@ -125,6 +126,15 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 				JTextField e = (JTextField) editor.getMainObject();
 				col.setCellEditor(new DefaultCellEditor(e));
 			}
+		}
+		
+		//table column header
+		String headerValue = current.getStringProperty(HEADER_VALUE);
+		if (headerValue == null) {
+			//create default header value if none specified
+			headerValue = String.valueOf(col.getHeaderValue());
+			col.setHeaderValue(JBStringUtils.getDisplayName(headerValue));
+			
 		}
 		
 	}

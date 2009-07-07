@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -74,7 +75,7 @@ public class IssuesTests {
 		Builder.buildFromString(c, this, yaml);
 	}
 	
-	@Test(expected=InvalidPropertyException.class)
+	@Test(expected=InvalidFormatException.class)
 	public void issue34_MissingParenthesesNested() {
 		String yaml = "JPanel:\n    JTextField(name=xDogYearsTF  , columns=3";
 		BuilderConfig c = new TestBuilderConfig(JPanel.class,JTextField.class);
@@ -146,7 +147,28 @@ public class IssuesTests {
 		assertNotNull(gp2);
 		assertNotSame(testPanel, gp2);
 		assertFalse(gp.getLabel().getText().equals(gp2.getLabel().getText()));
-		
 	}
+	
+	@Test(expected=InvalidFormatException.class)
+	public void issue50_quotesValidation() {
+		BuilderConfig c = new TestBuilderConfig(JButton.class);
+		String yaml = "JButton(text=\"text)"; 
+		BuildResult r = Builder.buildFromString(c, this, yaml);
+	}
+	
+	@Test(expected=InvalidFormatException.class)
+	public void issue50_tabValidation() {
+		BuilderConfig c = new TestBuilderConfig(JButton.class);
+		String yaml = "JButton(text=Ok)\t"; 
+		BuildResult r = Builder.buildFromString(c, this, yaml);
+	}
+	
+	@Test(expected=InvalidFormatException.class)
+	public void issue50_parenthesesValidation() {
+		BuilderConfig c = new TestBuilderConfig(JButton.class);
+		String yaml = "JButton(onAction=(save,test)"; 
+		BuildResult r = Builder.buildFromString(c, this, yaml);
+	}
+
 	
 }

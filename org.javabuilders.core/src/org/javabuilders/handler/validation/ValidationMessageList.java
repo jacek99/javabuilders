@@ -19,9 +19,11 @@ public class ValidationMessageList extends LinkedList<ValidationMessage> {
 		
 		//add only if not a duplicate
 		for(ValidationMessage msg : this) {
-			if (msg.getProperty().equals(o.getProperty()) && msg.getMessage().equals(o.getMessage())) {
-				duplicate = true;
-				break;
+			if (msg.getProperty() != null) {
+				if (msg.getProperty().equals(o.getProperty()) && msg.getMessage().equals(o.getMessage())) {
+					duplicate = true;
+					break;
+				}
 			}
 		}
 		

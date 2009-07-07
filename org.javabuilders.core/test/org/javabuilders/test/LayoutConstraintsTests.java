@@ -33,7 +33,7 @@ public class LayoutConstraintsTests {
 		assertEquals(2, controls.size());
 		assertEquals("\"label,1\"", controls.get(0).getControlName());
 		assertEquals("\"label,2\"", controls.get(1).getControlName());
-		assertEquals(5, controls.get(0).getSizeGroup());
+		assertEquals(new Integer(5), controls.get(0).getSizeGroup());
 		
 		controls = c.getCellAt(0,1).getControls();
 		assertEquals(1, controls.size());
@@ -70,7 +70,7 @@ public class LayoutConstraintsTests {
 		
 		assertEquals(1, controls.size());
 		assertEquals("\"First Name\"", controls.get(0).getControlName());
-		assertEquals(5, controls.get(0).getSizeGroup());
+		assertEquals(new Integer(5), controls.get(0).getSizeGroup());
 		
 		controls = c.getCellAt(0,1).getControls();
 		assertEquals(1, controls.size());
@@ -89,7 +89,7 @@ public class LayoutConstraintsTests {
 		
 		assertEquals(1, controls.size());
 		assertEquals("\"Date YYYY/MM/DD\"", controls.get(0).getControlName());
-		assertEquals(5, controls.get(0).getSizeGroup());
+		assertEquals(new Integer(5), controls.get(0).getSizeGroup());
 		
 		controls = c.getCellAt(0,1).getControls();
 		assertEquals(1, controls.size());
@@ -108,7 +108,7 @@ public class LayoutConstraintsTests {
 		assertEquals(2, controls.size());
 		assertEquals("\"Date YYYY/MM/DD\"", controls.get(0).getControlName());
 		assertEquals("someLabel", controls.get(1).getControlName());
-		assertEquals(5, controls.get(0).getSizeGroup());
+		assertEquals(new Integer(5), controls.get(0).getSizeGroup());
 		
 		controls = c.getCellAt(0,1).getControls();
 		assertEquals(1, controls.size());
@@ -126,7 +126,7 @@ public class LayoutConstraintsTests {
 		assertEquals(2, controls.size());
 		assertEquals("\"Date YYYY/MM/DD\"", controls.get(0).getControlName());
 		assertEquals("\"Some other label\"", controls.get(1).getControlName());
-		assertEquals(5, controls.get(0).getSizeGroup());
+		assertEquals(new Integer(5), controls.get(0).getSizeGroup());
 		
 		controls = c.getCellAt(0,1).getControls();
 		assertEquals(1, controls.size());

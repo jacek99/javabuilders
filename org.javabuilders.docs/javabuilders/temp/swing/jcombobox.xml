@@ -14,6 +14,8 @@
 bind:
     - jComboBox.model: this.books          
           </codeblock>
+          An alternate (and arguably more powerful) databinding method involves using the GlazedLists library, 
+          please refer to the relevant chapter for more details.
           </p>
         </section>
     </body>

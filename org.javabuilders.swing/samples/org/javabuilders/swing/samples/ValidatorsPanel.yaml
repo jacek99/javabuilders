@@ -3,6 +3,7 @@ JPanel:
         - JPanel(name=panel1):
             - JTextField(name=mandatory)
             - JButton(name=validate1,text=Validate All, onAction=$validate)
+            - JButton(name=validate2,text=Confirm & Validate All, onAction=($confirm,$validate))
             - JTextField(name=date)
             - JTextField(name=email)
             - JTextField(name=minmax)
@@ -17,9 +18,9 @@ JPanel:
             - JTextField(name=float, hAlign=right)
             - MigLayout: |
                 [pref,right]                                     [200:min,grow]  [pref]
-                "Mandatory (*):"                                 mandatory       validate1
-                "Date (yyyy/mm/dd):"                             date
-                "Email:"                                         email
+                "Mandatory (*):"                                 mandatory       validate1+1+2=1
+                "Date (yyyy/mm/dd):"                             date            validate2=1
+                "Email:"                                         email           
                 "Min/Max Length (5-10):"                         minmax
                 "Regex (numbers and letters):"                   regex
                 "Regex (numbers and letters) with custom msg:"   regex2

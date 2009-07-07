@@ -444,9 +444,13 @@ public class Builder {
 						}
 					} 
 				}
+				//TODO: evaluate if this code can be removed
 				if (treatListAsPropertyValue) {
 					handleProperty(config, process, parent, currentKey);
 				}
+			} else {
+				//propertie as lists (issue #47)
+				handleProperty(config, process, parent, currentKey);
 			}
 			
 		} else  {
@@ -536,8 +540,8 @@ public class Builder {
 				try {
 					method.invoke(parent.getMainObject(), current.getMainObject());
 				} catch (Exception e) {
-					throw new BuildException("Unable to call {0}.{1} with type {2}",
-							parentClass.getSimpleName(), method.getName(), createdClassType.getSimpleName(),e);
+					throw new BuildException(e,"Unable to call {0}.{1} with type {2}. Error: {3}",
+							parentClass.getSimpleName(), method.getName(), createdClassType.getSimpleName(),e.getMessage());
 				}
 			}
 		}
@@ -650,6 +654,7 @@ public class Builder {
 		delayedKeys.add(key);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static void handleProperty(BuilderConfig config, BuildProcess process, Node parent, String currentKey) throws BuildException {
 		//PROPERTY VALUE
 		if (!parent.getConsumedKeys().contains(currentKey)) { //each property should be processed only once by any handler
@@ -839,6 +844,7 @@ public class Builder {
 	 * @throws MissingRequiredPropertyException 
 	 * @throws MissingRequiredTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	private static void validate(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> currentProperties, Class<?> classType) throws InvalidParentTypeException, MissingRequiredPropertyException, MissingRequiredTypeException {
 		
 		//check for allowed parent

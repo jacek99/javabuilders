@@ -37,6 +37,7 @@ public class BuilderPreProcessor {
 	 * @param current Current
 	 * @throws BuildException If anything goes wrong...
 	 */
+	@SuppressWarnings("unchecked")
 	public static Object preprocess(BuilderConfig config, BuildProcess process,  Object current, Object parent) throws BuildException {
 		try {
 			if (current instanceof Map) {
@@ -225,6 +226,7 @@ public class BuilderPreProcessor {
 	}
 	
 	//explodes a type entered as a list or single value into a proper map
+	@SuppressWarnings("unchecked")
 	private static void explodeShortcutTypeToMap(BuilderConfig config, BuildProcess process,  ITypeHandler handler, String key, Map<String,Object> current) throws BuildException {
 		Object value = current.get(key);
 		//handle special short-hand cases where it may be shown as a list

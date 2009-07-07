@@ -1,0 +1,11 @@
+JPanel:
+    - JList(name=list): 
+        EventListModel(name=model,source=values)
+    - JComboBox(name=box):
+        EventComboBoxModel(name=boxmodel, source=values)
+    - JTable(name=table):
+        - EventTableModel(name=tablemodel, source=books)
+    - JTable(name=table2):
+        - EventTableModel(name=tablemodel2, source=books)
+        - TableColumn(name=author,headerValue=Author)
+        - TableColumn(name=titleColumn,source=title,headerValue=column.title)        

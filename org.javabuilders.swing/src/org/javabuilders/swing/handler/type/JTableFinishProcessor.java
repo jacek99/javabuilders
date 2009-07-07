@@ -66,7 +66,6 @@ public class JTableFinishProcessor implements ITypeHandlerFinishProcessor {
 				if (!existing) {
 					table.addColumn(column);
 				}
-
 			}
 		}
 	}
