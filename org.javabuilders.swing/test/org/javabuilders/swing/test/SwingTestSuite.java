@@ -18,7 +18,8 @@ import org.junit.runners.Suite;
 	SamplesTests.class,
 	JTableTests.class,
 	ChildrenCardinalityTests.class,
-	GlazedListsTests.class
+	GlazedListsTests.class,
+	TypeHandlersTest.class
 })
 
 public class SwingTestSuite {}
