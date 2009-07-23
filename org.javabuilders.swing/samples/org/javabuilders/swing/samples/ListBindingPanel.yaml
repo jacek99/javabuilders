@@ -1,12 +1,13 @@
 JPanel:
      - JComboBox(name=combo)
-     - JScrollPane(name=listS): JList(name=list)
+     - JScrollPane(name=listS): JList(name=list,onSelection=listSelectedNotification)
      - JScrollPane(name=tableS): JTable(name=table)
      - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
      - JButton(name=listAdd,text=Add, onAction=addPerson)
      - JButton(name=listDelete,text=Delete, onAction=($confirm,deleteFromList))
      - JButton(name=tableAdd,text=Add, onAction=addPerson)
-     - JButton(name=tableDelete,text=Delete)     
+     - JButton(name=tableDelete,text=Delete)
+     - JLabel(name=listStatusLbl,text=" ")     
      - MigLayout: |
           [grow]                   [grow]
           "Combo box:"             "Table:"
@@ -14,9 +15,11 @@ JPanel:
           "List:"       
           listS                                              [grow]
           listAdd=1,listDelete=1   tableAdd=1,tableDelete=1
+          listStatusLbl
           "YAML:"
           scroll1+*                                          [grow]
 bind:
     - source.text: this.yaml  
     - combo.model: this.people
     - list.model: this.people
+    - listStatusLbl.text: this.listStatus

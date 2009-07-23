@@ -109,6 +109,7 @@ import org.javabuilders.swing.handler.event.ComponentMouseListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentMouseMotionListenerHandler;
 import org.javabuilders.swing.handler.event.ComponentMouseWheelListenerHandler;
 import org.javabuilders.swing.handler.event.JFrameWindowListenerHandler;
+import org.javabuilders.swing.handler.event.JListSelectionListenerHandler;
 import org.javabuilders.swing.handler.event.JTabbedPaneChangeListenerHandler;
 import org.javabuilders.swing.handler.event.JTableSelectionListenerHandler;
 import org.javabuilders.swing.handler.event.JTreeSelectionListenerHandler;
@@ -268,7 +269,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.defaultResize(DefaultResize.BOTH)
 			.children(Component.class, 0,Integer.MAX_VALUE)
 			.children(LayoutManager.class, 0,1)
-			.children(ButtonGroup.class, 0, Integer.MAX_VALUE);
+			.children(ButtonGroup.class, 0, Integer.MAX_VALUE)
+			.children(Action.class,0,Integer.MAX_VALUE);
 		forType(Font.class)
 			.valueHandler(FontAsValueHandler.getInstance());
 		forType(Frame.class).localize(TITLE)
@@ -327,6 +329,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(JList.class)
 			.defaultResize(DefaultResize.BOTH)
 			.finishProcessor(new JListFinishProcessor())
+			.propertyHandler(JListSelectionListenerHandler.getInstance())
 			.childrenOverride(true).children(ListModel.class,0,1);
 		forType(JMenu.class)
 			.children(ButtonGroup.class,0,Integer.MAX_VALUE);

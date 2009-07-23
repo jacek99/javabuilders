@@ -7,5 +7,5 @@ JPanel:
         - EventTableModel(name=tablemodel, source=books)
     - JTable(name=table2):
         - EventTableModel(name=tablemodel2, source=books)
-        - TableColumn(name=author,headerValue=Author)
+        - TableColumn(name=author)
         - TableColumn(name=titleColumn,source=title,headerValue=column.title)        

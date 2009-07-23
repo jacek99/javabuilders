@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -277,6 +278,46 @@ public class Node  {
 	}
 	
 	/**
+	 * Returns sibling objects of a particular type
+	 * @param <C>
+	 * @param classFilter
+	 * @return
+	 */
+	public <C> Set<C> getSiblingObjects(Class<? extends C> classFilter) {
+		return getParent().getChildObjects(classFilter);
+	}
+	
+	/**
+	 * Looks at the raw YAML data, regardless of whether it's been turned into a
+	 * node yet or not
+	 * @param <C> Class
+	 * @param classFilter Class filter
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <C> List<Map<String,Object>> getContentData(Class<? extends C> classFilter) {
+		List<Map<String,Object>> data = new LinkedList<Map<String,Object>>();
+		String name = classFilter.getSimpleName();
+		
+		Object ct = getProperty(Builder.CONTENT);
+		if (ct instanceof List) {
+			List list = (List) ct;
+			for (Object entry : list) {
+				if (entry instanceof Map) {
+					Map<String,Map<String,Object>> row = (Map<String, Map<String, Object>>) entry;
+					for(String key : row.keySet()) {
+						if (name.equals(key)) {
+							data.add(row.get(key));
+						}
+					}
+				}
+			}
+		}
+		
+		return data;
+	}
+	
+	/**
 	 * Returns the child node identified by a particular key
 	 * @param key Key
 	 * @return Child node (or null if none found)
@@ -468,7 +509,7 @@ public class Node  {
 			return pValue.equals(value);
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

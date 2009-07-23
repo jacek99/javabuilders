@@ -1,5 +1,7 @@
 package org.javabuilders.swing.samples;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,8 +16,10 @@ import org.jdesktop.observablecollections.ObservableCollections;
 
 public class ListBindingPanel extends SamplePanel {
 
+	private PropertyChangeSupport support = new PropertyChangeSupport(this);
 	private List<Person> people = ObservableCollections.observableList(new LinkedList<Person>());
 	private JList list;
+	private String listStatus = "";
 	
 	public ListBindingPanel() throws Exception {
 		super();
@@ -30,6 +34,18 @@ public class ListBindingPanel extends SamplePanel {
 		SwingJavaBuilder.build(this);
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		if (support != null) {
+			support.addPropertyChangeListener(listener);
+		}
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		if (support != null) {
+			support.removePropertyChangeListener(listener);
+		}
+	}
+	
 	/**
 	 * @return the people
 	 */
@@ -51,5 +67,24 @@ public class ListBindingPanel extends SamplePanel {
 		Person person = (Person) list.getSelectedValue();
 		people.remove(person);
 	}
+
+	/**
+	 * @return the listSelected
+	 */
+	public String getListStatus() {
+		return listStatus;
+	}
+
+	/**
+	 * @param status the listSelected to set
+	 */
+	public void setListStatus(String status) {
+		String old = this.listStatus;
+		this.listStatus = status;
+		support.firePropertyChange("listStatus", old, this.listStatus);
+	}
 	
+	private void listSelectedNotification() {
+		setListStatus("List selected on : " + Calendar.getInstance().getTime());
+	}
 }

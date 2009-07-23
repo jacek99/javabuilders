@@ -1,7 +1,7 @@
 JPanel:
     - JSplitPane(name=split1):
         - JPanel(name=rulePanel):
-            - JTextField(name=name, text=MigLayout in debug mode)
+            - JTextField(name=nameField, text=MigLayout in debug mode)
             - JTextField(name=iteratorType)
             - JCheckBox(name=abstract, text=" ")
             - JTextField(name=inherits)
@@ -24,7 +24,7 @@ JPanel:
             - MigLayout: |
                  [[debug]]
                  []                  [grow]           [pref]        [grow]
-                 "Name:"=3x          name+*
+                 "Name:"=3x          nameField+*
                  "Iterator Type:"    iteratorType=1   "Abstract:"   abstract  
                  "Inherits:"=3x      inherits=1       "Bean:"       bean=1
                  parentReferences+*

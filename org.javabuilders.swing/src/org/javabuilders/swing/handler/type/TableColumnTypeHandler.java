@@ -66,7 +66,7 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 				
 				//attempt to find the column by identifier or headerValue
 				if ((col.getIdentifier() != null && col.getIdentifier().equals(id)) ||
-						(col.getHeaderValue() != null && headerValue.equals(col.getHeaderRenderer()))
+						(headerValue != null && headerValue.equals(col.getHeaderValue()))
 						) {
 					instance = col;
 					break;
@@ -134,7 +134,6 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 			//create default header value if none specified
 			headerValue = String.valueOf(col.getHeaderValue());
 			col.setHeaderValue(JBStringUtils.getDisplayName(headerValue));
-			
 		}
 		
 	}

@@ -431,6 +431,7 @@ public class Builder {
 					//most important attributes
 					itemsNode.setMainObject(parent.getMainObject());
 					itemsNode.setConsumedKeys(parent.getConsumedKeys());
+					
 				}
 				
 				boolean treatListAsPropertyValue = true;
@@ -584,7 +585,7 @@ public class Builder {
 					
 				} else {
 					//a property
-					if (!ignored.contains(childKey)) {
+					if (!ignored.contains(childKey) && !isInternal(childKey)) {
 					
 						Integer delayedWeight = TypeDefinition.getDelayedWeight(typeHandler, childKey,
 								config.getTypeDefinitions(createdClassType));
@@ -642,6 +643,11 @@ public class Builder {
 
 	}
 	
+	//helper method - all keys prefixed with "__" are treated as internal use and ignored
+	private static boolean isInternal(String childKey) {
+		return childKey.startsWith("__");
+	}
+
 	//common logic to populate the list of delayed keys
 	private static void addToDelayedKeys(Map<Integer,List<String>> delayedKeysByWeight,
 			Integer delayWeight, String key) {

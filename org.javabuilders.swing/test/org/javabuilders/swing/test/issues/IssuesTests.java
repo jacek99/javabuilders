@@ -9,8 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
@@ -292,6 +294,57 @@ public class IssuesTests {
 		assertNotNull("superclass text field is null",panel.getGenericTextField());
 		assertNotNull("class text field is null",panel.getCustomTextField());
 		
+	}
+	
+	@Test
+	public void issue52_onSelectionForJList() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JList(name=list,onSelection=jlist_selection)");
+		}}.build(this);
+
+		JList list = (JList) r.get("list");
+		assertNotNull(list);
+		assertEquals(1,list.getListSelectionListeners().length);
+	}
+	
+	@Test
+	public void issue52_onSelectionForJListMultiple() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JList(name=list,onSelection=(jlist_selection,jlist_selection2))");
+		}}.build(this);
+
+		JList list = (JList) r.get("list");
+		assertNotNull(list);
+		assertEquals(1,list.getListSelectionListeners().length);
+	}
+	
+	@Test(expected=BuildException.class)
+	public void issue52_onSelectionForJListInvalid() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JList(name=list,onSelection=jlist2_selection)"); //wrong method name
+		}}.build(this);
+
+		JList list = (JList) r.get("list");
+		assertNotNull(list);
+	}
+
+	//needed for a test
+	private void jlist_selection(ListSelectionEvent evt) {
+		//do nothing
+	}
+
+	//needed for a test
+	private void jlist_selection2(ListSelectionEvent evt) {
+		//do nothing
+	}
+	
+	@Test
+	public void issue53_noActionsUnderJPanel() {
+
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- Action(name=text)");
+		}}.build(this);
+
 	}
 
 }

@@ -103,6 +103,9 @@ public class GlazedListsTests {
 		
 		//should have one 1 item by default
 		JTable table = panel.getJTable();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {}
 		EventTableModel<Book> model = panel.getTableModel();
 		assertNotNull(table);
 		assertNotNull(model);

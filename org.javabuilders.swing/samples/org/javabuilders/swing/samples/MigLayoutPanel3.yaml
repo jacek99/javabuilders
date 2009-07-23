@@ -3,7 +3,7 @@ JPanel:
         - JLabel(name=clientIdLabel, text="Client ID:")
         - JTextField(name=clientId)
         - JLabel(name=nameLbl, text="Name:")
-        - JTextField(name=name)
+        - JTextField(name=nameField)
         - JLabel(name=phoneLabel, text="Phone:")
         - JTextField(name=phone)
         - JLabel(name=faxLabel, text="Fax:")
@@ -16,7 +16,7 @@ JPanel:
         - MigLayout:
             layoutConstraints: "wrap 2"
             columnConstraints: "[right] [100,fill, grow]"
-            constraints: [clientIdLabel,clientId,nameLbl,name,phoneLabel,phone,faxLabel,fax,regLabel,reg,siteLabel,site,clientDetailsBtn]
+            constraints: [clientIdLabel,clientId,nameLbl,nameField,phoneLabel,phone,faxLabel,fax,regLabel,reg,siteLabel,site,clientDetailsBtn]
     - JPanel(name=infoPanel, groupTitle=Information):
         - JTextField(name=reserve)
         - JButton(name=addDaysBtn, text=Add Days)
