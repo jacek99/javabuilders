@@ -21,6 +21,7 @@ import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.handler.IntegerAsValueHandler;
 import org.javabuilders.handler.binding.BuilderBindings;
+import org.javabuilders.handler.type.ClassAsValueHandler;
 import org.javabuilders.handler.type.IntArrayAsValueHandler;
 import org.javabuilders.handler.type.IntegerArrayAsValueHandler;
 import org.javabuilders.handler.validation.BuilderValidators;
@@ -113,7 +114,8 @@ public class BuilderConfig {
 		addType(Builder.BIND, BuilderBindings.class);
 		addType(Builder.VALIDATE, BuilderValidators.class);
 
-		addTypeHandler(DefaultValidatorTypeHandler.getInstance());
+		forType(Class.class).valueHandler(ClassAsValueHandler.getInstance());
+		forType(BuilderValidators.class).typeHandler(DefaultValidatorTypeHandler.getInstance());
 		
 		//handler for static final int constants
 		forType(int.class).valueHandler(IntegerAsValueHandler.getInstance());

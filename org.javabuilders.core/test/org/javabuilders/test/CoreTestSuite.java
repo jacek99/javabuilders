@@ -14,6 +14,7 @@ import org.junit.runners.Suite;
   ControlConstraintTests.class,
   IssuesTests.class,
   LayoutConstraintsTests.class,
-  PropertyUtilsTests.class  
+  PropertyUtilsTests.class,
+  TypeHandlersTest.class
 })
 public class CoreTestSuite {}

@@ -15,6 +15,8 @@ public class GlobalBuildFilePanel extends JPanel {
 
 	private JLabel test;
 	
+	private Class testClass = null;
+	
 	public GlobalBuildFilePanel() {
 		BuilderConfig config = new TestBuilderConfig(JPanel.class,JLabel.class);
 		config.forType(JPanel.class).children(Component.class,0,Integer.MAX_VALUE);
@@ -23,5 +25,19 @@ public class GlobalBuildFilePanel extends JPanel {
 	
 	public JLabel getLabel() {
 		return test;
+	}
+	
+	/**
+	 * @return the testClass
+	 */
+	public Class getTestClass() {
+		return testClass;
+	}
+
+	/**
+	 * @param testClass the testClass to set
+	 */
+	public void setTestClass(Class testClass) {
+		this.testClass = testClass;
 	}
 }

@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
@@ -128,6 +129,7 @@ import org.javabuilders.swing.handler.type.BorderAsValueHandler;
 import org.javabuilders.swing.handler.type.ButtonGroupTypeHandler;
 import org.javabuilders.swing.handler.type.ColorAsValueHandler;
 import org.javabuilders.swing.handler.type.ContainerTypeHandler;
+import org.javabuilders.swing.handler.type.DimensionAsValueHandler;
 import org.javabuilders.swing.handler.type.JComboBoxFinishProcessor;
 import org.javabuilders.swing.handler.type.JDialogTypeHandler;
 import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
@@ -271,6 +273,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.children(LayoutManager.class, 0,1)
 			.children(ButtonGroup.class, 0, Integer.MAX_VALUE)
 			.children(Action.class,0,Integer.MAX_VALUE);
+		forType(Dimension.class)
+			.valueHandler(DimensionAsValueHandler.getInstance());
 		forType(Font.class)
 			.valueHandler(FontAsValueHandler.getInstance());
 		forType(Frame.class).localize(TITLE)

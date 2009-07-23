@@ -9,4 +9,5 @@ public class AbstractGenericPanel extends JPanel {
 	public JTextField getGenericTextField() {
 		return genericTextField;
 	}
+
 }

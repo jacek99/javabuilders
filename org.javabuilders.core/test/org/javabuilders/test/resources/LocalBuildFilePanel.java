@@ -14,6 +14,7 @@ import org.javabuilders.test.TestBuilderConfig;
 public class LocalBuildFilePanel extends JPanel {
 
 	private JLabel test;
+	private Class testClass = null;
 	
 	public LocalBuildFilePanel() {
 		BuilderConfig config = new TestBuilderConfig(JPanel.class,JLabel.class);
@@ -23,6 +24,20 @@ public class LocalBuildFilePanel extends JPanel {
 	
 	public JLabel getLabel() {
 		return test;
+	}
+	
+	/**
+	 * @return the testClass
+	 */
+	public Class getTestClass() {
+		return testClass;
+	}
+
+	/**
+	 * @param testClass the testClass to set
+	 */
+	public void setTestClass(Class testClass) {
+		this.testClass = testClass;
 	}
 
 }
