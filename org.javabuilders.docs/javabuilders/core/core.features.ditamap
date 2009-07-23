@@ -14,6 +14,7 @@
 		<topicref href="internationalization.dita" />
 		<topicref href="enum.dita"/>
 		<topicref href="static.int.constant.dita"/>
+		<topicref href="classes.dita"/>
 		<topicref href="custom.components.dita"/>
 		<topicref href="custom.global.commands.dita"/>
 		<topicref href="build.events.dita"/>

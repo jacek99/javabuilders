@@ -43,5 +43,5 @@ SwingJavaBuilder.getConfig().addBuildListener(new BuildAdapter() {
 				allow you to extend particular component types.</p>
 		</section>
 	</body>
-<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" xtrc="topicref:12" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" href="../core/core.features.xml" role="parent"/></linkpool></related-links>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" xtrc="topicref:13" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="topicref:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/core.features.ditamap" href="../core/core.features.xml" role="parent"/></linkpool></related-links>
 </topic>

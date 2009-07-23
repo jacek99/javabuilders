@@ -43,5 +43,8 @@
 				<i class="+ topic/ph hi-d/i " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/preface.dita" xtrc="i:1">JavaBuilders Technical Architect</i>
 			</p>
 		</section>
+		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/preface.dita" xtrc="section:2">
+		P.S. Many thanks to our code contributors: Alexandre Navarro, Sébastien Gollion.
+		</section>
 	</body>
 </topic>
