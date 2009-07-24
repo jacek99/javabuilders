@@ -6,7 +6,7 @@ package org.javabuilders.swing.handler.type.glazedlists;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +19,7 @@ import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
+import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
 import org.javabuilders.util.PropertyUtils;
@@ -35,6 +36,7 @@ import ca.odell.glazedlists.swing.EventTableModel;
 public class EventTableModelTypeHandler extends AbstractTypeHandler {
 
 	public static final String SOURCE="source";
+	public static final String HEADER_VALUE= TableColumnTypeHandler.HEADER_VALUE;
 	
 	public EventTableModelTypeHandler() {
 		super(SOURCE);
@@ -65,7 +67,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 					if (type == null) {
 						throw new BuildException("Unable to use generics to find type of object stored in source: {0}", source);
 					}
-					List<String> columns = getColumnNames(cols,type);
+					Map<String,String> columns = getColumnNamesAndHeaders(cols, type);
 					TableFormat f = createTableFormat(parent, type,columns);
 					EventTableModel instance = new EventTableModel<Object>(list, f);
 					return useExistingInstance(config, process, parent, key, typeDefinition, instance);
@@ -97,19 +99,20 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 	
 	//creates the TableFormat class
 	@SuppressWarnings("unchecked")
-	private TableFormat<?> createTableFormat(Node parent, Class<?> type, final List<String> columns) {
+	private TableFormat<?> createTableFormat(Node parent, Class<?> type, final Map<String,String> columns) {
+
+		final String[] names = columns.keySet().toArray(new String[columns.keySet().size()]);
 		
 		TableFormat f = new TableFormat<Object>() {
 			public int getColumnCount() {
 				return columns.size();
 			}
 			public String getColumnName(int index) {
-				//TODO: add internationalization logic
-				return JBStringUtils.getDisplayName(columns.get(index));
+				return columns.get(names[index]);
 			}
 			
 			public Object getColumnValue(Object instance,int index){
-				String column = columns.get(index);
+				String column = names[index];
 				return PropertyUtils.getProperty(instance, column);
 			}
 		};
@@ -118,8 +121,8 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 	}
 	
 	//looks at raw data to figure out which column it goes to
-	private List<String> getColumnNames(List<Map<String,Object>> cols, Class<?> type) {
-		List<String> columns = new LinkedList<String>();
+	private Map<String,String> getColumnNamesAndHeaders(List<Map<String,Object>> cols, Class<?> type) {
+		Map<String,String> columns = new LinkedHashMap<String,String>();
 		final Set<String> props = PropertyUtils.getPropertyNames(type);
 		
 		if (cols.size() > 0) {
@@ -134,7 +137,13 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 							map);
 				}
 				if (props.contains(name)) {
-					columns.add(name);
+					String headerValue = (String) map.get(HEADER_VALUE);
+					if (headerValue == null) {
+						headerValue = JBStringUtils.getDisplayName(name);
+					}
+					//flag internally the column to map it to a particular index of the model
+					map.put(TableColumnTypeHandler.INTERNAL_MODEL_INDEX, columns.size());
+					columns.put(name,headerValue);
 				} else {
 					throw new BuildException("Unable to map column '{0}' to any property of type {1}",name,type);
 				}
@@ -144,7 +153,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 			List<String> orderedProps = new ArrayList<String>(props); 
 			Collections.sort(orderedProps);
 			for(String name : orderedProps) {
-				columns.add(name);
+				columns.put(name,JBStringUtils.getDisplayName(name));
 			}
 		}
 		return columns;

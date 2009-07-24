@@ -14,6 +14,7 @@ import javax.swing.table.TableColumn;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
+import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
@@ -32,6 +33,8 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 	public static final String FOR_HEADER = "forHeader";
 	public static final String IDENTIFIER = "identifier";
 	public static final String HEADER_VALUE = "headerValue";
+	
+	public static final String INTERNAL_MODEL_INDEX = Builder.INTERNAL_FIELD_PREFIX + "modelIndex";
 
 	
 	private static final TableColumnTypeHandler singleton = new TableColumnTypeHandler();
@@ -53,27 +56,25 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 			Map<String, Object> typeDefinition) throws BuildException {
 		TableColumn instance = null;
 		JTable table = (JTable) parent.getParentObject(JTable.class);
-		
-		String id = (String) typeDefinition.get(IDENTIFIER);
-		String headerValue = (String) typeDefinition.get(HEADER_VALUE);
 
 		if (table != null) {
 			
 			//try to see if a column with this identifier or name already exists
-			int count = table.getColumnModel().getColumnCount();
-			for(int i = 0; i < count; i++) {
-				TableColumn col = table.getColumnModel().getColumn(i);
-				
-				//attempt to find the column by identifier or headerValue
-				if ((col.getIdentifier() != null && col.getIdentifier().equals(id)) ||
-						(headerValue != null && headerValue.equals(col.getHeaderValue()))
-						) {
-					instance = col;
-					break;
-				} 
+			//If it was already processed by a separate model or binding it should have the
+			//INTERNAL_MODEL_INDEX field in it.
+			Integer index = (Integer) typeDefinition.get(INTERNAL_MODEL_INDEX);
+			if (index != null) {
+				int count = table.getColumnModel().getColumnCount();
+				for(int i = 0; i < count; i++) {
+					TableColumn col = table.getColumnModel().getColumn(i);
+					//attempt to find the column by model index
+					if (col.getModelIndex() == index) {
+						instance = col;
+						break;
+					} 
+				}
 			}
 		} 
-		
 		if (instance == null) {
 			instance = new TableColumn();
 		}

@@ -98,7 +98,7 @@ public class GlazedListsTests {
 	}
 	
 	@Test
-	public void testJTableModel() {
+	public void testSimpleJTableModel() {
 		GlazedListPanel panel = new GlazedListPanel();
 		
 		//should have one 1 item by default
@@ -110,6 +110,7 @@ public class GlazedListsTests {
 		assertNotNull(table);
 		assertNotNull(model);
 		assertTrue(table.getModel() instanceof EventTableModel);
+		assertEquals(3,table.getColumnCount());
 		assertEquals(1, table.getModel().getRowCount());
 		assertEquals("Author", table.getColumnModel().getColumn(0).getHeaderValue());
 		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
@@ -150,7 +151,55 @@ public class GlazedListsTests {
 		assertEquals(0,table.getModel().getRowCount());
 	}
 	
-	
+	@Test
+	public void testCustomJTableModel() {
+		GlazedListPanel panel = new GlazedListPanel();
+		
+		//should have one 1 item by default
+		JTable table = panel.getJTable2();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {}
+		EventTableModel<Book> model = panel.getTableModel();
+		assertNotNull(table);
+		assertNotNull(model);
+		assertEquals(2,table.getColumnCount());
+		assertTrue(table.getModel() instanceof EventTableModel);
+		assertEquals(1, table.getModel().getRowCount());
+		assertEquals("Author", table.getColumnModel().getColumn(0).getHeaderValue());
+		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
+		assertEquals("Book Title", table.getColumnModel().getColumn(1).getHeaderValue());
+		assertEquals("Origin of Species",table.getModel().getValueAt(0, 1));
+		
+		//add 1 to the list
+		//wait a little...it's asynchronous (could be delayed)
+		Book book = null;
+		try {
+			Thread.sleep(200);
+			book = new Book("Carl Sagan","Cosmos",12.99);
+			panel.addBook(book);
+			Thread.sleep(200);
+		} catch (InterruptedException e) {}
+		assertEquals(2,table.getModel().getRowCount());
+		assertEquals("Carl Sagan",table.getModel().getValueAt(1,0));
+		assertEquals("Cosmos",table.getModel().getValueAt(1,1));
+		
+		//remove second
+		try {
+			panel.removeBook(book);
+			Thread.sleep(200);
+		} catch (InterruptedException e) {}
+		assertEquals(1,table.getModel().getRowCount());
+		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
+		assertEquals("Origin of Species",table.getModel().getValueAt(0, 1));
+		
+		//remove first one
+		try {
+			panel.removeBook(0);
+			Thread.sleep(200);
+		} catch (InterruptedException e) {}
+		assertEquals(0,table.getModel().getRowCount());
+	}	
 	
 
 }

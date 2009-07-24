@@ -2,6 +2,7 @@ package org.javabuilders.swing.test.issues.resources;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -28,7 +29,7 @@ public class GlazedListPanel extends JPanel {
 	
 	public GlazedListPanel() {
 		values.add("1");
-		result = SwingJavaBuilder.build(this);
+		result = SwingJavaBuilder.build(this,ResourceBundle.getBundle("TestResources"));
 		
 		Book book = new Book("Charles Darwin","Origin of Species",9.99);
 		addBook(book);

@@ -118,6 +118,8 @@ public class Builder {
 	 */
 	public final static String BOOLEAN_FALSE = "false";
 	
+	public final static String INTERNAL_FIELD_PREFIX = "__";
+	
 	/**
 	 * @return Standard JavaBuilders resource bundle
 	 */
@@ -645,7 +647,7 @@ public class Builder {
 	
 	//helper method - all keys prefixed with "__" are treated as internal use and ignored
 	private static boolean isInternal(String childKey) {
-		return childKey.startsWith("__");
+		return childKey.startsWith(INTERNAL_FIELD_PREFIX);
 	}
 
 	//common logic to populate the list of delayed keys
