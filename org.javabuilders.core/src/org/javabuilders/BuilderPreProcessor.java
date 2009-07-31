@@ -26,9 +26,13 @@ import org.jvyaml.YAML;
 public class BuilderPreProcessor {
 	
 	private static final Logger logger = Logger.getLogger(BuilderPreProcessor.class.getSimpleName());
+	private static final Map<Character,Character> listIndicators = new HashMap<Character, Character>();
 	
 	static {
 		logger.setLevel(Level.ALL);
+		listIndicators.put('(',')'); //obsolete-for backwards compatibility
+		listIndicators.put('[',']');
+		listIndicators.put(null,null);
 	}
 
 	/**
@@ -283,6 +287,7 @@ public class BuilderPreProcessor {
 
 			int nestedParentheses = 0;
 			boolean isEmbeddedInString = false;
+			Character listEnd = null;
 			
 			for(int i = 0; i < constructorText.length(); i++) {
 				char currentChar = constructorText.charAt(i);
@@ -293,9 +298,15 @@ public class BuilderPreProcessor {
 				
 				if (!isEmbeddedInString) {
 					
-					if (currentChar == '(') {
+					if (listIndicators.containsKey(currentChar)) {
+						listEnd = listIndicators.get(currentChar);
+						if (listEnd == ')') {
+							//TODO : deprecate after 1.0
+							logger.warning("'[]' is the new format for lists, '()' is deprecated and will be removed: " + constructorText);
+						}
 						nestedParentheses++;
-					} else if (currentChar == ')') {
+					} else if (listEnd != null && currentChar == listEnd) {
+						listEnd = null;
 						nestedParentheses--;
 					} else if (currentChar == ',' && nestedParentheses == 0) {
 						//we have a real separator

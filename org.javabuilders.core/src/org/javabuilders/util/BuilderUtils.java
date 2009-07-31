@@ -1064,5 +1064,20 @@ public class BuilderUtils {
     	return arguments;
     }
     
+    /**
+     * Gets value from a map and substitutes it with a default if not found
+     * @param map
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public static Object getValue(Map<String,Object> map, Object key, Object defaultValue) {
+    	Object value = map.get(key);
+    	if (value == null) {
+    		value = defaultValue;
+    	}
+    	return value;
+    }
+    
 
 }

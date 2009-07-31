@@ -2,7 +2,7 @@ JDialog(size=packed,locationRelativeTo=null,modal=true):
   - JPanel:
      - JTextField(name=firstName)
      - JTextField(name=lastName)
-     - JButton(name=save, text=Save, onAction=($validate,save))
+     - JButton(name=save, text=Save, onAction=[$validate,save])
      - MigLayout: |
          [pref]         [grow,200]
          "First Name:"  firstName

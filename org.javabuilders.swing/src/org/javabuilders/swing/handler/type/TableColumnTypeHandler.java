@@ -33,6 +33,8 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 	public static final String FOR_HEADER = "forHeader";
 	public static final String IDENTIFIER = "identifier";
 	public static final String HEADER_VALUE = "headerValue";
+	public static final String FILTER = "filter"; //handled by table model handlers
+	public static final String EDITABLE = "editable"; //handled by table model handlers
 	
 	public static final String INTERNAL_MODEL_INDEX = Builder.INTERNAL_FIELD_PREFIX + "modelIndex";
 
@@ -47,7 +49,9 @@ public class TableColumnTypeHandler extends AbstractTypeHandler implements IType
 	}
 	
 	//constructor
-	private TableColumnTypeHandler() {}
+	private TableColumnTypeHandler() {
+		super(FOR_HEADER,FILTER,EDITABLE);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.javabuilders.handler.ITypeHandler#createNewInstance(org.javabuilders.BuilderConfig, org.javabuilders.BuildProcess, org.javabuilders.Node, java.lang.String, java.util.Map)

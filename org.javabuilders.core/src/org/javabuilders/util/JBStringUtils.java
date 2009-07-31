@@ -3,6 +3,9 @@ package org.javabuilders.util;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.javabuilders.BuildProcess;
+import org.javabuilders.IResourceFallback;
+
 /**
  * JB-specific string utilities
  * @author Jacek Furmankiewicz
@@ -10,6 +13,20 @@ import java.util.List;
  */
 public class JBStringUtils {
 
+	//poor man's version of functional programming
+	private static IResourceFallback resourceFallbackFun = new IResourceFallback() {
+		public String get(String key) {
+			int pos = key.indexOf(".");
+			if (pos < 0) {
+				//just a property name
+				return getDisplayName(key);
+			} else {
+				//name in ClassName.Property format
+				return getDisplayName(key.substring(pos + 1));
+			}
+		}
+	};
+	
 	/**
 	 * Splits the string, but ignores all delimiters between double quotes
 	 * @param input Input
@@ -81,9 +98,31 @@ public class JBStringUtils {
 	}
 	
 	/**
-	 * Turns a JavaBean property name into a display value (e.g. "priceList" => "Price List")
+	 * Looks up a JavaBean property name in the resource bundles using the following algorithm:
+	 * <ol>
+	 * <li>look for ClassName.PropertyName resource key (e.g. "Person.firstName")</li>
+	 * <li>look for PropertyName resource key (e.g.  "firstName")</li>
+	 * <li>construct a display name from the property name, e.g. "firstName -> First Name")
+	 * </ol>
+	 * @param process
+	 * @param type
 	 * @param propertyName
 	 * @return
+	 */
+	public static String getDisplayLabel(BuildProcess process, Class<?> type, String propertyName) {
+		String label = null;
+		if (process.getBuildResult().isInternationalizationActive()) {
+			label = process.getBuildResult().getResource(String.format("%s.%s", type.getSimpleName(), propertyName),resourceFallbackFun);
+		} else {
+			label = resourceFallbackFun.get(propertyName);
+		}
+		return label;
+	}
+	
+	/**
+	 * Turns a JavaBean property into a display name, e.g. "firstName => First Name"
+	 * @param propertyName
+	 * @return Display name
 	 */
 	public static String getDisplayName(String propertyName) {
 		List<String> parts  = splitPropertyName(propertyName);
@@ -94,7 +133,6 @@ public class JBStringUtils {
 			}
 			bld.append(p);
 		}
-		
 		return bld.toString();
 	}
 	

@@ -28,6 +28,10 @@ JPanel:
 private MyCustomTableModel model;  //reference will be set during build process	       
 	       </codeblock>
 	       </note>
+	       <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="note:2">
+	       Please read the GlazedLists chapter on information on some custom GlazedLists table models that are integrated into
+	       the Swing JavaBuilder out-of-the-box.
+	       </note>
 	       </p>
 	    </section>
 		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="section:2">

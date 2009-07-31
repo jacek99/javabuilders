@@ -18,7 +18,7 @@
 						<b>$validate</b>
 						: triggers the input validation logic, if defined
 						<codeblock>
-JButton(name=okButton, text=OK, onAction=($validate,save,finishSave))				
+JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])				
 				</codeblock>
 					</li>
 					<li>
@@ -26,7 +26,7 @@ JButton(name=okButton, text=OK, onAction=($validate,save,finishSave))
 						: displays a standard "Are you sure?" confirmation dialog that can
 						be invoked before any destructive action:
 						<codeblock>
-JButton(name=deleteButton, text=Delete, onAction=($confirm,delete))				
+JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])				
 				</codeblock>
 					</li>
 				</ul>

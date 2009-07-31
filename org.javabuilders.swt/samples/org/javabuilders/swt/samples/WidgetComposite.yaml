@@ -13,25 +13,25 @@ Composite:
     - Button(name=radio2,style=radio,text=radioButton 2, selection=true)
     - Button(name=radio3,style=radio,text=radioButton 3, enabled=false)
     - Button(name=radio4,style=radio,text=radioButton 3, enabled=false)
-    - Label(name=sep1, style=(separator,vertical))
+    - Label(name=sep1, style=[separator,vertical])
     - Button(name=button1, text=Push Button 1, style=push)
     - Button(name=button2, text=Longer Push Button 2, style=push, enabled=false)
     - Button(name=button3, text=Toggle Button 1, style=toggle)
     - Button(name=button4, text=Longer Toggle Button 2, style=toggle, selection=true, enabled=false)
     - DateTime(name=dateTime1,style=border)
-    - DateTime(name=dateTime2, style=(calendar,border))
-    - Label(name=sep2, style=(separator,vertical))
+    - DateTime(name=dateTime2, style=[calendar,border])
+    - Label(name=sep2, style=[separator,vertical])
     - ProgressBar(name=pg1, minimum=1, maximum=100, selection=50)
     - ProgressBar(name=pg2, style=indeterminate)
-    - Label(name=sep3, style=(separator,vertical))
+    - Label(name=sep3, style=[separator,vertical])
     - Slider(name=sld1, minimum=1, maximum=100, selection=70)
     - Slider(name=sld2, minimum=1, maximum=100, selection=50, style=vertical)
-    - Table(name=table1, style=(multi,border,selection), linesVisible=true, headerVisible=true):
+    - Table(name=table1, style=[multi,border,selection], linesVisible=true, headerVisible=true):
         - TableColumn(name=col1, text=Column 1, width=100)
         - TableColumn(name=col2, text=Column 2, width=100)
         - TableColumn(name=col3, text=Column 3, width=100)
     - Label(name=yaml, text="YAML:")
-    - Text(name=source, editable=false, style=(border,multi,vScroll,hScroll), font=Courier 9)
+    - Text(name=source, editable=false, style=[border,multi,vScroll,hScroll], font=Courier 9)
     - MigLayout: |
         [pref]                                                                    [grow]             
         combo1+2          sep1+1+9  button1=1x      sep2+1+9  pg1       sep3+1+9  table1+1+9

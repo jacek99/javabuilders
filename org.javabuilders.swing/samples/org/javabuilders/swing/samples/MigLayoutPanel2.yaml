@@ -9,11 +9,11 @@ JPanel:
     - JTextField(name=emailField)       
     - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
     - JButton(name=addButton, text=Add, onAction=onAdd)
-    - JButton(name=deleteButton, text=Delete, onAction=($confirm,delete))
+    - JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])
     - JButton(name=editButton, text=Edit, onAction=edit)
     - JButton(name=advancedButton, text=Advanced, onAction=advancedEdit)
     - JLabel(name=hintLabel,text="Press the OK button to see validations and long running tasks in action",font=bold italic)    
-    - JButton(name=okButton, text=OK, onAction=($validate,save,finishSave))
+    - JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])
     - JButton(name=cancelButton, text=Cancel)
     - JLabel(name=btnsLabel,text=Press them!, font=italic bold)
     - MigLayout:  |

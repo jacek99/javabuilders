@@ -55,15 +55,12 @@ JFrame(name=frame,title=My Frame):
 						<codeph>"name=value"</codeph>
 					</li>
 					<li>
-						instead of the default YAML collection indicator
-						<codeph>[</codeph>
+						but it still uses the default YAML collection indicators 
+						<codeph>[</codeph> 
 						and
 						<codeph>]</codeph>
 						(e.g.
-						<codeph>"list: [listItem1, listItem2]"</codeph>
-						) it uses regular brackets, e.g.
-						<codeph>"list=(listItem1,listItem2)"
-						</codeph>
+						<codeph>"list=[listItem1,listItem2]"</codeph>
 					</li>
 					<li>if an object has a collection of object defined directly
 						underneath it, they automatically get moved to the default

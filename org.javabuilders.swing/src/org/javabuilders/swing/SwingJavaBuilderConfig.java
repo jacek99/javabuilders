@@ -445,6 +445,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			forType(EventComboBoxModel.class)
 				.typeHandler(new EventComboBoxModelTypeHandler());
 			forType(EventTableModel.class)
+				.asList(EventTableModelTypeHandler.COLUMNS, EventTableModelTypeHandler.SORT_ON, EventTableModelTypeHandler.FILTER_ON)
 				.typeHandler(new EventTableModelTypeHandler());
 			
 			

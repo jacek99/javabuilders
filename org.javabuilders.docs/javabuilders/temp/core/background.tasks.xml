@@ -100,7 +100,7 @@ private void save(BackgroundEvent evt) {
 			</ol>
 			The way to handle this is to have the button execute multiple methods in sequence, e.g.: 
 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:3">
-JButton(text=Save,onAction=($validate,save,close))			
+JButton(text=Save,onAction=[$validate,save,close])			
 			</codeblock>
 			On the Java side, the long running method is annotated as such: 
 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:4">

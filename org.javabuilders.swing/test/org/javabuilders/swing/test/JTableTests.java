@@ -42,8 +42,9 @@ public class JTableTests {
 	@Test
 	public void testTableModel() {
 
-		BuildResult r = new SwingYamlBuilder("JTable(name=table):") {{
-			___("- TestModel(name=model)");
+		BuildResult r = new SwingYamlBuilder("JScrollPane(name=pane):") {{
+			___("JTable(name=table):");
+			_____("- TestModel(name=model)");
 		}}.build(this);
 		
 		JTable table = (JTable) r.get("table");

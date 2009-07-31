@@ -66,7 +66,7 @@ JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose):
     - Action(name=newAction, text=menu.file.new, toolTipText=menu.file.new.tooltip, icon=images/document-new.png, onAction=onFileNew)
     - Action(name=openAction, text=menu.file.open, toolTipText=menu.file.open.tooltip, icon=images/document-open.png, onAction=onFileOpen)
     - Action(name=saveAction, text=menu.file.save, toolTipText=menu.file.save.tooltip, icon=images/document-save.png, onAction=onSave)
-    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=($confirm,exit))
+    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=[$confirm,exit])
     - Action(name=option1Action, text=menu.option1, onAction=option1)
     - Action(name=helpAboutAction,text=menu.help.about,onAction=onHelpAbout)
     - JMenuBar:

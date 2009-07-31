@@ -45,6 +45,18 @@ public class BuildResult extends HashMap<String, Object> {
 	private Object bindingContext = null;
 	private Map<String,?> properties = new HashMap<String, Object>();
 	
+	//poor man's version of functional programming
+	private IResourceFallback defaultResourceFallback = new IResourceFallback() {
+		public String get(String key) {
+			if (getResourceBundles().size() > 0) {
+				//unable to find key - pass the key as the value
+				return getInvalidResource(key);
+			} else {
+				return key;
+			}		
+		}
+	};
+	
 	/**
 	 * @param config Config
 	 */
@@ -222,12 +234,21 @@ public class BuildResult extends HashMap<String, Object> {
 	void setResourceBundles(Set<ResourceBundle> bundles) {
 		this.resourceBundles = bundles;
 	}
-	
+
 	/**
 	 * @param key
 	 * @return
 	 */
 	public String getResource(String key) {
+		return getResource(key,defaultResourceFallback);
+	}
+
+	
+	/**
+	 * @param key
+	 * @return
+	 */
+	public String getResource(String key, IResourceFallback resourceFallback) {
 		String resource = null;
 		
 		//look in the process bundles first
@@ -264,12 +285,7 @@ public class BuildResult extends HashMap<String, Object> {
 		
 		//fallback strategy - different depending if internationalization is active or not
 		if (resource == null) {
-			if (getResourceBundles().size() > 0) {
-				//unable to find key - pass the key as the value
-				resource = getInvalidResource(key);
-			} else {
-				resource = key;
-			}
+			resource = resourceFallback.get(key);
 		}
 		
 		return resource;

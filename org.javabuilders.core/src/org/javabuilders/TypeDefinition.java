@@ -1127,12 +1127,14 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	/**
 	 * Defines a property that should automatically be converted to a list of
 	 * particular type
-	 * @param propertyName
+	 * @param propertyNames
 	 * @param type
 	 * @return
 	 */
-	public TypeDefinition asList(String propertyName) {
-		propertiesAsList.add(propertyName);
+	public TypeDefinition asList(String... propertyNames) {
+		for(String propertyName : propertyNames) {
+			propertiesAsList.add(propertyName);
+		}
 		return this;
 	}
 	

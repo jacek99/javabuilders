@@ -114,10 +114,10 @@ public class GlazedListsTests {
 		assertEquals(1, table.getModel().getRowCount());
 		assertEquals("Author", table.getColumnModel().getColumn(0).getHeaderValue());
 		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
-		assertEquals("Title", table.getColumnModel().getColumn(2).getHeaderValue());
-		assertEquals("Origin of Species",table.getModel().getValueAt(0, 2));
-		assertEquals("Price", table.getColumnModel().getColumn(1).getHeaderValue());
-		assertEquals(9.99,table.getModel().getValueAt(0, 1));
+		assertEquals("Title", table.getColumnModel().getColumn(1).getHeaderValue());
+		assertEquals("Origin of Species",table.getModel().getValueAt(0, 1));
+		assertEquals("Price", table.getColumnModel().getColumn(2).getHeaderValue());
+		assertEquals(9.99,table.getModel().getValueAt(0, 2));
 		
 		//add 1 to the list
 		//wait a little...it's asynchronous (could be delayed)
@@ -130,8 +130,8 @@ public class GlazedListsTests {
 		} catch (InterruptedException e) {}
 		assertEquals(2,table.getModel().getRowCount());
 		assertEquals("Carl Sagan",table.getModel().getValueAt(1,0));
-		assertEquals("Cosmos",table.getModel().getValueAt(1,2));
-		assertEquals(12.99,table.getModel().getValueAt(1,1));
+		assertEquals("Cosmos",table.getModel().getValueAt(1,1));
+		assertEquals(12.99,table.getModel().getValueAt(1,2));
 		
 		//remove second
 		try {
@@ -140,8 +140,8 @@ public class GlazedListsTests {
 		} catch (InterruptedException e) {}
 		assertEquals(1,table.getModel().getRowCount());
 		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
-		assertEquals("Origin of Species",table.getModel().getValueAt(0, 2));
-		assertEquals(9.99,table.getModel().getValueAt(0, 1));
+		assertEquals("Origin of Species",table.getModel().getValueAt(0, 1));
+		assertEquals(9.99,table.getModel().getValueAt(0, 2));
 		
 		//remove first one
 		try {

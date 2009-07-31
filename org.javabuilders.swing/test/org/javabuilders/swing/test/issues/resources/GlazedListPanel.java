@@ -1,6 +1,5 @@
 package org.javabuilders.swing.test.issues.resources;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -17,7 +16,6 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventListModel;
 import ca.odell.glazedlists.swing.EventTableModel;
-import ca.odell.glazedlists.util.concurrent.ReadWriteLock;
 
 //tests GlazedLists models 
 public class GlazedListPanel extends JPanel {

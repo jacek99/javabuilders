@@ -25,8 +25,9 @@
 		<topicref href="swing/flowlayout.dita"/>
 	</chapter>
     <chapter href="swing/glazed_lists.dita">
-        <topicref href="swing/glazed_lists.jlist.dita"/>
         <topicref href="swing/glazed_lists.jcombobox.dita"/>
+        <topicref href="swing/glazed_lists.jlist.dita"/>
+        <topicref href="swing/glazed_lists.jtable.dita"/>
     </chapter>	
 	<chapter format="ditamap" href="core/extending.ditamap"/>
 	<!--

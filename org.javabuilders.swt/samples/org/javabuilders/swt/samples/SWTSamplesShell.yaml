@@ -1,7 +1,7 @@
 Shell(name=shell,text=Frame,maximized=true):
     - Menu(name=menuBar,style=bar):
         - MenuItem(name=fileMenu,style=cascade,text="&File"):
-            - MenuItem(name=saveMenu,style=push,text="&Save\tCtrl+S",onSelection=($confirm,save),image=images/document-save.png)
+            - MenuItem(name=saveMenu,style=push,text="&Save\tCtrl+S",onSelection=[$confirm,save],image=images/document-save.png)
             - MenuItem(name=newMenu,style=cascade,text="&New"):
                 - MenuItem(name=newFile,style=push,text="File...")
                 - MenuItem(name=newTab,style=push,text="Tab...")

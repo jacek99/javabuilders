@@ -7,7 +7,7 @@ Composite:
                 FilesComposite(name=files)
             - CTabItem(text=Devices):
                 DeviceComposite(name=devices)
-        - Table(name=filesTable,style=(multi,border,fullSelection),linesVisible=true,headerVisible=true):
+        - Table(name=filesTable,style=[multi,border,fullSelection],linesVisible=true,headerVisible=true):
              - TableColumn(text="#")
              - TableColumn(text="Artist")
              - TableColumn(text="Album")

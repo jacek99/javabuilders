@@ -16,7 +16,7 @@
 JButton(text=OK, onAction=save)		
 		</codeblock>
 				<codeblock spectitle="Multiple methods to be executed in sequence">
-JButton(text=OK, onAction=(validateInput,save,close))
+JButton(text=OK, onAction=[validateInput,save,close])
 		</codeblock>
 				If any of the methods return a boolean
 				<b>false</b>

@@ -16,7 +16,7 @@
 JButton(text=OK, onAction=save)		
 		</codeblock>
 				<codeblock spectitle="Multiple methods to be executed in sequence" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/event.handling.dita" xtrc="codeblock:2">
-JButton(text=OK, onAction=(validateInput,save,close))
+JButton(text=OK, onAction=[validateInput,save,close])
 		</codeblock>
 				If any of the methods return a boolean
 				<b class="+ topic/ph hi-d/b " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/event.handling.dita" xtrc="b:1">false</b>

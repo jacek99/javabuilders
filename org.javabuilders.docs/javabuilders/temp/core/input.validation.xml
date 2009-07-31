@@ -18,7 +18,7 @@ JFrame(name=frame,title=Binding Frame,size=packed):
         - JTextField(name=fName)
         - JLabel(name=lnLbl, text="Last name:")
         - JTextField(name=lName)
-        - JButton(name=ok, text=OK, onAction=($validate,save,cancel))
+        - JButton(name=ok, text=OK, onAction=[$validate,save,cancel])
         - JButton(name=cancel, text=Cancel, onAction=cancel)
         - MigLayout: |
            []      [grow,200px]
@@ -40,7 +40,7 @@ validate:
 				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:2">$validate</apiname>
 				as the method name in any event handler, e.g.
 				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:2">
-JButton(name=saveBtn,text=Save,onAction=($validate,save,close))
+JButton(name=saveBtn,text=Save,onAction=[$validate,save,close])
 			</codeblock>
 				If you want to do it from the Java then you just need to call the
 				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:3">validate()</apiname>

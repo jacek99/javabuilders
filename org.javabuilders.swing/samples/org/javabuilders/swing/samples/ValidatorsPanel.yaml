@@ -3,7 +3,7 @@ JPanel:
         - JPanel(name=panel1):
             - JTextField(name=mandatory)
             - JButton(name=validate1,text=Validate All, onAction=$validate)
-            - JButton(name=validate2,text=Confirm & Validate All, onAction=($confirm,$validate))
+            - JButton(name=validate2,text=Confirm & Validate All, onAction=[$confirm,$validate])
             - JTextField(name=date)
             - JTextField(name=email)
             - JTextField(name=minmax)

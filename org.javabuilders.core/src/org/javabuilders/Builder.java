@@ -117,6 +117,10 @@ public class Builder {
 	 * String boolean false
 	 */
 	public final static String BOOLEAN_FALSE = "false";
+	/**
+	 * String boolean true
+	 */
+	public final static String BOOLEAN_TRUE = "true";
 	
 	public final static String INTERNAL_FIELD_PREFIX = "__";
 	

@@ -168,8 +168,6 @@ public class PropertyUtils {
 		return value;
 	}
 	
-	
-
 	//gets list of setter methods
 	private static Method getSetter(Object instance, String methodName) {
 
@@ -215,7 +213,7 @@ public class PropertyUtils {
 	}
 
 	//gets the setter name
-	private static String getSetterName(String propertyName) {
+	public static String getSetterName(String propertyName) {
 		StringBuilder bld = new StringBuilder(propertyName.length() + 3);
 		bld.setLength(0);
 		bld.append("set").append(propertyName.substring(0,1).toUpperCase()).append(propertyName.substring(1));
@@ -223,7 +221,7 @@ public class PropertyUtils {
 	}
 	
 	//gets the getter name
-	private static String getGetterName(String propertyName) {
+	public static String getGetterName(String propertyName) {
 		StringBuilder bld = new StringBuilder(propertyName.length() + 3);
 		bld.setLength(0);
 		bld.append("get").append(propertyName.substring(0,1).toUpperCase()).append(propertyName.substring(1));

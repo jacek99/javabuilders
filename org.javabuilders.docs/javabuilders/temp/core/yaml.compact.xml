@@ -55,15 +55,12 @@ JFrame(name=frame,title=My Frame):
 						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:2">"name=value"</codeph>
 					</li>
 					<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="li:3">
-						instead of the default YAML collection indicator
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:3">[</codeph>
+						but it still uses the default YAML collection indicators 
+						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:3">[</codeph> 
 						and
 						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:4">]</codeph>
 						(e.g.
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:5">"list: [listItem1, listItem2]"</codeph>
-						) it uses regular brackets, e.g.
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:6">"list=(listItem1,listItem2)"
-						</codeph>
+						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:5">"list=[listItem1,listItem2]"</codeph>
 					</li>
 					<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="li:4">if an object has a collection of object defined directly
 						underneath it, they automatically get moved to the default

@@ -1,7 +1,7 @@
 JFrame(state=max, defaultCloseOperation=exitOnClose, title=window.customers):
      - JPopupMenu(name=popup):
          - JMenuItem(text=menu.file.open, onAction=editCustomer)
-         - JMenuItem(text=menu.file.delete, onAction=($confirm,deleteCustomer))
+         - JMenuItem(text=menu.file.delete, onAction=[$confirm,deleteCustomer])
      - JPanel(name=listPanel):
          - JLabel(name=customersLabel,text=label.customers)
          - JScrollPane(name=customersScroll): 

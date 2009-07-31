@@ -386,15 +386,12 @@ JFrame(name=frame,title=My Frame):
 						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:2">"name=value"</codeph>
 					</li>
 					<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="li:3">
-						instead of the default YAML collection indicator
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:3">[</codeph>
+						but it still uses the default YAML collection indicators 
+						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:3">[</codeph> 
 						and
 						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:4">]</codeph>
 						(e.g.
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:5">"list: [listItem1, listItem2]"</codeph>
-						) it uses regular brackets, e.g.
-						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:6">"list=(listItem1,listItem2)"
-						</codeph>
+						<codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="codeph:5">"list=[listItem1,listItem2]"</codeph>
 					</li>
 					<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/yaml.compact.dita" xtrc="li:4">if an object has a collection of object defined directly
 						underneath it, they automatically get moved to the default
@@ -616,8 +613,8 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
     - JTextField(name=fName)
     - JTextField(name=lName)
     - JTextField(name=email)
-    - JButton(name=save, text=button.save, onAction=($validate,save,done))
-    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+    - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
     - MigLayout: |
         [pref]     [grow,100]   [pref]     [grow,100] 
         fNameLbl   fName        lNameLbl   lName
@@ -823,7 +820,7 @@ public MyFrame()  {
 JButton(text=OK, onAction=save)		
 		</codeblock>
 				<codeblock spectitle="Multiple methods to be executed in sequence" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/event.handling.dita" xtrc="codeblock:2">
-JButton(text=OK, onAction=(validateInput,save,close))
+JButton(text=OK, onAction=[validateInput,save,close])
 		</codeblock>
 				If any of the methods return a boolean
 				<b class="+ topic/ph hi-d/b " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/event.handling.dita" xtrc="b:1">false</b>
@@ -927,7 +924,7 @@ JFrame(name=frame,title=Binding Frame,size=packed):
         - JTextField(name=fName)
         - JLabel(name=lnLbl, text="Last name:")
         - JTextField(name=lName)
-        - JButton(name=ok, text=OK, onAction=($validate,save,cancel))
+        - JButton(name=ok, text=OK, onAction=[$validate,save,cancel])
         - JButton(name=cancel, text=Cancel, onAction=cancel)
         - MigLayout: |
            []      [grow,200px]
@@ -949,7 +946,7 @@ validate:
 				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:2">$validate</apiname>
 				as the method name in any event handler, e.g.
 				<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="codeblock:2">
-JButton(name=saveBtn,text=Save,onAction=($validate,save,close))
+JButton(name=saveBtn,text=Save,onAction=[$validate,save,close])
 			</codeblock>
 				If you want to do it from the Java then you just need to call the
 				<apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/input.validation.dita" xtrc="apiname:3">validate()</apiname>
@@ -1162,7 +1159,7 @@ private void save(BackgroundEvent evt) {
 			</ol>
 			The way to handle this is to have the button execute multiple methods in sequence, e.g.: 
 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:3">
-JButton(text=Save,onAction=($validate,save,close))			
+JButton(text=Save,onAction=[$validate,save,close])			
 			</codeblock>
 			On the Java side, the long running method is annotated as such: 
 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/background.tasks.dita" xtrc="codeblock:4">
@@ -1364,7 +1361,7 @@ private BorderPanel borderPanel;
 						<b class="+ topic/ph hi-d/b " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.global.commands.dita" xtrc="b:1">$validate</b>
 						: triggers the input validation logic, if defined
 						<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.global.commands.dita" xtrc="codeblock:1">
-JButton(name=okButton, text=OK, onAction=($validate,save,finishSave))				
+JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])				
 				</codeblock>
 					</li>
 					<li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.global.commands.dita" xtrc="li:2">
@@ -1372,7 +1369,7 @@ JButton(name=okButton, text=OK, onAction=($validate,save,finishSave))
 						: displays a standard "Are you sure?" confirmation dialog that can
 						be invoked before any destructive action:
 						<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/custom.global.commands.dita" xtrc="codeblock:2">
-JButton(name=deleteButton, text=Delete, onAction=($confirm,delete))				
+JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])				
 				</codeblock>
 					</li>
 				</ul>
@@ -1571,7 +1568,7 @@ JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose):
     - Action(name=newAction, text=menu.file.new, toolTipText=menu.file.new.tooltip, icon=images/document-new.png, onAction=onFileNew)
     - Action(name=openAction, text=menu.file.open, toolTipText=menu.file.open.tooltip, icon=images/document-open.png, onAction=onFileOpen)
     - Action(name=saveAction, text=menu.file.save, toolTipText=menu.file.save.tooltip, icon=images/document-save.png, onAction=onSave)
-    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=($confirm,exit))
+    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=[$confirm,exit])
     - Action(name=option1Action, text=menu.option1, onAction=option1)
     - Action(name=helpAboutAction,text=menu.help.about,onAction=onHelpAbout)
     - JMenuBar:
@@ -1973,6 +1970,10 @@ JPanel:
 	       <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="codeblock:3">
 private MyCustomTableModel model;  //reference will be set during build process	       
 	       </codeblock>
+	       </note>
+	       <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/jtable.dita" xtrc="note:2">
+	       Please read the GlazedLists chapter on information on some custom GlazedLists table models that are integrated into
+	       the Swing JavaBuilder out-of-the-box.
 	       </note>
 	       </p>
 	    </section>
@@ -2454,8 +2455,8 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
     - JTextField(name=fName)
     - JTextField(name=lName)
     - JTextField(name=email)
-    - JButton(name=save, text=button.save, onAction=($validate,save,done))
-    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+    - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
     - MigLayout: |
         [pref]             [grow,100] [pref]           [grow,100] 
         "label.firstName"  fName      "label.lastName" lName
@@ -2471,8 +2472,8 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
     - JTextField(name=fName)
     - JTextField(name=lName)
     - JTextField(name=email)
-    - JButton(name=save, text=button.save, onAction=($validate,save,done))
-    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+    - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
     - MigLayout: |
         [pref]    [grow,100]  [pref]   [grow,100] 
         fNameLbl  fName       lNameLbl lName
@@ -2616,36 +2617,7 @@ JPanel:
 	       </p>
 	   </section>
 	
-	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8" mapkeyref="swing.javabuilder"><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8"><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:5" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N360006" role="child"/><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:6" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N370006" role="child"/></linkpool></linkpool></related-links><!--Start of imbed for swing/glazed_lists.jlist.xml--><topic id="N360006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="title:1">JComboBox</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="prolog:1">
-		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="author:1">Jacek Furmankiewicz</author>
-	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="body:1">
-	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="section:1">
-	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="title:2">EventComboBoxModel</title>
-	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="p:1">
-	       The <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:1">JComboBox</apiname>-specific model in GlazedLists is called <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:2">EventComboBoxModel</apiname>.
-	       You will need to define a GlazedLists <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:3">EventList</apiname> in your Java code to hold the master
-	       list of objects and point the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:4">EventComboBoxModel.source</apiname> property in the YAML file to it.
-	       <codeblock spectitle="Java" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="codeblock:1">
-public class GlazedListJListPanel extends JPanel {
-
-    private EventList&lt;String&gt; values = new BasicEventList&lt;String&gt;();
-    private BuildResult result;
-    
-    public GlazedListJListPanel() {
-        result = SwingJavaBuilder.build(this);
-    }
-}
-	       </codeblock>
-	       <codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="codeblock:2">
-JPanel:
-    - JComboBox(name=box): 
-        EventComboBoxModel(name=model,source=values)	       
-	       </codeblock>
-	       When you add/remove items in your <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:5">EventList</apiname>, they will automatically be propagated to the
-	       <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:6">JComboBox</apiname> <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:7">EventComboBoxModel</apiname>.
-	       </p>
-	   </section>
-	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:5" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic><!--Start of imbed for swing/glazed_lists.jcombobox.xml--><topic id="N370006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="title:1">JList</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="prolog:1">
+	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8" mapkeyref="swing.javabuilder"><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="chapter:8"><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:5" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N360006" role="child"/><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:6" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N370006" role="child"/><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:7" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N380006" role="child"/></linkpool></linkpool></related-links><!--Start of imbed for swing/glazed_lists.jcombobox.xml--><topic id="N360006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="title:1">JList</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="prolog:1">
 		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="author:1">Jacek Furmankiewicz</author>
 	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="body:1">
 	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="section:1">
@@ -2674,7 +2646,154 @@ JPanel:
 	       <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="apiname:6">JList</apiname> <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jcombobox.dita" xtrc="apiname:7">EventListModel</apiname>.
 	       </p>
 	   </section>
-	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:6" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic></topic><!--Start of imbed for core/extending.xml--><topic id="N380006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="topic:1" refclass="- map/topicref bookmap/chapter "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:1">Extending the JavaBuilders engine</title><prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita">
+	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:5" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic><!--Start of imbed for swing/glazed_lists.jlist.xml--><topic id="N370006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="title:1">JComboBox</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="prolog:1">
+		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="author:1">Jacek Furmankiewicz</author>
+	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="body:1">
+	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="section:1">
+	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="title:2">EventComboBoxModel</title>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="p:1">
+	       The <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:1">JComboBox</apiname>-specific model in GlazedLists is called <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:2">EventComboBoxModel</apiname>.
+	       You will need to define a GlazedLists <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:3">EventList</apiname> in your Java code to hold the master
+	       list of objects and point the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:4">EventComboBoxModel.source</apiname> property in the YAML file to it.
+	       <codeblock spectitle="Java" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="codeblock:1">
+public class GlazedListJListPanel extends JPanel {
+
+    private EventList&lt;String&gt; values = new BasicEventList&lt;String&gt;();
+    private BuildResult result;
+    
+    public GlazedListJListPanel() {
+        result = SwingJavaBuilder.build(this);
+    }
+}
+	       </codeblock>
+	       <codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="codeblock:2">
+JPanel:
+    - JComboBox(name=box): 
+        EventComboBoxModel(name=model,source=values)	       
+	       </codeblock>
+	       When you add/remove items in your <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:5">EventList</apiname>, they will automatically be propagated to the
+	       <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:6">JComboBox</apiname> <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jlist.dita" xtrc="apiname:7">EventComboBoxModel</apiname>.
+	       </p>
+	   </section>
+	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:6" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic><!--Start of imbed for swing/glazed_lists.jtable.xml--><topic id="N380006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:1">JTable</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="prolog:1">
+		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="author:1">Jacek Furmankiewicz</author>
+	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="body:1">
+	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="section:1">
+	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:2">EventTableModel</title>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:1">
+	       The <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:1">JTable</apiname>-specific model in GlazedLists is called <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:2">EventTableModel</apiname>.
+	       You will need to define a GlazedLists <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:3">EventList</apiname> in your Java code to hold the master
+	       list of objects and point the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:4">EventTableModel.source</apiname> property in the YAML file to it.
+	       <codeblock spectitle="Java" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:1">
+public class Person {
+
+    private String firstName;
+    private String lastName;
+    private Date birthDate;
+    
+    //getters and setters for all properties...
+}
+
+public class GlazedListJListPanel extends JPanel {
+
+    private EventList&lt;Person&gt; values = new BasicEventList&lt;Person&gt;();
+    private BuildResult result;
+    
+    public GlazedListJListPanel() {
+        result = SwingJavaBuilder.build(this);
+    }
+}
+	       </codeblock>
+	       <codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:2">
+JPanel:
+    - JTable(name=list): 
+         - EventTableModel(name=model,source=values)	       
+	       </codeblock>
+	       When you add/remove items in your <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:5">EventList</apiname>, they will automatically be propagated to the
+	       <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:6">JTable</apiname> <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:7">EventTableModel</apiname>.
+	       </p>
+	   </section>
+	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="section:2">
+	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:3">Controlling table columns</title>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:2">
+	       The sample code shown above displays by default all properties that can be found in the <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:1">Person</codeph> POJO
+	       as table columns. Usually though you would want to maintain some control over that, as well as customize
+	       certain parameters of the column (e.g. the header string). The simplest way to accomplish this is to define a
+	       <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:8">columns=[]</apiname> element: 
+<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:3">
+JPanel:
+    - JTable(name=list): 
+        - EventTableModel(name=model,source=values,columns=[firstName,lastName])
+</codeblock>	       
+	       The example above will display only the "firstName" and "lastName" properties as columns.
+	       Alternatively, you can to explicitly define
+	       the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:9">TableColumn</apiname> instances:
+           <codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:4">
+JPanel:
+    - JTable(name=list): 
+        - EventTableModel(name=model,source=values)
+        - TableColumn(name=firstName,headerValue=column.firstName)
+        - TableColumn(name=lastName,headerValue=column.lastName)           
+           </codeblock>
+           Since the <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:2">"headerValue"</codeph> column is localizable, it will automatically fetch the corresponding
+           string key from the configured resource bundles.
+	       </p>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:3">Yet another option is to define all the columns you need via <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:10">columns=[]</apiname> and then just
+	       define the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:11">TableColumn</apiname>instance if you need to customize it further (e.g. add a cell renderer or editor).</p>
+	   </section>
+	   <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="section:3">
+	       <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:4">Localizing column headers</title>
+	       <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:4">
+	       When you define a list of columns in the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:12">columns=[]</apiname> parameter, the builder will attempt to automatically
+	       look up the header name for it using the following strategy:
+	       <ol class="- topic/ol " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="ol:1">
+	           <li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="li:1">look for a resource key euqal to "SimpleClassName.PropertyName", e.g. "Person.firstName"</li>
+	           <li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="li:2">look for a resource key equal to "PropertyName", e.g. "firstName"</li>
+	           <li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="li:3">if no resource keys are found, attempt to build a header directly from the property name, 
+	           e.g. "firstName" becomes "First Name"</li>
+	       </ol>
+	       </p>
+	   </section>
+       <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="section:4">
+           <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:5">Handling duplicate column names</title>
+           <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:5">
+           Within a single YAML file, all object names must be unique. So what happens if we have let's say two tables that
+           display data from different POJOs (or maybe different views of the same POJO) that happen to have the same names?
+           In this particular case, you can use the <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:3">"source"</codeph> property of the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:13">TableColumn</apiname> level.
+           If this property is defined, the builder will use that instead of <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:4">"name"</codeph> to map a <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:5">TableColumn</codeph>
+           to a POJO's property.
+           <codeblock spectitle="YAML" xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:5">
+JPanel:
+    - JTable(name=list1): 
+        - EventTableModel(name=model,source=values)
+        - TableColumn(name=column1,source=firstName,headerValue=column.firstName)
+        - TableColumn(name=column2,source=lastName,headerValue=column.lastName)           
+    - JTable(name=list2): 
+        - EventTableModel(name=model,source=values)
+        - TableColumn(name=column3,source=firstName,headerValue=column.firstName)
+        - TableColumn(name=column4,source=lastName,headerValue=column.lastName)           
+           </codeblock>
+           In the sample above, two different tables display the same POJO data by using the optional <codeph class="+ topic/ph pr-d/codeph " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeph:6">"source"</codeph> to 
+           avoid name clashes on <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:14">TableColumn.name</apiname>.
+           </p>
+       </section>
+       <section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="section:5">
+            <title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="title:6">Sorting</title>
+            <p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="p:6">
+            In order to enable sorting, you have to add the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:15">sort</apiname> property, which has two allowed values:
+            <ul class="- topic/ul " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="ul:1">
+                <li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="li:4"><apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:16">single</apiname> - sorts by single column only</li>
+                <li class="- topic/li " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="li:5"><apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:17">multi</apiname> - allows sorting by multiple columns</li>
+            </ul>
+            Sorting is activated by the user clicking with the mouse on the column headers.
+            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:6">
+JPanel:
+    - JTable(name=list): 
+        - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
+            </codeblock>
+            </p>
+       </section>
+	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:7" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic></topic><!--Start of imbed for core/extending.xml--><topic id="N390006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="topic:1" refclass="- map/topicref bookmap/chapter "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:1">Extending the JavaBuilders engine</title><prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita">
 		<author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap">Jacek Furmankiewicz</author><author class="- topic/author " xtrc="author:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita">Jacek Furmankiewicz</author>
 	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="body:1">
 		<section class="- topic/section " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="section:1">
@@ -2740,10 +2859,10 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		</section>
 		
 		
-	</body></topic><!--Start of imbed for swing/appendix/appendix.xml--><topic id="N390006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="topic:1" refclass="- map/topicref bookmap/appendix "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="title:1">Appendix</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="prolog:1">
+	</body></topic><!--Start of imbed for swing/appendix/appendix.xml--><topic id="N3A0006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="topic:1" refclass="- map/topicref bookmap/appendix "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="title:1">Appendix</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="prolog:1">
 		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="author:1">Jacek Furmankiewicz</author>
-	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="body:1"/><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap" xtrc="topicref:1" mapkeyref="swing.javabuilder"/><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="appendix:1" mapkeyref="swing.javabuilder"><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="appendix:1"><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:7" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N3B0006" role="child"/></linkpool></linkpool></related-links><!--Start of imbed for swing/appendix/layout.samples.xml--><topic id="N3B0006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="title:1">Layout Samples</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="prolog:1">
+	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/appendix.dita" xtrc="body:1"/><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.ditamap" xtrc="topicref:1" mapkeyref="swing.javabuilder"/><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="appendix:1" mapkeyref="swing.javabuilder"><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="appendix:1"><link class="- topic/link " mapclass="- map/topicref " rev="1.0.DEV" type="" xtrc="topicref:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N3C0006" role="child"/></linkpool></linkpool></related-links><!--Start of imbed for swing/appendix/layout.samples.xml--><topic id="N3C0006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="topic:1" refclass="- map/topicref "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="title:1">Layout Samples</title><prolog class="- topic/prolog " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="prolog:1">
 		<author class="- topic/author " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="author:1">Jacek Furmankiewicz</author>
 	</prolog><body class="- topic/body " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="body:1">
 		<p class="- topic/p " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/appendix/layout.samples.dita" xtrc="p:1">Layout Samples</p>
-	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:7" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/appendix " rev="1.0.DEV" type="" xtrc="appendix:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N390006" role="parent"/></linkpool></related-links></topic></topic><backmatter class="- map/topicref bookmap/backmatter " rev="1.0.DEV" toc="yes" xtrc="backmatter:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"><booklists class="- map/topicref bookmap/booklists " rev="1.0.DEV" toc="yes" xtrc="booklists:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"><indexlist class="- map/topicref bookmap/indexlist " rev="1.0.DEV" toc="yes" xtrc="indexlist:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"/></booklists></backmatter></bookmap>
+	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:8" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/appendix " rev="1.0.DEV" type="" xtrc="appendix:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N3A0006" role="parent"/></linkpool></related-links></topic></topic><backmatter class="- map/topicref bookmap/backmatter " rev="1.0.DEV" toc="yes" xtrc="backmatter:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"><booklists class="- map/topicref bookmap/booklists " rev="1.0.DEV" toc="yes" xtrc="booklists:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"><indexlist class="- map/topicref bookmap/indexlist " rev="1.0.DEV" toc="yes" xtrc="indexlist:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap"/></booklists></backmatter></bookmap>

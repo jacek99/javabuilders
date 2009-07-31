@@ -141,8 +141,8 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
     - JTextField(name=fName)
     - JTextField(name=lName)
     - JTextField(name=email)
-    - JButton(name=save, text=button.save, onAction=($validate,save,done))
-    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+    - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
     - MigLayout: |
         [pref]             [grow,100] [pref]           [grow,100] 
         "label.firstName"  fName      "label.lastName" lName
@@ -158,8 +158,8 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
     - JTextField(name=fName)
     - JTextField(name=lName)
     - JTextField(name=email)
-    - JButton(name=save, text=button.save, onAction=($validate,save,done))
-    - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
+    - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+    - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
     - MigLayout: |
         [pref]    [grow,100]  [pref]   [grow,100] 
         fNameLbl  fName       lNameLbl lName
