@@ -227,6 +227,40 @@ public class PropertyUtils {
 		bld.append("get").append(propertyName.substring(0,1).toUpperCase()).append(propertyName.substring(1));
 		return bld.toString();
 	}
+
+	
+	/**
+	 * Verifies a getter is valid for a type
+	 * @param type Type
+	 * @param getterName Getter name
+	 * @return Getter return type
+	 */
+	public static Class<?> verifyGetter(Class<?> type, String getterName, Class<?>... allowedReturnTypes) {
+		try {
+			Method m = type.getMethod(getterName);
+			Class<?> returnType = m.getReturnType();
+			boolean validReturn = false;
+			for(Class<?> allowed : allowedReturnTypes) {
+				if (allowed.isAssignableFrom(returnType)) {
+					validReturn = true;
+					break;
+				}
+			}
+			if (!validReturn) {
+				StringBuilder bld = new StringBuilder();
+				for(Class<?> allowed : allowedReturnTypes) {
+					if (bld.length() > 0) bld.append(", ");
+					bld.append(allowed.getName());
+				}
+				throw new BuildException("{0}.{1} return type is not in the list of allowed types:\n{2}",type.getName(),getterName,bld);
+			} else {
+				return returnType;
+			}
+			
+		} catch (Exception e) {
+			throw new BuildException("Unable to find {0}.{1} getter. {2}",type.getName(),getterName, e.getMessage());
+		}
+	}
 	
 	
 	

@@ -1,8 +1,10 @@
-package org.javabuilders.swing.test.issues;
+package org.javabuilders.swing.test;
 
 import static org.junit.Assert.*;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -10,9 +12,14 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
@@ -35,9 +42,13 @@ import org.javabuilders.swing.test.issues.resources.Issue23_Exception;
 import org.javabuilders.swing.test.issues.resources.Issue7;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue2;
+import org.javabuilders.swing.test.issues.resources.issue57.BeanTableModel;
+import org.javabuilders.swing.test.issues.resources.issue57.BeanTableModelFrame;
 import org.javabuilders.swing.util.SwingYamlBuilder;
 import org.javabuilders.test.TestBuilderConfig;
 import org.javabuilders.util.YamlBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -46,6 +57,16 @@ import org.junit.Test;
  * @author Jacek Furmankiewicz
  */
 public class IssuesTests {
+
+	@Before
+	public void setUp() {
+		SwingJavaBuilder.getConfig().addType(BeanTableModel.class);
+	}
+
+	@After
+	public void tearDdown() {
+		SwingJavaBuilder.getConfig().removeType(BeanTableModel.class);
+	}
 
 	@Test
 	public void issue7Test() throws Exception {
@@ -159,7 +180,7 @@ public class IssuesTests {
 	@Test
 	public void issue18_directIconPath() {
 		
-		String yaml="JButton(name=button,icon=resources/document-new.png)";
+		String yaml="JButton(name=button,icon=issues/resources/document-new.png)";
 		JButton button = (JButton) Builder.buildFromString(SwingJavaBuilder.getConfig(), this, yaml).get("button");
 		assertNotNull("JButton.icon was null", button.getIcon());
 	}
@@ -180,7 +201,7 @@ public class IssuesTests {
 	@Test
 	public void issue18_directIconImagePath() {
 		
-		String yaml="JFrame(name=frame,iconImage=resources/document-new.png)";
+		String yaml="JFrame(name=frame,iconImage=issues/resources/document-new.png)";
 		JFrame frame= (JFrame) Builder.buildFromString(SwingJavaBuilder.getConfig(), this, yaml).get("frame");
 		assertNotNull("JFrame.image was null", frame.getIconImage());
 	}
@@ -345,6 +366,91 @@ public class IssuesTests {
 			___("- Action(name=text)");
 		}}.build(this);
 
+	}
+
+	@Test
+	public void issue57_NPEonCustomTableModel() {
+		BeanTableModelFrame frame = new BeanTableModelFrame();
+	}
+	
+	@Test
+	public void issue59_JSpinnerResize() {
+		
+		JPanel test = new JPanel();
+		
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JSpinner(name=spinner)");
+			___("- MigLayout: |");
+			___("    [grow]");
+			___("    spinner");
+		}}.build(test);
+		
+		JPanel panel = (JPanel) r.getRoot();
+		assertNotNull(panel);
+		JSpinner spinner = (JSpinner) r.get("spinner");
+		assertNotNull(spinner);
+		MigLayout layout = (MigLayout) panel.getLayout();
+		String c = (String) layout.getComponentConstraints(spinner);
+		assertTrue(c.contains("growx"));
+	}
+	
+	@Test
+	public void issue58_mnemonicsAndAcceleratorsOnAbstractButtons() {
+		BuildResult r = new SwingYamlBuilder("JFrame:") {{
+			___("- JMenuBar:");
+			_____("- JMenuItem(name=menu1,text='&New...\\tCtrl+N')");
+			_____("- JMenuItem(name=menu2,text='&New')");
+			_____("- JMenuItem(name=menu3,text='New...\\tCtrl+N')");
+			_____("- JMenuItem(name=menu4,text='New')");
+			_____("- JMenuItem(name=menu5,text='New...\\tF1')");
+			___("- JPanel:");
+			_____("- JButton(name=button1,text='New')");
+			_____("- JButton(name=button2,text='&New')");
+		}}.build(this);
+		
+		KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK);
+		KeyStroke f1 = KeyStroke.getKeyStroke("F1");
+		
+		//mnemonics and accelerator
+		JMenuItem item = (JMenuItem) r.get("menu1");
+		assertEquals("New...", item.getText());
+		assertEquals(KeyEvent.VK_N,item.getMnemonic());
+		assertEquals(ctrlN,item.getAccelerator());
+		
+		//mnemonnic only
+		item = (JMenuItem) r.get("menu2");
+		assertEquals("New", item.getText());
+		assertEquals(KeyEvent.VK_N,item.getMnemonic());
+		assertEquals(null,item.getAccelerator());
+		
+		//accelerator only
+		item = (JMenuItem) r.get("menu3");
+		assertEquals("New...", item.getText());
+		assertEquals(0,item.getMnemonic());
+		assertEquals(ctrlN,item.getAccelerator());
+		
+		//text only
+		item = (JMenuItem) r.get("menu4");
+		assertEquals("New", item.getText());
+		assertEquals(0,item.getMnemonic());
+		assertEquals(null,item.getAccelerator());
+		
+		//text with F1 accelerator
+		item = (JMenuItem) r.get("menu5");
+		assertEquals("New...", item.getText());
+		assertEquals(0,item.getMnemonic());
+		assertEquals(f1,item.getAccelerator());
+		
+		//buttons with just text
+		JButton button = (JButton) r.get("button1");
+		assertEquals("New", button.getText());
+		assertEquals(0,button.getMnemonic());
+
+		//buttons with mnemonics
+		button = (JButton) r.get("button2");
+		assertEquals("New", button.getText());
+		assertEquals(KeyEvent.VK_N,button.getMnemonic());
+		
 	}
 
 }

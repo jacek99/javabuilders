@@ -1,9 +1,0 @@
-Composite:
-     - Label(name=searchLabel,text="Search:")
-     - Text(name=search,style=border)
-     - Button(name=clear,text=Clear)
-     - Tree(name=library,style=border)
-     - MigLayout: |
-         [pref]      [grow]    [pref]
-         searchLabel search    clear
-         library+*                    [grow]

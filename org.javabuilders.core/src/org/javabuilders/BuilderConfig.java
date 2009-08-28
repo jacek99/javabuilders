@@ -4,9 +4,11 @@
 package org.javabuilders;
 
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -236,6 +238,26 @@ public class BuilderConfig {
 			throw new DuplicateAliasException(error);
 		}
 		typeAliases.put(alias, classType);
+		return this;
+	}
+	
+	/**
+	 * Removes a class from the list of recognized types
+	 * @param classType Class type
+	 * @return
+	 */
+	public BuilderConfig removeType(Class<?> classType) {
+		List<String> keys = new ArrayList<String>();
+		for(String alias: typeAliases.keySet()) {
+			Class<?> type = typeAliases.get(alias);
+			if (type == classType) {
+				keys.add(alias);
+			}
+		}
+		//remove all flagged keys
+		for(String key:keys) {
+			typeAliases.remove(key);
+		}
 		return this;
 	}
 

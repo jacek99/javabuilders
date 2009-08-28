@@ -27,11 +27,11 @@ public interface ITypeHandler extends IKeyValueConsumer, IApplicable {
 	 * @param process Current build process
 	 * @param parent Parent (optional if root, may be null)
 	 * @param key Key
-	 * @param typeDefinition Key/value pairs that define this type instance
+	 * @param properties Key/value pairs that define this type instance
 	 * @return Newly created node representing the type
 	 * @throws InvalidTypeException 
 	 */
-	Node createNewInstance(BuilderConfig config, BuildProcess process, Node parent, String key, Map<String,Object> typeDefinition) 
+	Node createNewInstance(BuilderConfig config, BuildProcess process, Node parent, String key, Map<String,Object> properties) 
 	throws BuildException;
 
 	/**
@@ -41,11 +41,11 @@ public interface ITypeHandler extends IKeyValueConsumer, IApplicable {
 	 * @param process
 	 * @param parent
 	 * @param key
-	 * @param typeDefinition
+	 * @param properties
 	 * @param instance Object instance to use
 	 * @return
 	 */
-	Node useExistingInstance(BuilderConfig config, BuildProcess process, Node parent, String key, Map<String,Object> typeDefinition, Object instance)
+	Node useExistingInstance(BuilderConfig config, BuildProcess process, Node parent, String key, Map<String,Object> properties, Object instance)
 	 throws BuildException;
 	
 	/**

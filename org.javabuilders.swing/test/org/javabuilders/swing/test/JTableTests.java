@@ -29,14 +29,17 @@ import org.junit.Test;
 public class JTableTests {
 
 	private TestModel model = null;
+	private TestModel modelInstantiated = new TestModel();
 	private TableTestCellEditor cellEditor = null;
 	private TableTestCellRenderer cellRenderer = null;
 	
 	@Before
 	public void setUp() {
 		model = null;
+		modelInstantiated = new TestModel();
 		cellEditor = null;
 		cellRenderer = null;
+		
 	}
 	
 	@Test
@@ -58,6 +61,27 @@ public class JTableTests {
 		TableModel tm = table.getModel();
 		assertTrue(tm instanceof TestModel);
 		assertEquals(model, tm);
+	}
+	
+	@Test
+	public void testTableModelInstantiated_Issue57() {
+
+		BuildResult r = new SwingYamlBuilder("JScrollPane(name=pane):") {{
+			___("JTable(name=table):");
+			_____("- TestModel(name=modelInstantiated)");
+		}}.build(this);
+		
+		JTable table = (JTable) r.get("table");
+		assertNotNull(table);
+		
+		TestModel buildModel = (TestModel) r.get("modelInstantiated");
+		assertNotNull(buildModel);
+		assertEquals(buildModel, table.getModel());
+		assertEquals(buildModel, modelInstantiated);
+		
+		TableModel tm = table.getModel();
+		assertTrue(tm instanceof TestModel);
+		assertEquals(modelInstantiated, tm);
 		
 	}
 	

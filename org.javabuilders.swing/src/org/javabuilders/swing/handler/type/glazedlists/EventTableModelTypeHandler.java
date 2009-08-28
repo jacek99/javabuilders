@@ -11,14 +11,17 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
@@ -31,6 +34,7 @@ import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
+import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
@@ -52,20 +56,21 @@ import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
  * @author Jacek Furmankiewicz
  * 
  */
-public class EventTableModelTypeHandler extends AbstractTypeHandler {
+public class EventTableModelTypeHandler extends AbstractTypeHandler implements ITypeChildrenHandler {
 
 	public static final String SOURCE = "source";
 	public static final String HEADER_VALUE = TableColumnTypeHandler.HEADER_VALUE;
-	public static final String FILTER_FIELD = "filterField";
-	public static final String FILTER_ON = "filterOn";
 	public static final String SORT = "sort";
 	public static final String SORT_SINGLE = "single";
 	public static final String SORT_MULTI = "multi";
-	public static final String SORT_ON = "sortOn";
+	public static final String SORT_BY = "sortBy";
 	public static final String COLUMNS = "columns";
+	
+	private static final String TEXT_FILTERATOR = "TextFilterator";
+	private static final Pattern TEXT_FILTERATOR_REGEX = Pattern.compile("(?:[a-zA-Z]+\\()([a-zA-Z0-9]+)=\\[(.*)\\]");
 
 	public EventTableModelTypeHandler() {
-		super(SOURCE, FILTER_FIELD,SORT,EDITABLE, COLUMNS, SORT_ON);
+		super(SOURCE, SORT,EDITABLE, COLUMNS, SORT_BY);
 	}
 
 	/*
@@ -260,21 +265,6 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 		return name;
 	}
 
-	// finds out if any of the columns are flagged as filterable
-	private List<String> getFilterColumns(List<Map<String, Object>> cols) {
-		List<String> filter = new LinkedList<String>();
-		if (cols.size() > 0) {
-			for (Map<String, Object> map : cols) {
-				if (map.containsKey(TableColumnTypeHandler.FILTER)
-						&& Builder.BOOLEAN_TRUE.equals(map.get(TableColumnTypeHandler.FILTER))) {
-					String name = getColumnName(map);
-					filter.add(name);
-				}
-			}
-		}
-		return filter;
-	}
-
 	// figures out if the actual source is the raw data, SortedList or a FilterList wrapper
 	@SuppressWarnings({ "unchecked", "unused" })
 	private EventTableModel setupModel(BuildProcess process, Map<String, Object> typeDefinition, 
@@ -285,39 +275,35 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 		EventList filterList = null;
 		
 		String sort = (String) typeDefinition.get(SORT);
-		List<String> sortedColumns = (List<String>) typeDefinition.get(SORT_ON);
+		List<String> sortedColumns = (List<String>) typeDefinition.get(SORT_BY);
 		// SORTING
 		if (SORT_SINGLE.equals(sort) || SORT_MULTI.equals(sort)) {
 			sortedList = new SortedList(actualSource);
+			//handle sorted columns, if specified
+			if (sortedColumns != null && sortedColumns.size() > 0) {
+				Comparator c = createSortComparator(type, sortedColumns);
+				sortedList.setComparator(c);
+			}
 			actualSource = sortedList;
 			sortedChooser = (SORT_SINGLE.equals(sort)) ? TableComparatorChooser.SINGLE_COLUMN : TableComparatorChooser.MULTIPLE_COLUMN_MOUSE;
 		} else if (sort != null) {
 			throw new BuildException("Unknown value of EventTableModel.sort: {0}\n{1}", sort, typeDefinition);
 		}
 		//FILTERING
-		List<String> filterColumns = getFilterColumns(cols);
-		if (filterColumns.size() > 0) {
-			String filterFieldName = (String) typeDefinition.get(FILTER_FIELD);
-			if (filterFieldName != null) {
-				Object filterField = process.getBuildResult().get(filterFieldName);
-				if (filterField != null) {
-					if (filterField instanceof JTextComponent) {
-						JTextComponent c = (JTextComponent) filterField;
-						TextFilterator filterator = createTextFilterator(type, filterColumns);
-						MatcherEditor textMatcherEditor = new TextComponentMatcherEditor(c, filterator);
-						filterList = new FilterList<Object>(actualSource, textMatcherEditor);
-						actualSource = filterList;
-					} else {
-						throw new BuildException("EventTableModel.filterField does not point to a JTextComponent: {0}",
-								typeDefinition);
-					}
+		Map<JComponent,List<String>> filterInfo = getModelFilters(process, typeDefinition);
+		if (filterInfo.size() > 0) {
+			for(JComponent filterField : filterInfo.keySet()) {
+				List<String> filterColumns = filterInfo.get(filterField);
+				if (filterField instanceof JTextComponent) {
+					JTextComponent c = (JTextComponent) filterField;
+					TextFilterator filterator = createTextFilterator(type, filterColumns);
+					MatcherEditor textMatcherEditor = new TextComponentMatcherEditor(c, filterator);
+					filterList = new FilterList<Object>(actualSource, textMatcherEditor);
+					actualSource = filterList;
 				} else {
-					throw new BuildException("Unable to find a valid instance of filter field {0} in EventTableModel.filterField: {1}",
-							filterFieldName,typeDefinition);
+					//throw new BuildException("EventTableModel.filterField does not point to a JTextComponent: {0}",
+						//	typeDefinition);
 				}
-			} else {
-				throw new BuildException("EventTableModel.filterField must be defined and point to a valid JTextComponent for filtering: {0}",
-						typeDefinition);
 			}
 		}
 		
@@ -351,18 +337,17 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 		}
 		
 		//Janino has no support for generics - so we use old-school style Java
-		bld.append("public void getFilterStrings(List baseList, Object target) {");
-		bld.append("    ").append(fullTypeName).append(" row = (").append(fullTypeName).append(")target;");
+		bld.append("public void getFilterStrings(java.util.List baseList, Object target) {\n");
+		bld.append("    ").append(fullTypeName).append(" row = (").append(fullTypeName).append(")target;\n");
 		for(String column : columns) {
 			if (types.get(column).equals(String.class)) {
-				bld.append("    baseList.add(row.").append(getters).append("();");
+				bld.append("    baseList.add(row.").append(getters.get(column)).append("());\n");
 			} else {
 				//non-String type - wrapt it
-				bld.append("    baseList.add(String.valueOf(row.").append(getters).append("());");
+				bld.append("    baseList.add(String.valueOf(row.").append(getters.get(column)).append("());\n");
 			}
 		}
-		bld.append("    " + fullTypeName + " row = (" + fullTypeName + ")target;");
-		bld.append("}");
+		bld.append("}\n");
 		
 		try {
 			//compile in-memory using Janino
@@ -373,7 +358,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 				 );
 			return f;
 		} catch (Exception e) {
-			throw new BuildException("Failed to compile TextFilterator for GlazedLists filtering: {0}",e.getMessage());
+			throw new BuildException("Failed to compile TextFilterator for GlazedLists filtering: {0}\n{1}",e.getMessage(),bld.toString());
 		} 
 	}
 	
@@ -392,6 +377,81 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler {
 		}
 		
 		return indexes.toArray(new Integer[indexes.size()]);
+	}
+	
+	//compiles a column comparator using Janino
+	@SuppressWarnings("unchecked")
+	private Comparator createSortComparator(Class<?> type, List<String> sortColumns) {
+		Comparator c = null;
+		StringBuilder bld = new StringBuilder();
+		
+		bld.append("public int compare(Object o1, Object o2) {\n");
+		bld.append("\t").append(type.getName()).append(" val1 = (").append(type.getName()).append(") o1;\n");
+		bld.append("\t").append(type.getName()).append(" val2 = (").append(type.getName()).append(") o2;\n");
+		bld.append("\tint compare = 0;\n");
+
+		//create the comparison for each column
+		for(String col : sortColumns) {
+			bld.append("\tif (compare == 0) {\n");
+			String getter = PropertyUtils.getGetterName(col);
+			Class<?> returnType = PropertyUtils.verifyGetter(type, getter,short.class,Short.class,int.class,Integer.class,long.class,Long.class,double.class,
+					Double.class,String.class,char.class,Character.class,Comparable.class);
+			bld.append("\t\t").append(returnType.getName()).append("\t\tcolVal1 = val1.").append(getter).append("();\n");
+			bld.append("\t\t").append(returnType.getName()).append("\t\tcolVal2 = val2.").append(getter).append("();\n");
+			if (returnType.isPrimitive()) {
+				bld.append("\t\tcompare = colVal1 - colVal2;\n");
+			} else {
+				bld.append("\t\tcompare = colVal1.compareTo(colVal2);\n");
+			}
+			
+			bld.append("\t}\n");
+		}
+		bld.append("return compare;");
+		bld.append("}");
+		
+		try {
+			//compile in-memory using Janino
+			c = (Comparator) ClassBodyEvaluator.createFastClassBodyEvaluator(
+				     new Scanner(null,new StringReader(bld.toString())),
+				     Comparator.class,                  // Base type to extend/implement
+				     (ClassLoader) null          // Use current thread's context class loader
+				 );
+			return c;
+		} catch (Exception e) {
+			throw new BuildException("Failed to compile Comparator for GlazedLists sorting: {0}\n{1}",e.getMessage(),bld.toString());
+		} 
+	}
+	
+	//scans the Model Filter element looking for filter info
+	@SuppressWarnings("unchecked")
+	private Map<JComponent,List<String>> getModelFilters(BuildProcess process, Map<String, Object> typeDefinition) {
+		Map<JComponent,List<String>> map = new LinkedHashMap<JComponent, List<String>>();
+		ArrayList<String> content = (ArrayList<String>) typeDefinition.get(Builder.CONTENT);
+		if (content != null && content.size() > 0) {
+			for(String filter : content) {
+				if (filter.startsWith(TEXT_FILTERATOR)) {
+					Matcher m = TEXT_FILTERATOR_REGEX.matcher(filter);
+					if (m.find()) {
+						String field = m.group(1);
+						String[] columns = m.group(2).split(",");
+						JComponent c = (JComponent) process.getBuildResult().get(field);
+						if (c != null) {
+							List<String> cols = Arrays.asList(columns);
+							if (cols.size() > 0) {
+								map.put(c,cols);
+							} else {
+								throw new BuildException("TextFilterator field {0} needs to have at least 1 column", field);
+							}
+							
+						} else {
+							throw new BuildException("TextFilterator field {0} cannot be found", field);
+						}
+					}
+				}
+			}
+		}
+		
+		return map;
 	}
 	
 

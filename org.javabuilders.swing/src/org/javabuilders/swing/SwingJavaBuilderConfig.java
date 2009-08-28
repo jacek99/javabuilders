@@ -117,11 +117,11 @@ import org.javabuilders.swing.handler.event.JTreeSelectionListenerHandler;
 import org.javabuilders.swing.handler.event.WindowListenerHandler;
 import org.javabuilders.swing.handler.event.background.SwingBackgroundProcessingHandler;
 import org.javabuilders.swing.handler.property.AbstractButtonActionCommandHandler;
+import org.javabuilders.swing.handler.property.AbstractButtonTextHandler;
 import org.javabuilders.swing.handler.property.ComponentSizeHandler;
 import org.javabuilders.swing.handler.property.FrameExtendedStateHandler;
 import org.javabuilders.swing.handler.property.JComponentGroupTitleHandler;
 import org.javabuilders.swing.handler.property.JMenuItemAcceleratorHandler;
-import org.javabuilders.swing.handler.property.JMenuItemTextHandler;
 import org.javabuilders.swing.handler.property.JTextFieldActionCommandHandler;
 import org.javabuilders.swing.handler.property.SwingActionTextHandler;
 import org.javabuilders.swing.handler.type.ActionAsValueHandler;
@@ -253,7 +253,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		//define metadata about types
 		forType(AbstractButton.class)
 			.localize(TEXT)
-			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance());
+			.propertyHandler(AbstractButtonActionCommandHandler.getInstance(),CommonActionListenerHandler.getInstance(),
+					new AbstractButtonTextHandler());
 		forType(ButtonGroup.class)
 			.finishProcessor(ButtonGroupTypeHandler.getInstance())
 			.ignore(Builder.CONTENT)
@@ -341,7 +342,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.allowParent(JFrame.class,JDialog.class);
 		forType(JMenuItem.class)
 			.localize(ACCELERATOR)
-			.propertyHandler(JMenuItemTextHandler.getInstance(),JMenuItemAcceleratorHandler.getInstance())
+			.propertyHandler(JMenuItemAcceleratorHandler.getInstance())
 			.children(JMenuItem.class,0,Integer.MAX_VALUE);
 		forType(JPanel.class)
 			.defaultResize(DefaultResize.BOTH);
@@ -365,6 +366,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.defaultResize(DefaultResize.BOTH)
 			.childrenOverride(true).children(0);
 		forType(JSpinner.class)
+			.defaultResize(DefaultResize.X_AXIS)
 			.childrenOverride(true).children(0);
 		forType(JSplitPane.class)
 			.defaultResize(DefaultResize.BOTH)
@@ -445,7 +447,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			forType(EventComboBoxModel.class)
 				.typeHandler(new EventComboBoxModelTypeHandler());
 			forType(EventTableModel.class)
-				.asList(EventTableModelTypeHandler.COLUMNS, EventTableModelTypeHandler.SORT_ON, EventTableModelTypeHandler.FILTER_ON)
+				.asList(EventTableModelTypeHandler.COLUMNS, EventTableModelTypeHandler.SORT_BY)
 				.typeHandler(new EventTableModelTypeHandler());
 			
 			

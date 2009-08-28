@@ -2791,6 +2791,12 @@ JPanel:
     - JTable(name=list): 
         - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
             </codeblock>
+            In order to specify a pre-defined initial sort, pass in the list of column names into the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:18">"sortBy"</apiname> property, e.g.
+            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:7">
+EventTableModel(source=values,columns=[firstName,lastName,birthDate],
+    sort=multi,sortBy=[birthDate,lastName])
+            </codeblock>
+            <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="note:1">The example above should a be a single line in your YAML file (it's wrapped around here purely for display purposes).</note>
             </p>
        </section>
 	</body><related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" xtrc="topicref:7" mapkeyref="swing.javabuilder"><link class="- topic/link " mapclass="- map/topicref bookmap/chapter " rev="1.0.DEV" type="" xtrc="chapter:8" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing.javabuilder.ditamap" href="#N350006" role="parent"/></linkpool></related-links></topic></topic><!--Start of imbed for core/extending.xml--><topic id="N390006" xml:lang="en-CA" ditaarch:DITAArchVersion="1.1" domains="(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)                          (topic ut-d) (topic indexing-d)" class="- topic/topic " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="topic:1" refclass="- map/topicref bookmap/chapter "><title class="- topic/title " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita" xtrc="title:1">Extending the JavaBuilders engine</title><prolog class="- topic/prolog " xtrc="prolog:1" xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/core/extending.dita">

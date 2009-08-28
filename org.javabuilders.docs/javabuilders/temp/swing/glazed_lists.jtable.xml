@@ -119,6 +119,12 @@ JPanel:
     - JTable(name=list): 
         - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
             </codeblock>
+            In order to specify a pre-defined initial sort, pass in the list of column names into the <apiname class="+ topic/keyword pr-d/apiname " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="apiname:18">"sortBy"</apiname> property, e.g.
+            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="codeblock:7">
+EventTableModel(source=values,columns=[firstName,lastName,birthDate],
+    sort=multi,sortBy=[birthDate,lastName])
+            </codeblock>
+            <note class="- topic/note " xtrf="/media/My Passport/Jacek/Dev/javabuilders/org.javabuilders.docs/javabuilders/swing/glazed_lists.jtable.dita" xtrc="note:1">The example above should a be a single line in your YAML file (it's wrapped around here purely for display purposes).</note>
             </p>
        </section>
 	</body>

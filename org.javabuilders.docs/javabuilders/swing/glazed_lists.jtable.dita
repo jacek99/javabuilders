@@ -119,6 +119,12 @@ JPanel:
     - JTable(name=list): 
         - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
             </codeblock>
+            In order to specify a pre-defined initial sort, pass in the list of column names into the <apiname>"sortBy"</apiname> property, e.g.
+            <codeblock>
+EventTableModel(source=values,columns=[firstName,lastName,birthDate],
+    sort=multi,sortBy=[birthDate,lastName])
+            </codeblock>
+            <note>The example above should a be a single line in your YAML file (it's wrapped around here purely for display purposes).</note>
             </p>
        </section>
 	</body>

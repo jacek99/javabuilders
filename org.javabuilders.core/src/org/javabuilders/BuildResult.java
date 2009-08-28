@@ -81,6 +81,7 @@ public class BuildResult extends HashMap<String, Object> {
 			return super.put(key, value);
 		}
 	}
+
 	
 	/* (non-Javadoc)
 	 * @see java.util.HashMap#get(java.lang.Object)

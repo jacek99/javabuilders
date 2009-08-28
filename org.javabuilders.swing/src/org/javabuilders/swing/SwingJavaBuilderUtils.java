@@ -104,15 +104,28 @@ public class SwingJavaBuilderUtils {
 
 	}
 	
+	/**
+	 * Returns action definition, parsed from text
+	 * @param text Text
+	 * @return Action definition
+	 */
 	public static ActionDefinition getActionDefintion(String text) {
 		
 		KeyStroke acc = null;
 		ActionDefinition def = new ActionDefinition();
 		
+		String[] parts = null;
 		//handle cases with embedded accelerator
 		if (text.indexOf("\t") >= 0) {
 			//has embedded accelerator, e.g. "Save\tCtrl+S", like in SWT
-			String[] parts = text.split("\t");
+			parts = text.split("\t");
+		} else if (text.indexOf("\\t") >= 0) { //happens when embedded in text on the Java side, split("\\t") does not work...
+			int index = text.indexOf("\\t");
+			parts = new String[2];
+			parts[0] = text.substring(0,index);
+			parts[1] = text.substring(index + 2);
+		}
+		if (parts != null && parts.length >=2) {
 			text = parts[0];
 			acc = getAccelerator(parts[1]);
 			def.setAccelerator(acc);

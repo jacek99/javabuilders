@@ -4567,6 +4567,13 @@ JPanel:
     - JTable(name=list): 
         - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
             </fo:block>
+            In order to specify a pre-defined initial sort, pass in the list of column names into the <fo:inline font-family="Courier">"sortBy"</fo:inline> property, e.g.
+            <fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
+EventTableModel(source=values,columns=[firstName,lastName,birthDate],
+    sort=multi,sortBy=[birthDate,lastName])
+            </fo:block>
+<fo:block>
+<fo:inline font-weight="bold" border-right-width="0pt" border-left-width="0pt">Note: </fo:inline>  The example above should a be a single line in your YAML file (it's wrapped around here purely for display purposes).</fo:block>
 </fo:block>
 </fo:block>
 </fo:block>
@@ -4579,7 +4586,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11E34"></fo:inline>
+<fo:inline id="N11E46"></fo:inline>
 <fo:block font-weight="bold">Overview</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">The core JavaBuilders engine is domain-agnostic, i.e. there is no logic in it
 			specific to any particular toolkit such as Swing or SWT. Each of domain-specific
@@ -4594,7 +4601,7 @@ JPanel:
 			of a control.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11E64"></fo:inline>
+<fo:inline id="N11E76"></fo:inline>
 <fo:block font-weight="bold">Registering new component types</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">All you need to do is call the <fo:inline font-family="Courier">BuilderConfig.addType(Class clazz)</fo:inline>
 			method, presumably from your application's <fo:inline font-family="Courier">main()</fo:inline>:
@@ -4615,7 +4622,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11E98"></fo:inline>
+<fo:inline id="N11EAA"></fo:inline>
 <fo:block font-weight="bold">Customizing object creation : ITypeHandler</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to write your own custom creation code for a class instance (e.g. for a control that has
 		  a constructor that expects parameters during initialization), you need to implement an instance of
@@ -4625,7 +4632,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11EBE"></fo:inline>
+<fo:inline id="N11ED0"></fo:inline>
 <fo:block font-weight="bold">Customizing initialization logic: ITypeHandlerAfterCreationProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 		  If your object does not need special constructor logic, but just some post-creation initialization, then
@@ -4635,7 +4642,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11ED8"></fo:inline>
+<fo:inline id="N11EEA"></fo:inline>
 <fo:block font-weight="bold">Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to inject some logic after a parent's child nodes have been all processed, you need to
 		  implement the <fo:inline font-family="Courier">ITypeHandlerFinishProcessor</fo:inline> interface and add it to the appropriate

@@ -2,27 +2,26 @@ package org.javabuilders.swing.samples;
 
 import java.awt.Cursor;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.samples.resources.Defect;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.GlazedLists;
-import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.TextFilterator;
-import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.TableComparatorChooser;
-import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 public class GlazedListsSamplePanel extends SamplePanel {
 
 	private final EventList<Defect> defects = GlazedLists.threadSafeList(new BasicEventList<Defect>());
+	
+	private String[] states = {"Fixed","New","In Progress","Rejected","Works for me"};
+	private String[] types = {"Bug","Enahncement","Documentation","Task","Question"};
+	private String[] reporter = {"John Doe","Jane Doe","Jimmy Doenowski","Arnold Doenator","Sylvester Doellone"};
+	private Random random = new Random();
 	
 	public GlazedListsSamplePanel() throws Exception {
 		super();
@@ -44,30 +43,9 @@ public class GlazedListsSamplePanel extends SamplePanel {
 							Defect defect = new Defect();
 							defect.setId(i);
 							defect.setPriority(i % 10);
-							
-							String s = String.valueOf(i);
-							//some simple randomization
-							if (s.endsWith("0")) {
-								defect.setState("FIXED");
-								defect.setType("ENHANCEMENT");
-								defect.setReporter("John Doe");
-							} else if (s.endsWith("1")) {
-								defect.setState("IN_PROGRESS");
-								defect.setType("DOCUMENTATION");
-								defect.setReporter("Jane Doe");
-							} else if (s.endsWith("2")) {
-								defect.setState("IN_PROGRESS");
-								defect.setType("TASK");
-								defect.setReporter("Ed Ted");
-							} else if (s.endsWith("3")) {
-								defect.setState("REJECTED");
-								defect.setType("EXTERNAL");
-								defect.setReporter("Grzegorz Kazmierczak");
-							} else {
-								defect.setState("OPEN");
-								defect.setType("DEFECT");
-								defect.setReporter("Humpty Dumpty");
-							}
+							defect.setType(types[random.nextInt(types.length)]);
+							defect.setState(states[random.nextInt(states.length)]);
+							defect.setReporter(reporter[random.nextInt(reporter.length)]);
 							defect.setSummary("Some defect, numbered as " + i);
 							defects.add(defect);
 						}
