@@ -3,6 +3,7 @@
  */
 package org.javabuilders.swing.handler.type;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager;
@@ -14,8 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.LayoutFocusTraversalPolicy;
 
 import org.javabuilders.BuildException;
@@ -66,7 +70,14 @@ public class ContainerTypeHandler implements ITypeHandlerFinishProcessor {
 			
 			for(Node child : content.getChildNodes(Component.class)) {
 				if (!isIgnored(child.getMainObject())) {
-					c.add((Component) child.getMainObject());
+					
+					//special handling for JFrame/JDesktopPane
+					if (c instanceof JFrame && child.getMainObject() instanceof JDesktopPane) {
+						//do nothing...already done earlier via setContentPane()
+					} else {
+						c.add((Component) child.getMainObject());
+					}
+					
 				}
 			}
 			

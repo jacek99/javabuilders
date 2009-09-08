@@ -9,7 +9,9 @@ import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -451,6 +453,25 @@ public class IssuesTests {
 		assertEquals("New", button.getText());
 		assertEquals(KeyEvent.VK_N,button.getMnemonic());
 		
+	}
+	
+	@Test
+	public void issue62_JInternalFrame() {
+		BuildResult r = new SwingYamlBuilder("JFrame(name=main,title=Main Frame):") {{
+			___("- JDesktopPane(name=desktop):");
+			_____("- JInternalFrame(name=frame1,title='Frame 1')");
+			_____("- JInternalFrame(name=frame2,title='Frame 2')");
+		}}.build(this);
+		
+		JFrame f = (JFrame) r.getRoot();
+		JDesktopPane desktop = (JDesktopPane) f.getContentPane();
+		assertNotNull(desktop);
+		
+		JInternalFrame frame1 = (JInternalFrame) desktop.getComponent(0);
+		assertNotNull(frame1);
+		JInternalFrame frame2 = (JInternalFrame) desktop.getComponent(1);
+		assertNotNull(frame2);
+
 	}
 
 }

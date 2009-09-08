@@ -3,6 +3,7 @@ package org.javabuilders.test;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -168,6 +169,19 @@ public class IssuesTests {
 		BuilderConfig c = new TestBuilderConfig(JButton.class);
 		String yaml = "JButton(onAction=(save,test)"; 
 		BuildResult r = Builder.buildFromString(c, this, yaml);
+	}
+	
+	@Test
+	public void issue64_frenchResources() {
+		
+		assertEquals("Cancel",Builder.getResourceBundle().getString("button.cancel"));
+		
+		Locale.setDefault(Locale.FRANCE);
+		assertEquals("Abandonner",Builder.getResourceBundle().getString("button.cancel"));
+		
+		Locale.setDefault(new Locale("fr","CA"));
+		assertEquals("Abandonner",Builder.getResourceBundle().getString("button.cancel"));
+		
 	}
 
 	

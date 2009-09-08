@@ -45,6 +45,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -134,6 +135,7 @@ import org.javabuilders.swing.handler.type.JComboBoxFinishProcessor;
 import org.javabuilders.swing.handler.type.JDialogTypeHandler;
 import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
 import org.javabuilders.swing.handler.type.JFrameTypeHandler;
+import org.javabuilders.swing.handler.type.JInternalFrameFinishProcessor;
 import org.javabuilders.swing.handler.type.JListFinishProcessor;
 import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
@@ -209,6 +211,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 				JColorChooser.class,
 				JComboBox.class,
 				JDialog.class,
+				JDesktopPane.class,
 				JEditorPane.class,
 				JFrame.class,
 				JFileChooser.class,
@@ -324,10 +327,14 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.typeHandler(JFormattedTextFieldTypeHandler.getInstance());
 		forType(JFrame.class)
 			.typeAsMethod(JMenuBar.class, "setJMenuBar")
+			.typeAsMethod(JDesktopPane.class, "setContentPane")
 			.finishProcessor(JFrameTypeHandler.getInstance())
 			.propertyHandler(JFrameWindowListenerHandler.getInstance())
 			.children(Action.class, 0,Integer.MAX_VALUE)
-			.children(JMenuBar.class, 0,1);
+			.children(JMenuBar.class, 0,1)
+			.children(JDesktopPane.class,0,1);
+		forType(JInternalFrame.class)
+			.finishProcessor(new JInternalFrameFinishProcessor());
 		forType(JLabel.class)
 			.localize(TEXT)
 			.childrenOverride(true).children(0);
