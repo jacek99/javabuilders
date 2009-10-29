@@ -2,9 +2,11 @@ package org.javabuilders.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -174,15 +176,17 @@ public class IssuesTests {
 	@Test
 	public void issue64_frenchResources() {
 		
-		assertEquals("Cancel",Builder.getResourceBundle().getString("button.cancel"));
-		
+		ResourceBundle base = Builder.getResourceBundle();
+		Enumeration<String> en = base.getKeys();
 		Locale.setDefault(Locale.FRANCE);
-		assertEquals("Abandonner",Builder.getResourceBundle().getString("button.cancel"));
-		
-		Locale.setDefault(new Locale("fr","CA"));
-		assertEquals("Abandonner",Builder.getResourceBundle().getString("button.cancel"));
-		
+		for(String key : base.keySet()) {
+			String english = base.getString(key);
+			String french = Builder.getResourceBundle().getString(key);
+			
+			if (!key.equals("title.confirmation")) {
+				assertFalse("Key is not translated into french: " + key, english.equals(french));
+			}
+		}
 	}
-
 	
 }

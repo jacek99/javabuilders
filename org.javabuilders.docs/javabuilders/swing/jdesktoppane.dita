@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="id20090107112550" xml:lang="en-CA">
+    <title>JDesktopPane</title>
+    <body>
+        <section>
+          <title>JInternalFrame integration</title>
+          <p>A <codeph>JDesktopPane</codeph> can be placed in a JFrame or a regular JPanel, followed by one or more instances of a <codeph>JInternalFrame</codeph>, 
+          e.g.
+          <codeblock>
+JPanel:
+    - JDesktopPane(name=desktop,dragMode=outlineDragMode,visible=true):
+         - JInternalFrame(name=frame1,title=Frame 1,visible=true,selected=true):
+               - JButton(name=button1,text=Button 1)
+               - JLabel(name=label1,text=Label 1)
+               - MigLayout: |
+                   [grow]  [pref]
+                   label1  button1
+         - JInternalFrame(name=frame2,title=Frame 2,visible=true):
+               - JButton(name=button2,text=Button 2)
+               - JLabel(name=label2,text=Label 2)
+               - MigLayout: |
+                   [grow]  [pref]
+                   label2  button2
+    - MigLayout: |
+         [grow]
+         desktop         [grow]                   
+</codeblock>
+          </p>
+        </section>
+    </body>
+</topic>

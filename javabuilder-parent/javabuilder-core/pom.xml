@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>javabuilder-parent</artifactId>
+		<groupId>org.javabuilders</groupId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>org.javabuilders</groupId>
+	<artifactId>javabuilder-core</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>Core JavaBuilder</name>
+	<dependencies>
+		<dependency>
+			<groupId>net.java.dev</groupId>
+			<artifactId>jvyaml</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+	</dependencies>
+</project>

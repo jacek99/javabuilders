@@ -1,0 +1,3 @@
+JPanel(testClass=org.javabuilders.Builder):
+    - JLabel(name=test,text=Test)
+    

@@ -1,0 +1,20 @@
+JPanel:
+    - JPanel(name=panel1):
+        - JLabel(name=label1,text=Card 1)
+        - JButton(name=switch2,text=Switch to Card 2,onAction=switch2)
+        - JScrollPane(name=scroll1): JTextArea(name=source,editable=false,font=Monospaced)
+        - JLabel(name=labelSource,text="YAML source:")
+        - MigLayout: |
+            [grow]
+            label1      switch2
+            labelSource
+            scroll1+*            [grow]
+    - JPanel(name=panel2):
+        - JButton(name=btn,text=Card 2)
+        - JButton(name=switch1,text=Switch to Card 1,onAction=switch1)
+        - MigLayout: |
+            btn switch1
+    - CardLayout(name=cards): [panel1,panel2]
+bind:
+    - source.text: this.yaml
+        

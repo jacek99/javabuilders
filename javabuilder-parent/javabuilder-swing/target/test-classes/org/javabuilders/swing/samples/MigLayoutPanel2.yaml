@@ -1,0 +1,36 @@
+JPanel:
+    - JBSeparator(name=sepName, text=Name)
+    - JTextField(name=fNameField)
+    - JTextField(name=lNameField)
+    - JTextField(name=titleField)
+    - JComboBox(name=dfCombo)
+    - JTextField(name=nickField)
+    - JBSeparator(name=sepList, text=List)
+    - JTextField(name=emailField)       
+    - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
+    - JButton(name=addButton, text=Add, onAction=onAdd)
+    - JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])
+    - JButton(name=editButton, text=Edit, onAction=edit)
+    - JButton(name=advancedButton, text=Advanced, onAction=advancedEdit)
+    - JLabel(name=hintLabel,text="Press the OK button to see validations and long running tasks in action",font=bold italic)    
+    - JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])
+    - JButton(name=cancelButton, text=Cancel)
+    - JLabel(name=btnsLabel,text=Press them!, font=italic bold)
+    - MigLayout:  |
+        [pref]             [grow]         [right]       [grow]          [pref]
+        sepName+*
+        >"First Name:"     fNameField=1   "Last Name:"  lNameField+*=1
+        >"Title:"          titleField=1   "Nickname:"   nickField+*=1
+        >"Display Format:" dfCombo+*
+        sepList+*
+        >"Email:"          emailField+3                                 addButton+1+5=2
+        "YAML Source:"                                                  editButton=2      
+        scroll1+4+3                                                     deleteButton=2     
+                                                                        advancedButton=2
+                                                                        btnsLabel=2     [grow]
+        hintLabel+3                                     >okButton+*=2,cancelButton=2
+bind:
+    - source.text: this.yaml
+validate:
+    - fNameField.text: {label: First Name, mandatory: true, minLength: 2, maxLength: 20}
+    - lNameField.text: {label: Last Name, mandatory: true, minLength: 2, maxLength: 40}

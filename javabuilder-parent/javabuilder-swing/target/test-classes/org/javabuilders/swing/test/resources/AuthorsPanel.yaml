@@ -1,0 +1,14 @@
+JPanel:
+    - JList(name=authors)
+    - JList(name=books)
+    - JTextField(name=firstName)
+    - JTextField(name=lastName)
+    - JTextField(name=bookTitle)
+bind:
+    - authors.model: this.authors
+    - this.author: authors.selectedValue
+    - books.model: this.author.books
+    - this.book: books.selectedValue
+    - firstName.text: this.author.firstName
+    - lastName.text: this.author.lastName
+    - bookTitle.text: this.book.title

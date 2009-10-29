@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="0.002" errors="0" skipped="0" tests="1" name="org.javabuilders.swing.test.TypeDefinitionTest">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/i386"/>
+    <property name="java.vm.version" value="14.2-b01"/>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."/>
+    <property name="java.vendor.url" value="http://java.sun.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="CA"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing"/>
+    <property name="java.runtime.version" value="1.6.0_16-b01"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="basedir" value="/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing"/>
+    <property name="java.endorsed.dirs" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/endorsed"/>
+    <property name="os.arch" value="i386"/>
+    <property name="surefire.real.class.path" value="/tmp/surefirebooter3392791451171106653.jar"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="os.name" value="Linux"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/i386/server:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/i386:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/../lib/i386::/zks/bea/weblogic92/server/native/linux/i686:/usr/java/packages/lib/i386:/lib:/usr/lib"/>
+    <property name="surefire.test.class.path" value="/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing/target/test-classes:/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing/target/classes:/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-core/target/javabuilder-core-1.0-SNAPSHOT.jar:/home/jacek/.m2/repository/net/java/dev/jvyaml/0.2.1/jvyaml-0.2.1.jar:/home/jacek/.m2/repository/commons-validator/commons-validator/1.3.1/commons-validator-1.3.1.jar:/home/jacek/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar:/home/jacek/.m2/repository/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar:/home/jacek/.m2/repository/commons-digester/commons-digester/1.6/commons-digester-1.6.jar:/home/jacek/.m2/repository/commons-collections/commons-collections/2.1/commons-collections-2.1.jar:/home/jacek/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:/home/jacek/.m2/repository/com/miglayout/miglayout/3.7.1/miglayout-3.7.1.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-swingbinding/1.3.0/betterbeansbinding-swingbinding-1.3.0.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-core/1.3.0/betterbeansbinding-core-1.3.0.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-el/1.3.0/betterbeansbinding-el-1.3.0.jar:/home/jacek/.m2/repository/com/google/code/findbugs/jsr305/1.3.7/jsr305-1.3.7.jar:/home/jacek/.m2/repository/net/java/dev/glazedlists/glazedlists_java15/1.8.0/glazedlists_java15-1.8.0.jar:/home/jacek/.m2/repository/org/swinglabs/swing-worker/1.1/swing-worker-1.1.jar:/home/jacek/.m2/repository/janino/janino/2.5.10/janino-2.5.10.jar:/home/jacek/.m2/repository/junit/junit/4.7/junit-4.7.jar:"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="50.0"/>
+    <property name="sun.management.compiler" value="HotSpot Tiered Compilers"/>
+    <property name="os.version" value="2.6.28-16-generic"/>
+    <property name="user.home" value="/home/jacek"/>
+    <property name="user.timezone" value="America/Montreal"/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="1.6"/>
+    <property name="user.name" value="jacek"/>
+    <property name="java.class.path" value="/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing/target/test-classes:/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-swing/target/classes:/media/My Passport/Jacek/Dev/javabuilders/javabuilder-parent/javabuilder-core/target/javabuilder-core-1.0-SNAPSHOT.jar:/home/jacek/.m2/repository/net/java/dev/jvyaml/0.2.1/jvyaml-0.2.1.jar:/home/jacek/.m2/repository/commons-validator/commons-validator/1.3.1/commons-validator-1.3.1.jar:/home/jacek/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar:/home/jacek/.m2/repository/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar:/home/jacek/.m2/repository/commons-digester/commons-digester/1.6/commons-digester-1.6.jar:/home/jacek/.m2/repository/commons-collections/commons-collections/2.1/commons-collections-2.1.jar:/home/jacek/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:/home/jacek/.m2/repository/com/miglayout/miglayout/3.7.1/miglayout-3.7.1.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-swingbinding/1.3.0/betterbeansbinding-swingbinding-1.3.0.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-core/1.3.0/betterbeansbinding-core-1.3.0.jar:/home/jacek/.m2/repository/it/tidalwave/betterbeansbinding/betterbeansbinding-el/1.3.0/betterbeansbinding-el-1.3.0.jar:/home/jacek/.m2/repository/com/google/code/findbugs/jsr305/1.3.7/jsr305-1.3.7.jar:/home/jacek/.m2/repository/net/java/dev/glazedlists/glazedlists_java15/1.8.0/glazedlists_java15-1.8.0.jar:/home/jacek/.m2/repository/org/swinglabs/swing-worker/1.1/swing-worker-1.1.jar:/home/jacek/.m2/repository/janino/janino/2.5.10/janino-2.5.10.jar:/home/jacek/.m2/repository/junit/junit/4.7/junit-4.7.jar:"/>
+    <property name="java.vm.specification.version" value="1.0"/>
+    <property name="sun.arch.data.model" value="32"/>
+    <property name="java.home" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre"/>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="user.language" value="en"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.6.0_16"/>
+    <property name="java.ext.dirs" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/ext:/usr/java/packages/lib/ext"/>
+    <property name="sun.boot.class.path" value="/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/resources.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/rt.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/sunrsasign.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/jsse.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/jce.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/lib/charsets.jar:/home/jacek/Dev/Java/JDK/jdk1.6.0_16/jre/classes"/>
+    <property name="java.vendor" value="Sun Microsystems Inc."/>
+    <property name="localRepository" value="/home/jacek/.m2/repository"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="gnome"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase time="0.001" classname="org.javabuilders.swing.test.TypeDefinitionTest" name="testComparator"/>
+</testsuite>

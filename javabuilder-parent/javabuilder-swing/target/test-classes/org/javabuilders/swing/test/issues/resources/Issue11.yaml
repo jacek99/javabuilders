@@ -1,0 +1,3 @@
+TrayIcon(imageAutoSize=true):
+    - JPopupMenu(name=jpopup)
+    - PopupMenu(name=popup) 

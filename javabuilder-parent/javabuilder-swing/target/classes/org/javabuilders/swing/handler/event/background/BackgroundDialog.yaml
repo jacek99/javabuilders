@@ -1,0 +1,18 @@
+JDialog(size=packed, undecorated=true, modal=true):
+    - JPanel(name=mainPanel):
+        - JLabel(name=progressLabel)
+        - JProgressBar(name=progressBar)
+        - JButton(name=cancelButton, text=button.cancel, onAction=requestCancel)
+        - MigLayout: |
+             [[insets 8]]
+             [center, 200]
+             progressLabel
+             progressBar     
+             cancelButton
+bind:
+     - progressLabel.text: this.event.progressMessage
+     - cancelButton.enabled: this.event.cancelable
+     - progressBar.indeterminate: this.event.progressIndeterminate
+     - progressBar.minimum: this.event.progressStart
+     - progressBar.maximum: this.event.progressEnd
+     - progressBar.value: this.event.progressValue

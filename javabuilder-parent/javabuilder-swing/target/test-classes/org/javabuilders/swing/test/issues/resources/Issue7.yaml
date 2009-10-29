@@ -1,0 +1,7 @@
+JPanel(name=somePanel):
+   content:
+      - JLabel(name=someLabel, text="Some Label")
+      - JTextField(name=someTextField)
+      - JPanel(name=childPanel):
+         content:
+            - JButton(name=someButton, text="Some Button")

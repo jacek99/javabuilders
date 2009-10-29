@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -220,7 +221,7 @@ public class IssuesTests {
 	
 	@Test
 	public void issue47_chainedConfirmValidate() {
-		String yaml="JButton(name=button,onAction=($confirm,$validate))";
+		String yaml="JButton(name=button,onAction=[$confirm,$validate])";
 		JButton button = (JButton) SwingJavaBuilder.build(this, yaml).get("button");
 		assertNotNull(button.getActionListeners());
 		assertEquals(1,button.getActionListeners().length);
@@ -333,7 +334,7 @@ public class IssuesTests {
 	@Test
 	public void issue52_onSelectionForJListMultiple() {
 		BuildResult r = new SwingYamlBuilder("JPanel:") {{
-			___("- JList(name=list,onSelection=(jlist_selection,jlist_selection2))");
+			___("- JList(name=list,onSelection=[jlist_selection,jlist_selection2])");
 		}}.build(this);
 
 		JList list = (JList) r.get("list");
@@ -473,5 +474,24 @@ public class IssuesTests {
 		assertNotNull(frame2);
 
 	}
+
+	@Test
+	public void issue65_NPEOnKeyReleased() {
+		BuildResult r = new SwingYamlBuilder("JFrame(name=keyBug):") {{
+			___("- JLabel(name=bugLabel, text=\"Press key to illustrate the bug\")");
+			___("- JTextField(name=bugTextField, columns=15, onKeyReleased=hello)");
+		}}.build(this);
+		
+		JTextField bugTextField = (JTextField) r.get("bugTextField");
+		KeyListener kl = bugTextField.getKeyListeners()[0];
+		assertNotNull(kl);
+		
+		kl.keyPressed(null);
+			  
+	}
+	
+	//internal test method
+	private void hello() {}
+
 
 }

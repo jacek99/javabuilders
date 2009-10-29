@@ -1,0 +1,3 @@
+AbstractGenericPanel(name=customGenericPanel,dimension=100x200) :
+    - JTextField(name=customTextField, text=customTextField)
+    - JTextField(name=genericTextField, text=genericTextField)
