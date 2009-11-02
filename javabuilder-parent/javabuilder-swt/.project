@@ -1,7 +1,9 @@
 <projectDescription>
   <name>javabuilder-swt</name>
   <comment>JavaBuilder for SWT</comment>
-  <projects/>
+  <projects>
+    <project>javabuilder-core</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

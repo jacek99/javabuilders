@@ -1,3 +1,0 @@
-JFrame(title=Hello World, defaultCloseOperation=disposeOnClose, size=packed, locationRelativeTo=null, visible=true):
-    - JButton(text=Hello World)
-      

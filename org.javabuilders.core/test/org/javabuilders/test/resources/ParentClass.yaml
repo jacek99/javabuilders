@@ -1,3 +1,0 @@
-ParentClass:
-    - Issue14Class(name=emptyClass, constraint="emptyClass")
-    - Issue14Class(name=createdClass, constraint=createdClass)

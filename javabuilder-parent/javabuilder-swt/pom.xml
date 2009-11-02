@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>javabuilder-parent</artifactId>
 		<groupId>org.javabuilders</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.javabuilders</groupId>
@@ -12,109 +12,15 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>SWT JavaBuilder</name>
 	<description>JavaBuilder for SWT</description>
+	<properties>
+	   <eclipse.version>3.5.1.SR1</eclipse.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.javabuilders</groupId>
 			<artifactId>javabuilder-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>swt</artifactId>
-			<version>3.3.0-v3346</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>text</artifactId>
-			<version>3.3.0-v20070606-0010</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse.equinox</groupId>
-					<artifactId>common</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.core</groupId>
-			<artifactId>commands</artifactId>
-			<version>3.3.0-I20070605-0010</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox</groupId>
-			<artifactId>app</artifactId>
-			<version>1.0.0-v20070606</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox</groupId>
-			<artifactId>common</artifactId>
-			<version>3.3.0-v20070426</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.swt.gtk.linux</groupId>
-			<artifactId>x86</artifactId>
-			<version>3.3.0-v3346</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>jface</artifactId>
-			<version>3.3.0-I20070606-0010</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>swt</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>text</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse.core</groupId>
-					<artifactId>commands</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jface</groupId>
-			<artifactId>databinding</artifactId>
-			<version>1.0.0-I20070606-0010</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>swt</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>text</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse.core</groupId>
-					<artifactId>commands</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jface</groupId>
-			<artifactId>text</artifactId>
-			<version>3.3.0-v20070606-0010</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>swt</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse</groupId>
-					<artifactId>text</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse.core</groupId>
-					<artifactId>commands</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.eclipse.equinox</groupId>
-					<artifactId>app</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.miglayout</groupId>
@@ -122,5 +28,63 @@
 			<version>3.7.1</version>
 			<classifier>swt</classifier>
 		</dependency>
+		<!-- 
+		  All of these must be installed in local repo via lib/install.sh
+		 -->
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>swt-linux-gtk</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+		 <dependency>
+		      <groupId>org.eclipse</groupId>
+		      <artifactId>core-commands</artifactId>
+		      <version>${eclipse.version}</version>
+		 </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>core-commands</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>core-databinding</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>core-databinding-beans</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>core-databinding-observable</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>core-databinding-property</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>equinox-common</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>jface</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>jface-databinding</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
+         <dependency>
+              <groupId>org.eclipse</groupId>
+              <artifactId>jface-text</artifactId>
+              <version>${eclipse.version}</version>
+         </dependency>
 	</dependencies>
 </project>

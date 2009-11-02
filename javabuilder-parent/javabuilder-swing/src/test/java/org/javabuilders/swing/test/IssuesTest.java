@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -492,6 +493,17 @@ public class IssuesTest {
 			___("- JLabel(name=bug_label)");
 			___("- MigLayout: bug_label");
 		}}.build(this);
+	}
+	
+	@Test
+	public void issue72_JPasswordField() {
+		BuildResult r = new SwingYamlBuilder("JFrame(name=keyBug):") {{
+			___("- JPasswordField(name=password)");
+		}}.build(this);
+		
+		JPasswordField jpf = (JPasswordField) r.get("password");
+		assertNotNull(jpf);
+		
 	}
 	
 	//internal test method

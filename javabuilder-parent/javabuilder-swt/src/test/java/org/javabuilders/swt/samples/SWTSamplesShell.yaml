@@ -19,7 +19,7 @@ Shell(name=shell,text=Frame,maximized=true):
         - TabItem(name=tab1,text=Frame YAML source):
             - Composite:
                  - Label(name=sourceLbl,text="YAML source:")
-                 - Text(name=source,editable=false, style=(border,multi))
+                 - Text(name=source,editable=false, style=[border,multi])
                  - MigLayout: |
                      [grow]
                      sourceLbl

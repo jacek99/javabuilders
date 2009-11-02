@@ -10,9 +10,10 @@
 	<modules>
 		<module>javabuilder-core</module>
 		<module>javabuilder-swing</module>
+		<module>javabuilder-swt</module>
     </modules>
 
-	<url>http://ww.javabuilders.org</url>
+	<url>http://www.javabuilders.org</url>
 	<build>
 		<resources>
 			<resource>
