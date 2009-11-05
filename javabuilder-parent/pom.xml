@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
@@ -11,7 +12,7 @@
 		<module>javabuilder-core</module>
 		<module>javabuilder-swing</module>
 		<module>javabuilder-swt</module>
-    </modules>
+	</modules>
 
 	<url>http://www.javabuilders.org</url>
 	<build>
@@ -25,26 +26,26 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-        </resources>
-        <testResources>
+		</resources>
+		<testResources>
 			<testResource>
 				<directory>src/test/java</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
 			</testResource>
-        </testResources>
+		</testResources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
 						<compilerVersion>1.6</compilerVersion>
-						<source>1.5</source>
-						<target>1.5</target>
+						<source>1.6</source>
+						<target>1.6</target>
 						<includes>
 							<include>**/*.yaml</include>
 							<include>**/*.java</include>
@@ -68,7 +69,22 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+		</extensions>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>googlecode</id>
+			<url>svn:https://javabuilders.googlecode.com/svn/repo</url>
+		</repository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>

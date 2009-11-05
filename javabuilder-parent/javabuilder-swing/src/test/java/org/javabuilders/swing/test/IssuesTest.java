@@ -506,6 +506,16 @@ public class IssuesTest {
 		
 	}
 	
+	@Test @Ignore
+	public void issue70_componentSizeInMigLayoutDsl() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JLabel(name=label)");
+			___("- JTextField(name=text)");
+			___("- JButton(name=button)");
+			___("- MigLayout: label< field> button|");
+		}}.build(this);
+	}
+	
 	//internal test method
 	private void hello() {}
 

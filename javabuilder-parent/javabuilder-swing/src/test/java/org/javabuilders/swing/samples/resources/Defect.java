@@ -1,5 +1,7 @@
 package org.javabuilders.swing.samples.resources;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
+
 public class Defect implements Comparable {
 	private int id;
 	private String type;
@@ -80,8 +82,8 @@ public class Defect implements Comparable {
 	public void setReporter(String reporter) {
 		this.reporter = reporter;
 	}
+	
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return CompareToBuilder.reflectionCompare(this, o);
 	}
 }

@@ -3,9 +3,9 @@
  */
 package org.javabuilders.swing.handler.type.glazedlists;
 
+import static com.google.common.base.Preconditions.*;
 import static org.javabuilders.swing.handler.type.TableColumnTypeHandler.*;
 
-import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,8 +26,6 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
-import org.codehaus.janino.ClassBodyEvaluator;
-import org.codehaus.janino.Scanner;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
@@ -39,6 +37,7 @@ import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
 import org.javabuilders.util.PropertyUtils;
+import org.javabuilders.util.compiler.CompilerUtils;
 
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
@@ -83,38 +82,31 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 	 */
 	@SuppressWarnings("unchecked")
 	public Node createNewInstance(BuilderConfig config, BuildProcess process, Node parent, String key,
-			Map<String, Object> typeDefinition) throws BuildException {
+			final Map<String, Object> typeDefinition) throws BuildException {
 
 		String source = (String) typeDefinition.get(SOURCE);
+		checkNotNull(source, "EventTableModel.source property must be specified: %s", typeDefinition);
 
 		List<Map<String, Object>> cols = parent.getParent().getContentData(TableColumn.class);
 		JTable table = (JTable) parent.getParentObject(JTable.class);
 
-		if (source == null) {
-			throw new BuildException("EventTableModel.source property must be specified: {0}", typeDefinition);
-		} else {
-			Field field = BuilderUtils.getField(process.getCaller(), source, EventList.class);
-			if (field == null) {
-				throw new BuildException(
-						"EventTableModel.source property does not point to a valid instance of GlazedLists EventList: {0}",
-						typeDefinition);
-			} else {
-				try {
-					EventList list = (EventList) field.get(process.getCaller());
-					Class<?> type = BuilderUtils.getGenericsTypeFromCollectionField(field);
-					if (type == null) {
-						throw new BuildException("Unable to use generics to find type of object stored in source: {0}", source);
-					}
-					LinkedHashMap<String, String> columnNames = getColumnNamesAndHeaders(process, typeDefinition, cols, type);
-					TableFormat tableFormat = createTableFormat(parent, type, typeDefinition, cols, columnNames);
-					EventTableModel instance =  setupModel(process, typeDefinition, table, list, cols, type,tableFormat);
-					return useExistingInstance(config, process, parent, key, typeDefinition, instance);
-				} catch (BuildException ex) {
-					throw ex;
-				} catch (Exception e) {
-					throw new BuildException(e, "Unable to create instance of EventTableModel: {0}.\n{1}", typeDefinition,e.getMessage());
-				}
+		Field field = BuilderUtils.getField(process.getCaller(), source, EventList.class);
+		checkNotNull(field,"EventTableModel.source property does not point to a valid instance of GlazedLists EventList: %s", typeDefinition);
+		
+		try {
+			EventList list = (EventList) field.get(process.getCaller());
+			Class<?> type = BuilderUtils.getGenericsTypeFromCollectionField(field);
+			if (type == null) {
+				throw new BuildException("Unable to use generics to find type of object stored in source: {0}", source);
 			}
+			LinkedHashMap<String, String> columnNames = getColumnNamesAndHeaders(process, typeDefinition, cols, type);
+			TableFormat tableFormat = createTableFormat(parent, type, typeDefinition, cols, columnNames);
+			EventTableModel instance =  setupModel(process, typeDefinition, table, list, cols, type,tableFormat);
+			return useExistingInstance(config, process, parent, key, typeDefinition, instance);
+		} catch (BuildException ex) {
+			throw ex;
+		} catch (Exception e) {
+			throw new BuildException(e, "Unable to create instance of EventTableModel: {0}.\n{1}", typeDefinition,e.getMessage());
 		}
 	}
 
@@ -154,6 +146,9 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		StringBuilder bld = new StringBuilder();
 		
 		//create the getColumnValue method body
+		String className = CompilerUtils.generateClassName(formatClass);
+		
+		bld.append(CompilerUtils.generateClassSignature(className, formatClass));
 		bld.append("public Object getColumnValue(Object instance, int index) {\n");
 		bld.append(type.getName()).append(" object = (").append(type.getName()).append(")instance;\n");
 		bld.append("   switch(index) {\n");
@@ -162,7 +157,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		}
 		bld.append("   default: return null;"); //should never be reached
 		bld.append("   }\n");
-		bld.append("}\n");
+		bld.append("}\n}");
 
 		if (formatClass.equals(BaseWritableTableFormat.class)) {
 			//writable format - need to define setColumnValue method as well
@@ -183,22 +178,16 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 					.append(")newValue);");
 			}
 			bld.append("   }");
-			bld.append("}");
+			bld.append("}\n}");
 		}
 		
 		try {
-			//compile in-memory using Janino
-			BaseTableFormat f = (BaseTableFormat) ClassBodyEvaluator.createFastClassBodyEvaluator(
-				     new Scanner(null,new StringReader(bld.toString())),
-				     formatClass,                  // Base type to extend/implement
-				     (ClassLoader) null          // Use current thread's context class loader
-				 );
+			BaseTableFormat f = (BaseTableFormat) CompilerUtils.compileAndInstantiate(className, bld.toString());
 			f.setColumns(columnNames);
 			if (f instanceof BaseWritableTableFormat) {
 				BaseWritableTableFormat wf = (BaseWritableTableFormat) f;
 				wf.setEditableColumnIndexes(Arrays.asList(editable));
 			}
-			
 			return f;
 		} catch (Exception e) {
 			throw new BuildException("Failed to compile TableFormat for GlazedLists filtering: {0}\n{1}",e.getMessage(),bld.toString());
@@ -281,7 +270,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 			sortedList = new SortedList(actualSource);
 			//handle sorted columns, if specified
 			if (sortedColumns != null && sortedColumns.size() > 0) {
-				Comparator c = createSortComparator(type, sortedColumns);
+				Comparator c = CompilerUtils.newComparator(type, sortedColumns);
 				sortedList.setComparator(c);
 			}
 			actualSource = sortedList;
@@ -336,26 +325,24 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 			} 
 		}
 		
-		//Janino has no support for generics - so we use old-school style Java
-		bld.append("public void getFilterStrings(java.util.List baseList, Object target) {\n");
+		String fullName = CompilerUtils.generateClassName(TextFilterator.class);
+		
+		bld.append("public class ").append(fullName).append(" implements ")
+			.append(TextFilterator.class.getName()).append("<").append(fullTypeName).append("> {");
+		bld.append("public void getFilterStrings(java.util.List<String> baseList, " + fullTypeName + " target) {\n");
 		bld.append("    ").append(fullTypeName).append(" row = (").append(fullTypeName).append(")target;\n");
 		for(String column : columns) {
 			if (types.get(column).equals(String.class)) {
 				bld.append("    baseList.add(row.").append(getters.get(column)).append("());\n");
 			} else {
-				//non-String type - wrapt it
+				//non-String type - wrap it
 				bld.append("    baseList.add(String.valueOf(row.").append(getters.get(column)).append("());\n");
 			}
 		}
-		bld.append("}\n");
+		bld.append("}\n}");
 		
 		try {
-			//compile in-memory using Janino
-			TextFilterator f = (TextFilterator) ClassBodyEvaluator.createFastClassBodyEvaluator(
-				     new Scanner(null,new StringReader(bld.toString())),
-				     TextFilterator.class,                  // Base type to extend/implement
-				     (ClassLoader) null          // Use current thread's context class loader
-				 );
+			TextFilterator f = (TextFilterator) CompilerUtils.compileAndInstantiate(fullName, bld.toString());
 			return f;
 		} catch (Exception e) {
 			throw new BuildException("Failed to compile TextFilterator for GlazedLists filtering: {0}\n{1}",e.getMessage(),bld.toString());
@@ -377,49 +364,6 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		}
 		
 		return indexes.toArray(new Integer[indexes.size()]);
-	}
-	
-	//compiles a column comparator using Janino
-	@SuppressWarnings("unchecked")
-	private Comparator createSortComparator(Class<?> type, List<String> sortColumns) {
-		Comparator c = null;
-		StringBuilder bld = new StringBuilder();
-		
-		bld.append("public int compare(Object o1, Object o2) {\n");
-		bld.append("\t").append(type.getName()).append(" val1 = (").append(type.getName()).append(") o1;\n");
-		bld.append("\t").append(type.getName()).append(" val2 = (").append(type.getName()).append(") o2;\n");
-		bld.append("\tint compare = 0;\n");
-
-		//create the comparison for each column
-		for(String col : sortColumns) {
-			bld.append("\tif (compare == 0) {\n");
-			String getter = PropertyUtils.getGetterName(col);
-			Class<?> returnType = PropertyUtils.verifyGetter(type, getter,short.class,Short.class,int.class,Integer.class,long.class,Long.class,double.class,
-					Double.class,String.class,char.class,Character.class,Comparable.class);
-			bld.append("\t\t").append(returnType.getName()).append("\t\tcolVal1 = val1.").append(getter).append("();\n");
-			bld.append("\t\t").append(returnType.getName()).append("\t\tcolVal2 = val2.").append(getter).append("();\n");
-			if (returnType.isPrimitive()) {
-				bld.append("\t\tcompare = colVal1 - colVal2;\n");
-			} else {
-				bld.append("\t\tcompare = colVal1.compareTo(colVal2);\n");
-			}
-			
-			bld.append("\t}\n");
-		}
-		bld.append("return compare;");
-		bld.append("}");
-		
-		try {
-			//compile in-memory using Janino
-			c = (Comparator) ClassBodyEvaluator.createFastClassBodyEvaluator(
-				     new Scanner(null,new StringReader(bld.toString())),
-				     Comparator.class,                  // Base type to extend/implement
-				     (ClassLoader) null          // Use current thread's context class loader
-				 );
-			return c;
-		} catch (Exception e) {
-			throw new BuildException("Failed to compile Comparator for GlazedLists sorting: {0}\n{1}",e.getMessage(),bld.toString());
-		} 
 	}
 	
 	//scans the Model Filter element looking for filter info

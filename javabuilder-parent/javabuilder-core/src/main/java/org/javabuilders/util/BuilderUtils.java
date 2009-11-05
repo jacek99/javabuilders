@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.Closure;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -44,6 +45,8 @@ import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
+
+import com.google.common.base.Function;
 
 /**
  * Various common utilities

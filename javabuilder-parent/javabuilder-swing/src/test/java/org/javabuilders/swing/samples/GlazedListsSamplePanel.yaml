@@ -1,7 +1,9 @@
 JPanel:
     - JTextField(name=filterTx)
     - JSlider(name=priority)
-    - JScrollPane(name=scrollReported): JList(name=reported)
+    - JScrollPane(name=scrollReported): 
+         JList(name=reported):
+             EventListModel(source=defects.reporter)
     - JScrollPane(name=scrollDefects): 
         JTable(name=defectsTable):
              - EventTableModel(name=defectsModel,source=defects,sort=multi,sortBy=[reporter,state,id]):

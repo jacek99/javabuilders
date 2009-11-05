@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swt</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>SWT JavaBuilder</name>
 	<description>JavaBuilder for SWT</description>
 	<properties>

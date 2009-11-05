@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import javax.swing.JDialog;
+import javax.swing.SwingWorker;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.IBackgroundProcessingHandler;
-import org.jdesktop.swingworker.SwingWorker;
 
 /**
  * Background processing handler for the Swing domain

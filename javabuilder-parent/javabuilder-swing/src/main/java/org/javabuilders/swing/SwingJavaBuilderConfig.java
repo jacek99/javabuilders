@@ -84,6 +84,7 @@ import javax.swing.JWindow;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.event.SwingPropertyChangeSupport;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -486,7 +487,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 	 */
 	@Override
 	public PropertyChangeSupport createPropertyChangeSupport(Object source) {
-		return new org.jdesktop.swingworker.SwingPropertyChangeSupport(source);
+		return new SwingPropertyChangeSupport(source);
 	}
 
 	private static  class ConfirmCommand implements ICustomCommand<Boolean>  {

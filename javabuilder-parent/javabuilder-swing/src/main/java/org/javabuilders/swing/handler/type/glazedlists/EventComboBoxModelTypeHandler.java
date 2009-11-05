@@ -1,5 +1,6 @@
 package org.javabuilders.swing.handler.type.glazedlists;
 
+import static com.google.common.base.Preconditions.*;
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -31,24 +32,20 @@ public class EventComboBoxModelTypeHandler extends AbstractTypeHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	public Node createNewInstance(BuilderConfig config, BuildProcess process, Node parent, String key,
-			Map<String, Object> typeDefinition) throws BuildException {
+			final Map<String, Object> typeDefinition) throws BuildException {
 
 		String source = (String) typeDefinition.get(SOURCE);
-		if (source == null) {
-			throw new BuildException("EventComboBoxModel.source property must be specified: {0}",typeDefinition);
-		} else {
-			Field field = BuilderUtils.getField(process.getCaller(),source, EventList.class);
-			if (field == null) {
-				throw new BuildException("EventComboBoxModel.source property does not point to a valid instance of GlazedLists EventList: {0}",typeDefinition);
-			} else {
-				try {
-					EventList list = (EventList) field.get(process.getCaller());
-					EventComboBoxModel instance = new EventComboBoxModel<Object>(list);
-					return useExistingInstance(config, process, parent, key, typeDefinition, instance);
-				} catch (Exception e) {
-					throw new BuildException(e,"Unable to get instance of EventComboBoxModel.source: {0}",typeDefinition);
-				}
-			}
+		checkNotNull(source,"EventComboBoxModel.source property must be specified: %s",typeDefinition);
+
+		Field field = BuilderUtils.getField(process.getCaller(),source, EventList.class);
+		checkNotNull(field, "EventComboBoxModel.source property does not point to a valid instance of GlazedLists EventList: %s",typeDefinition);
+
+		try {
+			EventList list = (EventList) field.get(process.getCaller());
+			EventComboBoxModel instance = new EventComboBoxModel<Object>(list);
+			return useExistingInstance(config, process, parent, key, typeDefinition, instance);
+		} catch (Exception e) {
+			throw new BuildException(e,"Unable to get instance of EventComboBoxModel.source: {0}",typeDefinition);
 		}
 	}
 

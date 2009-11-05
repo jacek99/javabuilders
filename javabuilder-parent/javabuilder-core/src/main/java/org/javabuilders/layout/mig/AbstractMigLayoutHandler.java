@@ -286,7 +286,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	/**
 	 * @param process
 	 * @param components
-	 * @param name
+	 * @param data.getName()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")

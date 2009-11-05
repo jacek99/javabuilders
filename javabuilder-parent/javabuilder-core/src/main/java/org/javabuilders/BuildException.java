@@ -39,6 +39,17 @@ public class BuildException extends RuntimeException {
 		super(MessageFormat.format(messageFormat, BuilderUtils.getMessageFormatSafeArguments(messageArguments)), cause);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Throwable#toString()
+	 */
+	@Override
+	public String toString() {
+		if (this.getCause() == null) {
+			return this.getMessage();
+		} else {
+			return this.getMessage() + "\n" + this.getCause().getClass().getName() + ": " + this.getCause().getMessage();
+		}
+	}
 
 	
 }

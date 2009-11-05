@@ -40,6 +40,10 @@ public class ControlConstraint {
 	public final static String SIZE_GROUP_X_INDICATOR = "x";
 	public final static String SIZE_GROUP_Y_INDICATOR = "y";
 	
+	public static final char WIDTH_MAX =')';
+	public static final char WIDTH_PREF = '!';
+	public static final char WIDTH_MIN = '(';
+	
 	public final static char QUOTE = '"';
 	
 	private final static List<String> postIdentifiers = new ArrayList<String>();
@@ -65,6 +69,10 @@ public class ControlConstraint {
 	
 	private boolean isMaxHSpan = false;
 	private boolean isMaxVSpan = false;
+	
+	private boolean isWidthMax;
+	private boolean isWidthPref;
+	private boolean isWidthMin;
 	
 	/**
 	 * Constructor
