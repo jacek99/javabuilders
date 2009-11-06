@@ -1,8 +1,0 @@
-JPanel:
-    - JButton(name=btn1,text=CardLayout in JFrame with tabs, actionCommand=cardLayoutInFrame)
-    - JButton(name=btn2,text=Centered JFrame, actionCommand=centeredJFrame)
-    - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
-    - MigLayout: |
-        [pref]   [grow]
-        ^btn1=1  ^scroll1+1+* 
-        ^btn2=1               [grow]

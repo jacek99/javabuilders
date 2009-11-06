@@ -26,37 +26,45 @@ public class GlazedListsSamplePanel extends SamplePanel {
 	public GlazedListsSamplePanel() throws Exception {
 		super();
 		SwingJavaBuilder.build(this);
+		createData(100);
 	}
 	
 	private void fillWithData() {
 		final String value = JOptionPane.showInputDialog("How many rows of data?");
 		if (value != null) {
 			try {
-				this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				
-				defects.clear();
-				
-				Runnable r = new Runnable() {
-					public void run() {
-						Integer count = Integer.parseInt(value);
-						for(int i = 0; i < count; i++) {
-							Defect defect = new Defect();
-							defect.setId(i);
-							defect.setPriority(i % 10);
-							defect.setType(types[random.nextInt(types.length)]);
-							defect.setState(states[random.nextInt(states.length)]);
-							defect.setReporter(reporter[random.nextInt(reporter.length)]);
-							defect.setSummary("Some defect, numbered as " + i);
-							defects.add(defect);
-						}
-					}
-				};
-				new Thread(r).start();
+				Integer count = Integer.parseInt(value);
+				createData(count);
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this,"Not a valid number");
-			} finally {
-				this.setCursor(Cursor.getDefaultCursor());
-			}
+			} 
+		}
+	}
+	
+	private void createData(final int count) {
+		try {
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			defects.clear();
+			
+			Runnable r = new Runnable() {
+				public void run() {
+					for(int i = 0; i < count; i++) {
+						Defect defect = new Defect();
+						defect.setId(i);
+						defect.setPriority(i % 10);
+						defect.setType(types[random.nextInt(types.length)]);
+						defect.setState(states[random.nextInt(states.length)]);
+						defect.setReporter(reporter[random.nextInt(reporter.length)]);
+						defect.setSummary("Some defect, numbered as " + i);
+						defects.add(defect);
+					}
+				}
+			};
+			new Thread(r).start();
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this,"Not a valid number");
+		} finally {
+			this.setCursor(Cursor.getDefaultCursor());
 		}
 	}
 	

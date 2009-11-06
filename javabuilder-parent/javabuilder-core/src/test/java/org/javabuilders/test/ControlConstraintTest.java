@@ -7,6 +7,7 @@ import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.HAlign;
 import org.javabuilders.layout.LayoutCell;
 import org.javabuilders.layout.LayoutException;
+import org.javabuilders.layout.Size;
 import org.javabuilders.layout.VAlign;
 import org.junit.Test;
 
@@ -32,7 +33,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
-		
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -44,6 +46,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -55,6 +59,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -66,6 +72,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.MIDDLE, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -77,6 +85,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.BOTTOM, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -88,6 +98,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.MIDDLE, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -99,6 +111,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.MIDDLE, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -110,6 +124,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.BOTTOM, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -121,6 +137,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.BOTTOM, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	
@@ -133,6 +151,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}	
 	
 	@Test
@@ -144,6 +164,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(2,c.getHSpan());
 		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}
 	
 	@Test
@@ -155,6 +177,8 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(1,c.getHSpan());
 		assertEquals(2,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
 	}	
 	
 	@Test
@@ -166,7 +190,97 @@ public class ControlConstraintTest {
 		assertEquals(VAlign.DEFAULT, c.getVAlign());
 		assertEquals(2,c.getHSpan());
 		assertEquals(2,c.getVSpan());
-	}	
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
+	}
+	
+	@Test
+	public void testMinWidth() {
+		ControlConstraint c = new ControlConstraint("control1<");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		assertEquals(Size.MIN, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
+	}
+	
+	@Test
+	public void testPrefWidth() {
+		ControlConstraint c = new ControlConstraint("control1|");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		
+		assertEquals(Size.PREF, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
+	}
+	
+	@Test
+	public void testMaxWidth() {
+		ControlConstraint c = new ControlConstraint("control1>");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		
+		assertEquals(Size.MAX, c.getHSize());
+		assertEquals(Size.DEFAULT, c.getVSize());
+	}
+
+	@Test
+	public void testMinHeight() {
+		ControlConstraint c = new ControlConstraint("control1^");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.MIN, c.getVSize());
+	}
+	
+	@Test
+	public void testPrefHeight() {
+		ControlConstraint c = new ControlConstraint("control1-");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.PREF, c.getVSize());
+	}
+	
+	@Test
+	public void testMaxHeight() {
+		ControlConstraint c = new ControlConstraint("control1/");
+		assertEquals(control1,c.getControlName());
+		assertEquals(HAlign.DEFAULT, c.getHAlign());
+		assertEquals(VAlign.DEFAULT, c.getVAlign());
+		assertEquals(1,c.getHSpan());
+		assertEquals(1,c.getVSpan());
+		
+		assertEquals(Size.DEFAULT, c.getHSize());
+		assertEquals(Size.MAX, c.getVSize());
+	}
+	
+	@Test 
+	public void testAllSizeCombination() {
+		ControlConstraint c = new ControlConstraint("control1+2+3=4</");
+		assertEquals(control1,c.getControlName());
+		assertEquals(2,c.getHSpan());
+		assertEquals(3,c.getVSpan());
+		assertEquals(new Integer(4),c.getSizeGroup());
+		assertEquals(Size.MIN, c.getHSize());
+		assertEquals(Size.MAX, c.getVSize());
+	}
+
 	
 	@Test(expected=LayoutException.class)
 	public void invalidSpanException() throws Exception {
@@ -187,5 +301,7 @@ public class ControlConstraintTest {
 	public void invalidNumberOfSpansException() throws Exception {
 		ControlConstraint c = new ControlConstraint("" + control1 + LayoutCell.SPAN_INDICATOR + 1 + LayoutCell.SPAN_INDICATOR + "1" + LayoutCell.SPAN_INDICATOR + 4);
 	}
+	
+
 	
 }

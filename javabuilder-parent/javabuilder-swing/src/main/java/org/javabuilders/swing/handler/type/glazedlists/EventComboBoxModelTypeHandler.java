@@ -1,6 +1,7 @@
 package org.javabuilders.swing.handler.type.glazedlists;
 
 import static com.google.common.base.Preconditions.*;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class EventComboBoxModelTypeHandler extends AbstractTypeHandler {
 		checkNotNull(field, "EventComboBoxModel.source property does not point to a valid instance of GlazedLists EventList: %s",typeDefinition);
 
 		try {
-			EventList list = (EventList) field.get(process.getCaller());
+			EventList list = GlazedListsUtils.getSource(process.getCaller(), typeDefinition).get0();
 			EventComboBoxModel instance = new EventComboBoxModel<Object>(list);
 			return useExistingInstance(config, process, parent, key, typeDefinition, instance);
 		} catch (Exception e) {

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class ControlConstraint {
 
 	//regex: ^([\<\|\>\^\-/]*)?(".+")?([a-zA-Z0-9]+)?(\+\*)?(\+[0-9]+)?(\+\*)?(\+[0-9]+)?(=[0-9])?(x*y*)?$
-	private static final Pattern pattern = Pattern.compile("^([\\<\\|\\>\\^\\-/]*)?(\".+\")?([a-zA-Z0-9_]+)?(\\+\\*)?(\\+[0-9]+)?(\\+\\*)?(\\+[0-9]+)?(=[0-9])?(x*y*)?$");
+	private static final Pattern pattern = Pattern.compile("^([\\<\\|\\>\\^\\-/]*)?(\".+\")?([a-zA-Z0-9_]+)?(\\+\\*)?(\\+[0-9]+)?(\\+\\*)?(\\+[0-9]+)?(=[0-9])?(x*y*)?([\\<\\|\\>\\^\\-/]*)?$");
 	
 	/**
 	 * REGEX GROUPS
@@ -40,9 +40,9 @@ public class ControlConstraint {
 	public final static String SIZE_GROUP_X_INDICATOR = "x";
 	public final static String SIZE_GROUP_Y_INDICATOR = "y";
 	
-	public static final char WIDTH_MAX =')';
-	public static final char WIDTH_PREF = '!';
-	public static final char WIDTH_MIN = '(';
+	public static final char WIDTH_MAX ='>';
+	public static final char WIDTH_PREF = '|';
+	public static final char WIDTH_MIN = '<';
 	
 	public final static char QUOTE = '"';
 	
@@ -70,9 +70,8 @@ public class ControlConstraint {
 	private boolean isMaxHSpan = false;
 	private boolean isMaxVSpan = false;
 	
-	private boolean isWidthMax;
-	private boolean isWidthPref;
-	private boolean isWidthMin;
+	private Size hSize = Size.DEFAULT;
+	private Size vSize = Size.DEFAULT;
 	
 	/**
 	 * Constructor
@@ -148,6 +147,31 @@ public class ControlConstraint {
 				sizeGroupY = true;
 			}
 			
+			if (m.group(10) != null) {
+				char[] chars = m.group(10).toCharArray();
+				for(char c : chars) {
+					switch(c) {
+					case HALIGN_LEFT:
+						hSize = Size.MIN;
+						break;
+					case HALIGN_CENTER:
+						hSize = Size.PREF;
+						break;
+					case HALIGN_RIGHT:
+						hSize = Size.MAX;
+						break;
+					case VALIGN_TOP:
+						vSize = Size.MIN;
+						break;
+					case VALIGN_MIDDLE:
+						vSize = Size.PREF;
+						break;
+					case VALIGN_BOTTOM:
+						vSize = Size.MAX;
+						break;
+					}
+				}
+			}
 			
 		} else {
 			throw new LayoutException("Unable to parse {0} control constraint",constraintText);
@@ -297,4 +321,33 @@ public class ControlConstraint {
 	public boolean isSizeGroupY() {
 		return sizeGroupY;
 	}
+
+	/**
+	 * @return the horiz Size
+	 */
+	public Size getHSize() {
+		return hSize;
+	}
+
+	/**
+	 * @param hSize the horiz Size to set
+	 */
+	public void setHSize(Size hSize) {
+		this.hSize = hSize;
+	}
+
+	/**
+	 * @return the vertical Size
+	 */
+	public Size getVSize() {
+		return vSize;
+	}
+
+	/**
+	 * @param vSize the vertical Size to set
+	 */
+	public void setVSize(Size vSize) {
+		this.vSize = vSize;
+	}
+
 }

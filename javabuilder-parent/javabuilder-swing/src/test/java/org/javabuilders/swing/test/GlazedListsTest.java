@@ -5,10 +5,14 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTable;
 
+import org.javabuilders.swing.samples.resources.Defect;
 import org.javabuilders.swing.test.issues.resources.Book;
 import org.javabuilders.swing.test.issues.resources.GlazedListPanel;
+import org.junit.Before;
 import org.junit.Test;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventListModel;
 import ca.odell.glazedlists.swing.EventTableModel;
@@ -18,6 +22,13 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * @author Jacek Furmankiewicz
  */
 public class GlazedListsTest {
+
+	private EventList<Defect> defects = new BasicEventList<Defect>();
+	
+	@Before
+	public void before() {
+		defects.clear();
+	}
 	
 	@Test
 	public void testJListModel() {

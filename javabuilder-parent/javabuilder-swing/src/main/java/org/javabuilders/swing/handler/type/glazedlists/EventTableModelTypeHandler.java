@@ -94,7 +94,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		checkNotNull(field,"EventTableModel.source property does not point to a valid instance of GlazedLists EventList: %s", typeDefinition);
 		
 		try {
-			EventList list = (EventList) field.get(process.getCaller());
+			EventList list = GlazedListsUtils.getSource(process.getCaller(), typeDefinition).get0();
 			Class<?> type = BuilderUtils.getGenericsTypeFromCollectionField(field);
 			if (type == null) {
 				throw new BuildException("Unable to use generics to find type of object stored in source: {0}", source);

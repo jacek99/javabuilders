@@ -95,20 +95,35 @@ public class CompilerUtils {
 	public static Comparator newComparator(Class<?> type, List<String> fields) {
 		return newComparator(type, fields.toArray(new String[fields.size()]));
 	}
-
+	
 	/**
 	 * Compiles a new comparator
-	 * @param type Type
+	 * @param rawType Type
 	 * @param fields Fields to be included in comparator
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> Comparator<T> newComparator(Class<T> type, String... fields) {
-		Comparator<T> c = null;
-		
+	public static Comparator<?> newComparator(Class<?> rawType, String... fields) {
+		Comparator<?> c = null;
 		
 		ClassStringBuilder bld = new ClassStringBuilder();
 		String name = generateClassName(Comparator.class);
+		
+		Class<?> type = rawType;
+		if (type.isPrimitive()) {
+			if (int.class.equals(type)) {
+				type = Integer.class;
+			} else if (long.class.equals(type)) {
+				type = Long.class;
+			} else if (short.class.equals(type)) {
+				type = Short.class;
+			} else if (double.class.equals(type)) {
+				type = Double.class;
+			} else if (float.class.equals(type)) {
+				type = Float.class;
+			} else if (boolean.class.equals(type)) {
+				type = Boolean.class;
+			}
+		}
 		
 		bld._("public class %s implements %s<%s> {",name,Comparator.class.getName(),type.getName())
 			.___("public int compare(%1$s o1, %1$s o2) {",type.getName())
@@ -133,7 +148,6 @@ public class CompilerUtils {
 					bld._______("compare = o1.%1$s().compareTo(o2.%1$s());",getter);
 				}
 				bld._____("}");
-				System.out.println(getter);
 			}
 			
 		}
@@ -142,7 +156,7 @@ public class CompilerUtils {
 		bld._("}");
 		
 		try {
-			c = (Comparator<T>)compileAndInstantiate(name, bld.toString());
+			c = (Comparator<?>)compileAndInstantiate(name, bld.toString());
 			return c;
 		} catch (Exception e) {
 			throw new BuildException("Failed to compile Comparator: {0}\n{1}",e.getMessage(),bld.toString());

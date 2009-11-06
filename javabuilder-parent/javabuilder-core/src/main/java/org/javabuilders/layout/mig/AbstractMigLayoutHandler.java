@@ -141,20 +141,8 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 					}
 					
 					//RESIZE logic
-					String resize = resizeConstraints.get(TypeDefinition.getDefaultResize(config, component.getClass()));
-					if (resize != null) {
-						
-						//only add it there aren't some additional "grow" constraints that override it
-						String additional = null;
-						if (lo.getAdditionalControlConstraints().containsKey(co.getControlName())) {
-							additional = lo.getAdditionalControlConstraints().get(co.getControlName());
-						}
-						
-						if (additional == null || additional.indexOf("grow") < 0) {
-							//no resize related additional constraints
-							builder.append(", ").append(resize);
-						}
-					} 
+					MigLayoutCommon.handleResize(builder, co, TypeDefinition.getDefaultResize(config, component.getClass()), 
+							lo.getAdditionalControlConstraints().get(co.getControlName()));
 					
 					//handle control alignment
 					if (co.getHAlign() == HAlign.CENTER) {

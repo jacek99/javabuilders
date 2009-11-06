@@ -1,3 +1,0 @@
-JPanel:
-    - JButton(name=button, text=Button 1)
-    - JTextArea(name=button)
