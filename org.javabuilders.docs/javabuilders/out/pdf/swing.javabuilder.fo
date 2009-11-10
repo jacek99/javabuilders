@@ -4030,10 +4030,10 @@ MigLayout: |
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
-<fo:block font-size="9pt">&lt;</fo:block>
+<fo:block font-size="9pt">|</fo:block>
 </fo:table-cell>
 <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
-<fo:block font-size="9pt">horizontally left aligned (can be omitted, it is the default value)</fo:block>
+<fo:block font-size="9pt">horizontally centered</fo:block>
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
@@ -4046,10 +4046,10 @@ MigLayout: |
 </fo:table-row>
 <fo:table-row>
 <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
-<fo:block font-size="9pt">|</fo:block>
+<fo:block font-size="9pt">^</fo:block>
 </fo:table-cell>
 <fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
-<fo:block font-size="9pt">horizontally centered</fo:block>
+<fo:block font-size="9pt">vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)</fo:block>
 </fo:table-cell>
 </fo:table-row>
 <fo:table-row>
@@ -4068,21 +4068,13 @@ MigLayout: |
 <fo:block font-size="9pt">vertically bottom aligned</fo:block>
 </fo:table-cell>
 </fo:table-row>
-<fo:table-row>
-<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
-<fo:block font-size="9pt">^</fo:block>
-</fo:table-cell>
-<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
-<fo:block font-size="9pt">vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)</fo:block>
-</fo:table-cell>
-</fo:table-row>
 </fo:table-body>
 </fo:table>
 </fo:block>
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11A35"></fo:inline>
+<fo:inline id="N11A27"></fo:inline>
 <fo:block font-weight="bold">Cell Spanning</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In "+X+Y" format (X= horizontal cells to span, Y= vertical cells to span), e.g. "okButton+2".</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">Examples:
@@ -4135,7 +4127,7 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11A74"></fo:inline>
+<fo:inline id="N11A66"></fo:inline>
 <fo:block font-weight="bold">Cell Splitting</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In <fo:inline font-family="Courier">"controlName1,controlName2"</fo:inline> format (i.e. control names separated with a comma). 
 			Used when you want to place multiple controls into the same cell. All the general cell constraints 
@@ -4143,7 +4135,7 @@ MigLayout: |
 			</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11A8E"></fo:inline>
+<fo:inline id="N11A80"></fo:inline>
 <fo:block font-weight="bold">Size Groups</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In <fo:inline font-family="Courier">"=X"</fo:inline> format (X = size group number), e.g. "okButton=1 cancelButton=1"</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">Allows to specify which controls should have the same preferred size. Useful especially when you want different command buttons 
@@ -4154,7 +4146,71 @@ MigLayout: |
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11AAC"></fo:inline>
+<fo:inline id="N11A9E"></fo:inline>
+<fo:block font-weight="bold">Width and Height</fo:block>
+<fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
+            Goes after the control name, e.g. "fieldName&gt;^". If none are presents it defaults to 
+            whatever is most logical for the current component type.
+            <fo:block space-before="12pt">
+<fo:table table-layout="fixed" width="100%" space-before="10pt" space-after="10pt" background-color="white" border-style="solid" border-width="1pt" border-color="black">
+<fo:table-column/>
+<fo:table-column/>
+<fo:table-body>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">&lt;</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Minimum width</fo:block>
+</fo:table-cell>
+</fo:table-row>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">|</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Preferred width</fo:block>
+</fo:table-cell>
+</fo:table-row>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">&gt;</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Maximum width</fo:block>
+</fo:table-cell>
+</fo:table-row>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">^</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Minimum height</fo:block>
+</fo:table-cell>
+</fo:table-row>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">-</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Preferred height</fo:block>
+</fo:table-cell>
+</fo:table-row>
+<fo:table-row>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="1">
+<fo:block font-size="9pt">/</fo:block>
+</fo:table-cell>
+<fo:table-cell border-style="solid" border-width="1pt" border-color="black" padding="2pt" background-color="#fafafa" start-indent="2pt" column-number="2">
+<fo:block font-size="9pt">Maximum height</fo:block>
+</fo:table-cell>
+</fo:table-row>
+</fo:table-body>
+</fo:table>
+</fo:block>
+</fo:block>
+</fo:block>
+<fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
+<fo:inline id="N11B04"></fo:inline>
 <fo:block font-weight="bold">String Literal Controls</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals (embedded in double quotes) instead of control names.
 		  Such entries will automatically be interpreted as labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the need
@@ -4193,7 +4249,7 @@ JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnC
         </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11AC9"></fo:inline>
+<fo:inline id="N11B21"></fo:inline>
 <fo:block font-weight="bold">Complex Example</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 				From John O'Conners Layout Manager Challenge: 
@@ -4244,7 +4300,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11B22"></fo:inline>
+<fo:inline id="N11B7A"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			If for whatever reason you do not want to use the MigLayout DSL, you can still use regular MigLayout
 			properties and syntax, e.g.:
@@ -4280,7 +4336,7 @@ JFrame(title=My Frame):
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11B5E"></fo:inline>
+<fo:inline id="N11BB6"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 			CardLayout support is provided by adding a CardLayout node at the end of the list of child components, e.g.
 			<fo:block space-before="1.2em" space-after="0.8em" white-space-treatment="preserve" white-space-collapse="false" linefeed-treatment="preserve" wrap-option="wrap" background-color="#f0f0f0" font-family="Courier" line-height="106%" font-size="8pt">
@@ -4307,7 +4363,7 @@ private CardLayout cards;
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11BA4"></fo:inline>
+<fo:inline id="N11BFC"></fo:inline>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 In order to use FlowLayout, just create a FlowLayout node at the end of the list of child components. 
 No need to specify which ones to add, they all get added automatically, e.g.:
@@ -4335,7 +4391,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11BDF"></fo:inline>
+<fo:inline id="N11C37"></fo:inline>
 <fo:block font-weight="bold">GlazedLists</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 	       GlazedLists is a best-of-breed open source library geared towards making databinding, sorting and filtering
@@ -4367,7 +4423,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11C52"></fo:inline>
+<fo:inline id="N11CAA"></fo:inline>
 <fo:block font-weight="bold">EventListModel</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 	       The <fo:inline font-family="Courier">JList</fo:inline>-specific model in GlazedLists is called <fo:inline font-family="Courier">EventListModel</fo:inline>.
@@ -4405,7 +4461,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11CC4"></fo:inline>
+<fo:inline id="N11D1C"></fo:inline>
 <fo:block font-weight="bold">EventComboBoxModel</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 	       The <fo:inline font-family="Courier">JComboBox</fo:inline>-specific model in GlazedLists is called <fo:inline font-family="Courier">EventComboBoxModel</fo:inline>.
@@ -4443,7 +4499,7 @@ JPanel:
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11D36"></fo:inline>
+<fo:inline id="N11D8E"></fo:inline>
 <fo:block font-weight="bold">EventTableModel</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 	       The <fo:inline font-family="Courier">JTable</fo:inline>-specific model in GlazedLists is called <fo:inline font-family="Courier">EventTableModel</fo:inline>.
@@ -4482,7 +4538,7 @@ JPanel:
 	       </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11D7C"></fo:inline>
+<fo:inline id="N11DD4"></fo:inline>
 <fo:block font-weight="bold">Controlling table columns</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 	       The sample code shown above displays by default all properties that can be found in the <fo:inline font-family="Courier">Person</fo:inline> POJO
@@ -4512,7 +4568,7 @@ JPanel:
 	       define the <fo:inline font-family="Courier">TableColumn</fo:inline>instance if you need to customize it further (e.g. add a cell renderer or editor).</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11DC2"></fo:inline>
+<fo:inline id="N11E1A"></fo:inline>
 <fo:block font-weight="bold">Localizing column headers</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
 	       When you define a list of columns in the <fo:inline font-family="Courier">columns=[]</fo:inline> parameter, the builder will attempt to automatically
@@ -4550,7 +4606,7 @@ JPanel:
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11DE9"></fo:inline>
+<fo:inline id="N11E41"></fo:inline>
 <fo:block font-weight="bold">Handling duplicate column names</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
            Within a single YAML file, all object names must be unique. So what happens if we have let's say two tables that
@@ -4575,7 +4631,7 @@ JPanel:
            </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11E23"></fo:inline>
+<fo:inline id="N11E7B"></fo:inline>
 <fo:block font-weight="bold">Sorting</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">
             In order to enable sorting, you have to add the <fo:inline font-family="Courier">sort</fo:inline> property, which has two allowed values:
@@ -4628,7 +4684,7 @@ EventTableModel(source=values,columns=[firstName,lastName,birthDate],
 </fo:block>
 <fo:block start-indent="4pt" font-size="10pt">
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11E99"></fo:inline>
+<fo:inline id="N11EF1"></fo:inline>
 <fo:block font-weight="bold">Overview</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">The core JavaBuilders engine is domain-agnostic, i.e. there is no logic in it
 			specific to any particular toolkit such as Swing or SWT. Each of domain-specific
@@ -4643,7 +4699,7 @@ EventTableModel(source=values,columns=[firstName,lastName,birthDate],
 			of a control.</fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11EC9"></fo:inline>
+<fo:inline id="N11F21"></fo:inline>
 <fo:block font-weight="bold">Registering new component types</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0em" space-after="0.6em">All you need to do is call the <fo:inline font-family="Courier">BuilderConfig.addType(Class clazz)</fo:inline>
 			method, presumably from your application's <fo:inline font-family="Courier">main()</fo:inline>:
@@ -4664,7 +4720,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11EFD"></fo:inline>
+<fo:inline id="N11F55"></fo:inline>
 <fo:block font-weight="bold">Customizing object creation : ITypeHandler</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to write your own custom creation code for a class instance (e.g. for a control that has
 		  a constructor that expects parameters during initialization), you need to implement an instance of
@@ -4674,7 +4730,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11F23"></fo:inline>
+<fo:inline id="N11F7B"></fo:inline>
 <fo:block font-weight="bold">Customizing initialization logic: ITypeHandlerAfterCreationProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">
 		  If your object does not need special constructor logic, but just some post-creation initialization, then
@@ -4684,7 +4740,7 @@ CustomClassAlias(property1=value1,property2=value2, etc...)
 		  </fo:block>
 </fo:block>
 <fo:block line-height="12pt" space-before="0.6em" font-size="10pt">
-<fo:inline id="N11F3D"></fo:inline>
+<fo:inline id="N11F95"></fo:inline>
 <fo:block font-weight="bold">Customizing post-processing of children nodes; ITypeHandlerFinishProcessor</fo:block>
 <fo:block font-size="10pt" text-indent="0em" space-before="0.6em" space-after="0.6em">If you need to inject some logic after a parent's child nodes have been all processed, you need to
 		  implement the <fo:inline font-family="Courier">ITypeHandlerFinishProcessor</fo:inline> interface and add it to the appropriate

@@ -8,10 +8,11 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>lib</outputDirectory>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 			<excludes>
 			     <exclude>org.javabuilders:javabuilder-swing</exclude>
 			     <exclude>org.javabuilders:javabuilder-core</exclude>
+			     <exclude>junit:junit</exclude>
 			</excludes>
 		</dependencySet>
         <dependencySet>

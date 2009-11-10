@@ -14,7 +14,7 @@
 	<description>Swing JavaBuilder</description>
 	<url>http://ww.javabuilders.org</url>
 	<build>
-		<finalName>javabuilder-swing-1.0-20091105</finalName>
+		<finalName>javabuilder-swing-1.0-20091110</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

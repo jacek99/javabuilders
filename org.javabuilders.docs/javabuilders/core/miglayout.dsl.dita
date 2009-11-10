@@ -71,29 +71,25 @@ MigLayout: |
 					<stentry>&lt;</stentry>
 					<stentry>horizontally left aligned (can be omitted, it is the default value)</stentry>
 				</strow>
-				<strow>
-					<stentry>&lt;</stentry>
-					<stentry>horizontally left aligned (can be omitted, it is the default value)</stentry>
-				</strow>
+                <strow>
+                    <stentry>|</stentry>
+                    <stentry>horizontally centered</stentry>
+                </strow>
 				<strow>
 					<stentry>&gt;</stentry>
 					<stentry>horizontally right aligned</stentry>
 				</strow>
-				<strow>
-					<stentry>|</stentry>
-					<stentry>horizontally centered</stentry>
-				</strow>
-				<strow>
-					<stentry>-</stentry>
-					<stentry>vertically centered</stentry>
-				</strow>
+                <strow>
+                    <stentry>^</stentry>
+                    <stentry>vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)</stentry>
+                </strow>
+                <strow>
+                    <stentry>-</stentry>
+                    <stentry>vertically centered</stentry>
+                </strow>
 				<strow>
 					<stentry>/</stentry>
 					<stentry>vertically bottom aligned</stentry>
-				</strow>
-				<strow>
-					<stentry>^</stentry>
-					<stentry>vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)</stentry>
 				</strow>
 			</simpletable>
 			</p>
@@ -130,6 +126,41 @@ MigLayout: |
 			<codeph>okButton=1x cancelButton=1x`</codeph>
 			</p>
 		</section>
+		
+		<section>
+            <title>Width and Height</title>
+            <p>
+            Goes after the control name, e.g. "fieldName>^". If none are presents it defaults to 
+            whatever is most logical for the current component type.
+            <simpletable>
+                <strow>
+                    <stentry>&lt;</stentry>
+                    <stentry>Minimum width</stentry>
+                </strow>
+                <strow>
+                    <stentry>|</stentry>
+                    <stentry>Preferred width</stentry>
+                </strow>
+                <strow>
+                    <stentry>&gt;</stentry>
+                    <stentry>Maximum width</stentry>
+                </strow>
+                <strow>
+                    <stentry>^</stentry>
+                    <stentry>Minimum height</stentry>
+                </strow>
+                <strow>
+                    <stentry>-</stentry>
+                    <stentry>Preferred height</stentry>
+                </strow>
+                <strow>
+                    <stentry>/</stentry>
+                    <stentry>Maximum height</stentry>
+                </strow>
+            </simpletable>
+            </p>
+        </section>
+		
 		
 		<section>
 		  <title>String Literal Controls</title>
