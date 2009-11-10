@@ -64,6 +64,7 @@ JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose, iconImag
          - ListBindingPanel(name=listPanel, tabTitle=List Databinding)
          - GlazedListsSamplePanel(name=glazedListsPanel, tabTitle=Glazed Lists)
          - JDesktopPanePanel(name=desktopPanePanel, tabTitle=JDesktopPane)
+         - AlignmentAndSizesPanel(name=alignmentSizesPanel, tabTitle=Alignment & Sizes)
     - MigLayout: |
         [grow]
         toolbar

@@ -78,7 +78,7 @@ public class MigLayoutCommonTest {
 	public void testMaxWidth() {
 		ControlConstraint c = new ControlConstraint("control1>");
 		MigLayoutCommon.handleResize(builder, c, DefaultResize.BOTH, null);
-		assertEquals("width max!, growy",builder.toString());
+		assertEquals("growx, growy",builder.toString());
 	}
 
 	@Test
@@ -113,14 +113,14 @@ public class MigLayoutCommonTest {
 	public void testMaxHeight() {
 		ControlConstraint c = new ControlConstraint("control1/");
 		MigLayoutCommon.handleResize(builder, c, DefaultResize.BOTH, null);
-		assertEquals("growx, height max!",builder.toString());
+		assertEquals("growx, growy",builder.toString());
 	}
 
 	@Test
 	public void testMinWidthAndMaxHeight() {
 		ControlConstraint c = new ControlConstraint("control1</");
 		MigLayoutCommon.handleResize(builder, c, DefaultResize.BOTH, null);
-		assertEquals("width min!, height max!",builder.toString());
+		assertEquals("width min!, growy",builder.toString());
 	}
 	
 	@Test
@@ -134,7 +134,7 @@ public class MigLayoutCommonTest {
 	public void testMaxWidthAndMaxHeight() {
 		ControlConstraint c = new ControlConstraint("control1>/");
 		MigLayoutCommon.handleResize(builder, c, DefaultResize.BOTH, null);
-		assertEquals("width max!, height max!",builder.toString());
+		assertEquals("growx, growy",builder.toString());
 	}
 
 }

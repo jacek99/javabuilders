@@ -43,6 +43,7 @@ public class SwingSamplesFrame extends JFrame {
 	private JTextArea eventsLog;
 	private GlazedListsSamplePanel glazedListsPanel;
 	private JDesktopPanePanel desktopPanePanel;
+	private AlignmentAndSizesPanel alignmentSizesPanel;
 	
 	//usually the last variable in the list of instance variables...
 	private BuildResult result;

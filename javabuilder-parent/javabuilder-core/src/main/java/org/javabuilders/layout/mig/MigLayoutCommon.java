@@ -3,7 +3,6 @@ package org.javabuilders.layout.mig;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.javabuilders.TypeDefinition;
 import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.layout.Size;
@@ -67,7 +66,7 @@ public class MigLayoutCommon {
 				builder.append("width pref!");
 				break;
 			case MAX:
-				builder.append("width max!");
+				builder.append("growx"); // width max! seemed buggy
 				break;
 			case DEFAULT:
 				if (defaultResize == DefaultResize.BOTH || defaultResize == DefaultResize.X_AXIS) {
@@ -90,7 +89,7 @@ public class MigLayoutCommon {
 				builder.append("height pref!");
 				break;
 			case MAX:
-				builder.append("height max!");
+				builder.append("growy"); //height max! seemed buggy
 				break;
 			case DEFAULT:
 				if (defaultResize == DefaultResize.BOTH || defaultResize == DefaultResize.Y_AXIS) {
