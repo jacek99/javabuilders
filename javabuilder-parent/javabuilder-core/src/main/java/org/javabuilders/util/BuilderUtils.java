@@ -842,6 +842,9 @@ public class BuilderUtils {
 					left++;
 				} else if (charAt == ')' && !inQuotes) {
 					right++;
+				} else if (charAt == '#' && !inQuotes) {
+					//'#' means start of comment, disregard everything afterwards
+					break;
 				}
 			}
 			if (left != right) {

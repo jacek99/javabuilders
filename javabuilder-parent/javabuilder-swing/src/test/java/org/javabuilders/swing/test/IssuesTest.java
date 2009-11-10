@@ -529,6 +529,15 @@ public class IssuesTest {
 		
 	}
 	
+	@Test
+	public void issue66_parenthesesInCommentsCounted() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- JLabel(name=label) #this is a comment)\"");
+			___("- JTextField(name=text)");
+			___("- JButton(name=button)");
+		}}.build(this);
+	}
+	
 	//internal test method
 	private void hello() {}
 
