@@ -269,7 +269,7 @@ public class Builder {
 			throw new BuildException(ex);
 		}
 		
-		return buildFromString(config, caller, bld.toString(), customProperties, resourceBundles);
+		return buildFromString(config, caller, bld.toString(), fileName, customProperties, resourceBundles);
 	}
 
 	/**
@@ -282,19 +282,35 @@ public class Builder {
 	 * @throws BuildException 
 	 */
 	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, ResourceBundle...resourceBundles)  {
-		return buildFromString(config,caller, yamlContent,null,resourceBundles);
+		return buildFromString(config,caller, yamlContent,null,null,resourceBundles);
 	}
+	
+	/**
+	 * Builds from YAML string
+	 * @param config
+	 * @param caller
+	 * @param yamlContent
+	 * @param customProperties
+	 * @param resourceBundles
+	 * @return
+	 */
+	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, Map<String,?> customProperties, 
+			ResourceBundle...resourceBundles)  {
+		return buildFromString(config, caller, yamlContent, null, customProperties, resourceBundles);
+	}
+	
 	/**
 	 * Builds assuming the root object has already been instantiated
 	 * (e.g. for loading from within the constructor of an object and creating
 	 * it dynamically at that time)
 	 * @param caller The caller
+	 * @param fileName File name (null means no actual file, just raw string content)
 	 * @return Build result
 	 * @throws IOException 
 	 * @throws BuildException 
 	 */
 	@SuppressWarnings("unchecked")
-	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, Map<String,?> customProperties, 
+	public static BuildResult buildFromString(BuilderConfig config,Object caller, String yamlContent, String fileName, Map<String,?> customProperties, 
 			ResourceBundle...resourceBundles)  {
 		
 		if (caller == null) {
@@ -309,7 +325,7 @@ public class Builder {
 			}
 		}
 		
-		BuilderUtils.validateYamlContent(yamlContent);
+		BuilderUtils.validateYamlContent(yamlContent, fileName);
 		Object document = YAML.load(yamlContent);
 		executeBuild(document, config, process);
 		return process.getBuildResult();

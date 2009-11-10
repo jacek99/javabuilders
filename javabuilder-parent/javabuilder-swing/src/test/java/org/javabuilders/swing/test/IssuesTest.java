@@ -41,6 +41,7 @@ import org.javabuilders.swing.test.issues.resources.Issue17_JMenuBarInJDialog;
 import org.javabuilders.swing.test.issues.resources.Issue20_DuplicateNames;
 import org.javabuilders.swing.test.issues.resources.Issue20_NoYaml;
 import org.javabuilders.swing.test.issues.resources.Issue23_Exception;
+import org.javabuilders.swing.test.issues.resources.Issue67;
 import org.javabuilders.swing.test.issues.resources.Issue7;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue2;
@@ -506,14 +507,26 @@ public class IssuesTest {
 		
 	}
 	
-	@Test @Ignore
+	@Test 
 	public void issue70_componentSizeInMigLayoutDsl() {
 		BuildResult r = new SwingYamlBuilder("JPanel:") {{
 			___("- JLabel(name=label)");
 			___("- JTextField(name=text)");
 			___("- JButton(name=button)");
-			___("- MigLayout: label< field> button|");
+			___("- MigLayout: label< text> button|");
 		}}.build(this);
+	}
+	
+	@Test(expected=BuildException.class)
+	public void issue67_fileNameInErrors() {
+		
+		try {
+			Issue67 panel = new Issue67();
+		} catch (BuildException ex) {
+			assertTrue(ex.getMessage().startsWith("Errors found in file: Issue67.yaml"));
+			throw ex;
+		}
+		
 	}
 	
 	//internal test method

@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.Closure;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -45,8 +44,6 @@ import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
-
-import com.google.common.base.Function;
 
 /**
  * Various common utilities
@@ -818,7 +815,7 @@ public class BuilderUtils {
 	 * 
 	 * @param yaml
 	 */
-	public static void validateYamlContent(String yaml) {
+	public static void validateYamlContent(String yaml, String fileName) {
 		StringBuilder errors = new StringBuilder();
 		String[] lines = yaml.split("\n");
 		for(int i = 0; i < lines.length;i++) {
@@ -848,14 +845,17 @@ public class BuilderUtils {
 				}
 			}
 			if (left != right) {
-				errors.append(MessageFormat.format("Unamtched number of left and right parentheseson in line {0}: {1}\n", (i+1), line));
+				errors.append(MessageFormat.format("Unmatched number of left and right parentheses in line {0}: {1}\n", (i+1), line));
 			}
 			if (startingQuotes != endingQuotes) {
-				errors.append(MessageFormat.format("Unamtched number of opening and closing quotes in line {0}: {1}\n", (i+1), line));
+				errors.append(MessageFormat.format("Unmatched number of opening and closing quotes in line {0}: {1}\n", (i+1), line));
 			}
 		}
 		
 		if (errors.length() > 0) {
+			if (fileName != null) {
+				errors.insert(0, MessageFormat.format("Errors found in file: {0}\n", fileName));
+			}
 			throw new InvalidFormatException(errors.toString());
 		}
 	}
