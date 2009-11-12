@@ -13,6 +13,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.javabuilders.BuildResult;
+import org.javabuilders.swing.test.issues.resources.BindingPanel;
 import org.javabuilders.swing.test.issues.resources.Book;
 import org.javabuilders.swing.test.resources.Author;
 import org.javabuilders.swing.test.resources.AuthorsPanel;
@@ -210,6 +211,42 @@ public class DataBindingTest {
 			bind();
 			___("- list.model: this.books(author,title,price)");
 		}}.build(panel);
+		
+	}
+	
+	@Test
+	public void testPOJOBinding() throws InterruptedException {
+		BindingPanel p = new BindingPanel();
+		
+		//test from UI to POJO
+		p.author.setText("Charles Darwin");
+		assertEquals("Charles Darwin", p.getBook().getAuthor());
+		p.title.setText("The Origin of Species");
+		assertEquals("The Origin of Species", p.getBook().getTitle());
+		p.price.setText("12.99");
+		assertEquals(12.99, p.getBook().getPrice(),0);
+		
+		//test from POJO to UI - need to sleep after each setter to give events time to fire
+		//asynchronously
+		p.getBook().setAuthor("Carl Sagan");
+		Thread.sleep(100);
+		assertEquals("Carl Sagan", p.author.getText());
+		p.getBook().setTitle("Cosmos");
+		Thread.sleep(100);
+		assertEquals("Cosmos", p.title.getText());
+		p.getBook().setPrice(5.99);
+		Thread.sleep(100);
+		assertEquals("5.99", p.price.getText());
+		
+		//change whole book in one shot
+		Book book = new Book("Stanislaw Lem","Przygody pilota Pirxa",9.99);
+		p.setBook(book);
+		Thread.sleep(100);
+		assertEquals("Stanislaw Lem", p.author.getText());
+		assertEquals("Przygody pilota Pirxa", p.title.getText());
+		assertEquals("9.99", p.price.getText());
+		
+		
 		
 	}
 	

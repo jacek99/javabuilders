@@ -11,7 +11,9 @@
 	<modules>
 		<module>javabuilder-core</module>
 		<module>javabuilder-swing</module>
+		<!-- Disable for now
 		<module>javabuilder-swt</module>
+		 -->
 	</modules>
 
 	<url>http://www.javabuilders.org</url>

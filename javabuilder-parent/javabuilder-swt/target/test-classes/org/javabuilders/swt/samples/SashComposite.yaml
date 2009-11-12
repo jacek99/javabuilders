@@ -1,0 +1,4 @@
+SashForm(style=horizontal):
+    - Button(style=border)
+    - Composite(style=border)
+    - Label(text=text)    
