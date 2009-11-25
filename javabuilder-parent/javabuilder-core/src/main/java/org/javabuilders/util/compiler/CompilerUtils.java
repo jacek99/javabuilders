@@ -1,7 +1,6 @@
 package org.javabuilders.util.compiler;
 
-import static com.google.common.collect.Lists.*;
-
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +29,7 @@ public class CompilerUtils {
 	 * @throws ClassNotFoundException
 	 */
 	public static Class<?> compile(String fullName, String src) throws ClassNotFoundException {
-		List<JavaFileObject> jfiles = newArrayList();
+		List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
 		jfiles.add(new CharSequenceJavaFileObject(fullName, src));
 
 		// We specify a task to the compiler. Compiler should use our file

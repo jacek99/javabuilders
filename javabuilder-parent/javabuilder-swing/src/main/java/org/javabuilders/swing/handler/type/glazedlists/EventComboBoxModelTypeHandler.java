@@ -1,6 +1,6 @@
 package org.javabuilders.swing.handler.type.glazedlists;
 
-import static com.google.common.base.Preconditions.*;
+import static org.javabuilders.util.Preconditions.*;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -36,10 +36,10 @@ public class EventComboBoxModelTypeHandler extends AbstractTypeHandler {
 			final Map<String, Object> typeDefinition) throws BuildException {
 
 		String source = (String) typeDefinition.get(SOURCE);
-		checkNotNull(source,"EventComboBoxModel.source property must be specified: %s",typeDefinition);
+		checkNotNull(source,"EventComboBoxModel.source property must be specified: {0}",typeDefinition);
 
 		Field field = BuilderUtils.getField(process.getCaller(),source, EventList.class);
-		checkNotNull(field, "EventComboBoxModel.source property does not point to a valid instance of GlazedLists EventList: %s",typeDefinition);
+		checkNotNull(field, "EventComboBoxModel.source property does not point to a valid instance of GlazedLists EventList: {0}",typeDefinition);
 
 		try {
 			EventList list = GlazedListsUtils.getSource(process.getCaller(), typeDefinition).get0();

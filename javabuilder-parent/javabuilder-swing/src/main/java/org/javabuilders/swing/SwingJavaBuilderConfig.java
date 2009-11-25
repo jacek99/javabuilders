@@ -133,6 +133,8 @@ import org.javabuilders.swing.handler.type.ButtonGroupTypeHandler;
 import org.javabuilders.swing.handler.type.ColorAsValueHandler;
 import org.javabuilders.swing.handler.type.ContainerTypeHandler;
 import org.javabuilders.swing.handler.type.DimensionAsValueHandler;
+import org.javabuilders.swing.handler.type.Focus;
+import org.javabuilders.swing.handler.type.FocusFinishProcessor;
 import org.javabuilders.swing.handler.type.JComboBoxFinishProcessor;
 import org.javabuilders.swing.handler.type.JDialogTypeHandler;
 import org.javabuilders.swing.handler.type.JFormattedTextFieldTypeHandler;
@@ -255,6 +257,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		//define aliases for Swing layout managers
 		addType(MigLayout.class,CardLayout.class,FlowLayout.class);
 		addType("Action",SwingAction.class);
+		addType(Focus.class);
 		
 		//define metadata about types
 		forType(AbstractButton.class)
@@ -437,6 +440,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.typeHandler(SwingActionHandler.getInstance())
 			.propertyHandler(CommonActionListenerHandler.getInstance(),SwingActionTextHandler.getInstance())
 			.childrenOverride(true).children(0);
+		forType(Focus.class)
+			.finishProcessor(new FocusFinishProcessor());
 		
 		setStringLiteralControlSuffix("Label"); 
 		

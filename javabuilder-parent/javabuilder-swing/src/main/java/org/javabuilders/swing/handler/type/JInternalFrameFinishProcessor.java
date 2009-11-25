@@ -2,7 +2,6 @@ package org.javabuilders.swing.handler.type;
 
 import java.util.Map;
 
-import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
 import org.javabuilders.BuildException;

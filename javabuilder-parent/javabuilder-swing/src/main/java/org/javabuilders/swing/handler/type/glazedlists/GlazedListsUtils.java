@@ -1,6 +1,6 @@
 package org.javabuilders.swing.handler.type.glazedlists;
 
-import static com.google.common.base.Preconditions.*;
+import static org.javabuilders.util.Preconditions.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,14 +12,13 @@ import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.PropertyUtils;
+import org.javabuilders.util.Tuple2;
 import org.javabuilders.util.compiler.ClassStringBuilder;
 import org.javabuilders.util.compiler.CompilerUtils;
 
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.TransformedList;
 import ca.odell.glazedlists.UniqueList;
-
-import com.healthmarketscience.common.util.Tuple2;
 
 /**
  * Reusable class to take care of transforming the base collection into whatever
@@ -64,7 +63,7 @@ public class GlazedListsUtils {
 			}
 			
 			Field field = BuilderUtils.getField(caller, listName, EventList.class);
-			checkNotNull(field, "EventTableModel.source property does not point to a valid instance of GlazedLists EventList: %s",typeDefinition);
+			checkNotNull(field, "EventTableModel.source property does not point to a valid instance of GlazedLists EventList: {0}",typeDefinition);
 			Class<?> type = BuilderUtils.getGenericsTypeFromCollectionField(field);
 			checkNotNull(type,"Unable to use generics to find type of object stored in source: {0}", listName);
 			

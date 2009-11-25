@@ -55,6 +55,7 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
+			Thread.sleep(200);
 			panel.getValues().remove("2");
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -63,6 +64,7 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
+			Thread.sleep(200);
 			panel.getValues().remove("1");
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -94,6 +96,7 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
+			Thread.sleep(200);
 			panel.getValues().remove("2");
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -102,6 +105,7 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
+			Thread.sleep(200);
 			panel.getValues().remove("1");
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -146,6 +150,7 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
+			Thread.sleep(200);
 			panel.removeBook(book);
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -156,6 +161,7 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
+			Thread.sleep(200);
 			panel.removeBook(0);
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -197,6 +203,7 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
+			Thread.sleep(200);
 			panel.removeBook(book);
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
@@ -206,6 +213,7 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
+			Thread.sleep(200);
 			panel.removeBook(0);
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}

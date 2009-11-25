@@ -3,7 +3,7 @@
  */
 package org.javabuilders.swing.handler.type.glazedlists;
 
-import static com.google.common.base.Preconditions.*;
+import static org.javabuilders.util.Preconditions.*;
 import static org.javabuilders.swing.handler.type.TableColumnTypeHandler.*;
 
 import java.lang.reflect.Field;
@@ -85,13 +85,13 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 			final Map<String, Object> typeDefinition) throws BuildException {
 
 		String source = (String) typeDefinition.get(SOURCE);
-		checkNotNull(source, "EventTableModel.source property must be specified: %s", typeDefinition);
+		checkNotNull(source, "EventTableModel.source property must be specified: {0}", typeDefinition);
 
 		List<Map<String, Object>> cols = parent.getParent().getContentData(TableColumn.class);
 		JTable table = (JTable) parent.getParentObject(JTable.class);
 
 		Field field = BuilderUtils.getField(process.getCaller(), source, EventList.class);
-		checkNotNull(field,"EventTableModel.source property does not point to a valid instance of GlazedLists EventList: %s", typeDefinition);
+		checkNotNull(field,"EventTableModel.source property does not point to a valid instance of GlazedLists EventList: {0}", typeDefinition);
 		
 		try {
 			EventList list = GlazedListsUtils.getSource(process.getCaller(), typeDefinition).get0();

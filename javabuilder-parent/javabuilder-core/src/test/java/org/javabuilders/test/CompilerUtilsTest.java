@@ -1,14 +1,13 @@
 package org.javabuilders.test;
 
-import static com.google.common.collect.Lists.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JButton;
 
-import org.apache.commons.lang.StringUtils;
 import org.javabuilders.util.compiler.CompilerUtils;
 import org.junit.Test;
 
@@ -22,7 +21,7 @@ public class CompilerUtilsTest {
 	@Test
 	public void testUniqueClassNameGenerator() {
 		
-		List<String> names = newArrayList();
+		List<String> names = new ArrayList<String>();
 		
 		for(int i = 0; i < 1000;i++) {
 			String name = CompilerUtils.generateClassName(Comparator.class);
