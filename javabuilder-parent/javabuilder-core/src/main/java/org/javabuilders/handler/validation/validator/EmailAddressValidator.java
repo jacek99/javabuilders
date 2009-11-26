@@ -3,7 +3,9 @@
  */
 package org.javabuilders.handler.validation.validator;
 
-import org.apache.commons.validator.EmailValidator;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildResult;
 import org.javabuilders.NamedObjectProperty;
 import org.javabuilders.handler.validation.ValidationMessage;
@@ -16,6 +18,8 @@ import org.javabuilders.handler.validation.ValidationMessageList;
  */
 public class EmailAddressValidator extends AbstractValidator {
 
+	private static String REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+	
 	/**
 	 * @param property
 	 * @param label
@@ -32,13 +36,12 @@ public class EmailAddressValidator extends AbstractValidator {
 	 */
 	public void validate(Object value, ValidationMessageList list) {
 		String sValue = getStringValue(value);
-		EmailValidator validator = EmailValidator.getInstance();
-		
-		if (!validator.isValid(sValue)) {
-			list.add(new ValidationMessage(getProperty(),
-					getMessage(getLabel())));
+		if (StringUtils.isNotEmpty(sValue)) {
+			if (!Pattern.matches(REGEX, sValue)) {
+				list.add(new ValidationMessage(getProperty(),
+						getMessage(getLabel())));
+			}
 		}
-		
 	}
 
 }

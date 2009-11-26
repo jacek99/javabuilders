@@ -4,8 +4,6 @@
 package org.javabuilders.handler.validation.validator;
 
 
-import org.apache.commons.validator.routines.DoubleValidator;
-import org.apache.commons.validator.routines.LongValidator;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.NamedObjectProperty;
@@ -60,43 +58,27 @@ public class MinValueValidator  extends AbstractValidator {
 		String sValue = String.valueOf(value);
 		
 		if (minValueDouble != null) {
-			
-			if (DoubleValidator.getInstance().isValid(String.valueOf(value))) {
-				
-				double dValue = Double.parseDouble(sValue);
-				
-				if (!DoubleValidator.getInstance().isInRange(dValue, minValueDouble.doubleValue(), Double.MAX_VALUE)) {
+			try {
+				Double dbl = Double.parseDouble(sValue);
+				if (dbl < minValueDouble) {
 					list.add(new ValidationMessage(getProperty(),
 							getMessage(getLabel(),minValue)));
 				}
-				
-			} else {
-				//not a valid double
+			} catch (NumberFormatException ex) {
 				list.add(new ValidationMessage(getProperty(),
 						getMessageForFormat(BuilderValidators.getDefaultNumericMessage(),getLabel())));
 			}
-			
-			
 		} else if (minValueLong != null) {
-
-			if (LongValidator.getInstance().isValid(String.valueOf(value))) {
-				
-				long lValue = Long.parseLong(sValue);
-				
-				if (!LongValidator.getInstance().isInRange(lValue, minValueLong.longValue(), Long.MAX_VALUE)) {
+			try {
+				Long lng = Long.parseLong(sValue);
+				if (lng < minValueLong) {
 					list.add(new ValidationMessage(getProperty(),
 							getMessage(getLabel(),minValue)));
 				}
-				
-			} else {
-				//not a valid long
+			} catch (NumberFormatException ex) {
 				list.add(new ValidationMessage(getProperty(),
 						getMessageForFormat(BuilderValidators.getDefaultNumericMessage(),getLabel())));
 			}
-
-			
 		}
-		
 	}
-
 }
