@@ -1,0 +1,17 @@
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+  - JLabel(name=fNameLbl, text="firstName")
+  - JLabel(name=lNameLbl, text="lastName")
+  - JLabel(name=emailLbl, text="email")
+  - JLabel(name=foo, text="foo")
+  - JTextField(name=fName)
+  - JTextField(name=lName)
+  - JTextField(name=email)
+  - JSeparator(name=sep)
+  - JButton(name=save, text="save")
+  - JButton(name=cancel, text="Cancel")
+  - MigLayout: |
+      [pref]   [100, grow] [pref]   [100, grow]
+      fNameLbl fName       lNameLbl lName
+      foo+*,-sep
+      emailLbl email+*
+      >save+*=1,cancel=1

@@ -367,7 +367,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.defaultResize(DefaultResize.X_AXIS)
 			.childrenOverride(true).children(0);
 		forType(JSeparator.class)
-			.defaultResize(DefaultResize.BOTH)
+			.defaultResize(DefaultResize.X_AXIS)
 			.childrenOverride(true).children(0);
 		forType(JScrollPane.class)
 			.defaultResize(DefaultResize.BOTH)	

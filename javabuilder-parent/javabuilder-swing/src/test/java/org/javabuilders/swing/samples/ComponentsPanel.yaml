@@ -44,6 +44,7 @@ JPanel:
                 cbx2           rb2
                 cbx3           rb3
                 cbx4           rb4
+                {s1: growy, s2: growy, s3: growy}
         - JPanel:
              - JLabel(name=sourceLabel,text="YAML source:")
              - JScrollPane(name=scroll): JTextArea(name=source,editable=false,font=Monospaced)

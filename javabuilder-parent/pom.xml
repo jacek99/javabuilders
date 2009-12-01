@@ -115,12 +115,27 @@
 	</build>
 
 	<distributionManagement>
+	   <!-- 
+		<repository>
+			<id>jacek99-releases</id>
+			<name>Nexus Staging Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>jacek99-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url>
+		</snapshotRepository>
+ -->
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
 			<id>googlecode</id>
 			<url>svn:https://javabuilders.googlecode.com/svn/repo</url>
 		</repository>
+
 	</distributionManagement>
+
+
 
 	<dependencies>
 		<dependency>

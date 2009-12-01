@@ -9,12 +9,12 @@
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swing</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-dev-20091201</version>
 	<name>Swing JavaBuilder</name>
 	<description>Swing JavaBuilder</description>
-	<url>http://ww.javabuilders.org</url>
+	<url>http://www.javabuilders.org</url>
 	<build>
-		<finalName>javabuilder-swing-1.0-20091110</finalName>
+		<finalName>javabuilder-swing-1.0-20091126</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -49,11 +49,6 @@
 		<dependency>
 			<groupId>it.tidalwave.betterbeansbinding</groupId>
 			<artifactId>betterbeansbinding-swingbinding</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>it.tidalwave.betterbeansbinding</groupId>
-			<artifactId>betterbeansbinding-core</artifactId>
 			<version>1.3.0</version>
 		</dependency>
 		<dependency>

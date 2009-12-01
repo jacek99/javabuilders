@@ -43,6 +43,7 @@ import org.javabuilders.swing.test.issues.resources.Issue20_NoYaml;
 import org.javabuilders.swing.test.issues.resources.Issue23_Exception;
 import org.javabuilders.swing.test.issues.resources.Issue67;
 import org.javabuilders.swing.test.issues.resources.Issue7;
+import org.javabuilders.swing.test.issues.resources.Issue77;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue;
 import org.javabuilders.swing.test.issues.resources.IssueNullValue2;
 import org.javabuilders.swing.test.issues.resources.issue57.BeanTableModel;
@@ -536,6 +537,12 @@ public class IssuesTest {
 			___("- JTextField(name=text)");
 			___("- JButton(name=button)");
 		}}.build(this);
+	}
+	
+	@Test
+	public void issue77_JSeparatorFailsToVerticalAlign() {
+		Issue77 p = new Issue77();
+		assertEquals("cell 0 1, growx, aligny center",p.getSepConstraints());
 	}
 	
 	//internal test method
