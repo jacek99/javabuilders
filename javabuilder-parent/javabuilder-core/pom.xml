@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-core</artifactId>
-	<version>1.0-dev-20091201</version>
+	<version>1.0-dev-20100105</version>
 	<name>Core JavaBuilder</name>
 	<dependencies>
 		<dependency>
@@ -21,6 +21,11 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.5.10</version>
 		</dependency>
 	</dependencies>
 </project>

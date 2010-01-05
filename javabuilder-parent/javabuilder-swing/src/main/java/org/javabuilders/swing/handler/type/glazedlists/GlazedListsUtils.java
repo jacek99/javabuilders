@@ -3,7 +3,6 @@ package org.javabuilders.swing.handler.type.glazedlists;
 import static org.javabuilders.util.Preconditions.*;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -96,35 +95,25 @@ public class GlazedListsUtils {
 	 * @param destination
 	 * @param getterName
 	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings("unchecked")
 	public static <S,D> TransformedList<S,D> transformList(List<S> sourceList, Class<S> source, Class<D> destination,
-			String getterName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+			String getterName) throws Exception {
 
 		String name = CompilerUtils.generateClassName(ReadOnlyTransformedList.class);
 		ClassStringBuilder bld = new ClassStringBuilder();
 		
 		//constructor
-		bld._("public class %s extends %s<%s,%s> {", name, ReadOnlyTransformedList.class.getName(), source.getName(),destination.getName())
-			.___("public %s(%s<%s> source) {",name, EventList.class.getName(), source.getName())
-			._____("super(source);")
-			.___("}");
+		bld._("public %s(%s source) {",name, EventList.class.getName())
+			.___("super(source);")
+			._("}\n");
 		
+		bld._("public Object get(int index) {")
+			.___("return ((%s)source.get(index)).%s();", source.getName(),getterName)
+			._("}");
 		
-		bld.___("public %s get(int index) {",destination.getName())
-			._____("return source.get(index).%s();", getterName)
-			.___("}");
-		
-		bld._("}");
-		
-		Class<?> clazz = CompilerUtils.compile(name, bld.toString());
+		Class<?> clazz = CompilerUtils.compile(name, bld.toString(), ReadOnlyTransformedList.class);
 		ReadOnlyTransformedList list = (ReadOnlyTransformedList) clazz.getConstructor(EventList.class).newInstance(sourceList);
 		return list;
 	}

@@ -148,7 +148,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		//create the getColumnValue method body
 		String className = CompilerUtils.generateClassName(formatClass);
 		
-		bld.append(CompilerUtils.generateClassSignature(className, formatClass));
+		//bld.append(CompilerUtils.generateClassSignature(className, formatClass));
 		bld.append("public Object getColumnValue(Object instance, int index) {\n");
 		bld.append(type.getName()).append(" object = (").append(type.getName()).append(")instance;\n");
 		bld.append("   switch(index) {\n");
@@ -157,7 +157,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		}
 		bld.append("   default: return null;"); //should never be reached
 		bld.append("   }\n");
-		bld.append("}\n}");
+		bld.append("}");
 
 		if (formatClass.equals(BaseWritableTableFormat.class)) {
 			//writable format - need to define setColumnValue method as well
@@ -182,7 +182,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		}
 		
 		try {
-			BaseTableFormat f = (BaseTableFormat) CompilerUtils.compileAndInstantiate(className, bld.toString());
+			BaseTableFormat f = (BaseTableFormat) CompilerUtils.compile(className, bld.toString(),BaseTableFormat.class).newInstance();
 			f.setColumns(columnNames);
 			if (f instanceof BaseWritableTableFormat) {
 				BaseWritableTableFormat wf = (BaseWritableTableFormat) f;
@@ -327,9 +327,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		
 		String fullName = CompilerUtils.generateClassName(TextFilterator.class);
 		
-		bld.append("public class ").append(fullName).append(" implements ")
-			.append(TextFilterator.class.getName()).append("<").append(fullTypeName).append("> {");
-		bld.append("public void getFilterStrings(java.util.List<String> baseList, " + fullTypeName + " target) {\n");
+		bld.append("public void getFilterStrings(java.util.List baseList, Object target) {\n");
 		bld.append("    ").append(fullTypeName).append(" row = (").append(fullTypeName).append(")target;\n");
 		for(String column : columns) {
 			if (types.get(column).equals(String.class)) {
@@ -339,10 +337,10 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 				bld.append("    baseList.add(String.valueOf(row.").append(getters.get(column)).append("());\n");
 			}
 		}
-		bld.append("}\n}");
+		bld.append("}");
 		
 		try {
-			TextFilterator f = (TextFilterator) CompilerUtils.compileAndInstantiate(fullName, bld.toString());
+			TextFilterator f = (TextFilterator) CompilerUtils.compile(fullName, bld.toString(),Object.class,TextFilterator.class).newInstance();
 			return f;
 		} catch (Exception e) {
 			throw new BuildException("Failed to compile TextFilterator for GlazedLists filtering: {0}\n{1}",e.getMessage(),bld.toString());

@@ -31,15 +31,6 @@ public class CompilerUtilsTest {
 	}
 	
 	@Test
-	public void testClassSignatureGenerator() {
-		String name = CompilerUtils.generateClassSignature("Test1",JButton.class);
-		assertTrue(name.indexOf(" extends " + JButton.class.getName()) > 0);
-		
-		name = CompilerUtils.generateClassSignature("Test2", Comparator.class);
-		assertTrue(name.indexOf(" implements " + Comparator.class.getName()) > 0);
-	}
-	
-	@Test
 	public void testPropertiesComparator() {
 		Comparator<JButton> c = (Comparator<JButton>) CompilerUtils.newComparator(JButton.class, "text","toolTipText");
 		JButton b1 = new JButton("Text1");

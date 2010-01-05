@@ -818,6 +818,7 @@ public class BuilderUtils {
 	public static void validateYamlContent(String yaml, String fileName) {
 		StringBuilder errors = new StringBuilder();
 		String[] lines = yaml.split("\n");
+		String previousLine = null;
 		for(int i = 0; i < lines.length;i++) {
 			String line = lines[i];
 			//check for tabs
@@ -853,6 +854,28 @@ public class BuilderUtils {
 			if (startingQuotes != endingQuotes) {
 				errors.append(MessageFormat.format("Unmatched number of opening and closing quotes in line {0}: {1}\n", (i+1), line));
 			}
+			//check if collection started without a ":" on the parent
+			if (previousLine != null) {
+				String trimmed = line.trim();
+				if (trimmed.startsWith("-")) {
+					pos = line.indexOf("-");
+					int prevPos = previousLine.indexOf("-");
+					if (pos != prevPos) {
+						//previous line is a parent and not another element in the same collection
+						//it has to end with ":" then
+						String noCommentsLine = getYamlLineWithoutTrailingComments(previousLine);
+						int lineIndent = getFirstNoSpacePosition(line);
+						int previousLineIndent = getFirstNoSpacePosition(previousLine);
+						
+						if(!noCommentsLine.trim().endsWith(":") && lineIndent > previousLineIndent) {
+							throw new BuildException("\":\" is missing after \"{0}\", as list is started on next line",noCommentsLine);
+						}
+					}
+				}
+			}
+			
+			//remember for the next line to validate against
+			previousLine = line;
 		}
 		
 		if (errors.length() > 0) {
@@ -860,6 +883,33 @@ public class BuilderUtils {
 				errors.insert(0, MessageFormat.format("Errors found in file: {0}\n", fileName));
 			}
 			throw new InvalidFormatException(errors.toString());
+		}
+	}
+	
+	private static int getFirstNoSpacePosition(String line) {
+		for(int i = 0; i < line.length();i++) {
+			if (line.charAt(i) != ' ') {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private static String getYamlLineWithoutTrailingComments(String line) {
+		if (line.indexOf("#") < 0) {
+			return line;
+		} else {
+			boolean inQuotes = false;
+			for(int i = 0; i < line.length();i++) {
+				char c = line.charAt(i);
+				if (c == '"') {
+					inQuotes = !inQuotes;
+				} else if (c == '#' && !inQuotes) {
+					//comment begins
+					return line.substring(0,i);
+				}
+			}
+			return line;
 		}
 	}
 

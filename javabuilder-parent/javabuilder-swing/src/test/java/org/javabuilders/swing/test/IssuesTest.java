@@ -545,6 +545,19 @@ public class IssuesTest {
 		assertEquals("cell 0 1, growx, aligny center",p.getSepConstraints());
 	}
 	
+	@Test(expected=BuildException.class)
+	public void issue80_betterErrorOnMissingColon() {
+		try {
+			BuildResult r = new SwingYamlBuilder("JPanel(name=toto)") {{
+				___("- JLabel(name=label)");
+			}}.build(this);
+			
+		} catch (BuildException ex) {
+			assertEquals("\":\" is missing after \"JPanel(name=toto)\", as list is started on next line", ex.getMessage());
+			throw ex;
+		}
+	}
+	
 	//internal test method
 	private void hello() {}
 

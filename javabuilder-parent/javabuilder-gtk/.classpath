@@ -2,23 +2,12 @@
   <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
   <classpathentry kind="src" path="src/main/java"/>
   <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.4/commons-lang-2.4.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.4/commons-lang-2.4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/jacek/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/gnome/java-gnome-linux-x86/4.0.13/java-gnome-linux-x86-4.0.13.jar" sourcepath="M2_REPO/org/gnome/java-gnome-linux-x86/4.0.13/java-gnome-linux-x86-4.0.13-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/jacek/.m2/repository/org/gnome/java-gnome-linux-x86/4.0.13/java-gnome-linux-x86-4.0.13-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.4/commons-lang-2.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/janino/janino/2.5.10/janino-2.5.10.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/gnome/java-gnome-linux-x86/4.0.13/java-gnome-linux-x86-4.0.13.jar"/>
   <classpathentry kind="src" path="/javabuilder-core"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.7/junit-4.7.jar" sourcepath="M2_REPO/junit/junit/4.7/junit-4.7-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/java/dev/jvyaml/0.2.1/jvyaml-0.2.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/wapmx/native/mx-native-loader/1.7/mx-native-loader-1.7.jar">
-    <attributes>
-      <attribute value="jar:file:/home/jacek/.m2/repository/com/wapmx/native/mx-native-loader/1.7/mx-native-loader-1.7-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/com/wapmx/native/mx-native-loader/1.7/mx-native-loader-1.7.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 </classpath>
