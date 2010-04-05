@@ -12,8 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeAsValueHandler;
@@ -22,6 +20,8 @@ import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.util.BuilderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Defines the metadata for a specific type
@@ -31,7 +31,7 @@ import org.javabuilders.util.BuilderUtils;
 public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 
 	public static final Integer DEFAULT_DELAY_WEIGHT = 1000;
-	public final static Logger logger = Logger.getLogger(TypeDefinition.class.getSimpleName());
+	public final static Logger logger = LoggerFactory.getLogger(TypeDefinition.class);
 	
 	/*
 	 * STATIC HELPER METHODS
@@ -344,8 +344,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 			if (def == null || def.getTypeAsValueHandler() == null) {
 				//create a default "type as value" handler for any enum that is encountered during the build process
 				config.forType(classType).valueHandler(createEnumTypeAsValueHandler(classType));
-				if (logger.isLoggable(Level.INFO)) {
-					logger.log(Level.INFO,"Created ITypeAsValueHandler instance for " + classType.getName());
+				if (logger.isInfoEnabled()) {
+					logger.info("Created ITypeAsValueHandler instance for %s", classType.getName());
 				}
 			}
 		}

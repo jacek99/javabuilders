@@ -4,8 +4,6 @@
 package org.javabuilders.swing.handler.property;
 
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractButton;
 
@@ -14,6 +12,8 @@ import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractPropertyHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handler for the "actionCommand" property. Automatically wires the called to receive the action command
@@ -24,7 +24,7 @@ public class AbstractButtonActionCommandHandler extends AbstractPropertyHandler 
 
 	public final static String ACTION_COMMAND = "actionCommand";
 	
-	private final static Logger logger = Logger.getLogger(AbstractButtonActionCommandHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(AbstractButtonActionCommandHandler.class);
 	private final static AbstractButtonActionCommandHandler singleton = new AbstractButtonActionCommandHandler();
 	
 	/**
@@ -53,9 +53,9 @@ public class AbstractButtonActionCommandHandler extends AbstractPropertyHandler 
 		//automatically wire the calling object to receive the action command
 		if (result.getCaller() != null && result.getCaller() instanceof ActionListener) {
 			button.addActionListener((ActionListener)result.getCaller());
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine(String.format("Added calling ActionListener for actionCommand '%s' on button '%s'", 
-						actionCommand,button.getName()));
+			if (logger.isDebugEnabled()) {
+				logger.debug("Added calling ActionListener for actionCommand '%s' on button '%s'", 
+						actionCommand,button.getName());
 			}
 		}
 	}

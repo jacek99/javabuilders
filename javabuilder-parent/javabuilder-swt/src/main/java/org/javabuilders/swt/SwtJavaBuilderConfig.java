@@ -5,7 +5,6 @@ package org.javabuilders.swt;
 
 import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Method;
-import java.util.logging.Logger;
 
 import net.miginfocom.swt.MigLayout;
 
@@ -91,6 +90,8 @@ import org.javabuilders.swt.handler.type.WidgetTypeHandler;
 import org.javabuilders.swt.handler.type.layout.FillLayoutHandler;
 import org.javabuilders.swt.handler.type.layout.MigSWTLayoutHandler;
 import org.javabuilders.swt.handler.type.layout.StackLayoutHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SWT builder config
@@ -98,7 +99,7 @@ import org.javabuilders.swt.handler.type.layout.StackLayoutHandler;
  */
 public class SwtJavaBuilderConfig extends BuilderConfig {
 
-	private static final Logger LOGGER = Logger.getLogger(SwtJavaBuilderConfig.class.getSimpleName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(SwtJavaBuilderConfig.class);
 	
 	/**
 	 * Constructor 
@@ -221,7 +222,7 @@ public class SwtJavaBuilderConfig extends BuilderConfig {
 			method = Shell.class.getMethod("setMenuBar", Menu.class);
 			forType(Shell.class).typeAsMethod(Menu.class, method);
 		} catch (Exception e) {
-			LOGGER.severe(e.getMessage());
+			LOGGER.error(e.getMessage(),e);
 		} 
         
 	}

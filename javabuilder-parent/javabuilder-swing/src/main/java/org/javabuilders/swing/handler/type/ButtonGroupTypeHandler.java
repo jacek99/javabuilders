@@ -5,7 +5,6 @@ package org.javabuilders.swing.handler.type;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -16,6 +15,8 @@ import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles creation button groups
@@ -24,7 +25,7 @@ import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 public class ButtonGroupTypeHandler implements ITypeHandlerFinishProcessor {
 
 	private final static ButtonGroupTypeHandler singleton = new ButtonGroupTypeHandler();
-	private final static Logger logger = Logger.getLogger(ButtonGroupTypeHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(ButtonGroupTypeHandler.class);
 	
 	/**
 	 * @return Singleton
@@ -68,7 +69,7 @@ public class ButtonGroupTypeHandler implements ITypeHandlerFinishProcessor {
 				throw new BuildException("ButtonGroup:content should be a list instead of: {0}",content);
 			}
 		} catch (BuildException e) {
-			logger.severe(e.getMessage());
+			logger.error(e.getMessage(),e);
 			throw e;
 		}
 

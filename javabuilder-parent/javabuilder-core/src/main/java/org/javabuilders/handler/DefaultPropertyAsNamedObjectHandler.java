@@ -4,7 +4,6 @@
 package org.javabuilders.handler;
 
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
@@ -19,9 +18,6 @@ import org.javabuilders.Node;
  */
 public class DefaultPropertyAsNamedObjectHandler extends
 		AbstractPropertyHandler {
-
-	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(DefaultPropertyAsNamedObjectHandler.class.getSimpleName());
 	
 	/**
 	 * @param consumedKeys

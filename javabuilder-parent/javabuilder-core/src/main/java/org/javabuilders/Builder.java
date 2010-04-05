@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.event.BuildEvent;
@@ -39,6 +37,8 @@ import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.ChildrenCardinalityUtils;
 import org.javabuilders.util.PropertyUtils;
 import org.jvyaml.YAML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Ancestor for all builders
@@ -46,7 +46,7 @@ import org.jvyaml.YAML;
  */
 public class Builder {
 	
-	private final static Logger logger = Logger.getLogger(Builder.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(Builder.class);
 	
 	public final static Map<String,?> EMPTY_PROPERTIES = null;
 
@@ -351,8 +351,8 @@ public class Builder {
 		document = BuilderPreProcessor.preprocess(config, process, document, null);
 		process.setDocument(document);
 		
-		if (logger.isLoggable(Level.FINE)) {
-			logger.log(Level.FINE, "Building from YAML document:\n%s",document);
+		if (logger.isDebugEnabled()) {
+			logger.debug("Building from YAML document:\n%s",document);
 		}
 		
 		if (document instanceof Map) {
@@ -380,8 +380,8 @@ public class Builder {
 			for(String key : priorities) {
 				
 				Object docNode = map.get(key);
-				if (logger.isLoggable(Level.FINE)) {
-					logger.log(Level.FINE,"Processing root node: %s",key);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Processing root node: %s",key);
 				}
 				
 				//handle the different potential formats of the root nodes
@@ -436,8 +436,8 @@ public class Builder {
 			String currentKey, Object rawDocumentNode) throws BuildException {
 		if (rawDocumentNode instanceof Map) {
 
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("Started creating object defined by alias: " + currentKey);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Started creating object defined by alias: %s",currentKey);
 			}
 			
 			Map<String,Object> data = (Map<String,Object>)rawDocumentNode;
@@ -591,8 +591,8 @@ public class Builder {
 					continue;
 				}
 				
-				if (logger.isLoggable(Level.FINE)) {
-					logger.fine("Processing child key: " + childKey);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Processing child key: %s", childKey);
 				}
 				
 				//handle internationalization if any resource bundles have been passed
@@ -636,8 +636,8 @@ public class Builder {
 				List<String> keys = delayedKeysByWeight.get(delayWeight);
 				for(String delayedKey : keys) {
 					Object delayedValue = data.get(delayedKey);
-					if (logger.isLoggable(Level.FINE)) {
-						logger.fine("Processing delayed weight: " + delayWeight + " / child key: " + delayedKey);
+					if (logger.isDebugEnabled()) {
+						logger.debug("Processing delayed weight: %s / %s", delayWeight, delayedKey);
 					}
 					processDocumentNode(config,process,current,delayedKey, delayedValue);
 				}
@@ -669,8 +669,8 @@ public class Builder {
 			process.addNamedObject(name, current.getMainObject());
 		}
 
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Finished creating object defined by alias: " + currentKey);
+		if (logger.isDebugEnabled()) {
+			logger.debug("Finished creating object defined by alias: %s", currentKey);
 		}
 
 	}
@@ -722,18 +722,15 @@ public class Builder {
 			IPropertyHandler handler = TypeDefinition.getPropertyHandler(config, parent.getMainObject().getClass(),currentKey);
 
 			//debug info
-			if (logger.isLoggable(Level.FINE)) {
+			if (logger.isDebugEnabled()) {
 				if (handler.getConsumedKeys().size() == 0) {
-					logger.fine(String.format("Handling property '%s' of value '%s' for type alias '%s'", currentKey, 
-							parent.getProperties().get(currentKey), 
-							parent.getKey()));
+					logger.debug("Handling property '%s' of value '%s' for type alias '%s'", new Object[]{currentKey, 
+								parent.getProperties().get(currentKey), parent.getKey()});	
 				} else {
 					for(String consumedKey : handler.getConsumedKeys()) {
 						if (parent.getProperties().containsKey(consumedKey)) {
-							logger.fine(String.format("Handling property '%s' of value '%s' for type alias '%s'", 
-									consumedKey, 
-									parent.getProperties().get(consumedKey), 
-									parent.getKey()));
+							logger.debug("Handling property '%s' of value '%s' for type alias '%s'", 
+									new Object[]{consumedKey, parent.getProperties().get(consumedKey), parent.getKey()});
 						}
 					}
 				}
@@ -751,8 +748,8 @@ public class Builder {
 							valueList.add(value);
 							parent.getProperties().put(consumedKey, valueList);
 							
-							if (logger.isLoggable(Level.FINE)) {
-								logger.fine("Converted single value " + value + " to a single item list for property " + consumedKey);
+							if (logger.isDebugEnabled()) {
+								logger.debug("Converted single value %s to a single item list for property ", consumedKey);
 							}
 						}
 					}

@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
 import org.jvyaml.YAML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class representing parsed layout constraints (from the "layout" node on the container)
@@ -22,7 +22,7 @@ import org.jvyaml.YAML;
  */
 public class LayoutConstraints {
 
-	private final static Logger logger = Logger.getLogger(LayoutConstraints.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(LayoutConstraints.class);
 	
 	private String layoutConstraints ="";
 	private List<String> rowConstraints= new ArrayList<String>();
@@ -262,8 +262,8 @@ public class LayoutConstraints {
 								//move all the controls from this cell to the proper one above it
 								for(ControlConstraint cc : lowerCell.getControls()) {
 									cell.getControls().add(cc);
-									if (logger.isLoggable(Level.FINE)) {
-										logger.fine("Moved control " + cc.getControlName() + " from cell " +
+									if (logger.isDebugEnabled()) {
+										logger.debug("Moved control " + cc.getControlName() + " from cell " +
 												lowerCell.getColumnIndex() + " " + lowerCell.getRowIndex() +
 												" to cell " + cell.getColumnIndex() + " " + cell.getRowIndex());
 									}

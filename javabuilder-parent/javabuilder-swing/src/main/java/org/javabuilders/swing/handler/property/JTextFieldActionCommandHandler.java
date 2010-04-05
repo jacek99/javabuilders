@@ -4,8 +4,6 @@
 package org.javabuilders.swing.handler.property;
 
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JTextField;
 
@@ -14,6 +12,8 @@ import org.javabuilders.BuildProcess;
 import org.javabuilders.BuilderConfig;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractPropertyHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handler for the JTextField "actionCommand" property. Automatically wires the called to receive the action command
@@ -22,7 +22,7 @@ import org.javabuilders.handler.AbstractPropertyHandler;
  */
 public class JTextFieldActionCommandHandler extends AbstractPropertyHandler {
 
-	private final static Logger logger = Logger.getLogger(JTextFieldActionCommandHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(JTextFieldActionCommandHandler.class);
 	private final static JTextFieldActionCommandHandler singleton = new JTextFieldActionCommandHandler();
 	
 	/**
@@ -51,9 +51,9 @@ public class JTextFieldActionCommandHandler extends AbstractPropertyHandler {
 		//automatically wire the calling object to receive the action command
 		if (result.getCaller() != null && result.getCaller() instanceof ActionListener) {
 			field.addActionListener((ActionListener)result.getCaller());
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine(String.format("Added calling ActionListener for actionCommand '%s' on button '%s'", 
-						actionCommand,field.getName()));
+			if (logger.isDebugEnabled()) {
+				logger.debug("Added calling ActionListener for actionCommand '%s' on button '%s'", 
+						actionCommand,field.getName());
 			}
 		}
 	}

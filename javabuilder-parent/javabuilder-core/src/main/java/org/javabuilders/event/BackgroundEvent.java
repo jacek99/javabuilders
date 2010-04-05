@@ -16,9 +16,6 @@ import org.javabuilders.BuilderConfig;
 @SuppressWarnings("serial")
 public class BackgroundEvent extends EventObject {
 	
-	@SuppressWarnings("unused")
-	private final static Logger logger = Logger.getLogger(BackgroundEvent.class.getSimpleName());
-
 	private Boolean isCancelable = false;
 	private CancelStatus cancelStatus = CancelStatus.FORBIDDEN;
 	private Integer progressStart = 0, progressEnd = 100, progressValue = 0;

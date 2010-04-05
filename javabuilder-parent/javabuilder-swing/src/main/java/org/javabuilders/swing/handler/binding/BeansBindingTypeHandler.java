@@ -5,8 +5,6 @@ package org.javabuilders.swing.handler.binding;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -25,6 +23,8 @@ import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.swingbinding.SwingBindings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default handler for binding logic across all domains
@@ -38,7 +38,7 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 	 */
 	public static final String MODEL = "model";
 
-	private final static Logger logger = Logger.getLogger(BeansBindingTypeHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(BeansBindingTypeHandler.class);
 	private static final BeansBindingTypeHandler singleton = new BeansBindingTypeHandler();
 
 	private Map<String, UpdateStrategy> updateStrategies = new HashMap<String, UpdateStrategy>();
@@ -123,8 +123,8 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 				targetObject, targetProperty);
 		binding.bind();
 
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine(String.format("Bound [%s].%s to [%s].%s] with update strategy %s", sourceObject.getClass().getSimpleName(),
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Bound [%s].%s to [%s].%s] with update strategy %s", sourceObject.getClass().getSimpleName(),
 					sourceProperty, targetObject.getClass().getSimpleName(), targetProperty, strategy));
 		}
 

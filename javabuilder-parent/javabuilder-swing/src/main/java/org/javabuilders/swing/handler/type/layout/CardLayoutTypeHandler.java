@@ -7,7 +7,6 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
@@ -25,8 +24,6 @@ import org.javabuilders.swing.SwingJavaBuilderUtils;
  */
 public class CardLayoutTypeHandler implements ITypeHandlerFinishProcessor  {
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(CardLayoutTypeHandler.class.getName());
 	private static final CardLayoutTypeHandler singleton = new CardLayoutTypeHandler();
 	
 	/**

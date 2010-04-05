@@ -4,8 +4,6 @@
 package org.javabuilders.handler;
 
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
@@ -14,6 +12,8 @@ import org.javabuilders.ITypeAsValueSupport;
 import org.javabuilders.InvalidPropertyException;
 import org.javabuilders.Node;
 import org.javabuilders.util.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default class for handling type properties
@@ -21,7 +21,7 @@ import org.javabuilders.util.PropertyUtils;
  */
 public class DefaultPropertyHandler extends AbstractPropertyHandler implements ITypeAsValueSupport {
 
-	private static final Logger logger = Logger.getLogger(DefaultPropertyHandler.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(DefaultPropertyHandler.class);
 	
 	private static final DefaultPropertyHandler singleton = new DefaultPropertyHandler();
 	
@@ -78,10 +78,10 @@ public class DefaultPropertyHandler extends AbstractPropertyHandler implements I
 						builder.append(name);
 					}
 				} catch (Exception ex) {
-					logger.log(Level.SEVERE, ex.getMessage());
+					logger.error(ex.getMessage(),ex);
 				}
 				
-				logger.log(Level.SEVERE, e.getMessage() + "\n" + builder.toString(),e);
+				logger.error(e.getMessage() + "\n" + builder.toString(),e);
 				
 				throw new InvalidPropertyException(e, node.getKey(),key, value, builder.toString());
 			}

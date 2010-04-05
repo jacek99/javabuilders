@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
@@ -16,6 +14,8 @@ import org.javabuilders.IAllowedValues;
 import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractPropertyHandler;
 import org.javabuilders.util.BuilderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles java.awt.Frame.setExtendedState().
@@ -30,7 +30,7 @@ public class FrameExtendedStateHandler extends AbstractPropertyHandler implement
 	public final static String MAXV = "maxv";
 	public final static String MAX = "max";
 	
-	private final static java.util.logging.Logger logger = Logger.getLogger(FrameExtendedStateHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(FrameExtendedStateHandler.class);
 	private final static FrameExtendedStateHandler singleton = new FrameExtendedStateHandler();
 	
 	private Map<String,Integer> values = new HashMap<String,Integer>();
@@ -82,8 +82,8 @@ public class FrameExtendedStateHandler extends AbstractPropertyHandler implement
 		
 		if (BuilderUtils.getOS() == BuilderUtils.OperatingSystem.LinuxUnix) {
 		
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("Due to OS-specific Swing bug, handling manually Frame.extendedState: " + state);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Due to OS-specific Swing bug, handling manually Frame.extendedState: " + state);
 			}
 			
 			//get the max screen size

@@ -33,8 +33,6 @@ import org.javabuilders.util.BuilderUtils;
  */
 public class CommonActionListenerHandler extends AbstractPropertyHandler implements IPropertyList {
 
-	@SuppressWarnings("unused")
-	private final static Logger logger = Logger.getLogger(CommonActionListenerHandler.class.getSimpleName());
 	private final static List<ValueListDefinition> defs = ValueListDefinition.getCommonEventDefinitions(ActionEvent.class);
 	private final static CommonActionListenerHandler singleton = new CommonActionListenerHandler();	
 	/**

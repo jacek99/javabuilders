@@ -28,8 +28,6 @@ import org.javabuilders.util.BuilderUtils;
 public class WidgetTypeHandler extends AbstractTypeHandler implements ITypeHandlerFinishProcessor {
 
 	private static final WidgetTypeHandler singleton = new WidgetTypeHandler();
-	@SuppressWarnings("unused")
-	private final static Logger logger = Logger.getLogger(WidgetTypeHandler.class.getSimpleName());
 	
 	/**
 	 * Returns singleton

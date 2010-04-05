@@ -1,9 +1,8 @@
 package org.javabuilders;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.javabuilders.util.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple class to keep track of properties whose value is a named object.
@@ -14,7 +13,7 @@ import org.javabuilders.util.PropertyUtils;
  */
 public class NamedObjectPropertyValue {
 
-	private static final Logger logger = Logger.getLogger(NamedObjectPropertyValue.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(NamedObjectPropertyValue.class);
 	
 	private Object source = null;
 	private String propertyName = null;
@@ -50,8 +49,8 @@ public class NamedObjectPropertyValue {
 					source.getClass().getSimpleName(),propertyName,targetObjectName);
 		} 
 		
-		if (logger.isLoggable(Level.FINE)) {
-			logger.log(Level.FINE,"Set reference on property %s to %s", new Object[]{ propertyName, targetObjectName});
+		if (logger.isDebugEnabled()) {
+			logger.debug("Set reference on property %s to %s", propertyName, targetObjectName);
 		}
 		
 	}

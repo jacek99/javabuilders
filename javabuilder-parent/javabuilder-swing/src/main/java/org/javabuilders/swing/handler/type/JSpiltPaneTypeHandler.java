@@ -6,8 +6,6 @@ package org.javabuilders.swing.handler.type;
 import java.awt.Component;
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JSplitPane;
 
@@ -19,6 +17,8 @@ import org.javabuilders.Node;
 import org.javabuilders.handler.ITypeHandlerAfterCreationProcessor;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.swing.SwingJavaBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles creating JSplitPane instances
@@ -27,7 +27,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
 public class JSpiltPaneTypeHandler implements ITypeHandlerAfterCreationProcessor, ITypeHandlerFinishProcessor {
 
 	private static final JSpiltPaneTypeHandler singleton = new JSpiltPaneTypeHandler();
-	private static final Logger logger = Logger.getLogger(JSpiltPaneTypeHandler.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(JSpiltPaneTypeHandler.class);
 	
 	/**
 	 * @return Singleton
@@ -72,8 +72,8 @@ public class JSpiltPaneTypeHandler implements ITypeHandlerAfterCreationProcessor
 						pane.setBottomComponent(c);
 					} else {
 						//warning if more than 2 components defined
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning(MessageFormat.format("Unable to add {0} to JScrollPane. Only first two Component instances are processed",child.getKey()));
+						if (logger.isWarnEnabled()) {
+							logger.warn(MessageFormat.format("Unable to add {0} to JScrollPane. Only first two Component instances are processed",child.getKey()));
 						}
 					}
 					i++;

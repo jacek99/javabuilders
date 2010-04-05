@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
@@ -28,6 +26,8 @@ import org.javabuilders.layout.LayoutConstraints;
 import org.javabuilders.layout.VAlign;
 import org.javabuilders.util.BuilderUtils;
 import org.jvyaml.YAML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract MigLayout handler that descendants can customize for Swing or SWT
@@ -36,7 +36,7 @@ import org.jvyaml.YAML;
 public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler implements ITypeChildrenHandler {
 
 	private final static Map<DefaultResize,String> resizeConstraints = new HashMap<DefaultResize, String>();
-	protected final static Logger logger = Logger.getLogger("MigLayoutHandler");
+	protected final static Logger logger = LoggerFactory.getLogger(AbstractMigLayoutHandler.class);
 	
 	private Class<?> defaultTypeClass = null;
 	private String defaultTypePropertyName = null;
@@ -203,20 +203,20 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		
 		if (layoutCo.length() > 0) {
 			setLayoutConstraints(instance, layoutCo);
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("MigLayout constraints: " + layoutCo);
+			if (logger.isDebugEnabled()) {
+				logger.debug("MigLayout constraints: " + layoutCo);
 			}
 		}
 		if (rowCo.length() > 0) {
 			setRowConstraints(instance,rowCo);
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("MigLayout row constraints: " + rowCo);
+			if (logger.isDebugEnabled()) {
+				logger.debug("MigLayout row constraints: " + rowCo);
 			}
 		}
 		if (columnCo.length() > 0) {
 			setColumnConstraints(instance, columnCo);
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("MigLayout column constraints: " + columnCo);
+			if (logger.isDebugEnabled()) {
+				logger.debug("MigLayout column constraints: " + columnCo);
 			}
 		}
 		

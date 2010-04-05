@@ -30,9 +30,6 @@ import org.javabuilders.util.BuilderUtils;
 public class BackgroundDialog extends JDialog {
 	
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(BackgroundDialog.class.getSimpleName());
-
-	@SuppressWarnings("unused")
 	private JProgressBar progressBar = null;
 	private BackgroundEvent event = null;
 	

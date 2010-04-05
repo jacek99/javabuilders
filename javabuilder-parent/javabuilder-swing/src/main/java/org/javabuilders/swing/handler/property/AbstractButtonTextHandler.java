@@ -1,7 +1,5 @@
 package org.javabuilders.swing.handler.property;
 
-import java.util.logging.Logger;
-
 import javax.swing.AbstractButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -13,6 +11,8 @@ import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractPropertyHandler;
 import org.javabuilders.swing.SwingJavaBuilderUtils;
 import org.javabuilders.swing.SwingJavaBuilderUtils.ActionDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Text handler for all buttons (takes care of mnemonics and acelerators as well)
@@ -21,7 +21,7 @@ import org.javabuilders.swing.SwingJavaBuilderUtils.ActionDefinition;
  */
 public class AbstractButtonTextHandler extends AbstractPropertyHandler {
 
-	private static final Logger LOG = Logger.getLogger(AbstractButtonTextHandler.class.getSimpleName());
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractButtonTextHandler.class);
 	
 	public static final String TEXT = "text";
 	
@@ -47,7 +47,7 @@ public class AbstractButtonTextHandler extends AbstractPropertyHandler {
 				JMenuItem menuItem = (JMenuItem) button;
 				menuItem.setAccelerator(def.getAccelerator());
 			} else {
-				LOG.warning("Ignored accelerator: can only be set on JMenuItem(s): " + text);
+				LOG.warn("Ignored accelerator: can only be set on JMenuItem(s): " + text);
 			}
 		}
 	}

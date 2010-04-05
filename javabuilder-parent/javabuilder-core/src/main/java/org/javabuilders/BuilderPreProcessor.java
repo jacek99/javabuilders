@@ -9,14 +9,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.exception.UnrecognizedAliasException;
 import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.util.BuilderUtils;
 import org.jvyaml.YAML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Pre-processor for YAML file to handle advanced functionality specific to Java Builders.
@@ -25,11 +25,10 @@ import org.jvyaml.YAML;
  */
 public class BuilderPreProcessor {
 	
-	private static final Logger logger = Logger.getLogger(BuilderPreProcessor.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(BuilderPreProcessor.class);
 	private static final Map<Character,Character> listIndicators = new HashMap<Character, Character>();
 	
 	static {
-		logger.setLevel(Level.ALL);
 		listIndicators.put('(',')'); //obsolete-for backwards compatibility
 		listIndicators.put('[',']');
 		listIndicators.put(null,null);
@@ -56,10 +55,10 @@ public class BuilderPreProcessor {
 			return current;
 			
 		} catch (BuildException be) {
-			logger.severe(be.getMessage());
+			logger.error(be.getMessage(),be);
 			throw be;
 		} catch (Exception e) {
-			logger.severe(e.getMessage());
+			logger.error(e.getMessage(),e);
 			throw new BuildException(e);
 		}
 	}
@@ -302,7 +301,9 @@ public class BuilderPreProcessor {
 						listEnd = listIndicators.get(currentChar);
 						if (listEnd == ')') {
 							//TODO : deprecate after 1.0
-							logger.warning("'[]' is the new format for lists, '()' is deprecated and will be removed: " + constructorText);
+							if (logger.isWarnEnabled()) {
+								logger.warn("'[]' is the new format for lists, '()' is deprecated and will be removed: %s",constructorText);
+							}
 						}
 						nestedParentheses++;
 					} else if (listEnd != null && currentChar == listEnd) {

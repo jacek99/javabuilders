@@ -15,6 +15,29 @@
 		<module>javabuilder-gtk</module>
 	</modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.11</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.5.11</version>
+            <scope>optional</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
 	<url>http://www.javabuilders.org</url>
 	<build>
 		<resources>
@@ -115,18 +138,12 @@
 	</build>
 
 	<distributionManagement>
-	   <!-- 
-		<repository>
-			<id>jacek99-releases</id>
-			<name>Nexus Staging Repository</name>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>jacek99-snapshots</id>
-			<name>Nexus Snapshot Repository</name>
-			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url>
-		</snapshotRepository>
- -->
+		<!--
+			<repository> <id>jacek99-releases</id> <name>Nexus Staging Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url> </repository> <snapshotRepository>
+			<id>jacek99-snapshots</id> <name>Nexus Snapshot Repository</name>
+			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url> </snapshotRepository>
+		-->
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
 			<id>googlecode</id>
@@ -134,26 +151,5 @@
 		</repository>
 
 	</distributionManagement>
-
-
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.5.8</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 </project>

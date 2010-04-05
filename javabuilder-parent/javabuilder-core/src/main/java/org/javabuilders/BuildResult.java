@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.handler.validation.BuilderValidators;
 import org.javabuilders.handler.validation.IValidationMessageHandler;
 import org.javabuilders.handler.validation.ValidationMessageList;
 import org.javabuilders.util.BuilderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The return of any build process. That's what both the YAML and Java side see and
@@ -28,7 +28,7 @@ import org.javabuilders.util.BuilderUtils;
 @SuppressWarnings("serial")
 public class BuildResult extends HashMap<String, Object> {
 
-	private static final Logger logger = Logger.getLogger(BuildResult.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(BuildResult.class);
 	
 	private BuilderConfig config;
 	private Object caller = null;
@@ -96,7 +96,7 @@ public class BuildResult extends HashMap<String, Object> {
 			try {
 				value = field.get(caller);
 			} catch (Exception e) {
-				logger.severe(String.format("Unable to access field %s: %s", key, e.getMessage()));
+				logger.error(String.format("Unable to access field %s: %s", key, e.getMessage()),e);
 			}
 		}
 		
@@ -299,8 +299,8 @@ public class BuildResult extends HashMap<String, Object> {
 	public String getInvalidResource(String key) {
 		String resource = config.isMarkInvalidResourceBundleKeys() ? String.format("#%s#",key) : key;
 
-		if (logger.isLoggable(Level.INFO)) {
-			logger.info("Unable to find value in any resource bundle for key: " + key);
+		if (logger.isInfoEnabled()) {
+			logger.info("Unable to find value in any resource bundle for key: %s", key);
 		}
 
 		return resource;

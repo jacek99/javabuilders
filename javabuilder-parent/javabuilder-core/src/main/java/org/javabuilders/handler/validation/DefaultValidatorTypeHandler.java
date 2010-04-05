@@ -24,8 +24,6 @@ import org.javabuilders.util.BuilderUtils;
 public class DefaultValidatorTypeHandler extends AbstractTypeHandler implements ITypeChildrenHandler {
 
 	private static final DefaultValidatorTypeHandler singleton = new DefaultValidatorTypeHandler();
-	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(DefaultValidatorTypeHandler.class.getSimpleName());
 	
 	/**
 	 * @return Singleton

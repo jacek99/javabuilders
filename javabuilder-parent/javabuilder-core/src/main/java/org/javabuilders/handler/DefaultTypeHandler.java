@@ -4,8 +4,6 @@
 package org.javabuilders.handler;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
@@ -13,6 +11,8 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.InvalidTypeException;
 import org.javabuilders.Node;
 import org.javabuilders.util.BuilderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The standard handler to take care of simple object instantiation
@@ -24,7 +24,7 @@ import org.javabuilders.util.BuilderUtils;
  */
 public class DefaultTypeHandler extends AbstractTypeHandler {
 
-	private final static java.util.logging.Logger logger = Logger.getLogger(DefaultTypeHandler.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(DefaultTypeHandler.class);
 	
 	/**
 	 * @param consumedKeys
@@ -44,15 +44,15 @@ public class DefaultTypeHandler extends AbstractTypeHandler {
 			Class<?> typeClass = BuilderUtils.getClassFromAlias(result, key, null);
 			instance = typeClass.newInstance();
 			
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("Created object instance of type: " + typeClass.getName());
+			if (logger.isDebugEnabled()) {
+				logger.debug("Created object instance of type: %s", typeClass.getName());
 			}
 			
 			return useExistingInstance(config, result, parent, key, typeDefinition, instance);
 		} catch (BuildException ex) {
 			throw ex;
 		} catch (Exception ex) {
-			logger.severe("Failed to create class " + key + " : " + ex.getMessage());
+			logger.error("Failed to create class " + key + " : " + ex.getMessage(),ex);
 			throw new InvalidTypeException(key,ex);
 		}		
 	}

@@ -25,9 +25,6 @@ import org.javabuilders.util.BuilderUtils;
  * @author Jacek Furmankiewicz
  */
 public class BackgroundDialog  {
-	
-	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(BackgroundDialog.class.getSimpleName());
 
 	private Shell shell;
 	@SuppressWarnings("unused")

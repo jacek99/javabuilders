@@ -10,18 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * The output of a build process
  * @author Jacek Furmankiewicz
  */
 public class BuildProcess {
-	
-	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(BuildProcess.class.getSimpleName());
 
-	//private Object document = null;
 	private BuildResult result;
 	
 	private Map<String,Object> instances = new HashMap<String, Object>();

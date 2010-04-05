@@ -6,7 +6,6 @@ package org.javabuilders.swing.handler.type.layout;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.swing.JLabel;
 
@@ -71,8 +70,8 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 			String componentConstraint = layoutConstraints.get(componentName);
 			Component component = SwingJavaBuilderUtils.getComponent(components,String.valueOf(componentName));
 
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("MigLayout constraints for " + componentName + " : " + componentConstraint);
+			if (logger.isDebugEnabled()) {
+				logger.debug("MigLayout constraints for " + componentName + " : " + componentConstraint);
 			}
 			parentContainer.add(component,componentConstraint);
 		}

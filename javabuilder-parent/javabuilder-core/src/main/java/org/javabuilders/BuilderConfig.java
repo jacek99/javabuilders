@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import org.javabuilders.event.BuildListener;
 import org.javabuilders.event.IBackgroundProcessingHandler;
@@ -37,9 +36,6 @@ import org.javabuilders.util.PropertyUtils;
  * @author Jacek Furmankiewicz
  */
 public class BuilderConfig {
-
-	@SuppressWarnings("unused")
-	private static Logger logger = Logger.getLogger(BuilderConfig.class.getSimpleName());
 	
 	static ITypeHandler defaultTypeHandler = new DefaultTypeHandler();
 	static IPropertyHandler defaultPropertyHandler =  DefaultPropertyHandler.getInstance();

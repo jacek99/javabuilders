@@ -30,7 +30,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -153,6 +152,8 @@ import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
 import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventListModel;
@@ -160,7 +161,7 @@ import ca.odell.glazedlists.swing.EventTableModel;
 
 public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig {
 
-	private static final Logger LOGGER = Logger.getLogger(SwingJavaBuilderConfig.class.getSimpleName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(SwingJavaBuilderConfig.class);
 	
 	private Map<String,Integer> hScrollbars = new HashMap<String, Integer>();
 	private Map<String,Integer> vScrollbars = new HashMap<String, Integer>();

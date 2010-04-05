@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +42,8 @@ import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various common utilities
@@ -53,7 +53,7 @@ import org.javabuilders.exception.InvalidFormatException;
  */
 public class BuilderUtils {
 
-	private final static java.util.logging.Logger logger = Logger.getLogger(BuilderUtils.class.getSimpleName());
+	private final static Logger logger = LoggerFactory.getLogger(BuilderUtils.class);
 	private static OperatingSystem os = OperatingSystem.Windows; // it's the most likely
 
 	// should accept both ${propertyName} and ${object.propertyName}
@@ -169,7 +169,7 @@ public class BuilderUtils {
 				ObjectMethod noMethod = new ObjectMethod(command, method, ObjectMethod.MethodType.CustomCommand);
 				return noMethod;
 			} catch (Exception ex) {
-				logger.severe(ex.getMessage());
+				logger.error(ex.getMessage(),ex);
 				throw new BuildException(ex, "Unable to get custom command method: {0}", ex.getMessage());
 			}
 		}
@@ -343,8 +343,8 @@ public class BuilderUtils {
 						String resource = result.getResource(ann.progressMessage());
 						event.setProgressMessage(resource);
 
-						if (logger.isLoggable(Level.FINE)) {
-							logger.log(Level.FINE, "Executing background method: %s", method.getMethod().getName());
+						if (logger.isDebugEnabled()) {
+							logger.debug("Executing background method: %s", method.getMethod().getName());
 						}
 
 						// create the list of methods that should be executed
@@ -380,8 +380,8 @@ public class BuilderUtils {
 						result.getConfig().getBackgroundProcessingHandler().doInBackground(result, result.getCaller(),
 								method.getMethod(), event, callback);
 
-						if (logger.isLoggable(Level.FINE)) {
-							logger.fine("Finished executing background method: " + method.getMethod().getName());
+						if (logger.isDebugEnabled()) {
+							logger.debug("Finished executing background method: " + method.getMethod().getName());
 						}
 						// stop executing the methods - it is the background
 						// handler's responsibility
@@ -416,8 +416,8 @@ public class BuilderUtils {
 						break;
 					}
 
-					if (logger.isLoggable(Level.FINE)) {
-						logger.fine("Finished executing method: " + method.getMethod().getName());
+					if (logger.isDebugEnabled()) {
+						logger.debug("Finished executing method: " + method.getMethod().getName());
 					}
 				}
 
@@ -474,28 +474,28 @@ public class BuilderUtils {
 
 								if (field.getType().isAssignableFrom(namedObject.getClass())) {
 									field.set(caller, namedObject);
-									if (logger.isLoggable(Level.FINE)) {
-										logger.fine("Successfully set reference to caller's variable: " + name);
+									if (logger.isDebugEnabled()) {
+										logger.debug("Successfully set reference to caller's variable: " + name);
 									}
 									continue;
 								} else {
-									if (logger.isLoggable(Level.INFO)) {
+									if (logger.isInfoEnabled()) {
 										logger.info("Failed to set value for caller's variable: " + name + ". Incompatible types.");
 									}
 								}
 							} else {
 								// instance can be pre-existing
-								if (logger.isLoggable(Level.FINE)) {
+								if (logger.isInfoEnabled()) {
 									logger.info("Unable to set caller's instance variable: " + name + ". It is not null.");
 								}
 							}
 						} catch (IllegalArgumentException e) {
-							if (logger.isLoggable(Level.INFO)) {
-								logger.log(Level.INFO, "Failed to access property " + name, e);
+							if (logger.isInfoEnabled()) {
+								logger.info("Failed to access property " + name, e);
 							}
 						} catch (IllegalAccessException e) {
-							if (logger.isLoggable(Level.INFO)) {
-								logger.log(Level.INFO, "Failed to access property " + name, e);
+							if (logger.isInfoEnabled()) {
+								logger.info("Failed to access property " + name, e);
 							}
 						}
 					}
