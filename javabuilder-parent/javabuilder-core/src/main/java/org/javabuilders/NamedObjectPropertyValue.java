@@ -50,7 +50,7 @@ public class NamedObjectPropertyValue {
 		} 
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Set reference on property %s to %s", propertyName, targetObjectName);
+			logger.debug("Set reference on property {} to {}", propertyName, targetObjectName);
 		}
 		
 	}

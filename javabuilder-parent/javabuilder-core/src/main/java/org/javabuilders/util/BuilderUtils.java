@@ -344,7 +344,7 @@ public class BuilderUtils {
 						event.setProgressMessage(resource);
 
 						if (logger.isDebugEnabled()) {
-							logger.debug("Executing background method: %s", method.getMethod().getName());
+							logger.debug("Executing background method: {}", method.getMethod().getName());
 						}
 
 						// create the list of methods that should be executed

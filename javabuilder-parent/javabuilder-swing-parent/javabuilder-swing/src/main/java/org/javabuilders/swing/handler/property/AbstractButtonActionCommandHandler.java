@@ -54,7 +54,7 @@ public class AbstractButtonActionCommandHandler extends AbstractPropertyHandler 
 		if (result.getCaller() != null && result.getCaller() instanceof ActionListener) {
 			button.addActionListener((ActionListener)result.getCaller());
 			if (logger.isDebugEnabled()) {
-				logger.debug("Added calling ActionListener for actionCommand '%s' on button '%s'", 
+				logger.debug("Added calling ActionListener for actionCommand '{}' on button '{}'", 
 						actionCommand,button.getName());
 			}
 		}

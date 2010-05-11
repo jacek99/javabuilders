@@ -10,6 +10,8 @@
 	<artifactId>javabuilder-swing</artifactId>
 	<version>${build.version}</version>
 	<name>Swing JavaBuilder</name>
+	<packaging>jar</packaging>
+	
 	<description>Swing JavaBuilder</description>
 	<url>http://www.javabuilders.org</url>
 	<dependencies>

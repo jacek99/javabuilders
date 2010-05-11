@@ -13,6 +13,8 @@
   <version>${build.version}</version>
   <name>Swing JavaBuilder Sample Application</name>
   <url>http://javabuilders.org</url>
+  <packaging>jar</packaging>
+  
   <dependencies>
     <dependency>
       <groupId>org.javabuilders</groupId>

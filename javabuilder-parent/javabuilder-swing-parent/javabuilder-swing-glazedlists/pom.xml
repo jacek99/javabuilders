@@ -12,6 +12,7 @@
 	<artifactId>javabuilder-swing-glazedlists</artifactId>
 	<version>${build.version}</version>
 	<name>Swing JavaBuilder GlazedLists Plugin</name>
+	<packaging>jar</packaging>
 
 	<url>http://javabuilders.org</url>
 	<dependencies>

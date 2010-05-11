@@ -352,7 +352,7 @@ public class Builder {
 		process.setDocument(document);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Building from YAML document:\n%s",document);
+			logger.debug("Building from YAML document:\n{}",document);
 		}
 		
 		if (document instanceof Map) {
@@ -381,7 +381,7 @@ public class Builder {
 				
 				Object docNode = map.get(key);
 				if (logger.isDebugEnabled()) {
-					logger.debug("Processing root node: %s",key);
+					logger.debug("Processing root node: {}",key);
 				}
 				
 				//handle the different potential formats of the root nodes
@@ -437,7 +437,7 @@ public class Builder {
 		if (rawDocumentNode instanceof Map) {
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("Started creating object defined by alias: %s",currentKey);
+				logger.debug("Started creating object defined by alias: {}",currentKey);
 			}
 			
 			Map<String,Object> data = (Map<String,Object>)rawDocumentNode;
@@ -592,7 +592,7 @@ public class Builder {
 				}
 				
 				if (logger.isDebugEnabled()) {
-					logger.debug("Processing child key: %s", childKey);
+					logger.debug("Processing child key: {}", childKey);
 				}
 				
 				//handle internationalization if any resource bundles have been passed
@@ -637,7 +637,7 @@ public class Builder {
 				for(String delayedKey : keys) {
 					Object delayedValue = data.get(delayedKey);
 					if (logger.isDebugEnabled()) {
-						logger.debug("Processing delayed weight: %s / %s", delayWeight, delayedKey);
+						logger.debug("Processing delayed weight: {} / {}", delayWeight, delayedKey);
 					}
 					processDocumentNode(config,process,current,delayedKey, delayedValue);
 				}
@@ -670,7 +670,7 @@ public class Builder {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("Finished creating object defined by alias: %s", currentKey);
+			logger.debug("Finished creating object defined by alias: {}", currentKey);
 		}
 
 	}
@@ -724,12 +724,12 @@ public class Builder {
 			//debug info
 			if (logger.isDebugEnabled()) {
 				if (handler.getConsumedKeys().size() == 0) {
-					logger.debug("Handling property '%s' of value '%s' for type alias '%s'", new Object[]{currentKey, 
+					logger.debug("Handling property '{}' of value '{}' for type alias '{}'", new Object[]{currentKey, 
 								parent.getProperties().get(currentKey), parent.getKey()});	
 				} else {
 					for(String consumedKey : handler.getConsumedKeys()) {
 						if (parent.getProperties().containsKey(consumedKey)) {
-							logger.debug("Handling property '%s' of value '%s' for type alias '%s'", 
+							logger.debug("Handling property '{}' of value '{}' for type alias '{}'", 
 									new Object[]{consumedKey, parent.getProperties().get(consumedKey), parent.getKey()});
 						}
 					}
@@ -749,7 +749,7 @@ public class Builder {
 							parent.getProperties().put(consumedKey, valueList);
 							
 							if (logger.isDebugEnabled()) {
-								logger.debug("Converted single value %s to a single item list for property ", consumedKey);
+								logger.debug("Converted single value {} to a single item list for property ", consumedKey);
 							}
 						}
 					}

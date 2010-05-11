@@ -45,14 +45,14 @@ public class DefaultTypeHandler extends AbstractTypeHandler {
 			instance = typeClass.newInstance();
 			
 			if (logger.isDebugEnabled()) {
-				logger.debug("Created object instance of type: %s", typeClass.getName());
+				logger.debug("Created object instance of type: {}", typeClass.getName());
 			}
 			
 			return useExistingInstance(config, result, parent, key, typeDefinition, instance);
 		} catch (BuildException ex) {
 			throw ex;
 		} catch (Exception ex) {
-			logger.error("Failed to create class " + key + " : " + ex.getMessage(),ex);
+			logger.error("Failed to create class {}:{}",key, ex.getMessage());
 			throw new InvalidTypeException(key,ex);
 		}		
 	}

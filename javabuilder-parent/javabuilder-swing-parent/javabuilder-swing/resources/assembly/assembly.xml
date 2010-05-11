@@ -27,13 +27,13 @@
 	</dependencySets>
 	<files>
 	   <file>
-	       <source>../../org.javabuilders.docs/javabuilders/out/pdf/swing.javabuilder.pdf</source>
+	       <source>../../../org.javabuilders.docs/javabuilders/out/pdf/swing.javabuilder.pdf</source>
 	       <fileMode>0777</fileMode>
 	   </file>
 	</files>
 	<fileSets>
 	   <fileSet>
-	       <directory>src/test/java</directory>
+	       <directory>../javabuilder-swing-samples/src/main/java</directory>
 	       <outputDirectory>samples</outputDirectory>
 	       <includes>
 	           <include>org/javabuilders/swing/samples/**</include>

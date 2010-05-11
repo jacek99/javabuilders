@@ -19,7 +19,7 @@
 		 -->
   </modules>
 	<properties>
-	   <build.version>1.0-dev-20100510</build.version>
+	   <build.version>1.0-dev-20100511</build.version>
 	</properties>
 
     <dependencies>

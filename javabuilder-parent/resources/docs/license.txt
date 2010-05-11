@@ -1,0 +1,13 @@
+License
+=======
+
+All JavaBuilders code is released under the business-friendly Apache 2.0 license.
+It is free to use in all projects, both open source and commercial.
+
+*Third party libraries*
+
+The Swing JavaBuilder depends on a number of well known open-source components, all of which are
+released under business-friendly licenses such as BSD, Apache or LGPL.
+We never link to any open source components released under viral licenses such as GPL.
+Nevertheless, please make sure to evaluate each third party license with your legal team to ensure
+compliance with its terms.

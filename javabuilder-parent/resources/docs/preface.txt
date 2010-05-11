@@ -1,0 +1,31 @@
+Preface
+=======
+
+In 2007 or so, Sun Microsystems announced their JavaFX project, which aimed to deliver declarative UIs
+and rich desktop functionality. Unfortunately, in what I've always believed to be a severely misguided
+decision, this was accomplished by introducing a totally new language, instead of enhancing the core
+Java abilities and the existing Swing UI toolkit.
+
+I decided that there had to be a middle-of-the-road approach that could give Java UI developers the
+productivity of declarative UIs without the need to throw out their current language skills out and focus on
+an unproved and untested new language (whose features I wasn't particularly fond of anyway, but that's
+a different story).
+
+The JavaBuilders project was a result of this desire. It started off with many weeks of research and
+evaluation of different options. This resulted finally in the creation of a generic declarative UI based
+around the YAML format (which has many advantages over the XML or JSON formats) and the
+integration of many leading open source libraries (for features such as databinding or input validation)
+into one integrated solution.
+
+The Swing JavaBuilder is the first production-ready implementation of the JavaBuilder engine, but it's
+generic nature allows it to be configured for other UI toolkits as well. In the future a SWT JavaBuilder is
+planned (and maybe even GTK+ and Qt versions as well).
+
+I hope its adoption by you and your team will greatly increase your productivity and ensure a long and
+healthy future for Java rich client development.
+
+    *Jacek Furmankiewicz*
+    
+    JavaBuilders Technical Architect
+
+P.S. Many thanks to our code contributors: Alexandre Navarro, Sébastien Gollion.

@@ -96,7 +96,7 @@ public class BuildResult extends HashMap<String, Object> {
 			try {
 				value = field.get(caller);
 			} catch (Exception e) {
-				logger.error(String.format("Unable to access field %s: %s", key, e.getMessage()),e);
+				logger.error("Unable to access field {}: {}", key, e.getMessage());
 			}
 		}
 		
@@ -300,7 +300,7 @@ public class BuildResult extends HashMap<String, Object> {
 		String resource = config.isMarkInvalidResourceBundleKeys() ? String.format("#%s#",key) : key;
 
 		if (logger.isInfoEnabled()) {
-			logger.info("Unable to find value in any resource bundle for key: %s", key);
+			logger.info("Unable to find value in any resource bundle for key: {}", key);
 		}
 
 		return resource;

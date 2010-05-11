@@ -345,7 +345,7 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 				//create a default "type as value" handler for any enum that is encountered during the build process
 				config.forType(classType).valueHandler(createEnumTypeAsValueHandler(classType));
 				if (logger.isInfoEnabled()) {
-					logger.info("Created ITypeAsValueHandler instance for %s", classType.getName());
+					logger.info("Created ITypeAsValueHandler instance for {}", classType.getName());
 				}
 			}
 		}

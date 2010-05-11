@@ -14,7 +14,7 @@ public class SamplesTest {
 	
 	@Test
 	public void testSamples() throws Exception {
-		SwingSamplesFrame frame = new SwingSamplesFrame();
+		new SwingSamplesFrame();
 	}
 	
 }
