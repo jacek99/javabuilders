@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
@@ -10,10 +9,18 @@
 	<description>Parent POM</description>
 	<modules>
 		<module>javabuilder-core</module>
-		<module>javabuilder-swing</module>
+		<module>javabuilder-swing-parent</module>
+		<!--
+		
+		For future use...one day (when a day has 36 hours instead of 24)
+		 
 		<module>javabuilder-swt</module>
 		<module>javabuilder-gtk</module>
-	</modules>
+		 -->
+  </modules>
+	<properties>
+	   <build.version>1.0-dev-20100510</build.version>
+	</properties>
 
     <dependencies>
         <dependency>
@@ -26,7 +33,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.5.11</version>
-            <scope>optional</scope>
+            <scope>test</scope>
         </dependency>
         
         <dependency>

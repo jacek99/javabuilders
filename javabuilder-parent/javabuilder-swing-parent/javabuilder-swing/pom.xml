@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>javabuilder-parent</artifactId>
+		<groupId>org.javabuilders</groupId>
+		<version>1.0</version>
+	</parent>
+	<groupId>org.javabuilders</groupId>
+	<artifactId>javabuilder-swing</artifactId>
+	<version>${build.version}</version>
+	<name>Swing JavaBuilder</name>
+	<description>Swing JavaBuilder</description>
+	<url>http://www.javabuilders.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>org.javabuilders</groupId>
+			<artifactId>javabuilder-core</artifactId>
+			<version>${build.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>it.tidalwave.betterbeansbinding</groupId>
+			<artifactId>betterbeansbinding-swingbinding</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>net.java.dev.glazedlists</groupId>
+			<artifactId>glazedlists_java15</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		 -->
+	</dependencies>
+	<build>
+		<finalName>javabuilder-swing-${build.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>resources/assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-core</artifactId>
-	<version>1.0-dev-20100405</version>
+	<version>${build.version}</version>
 	<name>Core JavaBuilder</name>
 	<dependencies>
 		<dependency>
