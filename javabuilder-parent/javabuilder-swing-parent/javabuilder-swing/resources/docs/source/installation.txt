@@ -35,6 +35,4 @@ At the time of writing, the latest version was::
                     <artifactId>javabuilder-swing</artifactId> 
                     <version>1.0-dev-20100405</version> 
             </dependency> 
-    </dependencies> 
-
-
+    </dependencies>

@@ -17,10 +17,8 @@ Swing JavaBuilder
     installation.txt
     common-docs/overview.txt
 
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`search`
-
