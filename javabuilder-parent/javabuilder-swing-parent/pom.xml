@@ -7,6 +7,7 @@
 		<groupId>org.javabuilders</groupId>
 		<version>1.0</version>
 	</parent>
+
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swing-parent</artifactId>
 	<version>${build.version}</version>
@@ -21,8 +22,29 @@
 		<module>javabuilder-swing-samples</module>
 	</modules>
 
-	<dependencies>
-	</dependencies>
+	<build>
+		<finalName>javabuilder-swing-${build.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>resources/assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

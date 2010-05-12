@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
@@ -11,39 +12,47 @@
 		<module>javabuilder-core</module>
 		<module>javabuilder-swing-parent</module>
 		<!--
-		
-		For future use...one day (when a day has 36 hours instead of 24)
-		 
-		<module>javabuilder-swt</module>
-		<module>javabuilder-gtk</module>
-		 -->
-  </modules>
+
+			For future use...one day (when a day has 36 hours instead of 24) <module>javabuilder-swt</module>
+			<module>javabuilder-gtk</module>
+		-->
+	</modules>
 	<properties>
-	   <build.version>1.0-dev-20100511</build.version>
+		<build.version>1.0-dev-20100512</build.version>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.11</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.5.11</version>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.7</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.11</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.5.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.java.dev.glazedlists</groupId>
+				<artifactId>glazedlists_java15</artifactId>
+				<version>1.8.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<url>http://www.javabuilders.org</url>
 	<build>
