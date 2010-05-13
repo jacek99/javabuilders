@@ -192,21 +192,39 @@ Validator routines
 ^^^^^^^^^^^^^^^^^^
 The following validator routines are currently available:
 
-======================   ====================================================   =======================================
-Validation type          Example                                                Comment
-======================   ====================================================   =======================================
-mandatory                mandatory: true
-minLength                minLength : 5
-maxLength                maxLength : 5
-regex                    regex: "[a-zA-Z0-9]+"                                  Uses default validation message
+.. list-table::
+   :widths: 35 35 30
 
-                         regex: "[a-zA-Z0-9]+",                                 Uses custom error messagee
-                         regexMessage: "''{0}'' must be a number or letter"
-minValue                 minValue: 5
-maxValue                 maxValue: 50
-dateFormat               dateFormat: yyyy/mm/dd
-emailAddress             emailAddress: true
-======================   ====================================================   =======================================
+   * - **Validation type**
+     - **Example**
+     - **Comment**
+   * - mandatory
+     - mandatory:true
+     - 
+   * - minLength
+     - minLength: 5
+     -
+   * - maxLength
+     - maxLength : 5
+     -
+   * - regex
+     - regex: "[a-zA-Z0-9]+"                                  
+     - Uses default validation message
+   * - 
+     - regex: "[a-zA-Z0-9]+", regexMessage: "''{0}'' must be a number or letter"
+     - Uses custom error message
+   * - minValue
+     - minValue: 5
+     - 
+   * - maxValue
+     - maxValue: 50
+     - 
+   * - dateFormat
+     - dateFormat: yyyy/mm/dd
+     -
+   * - emailAddress
+     - emailAddress: true
+     - 
 
 **Full example**:
 

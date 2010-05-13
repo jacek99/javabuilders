@@ -175,8 +175,10 @@ compact syntax to the equivalent "full" YAML content
 Tabs in YAML
 ^^^^^^^^^^^^
 
-Tabs are simply not allowed in YAML, period. You always indent using explicit whitespace. Putting a tab
-into a YAML file will cause it to fail to parse
+.. warning::
+ 
+   Tabs are simply not allowed in YAML, period. You always indent using explicit whitespace. Putting a tab
+   into a YAML file will cause it to fail to parse
 
 YAML syntax samples
 ^^^^^^^^^^^^^^^^^^^
