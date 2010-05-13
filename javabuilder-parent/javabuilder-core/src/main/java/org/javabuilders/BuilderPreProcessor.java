@@ -3,6 +3,7 @@
  */
 package org.javabuilders;
 
+import static org.javabuilders.util.BuilderUtils.getRealKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -219,18 +220,10 @@ public class BuilderPreProcessor {
 		return current;
 
 	}
-	
-	//handles child keys that may have a virtual constructor embedded in them
-	private static String getRealKey(String key) {
-		if (key.indexOf('(') > 0 && key.endsWith(")"))  {
-			key = key.substring(0,key.indexOf('('));
-		} 
-		return key;
-	}
-	
+
 	//explodes a type entered as a list or single value into a proper map
 	@SuppressWarnings("unchecked")
-	private static void explodeShortcutTypeToMap(BuilderConfig config, BuildProcess process,  ITypeHandler handler, String key, Map<String,Object> current) throws BuildException {
+	public static void explodeShortcutTypeToMap(BuilderConfig config, BuildProcess process, ITypeHandler handler, String key, Map<String,Object> current) throws BuildException {
 		Object value = current.get(key);
 		//handle special short-hand cases where it may be shown as a list
 		//need to "move" the list to a pre-defined property name...used for short-hand formats of type entry

@@ -283,11 +283,15 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		String name = co.getControlName();
 		
 		Object component = getComponent(process, components, name);
+		
 		if (component == null) {
+			
 			//component not found - maybe need to creaate it from the string literals?
 			if (name.startsWith("\"") && name.endsWith("\"")) {
 				//string literal -> means create a brand new component from it
 				String text = name.replace("\"","");
+				text = BuilderUtils.handlePotentialHtmlContent(text);
+				
 				text = process.getBuildResult().getResource(text); //handle internationalization
 				
 				Object value = YAML.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
@@ -316,6 +320,11 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				
 				IPropertyHandler propHandler = TypeDefinition.getPropertyHandler(process.getConfig(),defaultTypeClass, defaultTypePropertyName);
 				propHandler.handle(process.getConfig(), process, newNode, defaultTypePropertyName);
+				
+			} else {
+				
+				//auto-create controls based on name
+				component = Builder.buildControlFromName(process, components, name);
 				
 			}
 		}

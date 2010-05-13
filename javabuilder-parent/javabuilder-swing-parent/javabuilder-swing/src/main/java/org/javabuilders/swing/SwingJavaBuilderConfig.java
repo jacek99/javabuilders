@@ -441,6 +441,29 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		
 		initializeBeansBinding();
 
+		//global controls
+		global("JButton(name=btnOK,onAction=ok,text=OK)");
+		global("JButton(name=btnClose,onAction=close,text=Close)");
+		global("JButton(name=btnSave,onAction=save,text=Save)");
+		global("JButton(name=btnCancel,onAction=cancel,text=Cancel)");
+		global("JButton(name=btnApply,onAction=apply,text=Apply)");
+		
+		//auto-creation of controls
+		prefix("btn",JButton.class);
+		prefix("tgl",JToggleButton.class);
+		prefix("txt",JTextField.class);
+		prefix("cbx",JCheckBox.class);
+		prefix("rb",JRadioButton.class);
+		prefix("cmb",JComboBox.class);
+		prefix("lst",JList.class);
+		prefix("txa",JTextArea.class);
+		prefix("tbl", JTable.class);
+		prefix("tr",JTree.class);
+		prefix("sld",JSlider.class);
+		prefix("prg",JProgressBar.class);
+		prefix("pwd",JPasswordField.class);
+		prefix("spn",JSpinner.class);
+		prefix("sep",JSeparator.class);
 	}
 
 	/**

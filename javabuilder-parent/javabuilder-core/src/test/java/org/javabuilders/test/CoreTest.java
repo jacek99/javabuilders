@@ -2,6 +2,7 @@ package org.javabuilders.test;
 
 import static org.junit.Assert.*;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.javabuilders.BuildResult;
@@ -50,6 +51,19 @@ public class CoreTest {
 		assertNotNull(r.get("testPanel"));
 		assertTrue(r.get("testPanel") instanceof JPanel);
 		
+	}
+	
+	@Test
+	public void testGlobalControlNameParsing() {
+		
+		TestBuilderConfig config = new TestBuilderConfig(JButton.class);
+		
+		assertEquals("test32_3",config.global("JButton(name=test32_3)"));
+		assertEquals("test32",config.global("JButton( name=test32 )"));
+		assertEquals("test4",config.global("JButton(onAction=sux,name=test4 ))"));
+		assertEquals("test55",config.global("JButton(onAction=sux,name=test55, tes3t=3 )"));
+		
+		assertEquals("JButton(name=test32_3)",config.getGlobal("test32_3"));
 	}
 	
 }

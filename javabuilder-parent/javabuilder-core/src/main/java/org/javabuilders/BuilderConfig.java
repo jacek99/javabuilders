@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javabuilders.event.BuildListener;
 import org.javabuilders.event.IBackgroundProcessingHandler;
@@ -36,6 +38,8 @@ import org.javabuilders.util.PropertyUtils;
  * @author Jacek Furmankiewicz
  */
 public class BuilderConfig {
+	
+	private static final Pattern nameExtractor = Pattern.compile(".+\\((?:\\s*|.*,\\s*)name\\s*=\\s*([a-zA-Z0-9_]+)(?:\\s*|,|).*\\).*");
 	
 	static ITypeHandler defaultTypeHandler = new DefaultTypeHandler();
 	static IPropertyHandler defaultPropertyHandler =  DefaultPropertyHandler.getInstance();
@@ -96,6 +100,9 @@ public class BuilderConfig {
 	private Map<String,Object> globals = new HashMap<String, Object>();
 	
 	private String namePropertyName = Builder.NAME;
+	
+	private Map<String,Class<?>> prefixes = new HashMap<String, Class<?>>();
+	private Map<String,String> globalControls = new HashMap<String, String>();
 	
 	/**
 	 * Constructor
@@ -624,5 +631,49 @@ public class BuilderConfig {
 	public IPropertyHandler getPropertyHandler(Class<?> classType, String key) {
 		return TypeDefinition.getPropertyHandler(this, classType, key);
 	}
+	
+	/**
+	 * Defines a control prefix (e.g. "btn", "cbx") which will be associated with a particular type.
+	 * This can allow types to be instantiated automatically based on name (e.g. "btnOK" could create
+	 * a JButton named "btnOK" with onAction=ok wired in automatically)
+	 * @param prefix
+	 * @param clazz
+	 */
+	public void prefix(String prefix, Class<?> clazz) {
+		prefixes.put(prefix, clazz);
+	}
+	
+	/**
+	 * @param prefix Control prefix
+	 * @return Control associated with prefix, null if not found
+	 */
+	public Class<?> getPrefix(String prefix) {
+		return prefixes.get(prefix);
+	}
 
+	/**
+	 * Defines a global control via a YAML snippet. When a control with the name specified in YAML
+	 * is encountered in the MigLayout section (or equivalent), it will be auto-created using
+	 * this snippet
+	 * @param yaml
+	 * @return
+	 */
+	public String global(String yaml) {
+		Matcher m = nameExtractor.matcher(yaml);
+		if (m.find() && m.groupCount() >= 1) {
+			String name = m.group(1);
+			globalControls.put(name, yaml);
+			return name;
+		} else {
+			throw new RuntimeException("Unable to extract 'name' property from YAML: " + yaml);
+		}
+	}
+	
+	/**
+	 * @param name Control name
+	 * @return YAML snippet associated with the global control name or null if not found
+	 */
+	public String getGlobal(String name) {
+		return globalControls.get(name);
+	}
 }

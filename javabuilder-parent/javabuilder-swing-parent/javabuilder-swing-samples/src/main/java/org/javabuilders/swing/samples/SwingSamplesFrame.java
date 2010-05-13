@@ -148,7 +148,7 @@ public class SwingSamplesFrame extends JFrame {
             		
             		new SwingSamplesFrame().setVisible(true);
             	} catch (Exception ex) {
-            		System.err.println(ex);
+            		ex.printStackTrace(System.err);
             	}
             }
         });

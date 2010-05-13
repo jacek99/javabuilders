@@ -1,7 +1,5 @@
 package org.javabuilders.test;
 
-import javax.swing.JComponent;
-
 import org.javabuilders.BuilderConfig;
 
 /**

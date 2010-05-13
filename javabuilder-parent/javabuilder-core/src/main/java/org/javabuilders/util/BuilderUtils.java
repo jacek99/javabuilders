@@ -1135,5 +1135,32 @@ public class BuilderUtils {
     	return value;
     }
     
+	
+	/**
+	 * Extracts actual key from compressed YAML (e.g: JButton from JButton(name=button,onAction=save))
+	 * @param key Key
+	 * @return Actual key
+	 */
+	public static String getRealKey(String key) {
+		if (key.indexOf('(') > 0 && key.endsWith(")"))  {
+			key = key.substring(0,key.indexOf('('));
+		} 
+		return key;
+	}
+	
+	/**
+	 * Wraps <html> tags around text if HTML content fount
+	 * @param text
+	 * @return
+	 */
+	public static String handlePotentialHtmlContent(String text) {
+		String html = text;
+		if (text.contains("<") && text.contains("</")) {
+			html = String.format("<html>%s</html>",text);
+		}
+		return html;
+	}
+
+    
 
 }

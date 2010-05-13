@@ -70,6 +70,10 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 			String componentConstraint = layoutConstraints.get(componentName);
 			Component component = SwingJavaBuilderUtils.getComponent(components,String.valueOf(componentName));
 
+			if (component == null) {
+				throw new BuildException("Unable to find component for name: {0}",componentName);
+			}
+			
 			if (logger.isDebugEnabled()) {
 				logger.debug("MigLayout constraints for " + componentName + " : " + componentConstraint);
 			}

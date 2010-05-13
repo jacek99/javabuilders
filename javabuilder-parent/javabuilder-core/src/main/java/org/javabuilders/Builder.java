@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.event.BuildEvent;
@@ -47,6 +49,8 @@ import org.slf4j.LoggerFactory;
 public class Builder {
 	
 	private final static Logger logger = LoggerFactory.getLogger(Builder.class);
+	
+	private static final Pattern prefixNameSplitter = Pattern.compile("([a-z]+)([A-Z0-9]+[a-zA-Z0-9]*)");
 	
 	public final static Map<String,?> EMPTY_PROPERTIES = null;
 
@@ -332,6 +336,50 @@ public class Builder {
 	}
 	
 	/**
+	 * Builds a single control within the context of an already running build process.
+	 * Used for auto-building from control name
+	 * @return
+	 */
+	public static Object buildControlFromName(BuildProcess process, Node parent, String name) {
+		//first check if it is a globally defined control
+		String yaml = process.getConfig().getGlobal(name);
+		Class<?> clazz = null;
+		if (yaml != null) {
+			
+			String key = BuilderUtils.getRealKey(yaml);
+			clazz = process.getConfig().getClassType(key);
+			if (clazz == null) {
+				throw new BuildException("Unable to find type for global control {0}",yaml);
+			}
+			
+		} else {
+			
+			//not global - may be prefix based
+			Matcher m = prefixNameSplitter.matcher(name);
+			if (m.find() && m.groupCount() == 2) {
+				String prefix = m.group(1);
+				@SuppressWarnings("unused")
+				String suffix = m.group(2);
+				
+				clazz = process.getConfig().getPrefix(prefix);
+				if (clazz != null) {
+					yaml = String.format("{name: %s}",name);
+				} else {
+					throw new BuildException("Unable to find type for prefix {0} for {1}",prefix,name);
+				}
+				
+			} else {
+				throw new BuildException("Unable to parse prefix and suffix from control name: {0}",name);
+			}
+		}
+		
+		//now that we have the YAML, let's process it as if it was part of the actual build file
+		Object rawDocumentNode = YAML.load(yaml);
+		processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), rawDocumentNode);
+		return process.getByName(name);
+	}
+	
+	/**
 	 * Actual building logic happens here
 	 * @throws BuildException 
 	 */
@@ -428,6 +476,7 @@ public class Builder {
 	
 	/**
 	 * Processes a particular document node
+	 * Called either from the Builder or from AutoBuilder
 	 * @param rawDocumentNode
 	 * @throws BuildException 
 	 */

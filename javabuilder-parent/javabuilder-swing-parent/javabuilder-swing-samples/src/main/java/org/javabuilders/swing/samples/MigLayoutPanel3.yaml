@@ -1,65 +1,47 @@
 JPanel:
     - JPanel(name=clientPanel, groupTitle=Client):
-        - JLabel(name=clientIdLabel, text="Client ID:")
-        - JTextField(name=clientId)
-        - JLabel(name=nameLbl, text="Name:")
-        - JTextField(name=nameField)
-        - JLabel(name=phoneLabel, text="Phone:")
-        - JTextField(name=phone)
-        - JLabel(name=faxLabel, text="Fax:")
-        - JTextField(name=fax)
-        - JLabel(name=regLabel, text="Registration:")
-        - JTextField(name=reg)
-        - JLabel(name=siteLabel, text="Website:")
-        - JTextField(name=site)
         - JButton(name=clientDetailsBtn, text=Details...)
-        - MigLayout:
-            layoutConstraints: "wrap 2"
-            columnConstraints: "[right] [100,fill, grow]"
-            constraints: [clientIdLabel,clientId,nameLbl,nameField,phoneLabel,phone,faxLabel,fax,regLabel,reg,siteLabel,site,clientDetailsBtn]
+        - MigLayout: |
+            [right]           [100,fill,grow]
+            "Client ID:"      txtClientId
+            "Name:"           txtName
+            "Phone:"          txtPhone
+            "Fax:"            txtFax
+            "Registration:"   txtReg
+            "Website:"        txtSite
+            clientDetailsBtn
     - JPanel(name=infoPanel, groupTitle=Information):
-        - JTextField(name=reserve)
         - JButton(name=addDaysBtn, text=Add Days)
-        - JTextField(name=buyer)
-        - JTextField(name=seller)
-        - JTextField(name=address)
-        - JTextField(name=rating)
         - JButton(name=spUpdateBtn, text="S&P Update")
         - JCheckBox(name=approvedCbx, text=Approved, selected=true)
-        - JTextField(name=approved)
         - MigLayout: |
-              [right,pref]    [grow]     [pref]
-              "Reserve days:" reserve    addDaysBtn=1
-              "Buyer:"        buyer+*
-              "Seller:"       seller+*
-              "Address:"      address+*
-              "Rating:"       rating     spUpdateBtn=1
-              <approvedCbx    approved+*        
+              [right,pref]    [grow]        [pref]
+              "Reserve days:" txtReserve    addDaysBtn=1
+              "Buyer:"        txtBuyer+*
+              "Seller:"       txtSeller+*
+              "Address:"      txtAddress+*
+              "Rating:"       txtRating     spUpdateBtn=1
+              <approvedCbx    txtApproved+*        
     - JPanel(name=additionalPanel, groupTitle=Additional Information):
-        - JTextField(name=close)
         - JButton(name=closeEditBtn, text=Edit, icon=images/document-open.png)
-        - JTextField(name=creationDate)
         - MigLayout: |
-            [right]            [grow,100]    [pref]
-            "Estimated close:" close         closeEditBtn
-            "Creation date:"   creationDate
+            [right]            [grow,100]      [pref]
+            "Estimated close:" txtClose        closeEditBtn
+            "Creation date:"   txtCreationDate
     - JPanel(name=yamlPanel, groupTitle=YAML Source):
          - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
          - JButton(name=addBtn, text=Add, icon=images/document-new.png)
          - JButton(name=editBtn, text=Edit, icon=images/document-open.png)
          - JButton(name=deleteBtn, text=Delete, icon=images/edit-delete.png)
          - JSeparator(name=sep1)
-         - JTextField(name=subtotal)
-         - JTextField(name=retailer)
-         - JTextField(name=wholesaler)
          - MigLayout: |
               [grow]      [pref]      24            [pref,right,100]   [pref]
-              scroll1+3+3                                     addBtn+1+3=1
-                                                              editBtn=1
-                                                              deleteBtn=1
-              sep1        "Subtotal list price:"    subtotal
-                          "Retailer price:"         retailer
-                          "Wholesaler price:"       wholesaler 
+              scroll1+3+3                                              addBtn+1+3=1
+                                                                       editBtn=1
+                                                                       deleteBtn=1
+              sep1        "Subtotal list price:"    txtSubtotal
+                          "Retailer price:"         txtRetailer
+                          "Wholesaler price:"       txtWholesaler 
     - JPanel(name=buttonPanel):
         - JButton(name=exportBtn, text="Export", icon=images/document-save-as.png)
         - JButton(name=saveBtn, text="Save", icon=images/document-save.png)
