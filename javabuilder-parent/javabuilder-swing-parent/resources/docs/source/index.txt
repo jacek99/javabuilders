@@ -18,4 +18,3 @@ Swing JavaBuilder - Maximum productivity with minimum code
     plugins.txt
     common-docs/extending.txt
 
-* :ref:`search`

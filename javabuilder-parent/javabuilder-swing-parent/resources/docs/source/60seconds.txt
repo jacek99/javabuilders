@@ -1,3 +1,5 @@
+.. highlight:: java
+
 Swing JavaBuilder in 60 seconds or less
 =======================================
 
@@ -69,7 +71,9 @@ it to a database via a long running task on a background thread.
                 }
        }
        
-5. Create a *PersonApp.properties* file in the root package with the internationalized resources::
+5. Create a *PersonApp.properties* file in the root package with the internationalized resources:
+
+.. code-block:: none
 
     button.save=Save
     button.cancel=Cancel
@@ -77,7 +81,9 @@ it to a database via a long running task on a background thread.
     label.lastName=Last Name:
     label.email=Email
     
-6. Create the view YAML file *PersonApp.yaml* in the *person.app* package::
+6. Create the view YAML file *PersonApp.yaml* in the *person.app* package:
+       
+.. code-block:: yaml       
        
        JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
            - JTextField(name=fName)
@@ -101,8 +107,6 @@ it to a database via a long running task on a background thread.
 
            
 7. Create the controller Java class *person.app.PersonApp* (same package where the YAML file is)::
-
-    test.app
 
     package person.app;
    

@@ -1,3 +1,5 @@
+.. highlight:: java
+
 Overview
 ========
 
@@ -16,7 +18,9 @@ In short any object that is built using a JavaBuilder consists of two files:
   in the window).
 
 Using a convention over configuration approach inspired by the Apache Wicket web framework, both
-files reside in the same package and with the same name, but just with a different file extension, e.g.::
+files reside in the same package and with the same name, but just with a different file extension, e.g.:
+
+.. code-block:: none
 
     MainApplicationFrame.java
     MainApplicationFrame.yaml
@@ -31,7 +35,9 @@ If you are using an inner class, e.g.::
        }
     }
     
-then you can define a YAML file using the "DeclaringClass.InnerClass.yaml" format, e.g.::
+then you can define a YAML file using the "DeclaringClass.InnerClass.yaml" format, e.g.:
+
+.. code-block:: none
 
     CommonPanels.SomePanel.yaml
 
@@ -71,11 +77,15 @@ What is YAML?
 I discovered YAML while reading about Ruby on Rails. It is used by that web framework as the default
 file format for all configuration files. It has a very simple approach to define hierarchical data
 structures/maps/list, based on straightforward whitespace indentation. Also, it handles text transparently.
-There is usually no need to input text in quotes, you can just type it as is, e.g.::
+There is usually no need to input text in quotes, you can just type it as is, e.g.:
+
+.. code-block:: yaml
 
     text: This is the text for my control
     
-The only time you need to escape into quotes is if your text contains YAML-reserved characters such as ":", e.g.::
+The only time you need to escape into quotes is if your text contains YAML-reserved characters such as ":", e.g.:
+
+.. code-block:: yaml
 
     text: "First name:"
     
@@ -123,7 +133,9 @@ Although YAML relies on whitespace indentation to indicate hierarchy, you can at
 document switch to JSON-style brackets. This allows to keep the file shorter and more concise and
 should be used on all bottom-level nodes (i.e. those that have no children).
 
-Pure whitespace YAML example::
+Pure whitespace YAML example:
+
+.. code-block:: yaml
 
  JFrame:
       name: myFrame
@@ -136,7 +148,9 @@ Pure whitespace YAML example::
                    name: myLabel2
                    text: My Second Label
 
-The same content can be compressed using JSON-style brackets to::
+The same content can be compressed using JSON-style brackets to:
+
+.. code-block:: yaml
                                                               
  JFrame:
      name: myFrame
@@ -147,7 +161,9 @@ The same content can be compressed using JSON-style brackets to::
 
 However, in most cases you will not be coding in either traditional YAML or JSON. We have enhanced
 the standard YAML syntax to make it even more compact (more on that in the next sections). In most
-cases your YAML content will look like this::
+cases your YAML content will look like this:
+
+.. code-block:: yaml
  
  JFrame(name=myFrame,title=My Frame):
       - JLabel(name=myLabel2, text=My First Label)
@@ -165,23 +181,31 @@ into a YAML file will cause it to fail to parse
 YAML syntax samples
 ^^^^^^^^^^^^^^^^^^^
 
-Values::
+Values:
+
+.. code-block:: yaml
 
   text: Some text
  
-Maps::
+Maps:
+
+.. code-block:: yaml
 
  JFrame:
      name: myFrame
      title: My Frame
  
-Lists (via the "-" indicator)::
+Lists (via the "-" indicator):
+
+.. code-block:: yaml
 
       content:
            - Item1
            - Item2 : {somePropertyForItem2: someValueforItem2}
  
-Free-form text with new lines preserved (accomplished with the "|" indicator)::
+Free-form text with new lines preserved (accomplished with the "|" indicator):
+
+.. code-block:: yaml
 
      quote: |
         To code by hand or not?
@@ -200,7 +224,9 @@ Although the base YAML format is already pretty concise, JavaBuilders adds a cus
 that we call "virtual constructor flow", otherwise referred to simply as compact YAML. It allows to specify
 the child properties of an object in the same line of text as the object definition.
                             
-Here's a pure YAML example::
+Here's a pure YAML example:
+
+.. code-block:: yaml
 
  JFrame:
      name: frame
@@ -215,7 +241,9 @@ Here's a pure YAML example::
                 text: Save
                 onAction: save
  
-The same content can be entered in much less lines using our compact syntax::
+The same content can be entered in much less lines using our compact syntax:
+
+.. code-block:: yaml
 
  JFrame(name=frame,title=My Frame):
       - JButton(name=buttonClose,text=Close,onAction=close)
@@ -224,7 +252,7 @@ The same content can be entered in much less lines using our compact syntax::
 Let's be clear: this is not part of the official YAML standard. This is something specific to JavaBuilders
 that was added to make the YAML file even smaller.
 
-Basic concepts
+**Basic concepts**
 
 * properties and their values are entered between ( and ) on the same line as the object they refer to
 * instead of the default YAML "name: value" format it uses "name=value" but it still uses the default YAML collection indicators [ and ] 
@@ -274,7 +302,9 @@ Ruby/Groovy) to Java. See this typical Java Swing example::
         }
     });
  
-The equivalent compact YAML content would be just::
+The equivalent compact YAML content would be just:
+
+.. code-block:: yaml
 
     JButton(name=okButton,text=button.ok,onAction=save)
 
@@ -293,7 +323,9 @@ code is generated for you by Matisse), but once you get into larger, more comple
 harder to maintain them in a GUI builder, especially if you have to move the layout around a lot. In
 JavaBuilders, it's just a matter of changing a few lines of text in a YAML file.
 
-Also, e can add "custom" properties to existing objects, so we can enhance APIs or make them easier, e.g.::
+Also, e can add "custom" properties to existing objects, so we can enhance APIs or make them easier, e.g.:
+
+.. code-block:: yaml
 
     JFrame(size=800x400)
 

@@ -1,3 +1,5 @@
+.. highlight:: java
+
 Introduction
 ============
 
@@ -27,11 +29,11 @@ In essence, the Swing JavaBuilder is an aggregator of best-of-breed Swing soluti
 integrated toolkit that makes creating Swing user interfaces a breeze
 
 .. note::
-
-YAML is a file format that is a superset of JSON. We will cover it in more detail in future chapters. It's
-very simple to understand, edit and maintain. It's main advantage over both XML and JSON is the lack of
-any opening or closing tags, since it implements hierarchical data relationships via whitespace
-indentation (similar to the Python programming language).
+ 
+    YAML is a file format that is a superset of JSON. We will cover it in more detail in future chapters. 
+    It's very simple to understand, edit and maintain. It's main advantage over both XML and JSON is the lack of
+    any opening or closing tags, since it implements hierarchical data relationships via whitespace indentation 
+    (similar to the Python programming language).
 
 
 Preface
@@ -98,7 +100,9 @@ how you can build complex user interfaces using this library.
 Maven
 ^^^^^
 
-If you are using Maven, you can just point to our custom repository::
+If you are using Maven, you can just point to our custom repository:
+
+.. code-block:: xml
 
     <repositories> 
             <repository> 
@@ -107,9 +111,11 @@ If you are using Maven, you can just point to our custom repository::
             </repository> 
     </repositories>
 
-Please check the JavaBuilders.org website for the latest version.
+Please check the www.javabuilders.org website for the latest version.
 
-At the time of writing, the latest version was::
+At the time of writing, the latest version was:
+
+.. code-block:: xml
 
     <dependencies> 
             <dependency> 
@@ -120,7 +126,9 @@ At the time of writing, the latest version was::
     </dependencies>
     
 When creating a new Maven project, it is recommended that you change the default setup to allow Java and resource YAML files
-to be in the same source code folder, instead of being split across the *src/main/java* and *src/main/resources* folders::
+to be in the same source code folder, instead of being split across the *src/main/java* and *src/main/resources* folders:
+ 
+.. code-block:: xml 
  
     <build>
         <resources>

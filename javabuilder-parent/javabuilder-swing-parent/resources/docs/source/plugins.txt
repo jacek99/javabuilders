@@ -1,3 +1,5 @@
+.. highlight:: java
+
 Plugins
 =======
 
@@ -40,7 +42,9 @@ EventListModel.source property in the YAML file to it.
            }
      }
      
-    *YAML*::
+    *YAML*:
+    
+    .. code-block:: yaml
     
          JPanel:
                - JList(name=list):
@@ -66,7 +70,9 @@ in your Java code to hold the master list of objects and point the EventComboBox
                }
          }
          
-    *YAML*::
+    *YAML*:
+    
+    .. code-block:: yaml
     
      JPanel:
            - JComboBox(name=box):
@@ -99,7 +105,9 @@ Java code to hold the master list of objects and point the EventTableModel.sourc
               }
          }
 
-    *YAML*::
+    *YAML*:
+    
+    .. code-block:: yaml
  
          JPanel:
               - JTable(name=list):
@@ -113,14 +121,18 @@ The sample code shown above displays by default all properties that can be found
 as table columns. Usually though you would want to maintain some control over that, as well as customize 
 certain parameters of the column (e.g. the header string). 
 
-The simplest way to accomplish this is to define a columns=[] element::
+The simplest way to accomplish this is to define a columns=[] element:
+
+.. code-block:: yaml
 
      JPanel:
           - JTable(name=list):
                - EventTableModel(name=model,source=values,columns=[firstName,lastName])
                
 The example above will display only the "firstName" and "lastName" properties as columns. Alternatively,
-you can to explicitly define the TableColumn instances::
+you can to explicitly define the TableColumn instances:
+
+.. code-block:: yaml
  
       JPanel:
           - JTable(name=list):
@@ -149,7 +161,9 @@ Within a single YAML file, all object names must be unique. So what happens if w
 tables that display data from different POJOs (or maybe different views of the same POJO) that happen
 to have the same names? In this particular case, you can use the ``source`` property of the TableColumn level. 
 
-If this property is defined, the builder will use that instead of ``name`` to map a TableColumn to a POJO's property.::
+If this property is defined, the builder will use that instead of ``name`` to map a TableColumn to a POJO's property.:
+
+.. code-block:: yaml
 
      JPanel:
           - JTable(name=list1):
@@ -171,13 +185,17 @@ In order to enable sorting, you have to add the sort property, which has two all
 * ``single`` - sorts by single column only
 * ``multi`` - allows sorting by multiple columns
 
-Sorting is activated by the user clicking with the mouse on the column headers.::
+Sorting is activated by the user clicking with the mouse on the column headers.:
+
+.. code-block:: yaml
 
      JPanel:
           - JTable(name=list):
                 - EventTableModel(name=model,source=values,columns=[firstName,lastName],sort=multi)
 
-In order to specify a pre-defined initial sort, pass in the list of column names into the ``sortBy`` property, e.g.::
+In order to specify a pre-defined initial sort, pass in the list of column names into the ``sortBy`` property, e.g.:
+
+.. code-block:: yaml
  
      EventTableModel(source=values,columns=[firstName,lastName,birthDate],
           sort=multi,sortBy=[birthDate,lastName])

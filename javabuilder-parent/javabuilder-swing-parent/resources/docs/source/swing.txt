@@ -1,3 +1,5 @@
+.. highlight:: yaml
+
 Swing Features
 ==============
 
@@ -9,10 +11,10 @@ Overview
 
 The Swing JavaBuilder is an instance of the JavaBuilders engine, pre-configured for use with the Swing
 UI toolkit. It is represented by the main class ``org.javabuilders.swing.SwingJavaBuilder`` and in
-most typical cases that is the only class you will be dealing with.
+most typical cases that is the only class you will be dealing with.:
 
-    *Java*::
-    
+.. code-block:: java
+
         public class MyFrame extends JFrame {
              private BuildResult result = SwingJavaBuilder.build(this);
              public MyFrame() {}
@@ -68,11 +70,13 @@ The regular Swing Action API has been modified separately to separate the concep
 internationalized, without affecting the name). It provides name, text, toolTipText, icon
 properties and the name of the Java method to be invoked is defined in the onAction handler.
  
-    *YAML*::
-    
+*YAML*::
+
         Action(name=newAction, text=menu.file.new, icon=images/document-new.png, onAction=onFileNew)
         
-    *Java*::
+*Java*:
+    
+.. code-block:: java    
     
        private void onFileNew() {
            System.out.print("onFileNew was invoked!");
@@ -80,7 +84,7 @@ properties and the name of the Java method to be invoked is defined in the onAct
        
 Any descendant of AbstractButton (such as JMenuItem or JButton can then refer to it in its
 action property, e.g.::
- 
+
      JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose):
           - Action(name=newAction, text=menu.file.new, toolTipText=menu.file.new.tooltip, icon=images/document-new.png, onAction=onFileNew)
           - Action(name=openAction, text=menu.file.open, toolTipText=menu.file.open.tooltip, icon=images/document-open.png, onAction=onFileOpen)
@@ -195,7 +199,7 @@ Titled Border
 
 A titled border is a special case, since it has a text associated with it. In this case, there is a special
 property that will automatically create a TitledBorder and put the proper text in it, namely ``groupTitle``::
- 
+
      JPanel(name=groupBox1, groupTitle=Customer Data):
            - JLabel(name=nameLabel, text="Customer name:")
            - JText(name=nameField)
@@ -421,7 +425,9 @@ Custom Table Models
 ^^^^^^^^^^^^^^^^^^^
 
 You can integrate custom table models into your JTables. First, you must register your custom model
-(usually in the main(), so that the Swing JavaBuilder engine is aware of it, e.g.::
+(usually in the main(), so that the Swing JavaBuilder engine is aware of it, e.g.:
+
+.. code-block:: java
 
     SwingJavaBuilder.getConfig().addType(MyCustomTableModel.class);
     
@@ -436,7 +442,9 @@ Then you can just refer to it directly::
 
     Your custom table does not actually need to have name property. If it does not exist, the Swing
     JavaBuilder will handle it as a virtual property. A named instance of the model (that you can manipulate
-    from the Java code) will be created, e.g.::
+    from the Java code) will be created, e.g.:
+    
+    .. code-block:: java    
 
         private MyCustomTableModel model;        //reference will be set during build process
 
@@ -499,7 +507,9 @@ Event handlers
 
 Here's a complete list of event handlers by component type. Next to them is also the event-specific class
 that can get passed to your Java method if you require it (just remember to make it part of the method's
-signature), e.g.::
+signature), e.g.:
+
+.. code-block:: java
  
      private void someButtonClicked() {
               //...one valid signature...

@@ -1,3 +1,5 @@
+.. highlight:: java
+
 Core Features
 =============
 
@@ -13,12 +15,14 @@ need to be public).
 
 Simple example:
 
-    *MyFrame.yaml*::
+*MyFrame.yaml*:
+    
+.. code-block:: yaml    
   
         JFrame:
              - JButton(name=okButton,text=OK,onAction=save)
 
-    *MyFrame.java*::
+*MyFrame.java*::
     
         public class MyFrame extends JFrame {
              //this object's reference will be set automatically
@@ -100,7 +104,9 @@ other languages, the binding is not defined at the property level, but is a stan
 This is done to enforce separation of concerns and ensure clarity. You can see all your data binding in
 one place, all together.
 
-Sample (assume we have a backing JFrame JavaBean with two public properties "lastName" and "firstName")::
+Sample (assume we have a backing JFrame JavaBean with two public properties "lastName" and "firstName"):
+
+.. code-block:: yaml
 
      JFrame(name=frame,title=Hallo):
           - JTextField(name=firstNameField)
@@ -136,12 +142,14 @@ JFace Databinding engine does not (and therefore they are not supported for the 
 Input validation
 ----------------
 
-Similar to data binding, input validation is configured via a separate root level node called *validate*::
+Similar to data binding, input validation is configured via a separate root level node called *validate*:
+
+.. code-block:: yaml
 
      JFrame(name=frame,title=Binding Frame,size=packed):
            - JTextField(name=fName)
            - JTextField(name=lName)
-           - JButton(name=ok, text=OK, onAction=($validate,save,cancel))
+           - JButton(name=ok, text=OK, onAction=[$validate,save,cancel])
            - JButton(name=cancel, text=Cancel, onAction=cancel)
            - MigLayout: |
                []              [grow,200px]
@@ -158,7 +166,7 @@ Invoking input validation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 If you want to do in from the YAML file, just put *$validate* as the method name in any event handler, e.g.::
  
-    JButton(name=saveBtn,text=Save,onAction=($validate,save,close))
+    JButton(name=saveBtn,text=Save,onAction=[$validate,save,close])
  
 If you want to do it from the Java then you just need to call the *validate()* method on the BuildResult object that was returned::
  
@@ -173,7 +181,9 @@ Field label for error messages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The "label" property is used to define the name of the field that will be using in any error messages. It is
- localizable, so you can sent it a resource key instead, e.g.::
+ localizable, so you can sent it a resource key instead, e.g.:
+ 
+ .. code-block:: yaml
  
      validate:
           - fName.text: {label: label.firstName, mandatory: true, minLength : 5}
@@ -198,7 +208,9 @@ dateFormat               dateFormat: yyyy/mm/dd
 emailAddress             emailAddress: true
 ======================   ====================================================   =======================================
 
-**Full example**::
+**Full example**:
+
+.. code-block:: yaml
  
      validate:
           - mandatory.text: {label: Mandatory Field, mandatory: true}
@@ -308,7 +320,9 @@ A typical scenario in an input dialog that occurs when a user presses the Save b
 3. close the window
  
 The way to handle this is to have the button execute multiple methods in sequence,
-within ``[method1,method2,method3]`` brackets, e.g.::
+within ``[method1,method2,method3]`` brackets, e.g.:
+
+.. code-block:: yaml
  
     JButton(text=Save,onAction=[$validate,save,close])
     
@@ -376,11 +390,15 @@ Usage
 Once you register a resource bundle, you can pass a resource name directly to any of the properties that
 have been flagged as localizable, e.g.
 
-    *YAML*::
+*YAML*:
+
+.. code-block:: yaml
     
         JButton(name=okButton, text=button.ok)
         
-    *Properties file*::
+*Properties file*:
+
+.. code-block:: none
     
         button.ok=OK
         
@@ -398,11 +416,15 @@ If your enum is defined using this type of naming convention::
     //enum defined like static int constants
     enum StartPosition{ CENTER_IN_SCREEN, CENTER_IN_PARENT, MANUAL }
     
-In YAML, you can do then either::
+In YAML, you can do then either:
+
+.. code-block:: yaml
     
     JXFrame(startPosition=CENTER_IN_PARENT)
     
-or the Java camel-case named equivalent::
+or the Java camel-case named equivalent:
+
+.. code-block:: yaml
 
     JXFrame(startPosition=centerInParent)
     
@@ -414,11 +436,15 @@ If your enum is defined instead using a Pascal case syntax, e.g.::
     //enum defined like static int constants
     enum StartPosition{ CenterInScreen, CenterInParent, Manual}
     
-then you can still do either the original constant value or the camel-case named equivalent::
+then you can still do either the original constant value or the camel-case named equivalent:
+
+.. code-block:: yaml
 
     JXFrame(startPosition=CenterInParent)
 
-or::
+or:
+
+.. code-block:: yaml
 
     JXFrame(startPosition=centerInParent)
     
@@ -427,11 +453,15 @@ Static int constant property values
 
 Similar to the way Enum values are handled, the default behaviour is that when a String value is passed
 to an int property, the builder will attempt to find a corresponding final static int value on the
-Java class and use that. Both camel-case values and actual static constant names can be used, e.g.::
+Java class and use that. Both camel-case values and actual static constant names can be used, e.g.:
+
+.. code-block:: yaml
 
     JFrame(defaultCloseOperation=EXIT_ON_CLOSE)
     
-or::
+or:
+
+.. code-block:: yaml
 
     JFrame(defaultCloseOperation=exitOnClose)
 
@@ -443,7 +473,9 @@ However, the current builder does not know how to map your custom component name
 In order to let it know all you have to do is define an instance variable with the same type in your
 Java-side code and it will automatically find the corresponding class definition that way, e.g.
 
-    *YAML*::
+*YAML*:
+
+.. code-block:: yaml
     
          JFrame(title=frame.title,state=max,defaultCloseOperation=exitOnClose):
               - ComponentsPanel(name=componentsPanel,tabTitle=tab.components)
@@ -452,7 +484,7 @@ Java-side code and it will automatically find the corresponding class definition
               - FlowLayoutPanel(name=flowLayoutPanel,tabTitle=tab.flowLayout)
               - MigLayoutPanel1(name=migLayoutPanel1,tabTitle=tab.migLayout1)
 
-    *Java*::
+*Java*::
     
          private   ComponentsPanel componentsPanel;
          private   FlowLayoutPanel flowLayoutPanel;
@@ -468,11 +500,15 @@ refer to anywhere in your YAML file's event handlers.
 
 Custom commands are prefixed with "$" and the system ships with two pre-defined global commands:
 
-* *$validate* : triggers the input validation logic, if defined::
+* *$validate* : triggers the input validation logic, if defined:
+
+.. code-block:: yaml
 
     JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])
     
-* *$confim* : displays a standard "Are you sure?" confirmation dialog that can be invoked before any destructive action::
+* *$confim* : displays a standard "Are you sure?" confirmation dialog that can be invoked before any destructive action:
+
+.. code-block:: yaml
 
     JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])
     
