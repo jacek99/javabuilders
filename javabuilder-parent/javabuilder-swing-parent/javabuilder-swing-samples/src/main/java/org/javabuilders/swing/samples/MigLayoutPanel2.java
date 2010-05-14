@@ -33,23 +33,28 @@ public class MigLayoutPanel2 extends SamplePanel {
 	}
 	
 	@SuppressWarnings("unused")
-	private void onAdd(JComponent c, ActionEvent evt) {
-		JOptionPane.showMessageDialog(this,"onAction=add => private void add(JComponent c, ActionEvent evt)");
+	private void addPerformed(JComponent c, ActionEvent evt) {
+		JOptionPane.showMessageDialog(this,"btnAdd => private void addPerformed(JComponent c, ActionEvent evt)");
 	}
 	
 	@SuppressWarnings("unused")
-	private void delete(ActionEvent evt) {
-		JOptionPane.showMessageDialog(this,"onAction=delete => private void delete(ActionEvent evt) ");
+	private void deletePerformed(ActionEvent evt) {
+		JOptionPane.showMessageDialog(this,"btnDelete => private void deletePerformed(ActionEvent evt) ");
 	}
 	
 	@SuppressWarnings("unused")
-	private void edit(JButton button) {
-		JOptionPane.showMessageDialog(this,"onAction=edit => private void edit(JButton button)");
+	private void editPerformed(JButton button) {
+		JOptionPane.showMessageDialog(this,"btnEdit => private void editPerformed(JButton button)");
 	}
 	
 	@SuppressWarnings("unused")
-	private void advancedEdit() {
-		JOptionPane.showMessageDialog(this,"onAction=advancedEdit  => private void advancedEdit()");
+	private void advancedPerformed() {
+		JOptionPane.showMessageDialog(this,"btnAdanced  => private void advancedPerformed()");
+	}
+	
+	@SuppressWarnings("unused")
+	private void cancelPerformed() {
+		JOptionPane.showMessageDialog(this,"btnCancel => private void cancelPerformed()");
 	}
 
 	@SuppressWarnings("unused")

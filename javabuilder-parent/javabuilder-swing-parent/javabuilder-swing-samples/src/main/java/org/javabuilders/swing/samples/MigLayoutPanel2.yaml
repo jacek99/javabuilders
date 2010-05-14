@@ -2,10 +2,7 @@ JPanel:
     - JBSeparator(name=sepName, text=Name)
     - JBSeparator(name=sepList, text=List)
     - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
-    - JButton(name=addButton, text=Add, onAction=onAdd)
-    - JButton(name=deleteButton, text=Delete, onAction=[$confirm,delete])
-    - JButton(name=editButton, text=Edit, onAction=edit)
-    - JButton(name=advancedButton, text=Advanced, onAction=advancedEdit)
+    - JButton(name=btnDelete, text=Delete, onAction=[$confirm,deletePerformed])
     - JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])
     - JButton(name=cancelButton, text=Cancel)
     - MigLayout:  |
@@ -15,12 +12,12 @@ JPanel:
         >"Title:"          txtTitle=1     "Nickname:"         txtNickname+*=1
         >"Display Format:" cmbFormat+*
         sepList+*
-        >"Email:"          txtEmail+3                                         addButton+1+5=2
-        "YAML Source:"                                                        editButton=2      
-        scroll1+4+3                                                           deleteButton=2     
-                                                                              advancedButton=2
+        >"Email:"          txtEmail+3                                         btnAdd+1+5=2
+        "YAML Source:"                                                        btnEdit=2      
+        scroll1+4+3                                                           btnDelete=2     
+                                                                              btnAdvanced=2
                                                                               "<b><i>Press us!</i></b>"=2     [grow]
-                                                              >"<b><i>Press me!</i><b>"+*,okButton=2,cancelButton=2
+                                                              >"<b><i>Press me!</i><b>"+*,okButton=2,btnCancel=2
 bind:
     - source.text: this.yaml
 validate:

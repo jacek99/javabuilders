@@ -18,10 +18,11 @@
 		-->
 	</modules>
 	<properties>
-		<build.version>1.0-dev-20100512</build.version>
+		<build.version>1.0-dev-20100514</build.version>
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -46,11 +47,13 @@
 
 	<dependencyManagement>
 		<dependencies>
+
 			<dependency>
 				<groupId>net.java.dev.glazedlists</groupId>
 				<artifactId>glazedlists_java15</artifactId>
 				<version>1.8.0</version>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

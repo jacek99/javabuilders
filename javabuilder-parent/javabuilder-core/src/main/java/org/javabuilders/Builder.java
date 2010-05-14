@@ -341,11 +341,16 @@ public class Builder {
 	 * @return
 	 */
 	public static Object buildControlFromName(BuildProcess process, Node parent, String name) {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Build control from name: {}, name");
+		}
+		
 		//first check if it is a globally defined control
 		String yaml = process.getConfig().getGlobal(name);
 		Class<?> clazz = null;
 		if (yaml != null) {
-			
+			//TODO
 			String key = BuilderUtils.getRealKey(yaml);
 			clazz = process.getConfig().getClassType(key);
 			if (clazz == null) {
@@ -358,12 +363,12 @@ public class Builder {
 			Matcher m = prefixNameSplitter.matcher(name);
 			if (m.find() && m.groupCount() == 2) {
 				String prefix = m.group(1);
-				@SuppressWarnings("unused")
 				String suffix = m.group(2);
 				
-				clazz = process.getConfig().getPrefix(prefix);
-				if (clazz != null) {
-					yaml = String.format("{name: %s}",name);
+				PrefixControlDefinition def = process.getConfig().getPrefix(prefix);
+				if (def != null) {
+					clazz = def.getType();
+					yaml = def.getDefaultsAsYaml(process, name, suffix);
 				} else {
 					throw new BuildException("Unable to find type for prefix {0} for {1}",prefix,name);
 				}

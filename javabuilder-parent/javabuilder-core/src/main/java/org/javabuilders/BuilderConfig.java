@@ -101,7 +101,7 @@ public class BuilderConfig {
 	
 	private String namePropertyName = Builder.NAME;
 	
-	private Map<String,Class<?>> prefixes = new HashMap<String, Class<?>>();
+	private Map<String,PrefixControlDefinition> prefixes = new HashMap<String, PrefixControlDefinition>();
 	private Map<String,String> globalControls = new HashMap<String, String>();
 	
 	/**
@@ -640,14 +640,31 @@ public class BuilderConfig {
 	 * @param clazz
 	 */
 	public void prefix(String prefix, Class<?> clazz) {
-		prefixes.put(prefix, clazz);
+		prefix(prefix,clazz,null);
 	}
+
+	/**
+	 * Defines a control prefix (e.g. "btn", "cbx") which will be associated with a particular type.
+	 * This can allow types to be instantiated automatically based on name (e.g. "btnOK" could create
+	 * a JButton named "btnOK" with onAction=ok wired in automatically)
+	 * @param prefix
+	 * @param clazz
+	 * @param defaults A map of default values. Allowed placeholders for values: PrefixControlDefinition.SUFFIX_LABEL,PrefixControlDefinition.SUFFIX_PASCAL_CASE
+	 * @see PrefixControlDefinition  
+	 */
+	public void prefix(String prefix, Class<?> clazz, Map<String,String> defaults) {
+		PrefixControlDefinition def = new PrefixControlDefinition();
+		def.setType(clazz);
+		def.setDefaults(defaults);
+		prefixes.put(prefix, def);
+	}
+
 	
 	/**
 	 * @param prefix Control prefix
 	 * @return Control associated with prefix, null if not found
 	 */
-	public Class<?> getPrefix(String prefix) {
+	public PrefixControlDefinition getPrefix(String prefix) {
 		return prefixes.get(prefix);
 	}
 
@@ -676,4 +693,6 @@ public class BuilderConfig {
 	public String getGlobal(String name) {
 		return globalControls.get(name);
 	}
+	
+	
 }

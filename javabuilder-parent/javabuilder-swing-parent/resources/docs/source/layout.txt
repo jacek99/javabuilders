@@ -128,31 +128,42 @@ Goes after the control name, e.g. ``fieldName>^``. If none are presents it defau
 ``/``    Maximum height
 =======  =====================
  
-String Literal Controls
-^^^^^^^^^^^^^^^^^^^^^^^
  
-In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals
-(embedded in double quotes) instead of control names. Such entries will automatically be interpreted as
-labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the
-need to manually specify it in the YAML.
+Control Auto-Creation
+^^^^^^^^^^^^^^^^^^^^^
 
-*Example*::
+The MigLayout node recognizes common naming conventions and can auto-create a control of the specified type
+based on its name. That removes the need to explicitly define such basic controls as ``JTextField``, etc.
 
-     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
-          - JTextField(name=fName)
-          - JTextField(name=lName)
-          - JTextField(name=email)
-          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
-          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
-          - MigLayout: |
-              [pref]                   [grow,100] [pref]             [grow,100]
-              "label.firstName"        fName      "label.lastName"   lName
-              "label.email"            email+*
-              >save+*=1,cancel=1
-              
-or the more verbose, traditional way, using explicit label definitions::
+The accepted control prefixes are:
+
+===========   ============================    ================================================================
+**Prefix**    **Type**                        **Comments**
+===========   ============================    ================================================================
+btn           JButton                         Suffix will be used to find label and map ``onAction``
+                                              to Java method. 
+                                              E.g. "btnApply" will generate a ``JButton``,
+                                              with a text "Apply" and the ``onAction`` listened wired to
+                                              the equivalent ``applyPerformed()`` Java method.
+tgl           JToggleButton                   Same as JButton
+txt           JTextField
+cbx           JCheckBox
+rb            JRadioButton
+cmb           JComboBox
+lst           JList
+txa           JTextArea
+tbl           JTable
+tr            JTree
+sld           JSlider
+prg           JProgressBar
+pwd           JPasswordField
+spn           JSpinner
+sep           JSeparator
+===========   ============================    ================================================================ 
  
-     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+Here's a fully verbose example::
+ 
+      JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
           - JLabel(name=fNameLbl, text=label.firstName)
           - JLabel(name=lNameLbl, text=label.lastName)
           - JLabel(name=emailLbl, text=label.email)
@@ -166,6 +177,73 @@ or the more verbose, traditional way, using explicit label definitions::
               fNameLbl      fName      lNameLbl  lName
               emailLbl      email+*
               >save+*=1,cancel=1
+ 
+And here is what it would look like after using control auto-creation (to create all the ``JTextField``
+instances by prefixing the control name with ``txt``)::
+
+      JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JLabel(name=fNameLbl, text=label.firstName)
+          - JLabel(name=lNameLbl, text=label.lastName)
+          - JLabel(name=emailLbl, text=label.email)
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]        [grow,100] [pref]    [grow,100]
+              fNameLbl      txtFName   lNameLbl  txtLName
+              emailLbl      txtEmail+*
+              >save+*=1,cancel=1
+
+Notice that we did not have to explicitly define the thre ``JTextField`` entries any more.
+Just by calling the controls ``txtFName,txtLName,txtEmail`` the builder knew you wanted
+to create controls of type ``JTextField`` and did that for you.
+
+.. note:: Notice the special handling of ``JButton``: the button's name suffix (e.g. "btnOK" = "OK", "btnDelete" = "Delete")
+    will be converted to Pascal case and a corresponding Java method with a "Performed" suffix (e.g. ``okPerformed()``, ``deletePerformed()``) 
+    will be expected to be present in the Java class so that ``onAction`` can be wired automatically.
+
+String Literal Controls
+^^^^^^^^^^^^^^^^^^^^^^^
+ 
+In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals
+(embedded in double quotes) instead of control names. Such entries will automatically be interpreted as
+labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the
+need to manually specify it in the YAML.
+
+*Example*::
+
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]                   [grow,100] [pref]             [grow,100]
+              "label.firstName"        txtFName   "label.lastName"   txtLName
+              "label.email"            txtEmail+*
+              >save+*=1,cancel=1
+              
+or the more verbose, traditional way, using explicit label definitions::
+ 
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JLabel(name=fNameLbl, text=label.firstName)
+          - JLabel(name=lNameLbl, text=label.lastName)
+          - JLabel(name=emailLbl, text=label.email)
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]        [grow,100] [pref]    [grow,100]
+              fNameLbl      txtFName   lNameLbl  txtLName
+              emailLbl      txtEmail+*
+              >save+*=1,cancel=1
+
+**HTML content**
+
+It is possible to enter HTML tags in the label, in the format accepted by ``JLabel``. It is not required
+to put in the ``<html/>`` tag around it, Swing JavaBuilder will do it automatically if it encounters HTML
+tags in the text, e.g.:: 
+
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - MigLayout: |
+              [pref]                   [grow,100] [pref]               [grow,100]
+              "<b>First name:</b>"     txtFName   "<i>Last name:</i>:" txtLName
               
 Complex Example
 ^^^^^^^^^^^^^^^
@@ -182,31 +260,16 @@ Here's how it would look implemented in the Swing JavaBuilder:
 
      JPanel:
           - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
-          - JTextField(name=lName)
-          - JTextField(name=fName)
-          - JTextField(name=phone)
-          - JTextField(name=email)
-          - JTextField(name=address1)
-          - JTextField(name=address2)
-          - JTextField(name=city)
-          - JTextField(name=state)
-          - JTextField(name=postal)
-          - JTextField(name=country)
-          - JButton(name=newBtn, text=New)
-          - JButton(name=deleteBtn, text=Delete)
-          - JButton(name=editBtn, text=Edit)
-          - JButton(name=saveBtn, text=Save)
-          - JButton(name=cancelBtn, text=Cancel)
           - MigLayout: |
               [200,grow]            [right]          [200,grow]                           [200,grow]
-              scroll1+1+*          "Last name:"      lName           "First Name"         fName
-                                   "Phone:"          phone           "Email:"+2,email
-                                   "Address 1:"      address1+*
-                                   "Address 2:"      address2+*
-                                   "City:"           city
-                                   "State:"          state           "Postal Code:"       postal
-                                   "Country:"        country
-                                   ^|newBtn+*=1,^deleteBtn=1,^editBtn=1,^saveBtn=1,^cancelBtn=1    [grow]
+              scroll1+1+*          "Last name:"      txtLName        "First Name"         txtFName
+                                   "Phone:"          txtPhone        "Email:"+2,txtEmail
+                                   "Address 1:"      txtAddress1+*
+                                   "Address 2:"      txtAddress2+*
+                                   "City:"           txtCity
+                                   "State:"          txtState        "Postal Code:"       txtPostal
+                                   "Country:"        txtCountry
+                                   ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1    [grow]
 
 MigLayout
 ---------
