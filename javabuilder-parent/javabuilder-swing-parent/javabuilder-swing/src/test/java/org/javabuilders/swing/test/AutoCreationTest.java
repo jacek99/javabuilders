@@ -65,7 +65,7 @@ public class AutoCreationTest {
 	
 	
 	@SuppressWarnings("unused")
-	private void autoPerformed() {
+	private void auto() {
 		//dummym method for btnAuto
 	}
 	

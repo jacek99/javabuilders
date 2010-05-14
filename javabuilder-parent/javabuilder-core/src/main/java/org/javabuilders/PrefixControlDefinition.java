@@ -1,7 +1,9 @@
 package org.javabuilders;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.javabuilders.util.JBStringUtils;
@@ -21,6 +23,21 @@ public class PrefixControlDefinition {
 	 * Suffix in Pascal case, e.g. "btnSaveData" -> "saveData"
 	 */
 	public static final String SUFFIX_PASCAL_CASE = "${CONTROL_SUFFIX_PASCAL_CASE}";
+	
+	private static Set<String> reservedPrefixes = new HashSet<String>();
+	
+	/**
+	 * Lists a prefix as a reserved keyword, that will make any method names for it
+	 * get prefixed with "do", e.g. "new" -> "doNew()", "add" -> "doAdd()", etc.
+	 * @param prefix Prefix
+	 */
+	public static void addReservedPrefix(String prefix) {
+		reservedPrefixes.add(prefix);
+	}
+	
+	static {
+		reservedPrefixes.add("new");
+	}
 	
 	private Class<?> clazz;
 	private Map<String,String> defaults = new HashMap<String, String>();
@@ -44,6 +61,13 @@ public class PrefixControlDefinition {
 				String value = entry.getValue();
 				if (value.contains(SUFFIX_PASCAL_CASE)) {
 					value = value.replace(SUFFIX_PASCAL_CASE, suffixPascal);
+					
+					//special handling for reserved Java keywords on methods
+					if (reservedPrefixes.contains(value) && entry.getKey().matches("on[A-Z]+.*")) {
+						value = "do" + suffix;
+					}
+					
+					
 				} else if (value.equals(SUFFIX_LABEL)) {
 					value = JBStringUtils.getDisplayLabel(process, clazz, suffixPascal);
 				}

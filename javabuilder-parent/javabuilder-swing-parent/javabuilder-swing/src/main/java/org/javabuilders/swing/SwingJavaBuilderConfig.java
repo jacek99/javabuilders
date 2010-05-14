@@ -450,8 +450,10 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		//global("JButton(name=btnApply,onAction=apply,text=Apply)");
 		
 		//auto-creation of controls
+		PrefixControlDefinition.addReservedPrefix("add"); // to avoid conflict with JPanel.add(JContainer)
+		
 		Map<String,String> buttonDefaults = new HashMap<String, String>();
-		buttonDefaults.put("onAction", PrefixControlDefinition.SUFFIX_PASCAL_CASE + "Performed");
+		buttonDefaults.put("onAction", PrefixControlDefinition.SUFFIX_PASCAL_CASE);
 		buttonDefaults.put("text", PrefixControlDefinition.SUFFIX_LABEL);
 		
 		prefix("btn",JButton.class, buttonDefaults);

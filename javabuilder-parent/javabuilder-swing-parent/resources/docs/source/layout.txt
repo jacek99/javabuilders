@@ -144,7 +144,7 @@ btn           JButton                         Suffix will be used to find label 
                                               to Java method. 
                                               E.g. "btnApply" will generate a ``JButton``,
                                               with a text "Apply" and the ``onAction`` listened wired to
-                                              the equivalent ``applyPerformed()`` Java method.
+                                              the equivalent ``apply()`` Java method.
 tgl           JToggleButton                   Same as JButton
 txt           JTextField
 cbx           JCheckBox
@@ -198,8 +198,12 @@ Just by calling the controls ``txtFName,txtLName,txtEmail`` the builder knew you
 to create controls of type ``JTextField`` and did that for you.
 
 .. note:: Notice the special handling of ``JButton``: the button's name suffix (e.g. "btnOK" = "OK", "btnDelete" = "Delete")
-    will be converted to Pascal case and a corresponding Java method with a "Performed" suffix (e.g. ``okPerformed()``, ``deletePerformed()``) 
+    will be converted to Pascal case and a corresponding Java method (e.g. ``ok()``, ``delete()``) 
     will be expected to be present in the Java class so that ``onAction`` can be wired automatically.
+    
+.. warning:: if you create a "btnNew" JButton that would automatically map to a Java method ``new()``, which is
+    a reserved keyword and cannot be compiled. In this corner case we will try to match it to a ``doNew()``
+    method instead.
 
 String Literal Controls
 ^^^^^^^^^^^^^^^^^^^^^^^

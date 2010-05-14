@@ -12,23 +12,23 @@ public class LayoutManagerShowdownChallenge extends SamplePanel {
 	
 	public LayoutManagerShowdownChallenge() throws Exception {}
 	
-	private void newPerformed() {
-		JOptionPane.showMessageDialog(this,"private void newPerformed() was called!");
+	private void doNew() {
+		JOptionPane.showMessageDialog(this,"private void doNew() was called!");
 	}
 	
-	private void deletePerformed() {
-		JOptionPane.showMessageDialog(this,"private void deletePerformed() was called!");
+	private void delete() {
+		JOptionPane.showMessageDialog(this,"private void delete() was called!");
 	}
 	
-	private void editPerformed() {
-		JOptionPane.showMessageDialog(this,"private void editPerformed() was called!");
+	private void edit() {
+		JOptionPane.showMessageDialog(this,"private void edit() was called!");
 	}
 	
-	private void savePerformed() {
-		JOptionPane.showMessageDialog(this,"private void savePerformed() was called!");
+	private void save() {
+		JOptionPane.showMessageDialog(this,"private void save() was called!");
 	}
 	
-	private void cancelPerformed() {
-		JOptionPane.showMessageDialog(this,"private void cancelPerformed() was called!");
+	private void cancel() {
+		JOptionPane.showMessageDialog(this,"private void cancel() was called!");
 	}
 }

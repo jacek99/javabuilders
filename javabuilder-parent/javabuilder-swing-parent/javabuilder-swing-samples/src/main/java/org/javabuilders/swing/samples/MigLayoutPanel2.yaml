@@ -2,7 +2,7 @@ JPanel:
     - JBSeparator(name=sepName, text=Name)
     - JBSeparator(name=sepList, text=List)
     - JScrollPane(name=scroll1): JTextArea(name=source, editable=false, font=Monospaced)
-    - JButton(name=btnDelete, text=Delete, onAction=[$confirm,deletePerformed])
+    - JButton(name=btnDelete, text=Delete, onAction=[$confirm,delete])
     - JButton(name=okButton, text=OK, onAction=[$validate,save,finishSave])
     - JButton(name=cancelButton, text=Cancel)
     - MigLayout:  |
