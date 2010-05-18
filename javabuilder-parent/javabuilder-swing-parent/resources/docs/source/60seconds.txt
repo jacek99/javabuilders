@@ -3,9 +3,6 @@
 Swing JavaBuilder in 60 seconds or less
 =======================================
 
-Is it worth my time?
---------------------
-
 Here's a sample of what you can do with the Swing JavaBuilder in 60 seconds or less. Hopefully, it will
 make it clear as to what the productivity benefits are.
 
@@ -80,111 +77,125 @@ it to a database via a long running task on a background thread.
     label.firstName=First Name:
     label.lastName=Last Name:
     label.email=Email
+    frame.title=Enter Person Data
     
 6. Create the view YAML file *PersonApp.yaml* in the *person.app* package:
        
 .. code-block:: yaml       
        
-       JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
-           - JTextField(name=fName)
-           - JTextField(name=lName)
-           - JTextField(name=email)
-           - JButton(name=save, text=button.save, onAction=($validate,save,done))
-           - JButton(name=cancel, text=button.cancel, onAction=($confirm,cancel))
-           - MigLayout: |
-                 [pref]              [grow,100]   [pref]             [grow,100]
-                 "label.firstName"   fName        "label.lastName"   lName
-                 "label.email"       email+*
-                 >save+*=1,cancel=1
-       bind:
-           - fName.text: this.person.firstName
-           - lName.text: this.person.lastName
-           - email.text: this.person.emailAddress
-       validate:
-           - fName.text: {mandatory: true, label: label.firstName}
-           - lName.text: {mandatory: true, label: label.lastName}
-           - email.text: {mandatory: true, emailAddress: true, label: label.email}
-
+        JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+            - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+            - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+            - MigLayout: |
+                  [pref]              [grow,100]     [pref]             [grow,100]
+                  "label.firstName"   txtFirstName   "label.lastName"   txtLastName
+                  "label.email"       txtEmail+*
+                  >save+*=1,cancel=1
+        bind:
+            - txtFirstName.text: person.firstName
+            - txtLastName.text: person.lastName
+            - txtEmail.text: person.emailAddress
+        validate:
+            - txtFirstName.text: {mandatory: true, label: label.firstName}
+            - txtLastName.text: {mandatory: true, label: label.lastName}
+            - txtEmail.text: {mandatory: true, emailAddress: true, label: label.email}
            
 7. Create the controller Java class *person.app.PersonApp* (same package where the YAML file is)::
 
     package person.app;
-   
-    import   javax.swing.JFrame;
-    import   javax.swing.JOptionPane;
-    import   javax.swing.SwingUtilities;
-    import   javax.swing.UIManager;
-    import   org.javabuilders.BuildResult;
-    import   org.javabuilders.annotations.DoInBackground;
-    import   org.javabuilders.event.BackgroundEvent;
-    import   org.javabuilders.event.CancelStatus;
-    import   org.javabuilders.swing.SwingJavaBuilder;
-   
+    
+    import javax.swing.JFrame;
+    import javax.swing.JOptionPane;
+    import javax.swing.SwingUtilities;
+    import javax.swing.UIManager;
+    
+    import org.javabuilders.BuildResult;
+    import org.javabuilders.annotations.DoInBackground;
+    import org.javabuilders.event.BackgroundEvent;
+    import org.javabuilders.event.CancelStatus;
+    import org.javabuilders.swing.SwingJavaBuilder;
+    
+    @SuppressWarnings({"serial","unused"})
     public class PersonApp extends JFrame {
-         private Person person;
-         private BuildResult result;
-         public PersonApp() {
+    
+        private Person person;
+        private BuildResult result;
+    
+        public PersonApp() {
             person = new Person();
             person.setFirstName("John");
             person.setLastName("Smith");
             result = SwingJavaBuilder.build(this);
-         }
-         public Person getPerson() {
+        }
+    
+        public Person getPerson() {
             return person;
-         }
-         private void cancel() {
+        }
+    
+        private void cancel() {
             setVisible(false);
-         }
-         @DoInBackground(cancelable=true, indeterminateProgress=false, progressStart=1, progressEnd=100)
-         private void save(BackgroundEvent evt) {
-            //simulate a long running save to a database
-            for(int i = 0; i < 100; i++) {
-                 //progress indicator
-                 evt.setProgressValue(i + 1);
-                 evt.setProgressMessage("" + i + "% done...");
-                 //check if cancel was requested
-                 if (evt.getCancelStatus() != CancelStatus.REQUESTED) {
-                     //sleep
-                     try {
-                          Thread.sleep(100);
-                      } catch (InterruptedException e) {}
-                 } else {
-                     //cancel requested, let's abort
-                     evt.setCancelStatus(CancelStatus.COMPLETED);
-                     break;
-                 }
+        }
+    
+        @DoInBackground(cancelable = true, indeterminateProgress = false, progressStart = 1, progressEnd = 100)
+        private void save(BackgroundEvent evt) {
+            // simulate a long running save to a database
+            for (int i = 0; i < 100; i++) {
+                // progress indicator
+                evt.setProgressValue(i + 1);
+                evt.setProgressMessage("" + i + "% done...");
+                // check if cancel was requested
+                if (evt.getCancelStatus() != CancelStatus.REQUESTED) {
+                    // sleep
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                } else {
+                    // cancel requested, let's abort
+                    evt.setCancelStatus(CancelStatus.COMPLETED);
+                    break;
+                }
             }
-         }
-
-         //runs after successful save
-         private void done() {
-           JOptionPane.showMessageDialog(this, "Person data: " + person.toString());
-         }
-         /**
-           * @param args
-           */
-         public static void main(String[] args) {
+        }
+    
+        // runs after successful save
+        private void done() {
+            JOptionPane.showMessageDialog(this, "Person data: " + person.toString());
+        }
+    
+        /**
+         * @param args
+         */
+        public static void main(String[] args) {
             SwingUtilities.invokeLater(new Runnable() {
-                 public void run() {
-                  //activate internationalization
-                  SwingJavaBuilder.getConfig().addResourceBundle("PersonApp");
-                  try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    new PersonApp().setVisible(true);
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                  }
-                 }
+                public void run() {
+                    // activate internationalization
+                    SwingJavaBuilder.getConfig().addResourceBundle("PersonApp");
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                        new PersonApp().setVisible(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             });
-         }
+        }
     }
+
        
 8. Run the PersonApp.main() method. You should see an input dialog like this appear:
 
 .. image:: images/person-app.png
 
-Notice that the default person name is propagated from the Java code to the UI via data binding.
-Also, all the controls are created and the layout is executed without the need for an IDE-specific GUI builder.
+.. note::
+
+    Notice that the default person name is propagated from the Java code to the UI via data binding.
+    
+    All the controls are created and the layout is executed without the need for an IDE-specific GUI builder.
+    Also, many of the controls were auto-created without being explicitly defined. Putting a resource name
+    within a String literal automatically created ``JLabel`` instances, while defining a field with a ``txt``
+    prefix automatically created ``JTextField`` instances. All without any additional YAML or Java code.
+
 The resource keys entered in quotes in the layout section have been used to automatically create JLabel(s) 
 and populate their text with the value of the resource key.       
        
@@ -217,7 +228,7 @@ The validation logic (invoked via "$validate") executed and perform basic input 
     
 **Summary**
 
-* 22 lines of YAML
+* 16 lines of YAML
 * 3 simple Java methods to handle save(), done() and cancel() (and without any of the logic to create and layout the controls)
 
 That is all we needed to create a fully functional application with control creation and layout, data input
