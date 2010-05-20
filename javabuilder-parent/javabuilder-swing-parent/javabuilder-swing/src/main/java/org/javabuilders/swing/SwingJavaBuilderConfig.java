@@ -442,13 +442,6 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		
 		initializeBeansBinding();
 
-		//global controls - TODO later
-		//global("JButton(name=btnOK,onAction=ok,text=OK)");
-		//global("JButton(name=btnClose,onAction=close,text=Close)");
-		//global("JButton(name=btnSave,onAction=save,text=Save)");
-		//global("JButton(name=btnCancel,onAction=cancel,text=Cancel)");
-		//global("JButton(name=btnApply,onAction=apply,text=Apply)");
-		
 		//auto-creation of controls
 		PrefixControlDefinition.addReservedPrefix("add"); // to avoid conflict with JPanel.add(JContainer)
 		

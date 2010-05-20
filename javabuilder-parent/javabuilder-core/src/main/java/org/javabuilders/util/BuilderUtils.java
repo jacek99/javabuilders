@@ -31,6 +31,7 @@ import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
 import org.javabuilders.BuilderConfig;
+import org.javabuilders.BuilderPreProcessor;
 import org.javabuilders.ICustomCommand;
 import org.javabuilders.NamedObjectProperty;
 import org.javabuilders.Node;
@@ -42,6 +43,7 @@ import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
+import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1159,6 +1161,104 @@ public class BuilderUtils {
 			html = String.format("<html>%s</html>",text);
 		}
 		return html;
+	}
+
+	/**
+	 * Explodes the compressed YAML (virtual constructor flow) into a proper map of parsed values
+	 * @param key Key (e.g. "JButton(name=ok)" or just a simple "(name=ok)")
+	 */
+	public static void uncompressYaml(String key, Map<String,Object> current) throws BuildException {
+		
+		StringBuilder nameValuePair = new StringBuilder(key.length());
+		
+		 //parse the virtual constructor values
+		int start = key.indexOf("(");
+		if (start > 0 && key.endsWith(")")) {
+		
+			String constructorText = key.substring(start + 1, key.length() - 1);
+			List<String> keyValuePairs = new LinkedList<String>();
+	
+			int nestedParentheses = 0;
+			boolean isEmbeddedInString = false;
+			Character listEnd = null;
+			
+			for(int i = 0; i < constructorText.length(); i++) {
+				char currentChar = constructorText.charAt(i);
+			
+				if (currentChar == '"') {
+					isEmbeddedInString = !isEmbeddedInString;
+				}
+				
+				if (!isEmbeddedInString) {
+					
+					if (BuilderPreProcessor.listIndicators.containsKey(currentChar)) {
+						listEnd = BuilderPreProcessor.listIndicators.get(currentChar);
+						if (listEnd == ')') {
+							//TODO : deprecate after 1.0
+							if (BuilderPreProcessor.logger.isWarnEnabled()) {
+								BuilderPreProcessor.logger.warn("'[]' is the new format for lists, '()' is deprecated and will be removed: %s",constructorText);
+							}
+						}
+						nestedParentheses++;
+					} else if (listEnd != null && currentChar == listEnd) {
+						listEnd = null;
+						nestedParentheses--;
+					} else if (currentChar == ',' && nestedParentheses == 0) {
+						//we have a real separator
+						keyValuePairs.add(nameValuePair.toString());
+						nameValuePair.setLength(0);
+						continue;
+					}
+				}
+				
+				nameValuePair.append(currentChar);
+			}
+			//process last one
+			keyValuePairs.add(nameValuePair.toString());
+			
+			StringBuilder temp = new StringBuilder();
+			for(String keyValuePair : keyValuePairs) {
+				 if (keyValuePair.length() > 0) {
+					 String[] pair = keyValuePair.split("=",2);
+					 if (pair.length == 2) {
+						 pair[0] = pair[0].trim();
+						 
+						 temp.setLength(0);
+						 temp.append(pair[1].trim());
+						 
+						 //if the argument is a Java-style collection () replace it wit the equivalent YAML []
+						 //handle embedded values in a String (Issue #14)
+						 boolean isEmbedded = false;
+						 for (int i = 0; i < temp.length();i++) {
+							 char c = temp.charAt(i);
+							 if (c == '"') {
+								 isEmbedded = !isEmbedded;
+							 }
+							 if (!isEmbedded) {
+								 if (c == '(') {
+									 temp.setCharAt(i, '[');
+								 } else if (c == ')') {
+									 temp.setCharAt(i, ']');
+								 }
+								 
+							 }
+						 }
+						 
+						 //put it into the map, but only if it does not exist there already
+						 if (!current.containsKey(pair[0])) {
+							 //parse the value with YAML to make sure it makes it into the correct default type
+							 Object value = YAML.load(temp.toString());
+							 current.put(pair[0],value);
+						 }
+					 } else  {
+						 //could be an empty constructor, but if not...it's a format error
+						 throw new BuildException("Key/value {0} from virtual constructor {1} not in valid format",keyValuePair,constructorText);
+					 }
+				 }
+			 }
+		 } else {
+			 throw new BuildException("Unable to parse virtual constructor: {0}", key);
+		 }
 	}
 
     

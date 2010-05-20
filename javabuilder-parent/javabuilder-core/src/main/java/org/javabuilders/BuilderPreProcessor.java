@@ -7,7 +7,6 @@ import static org.javabuilders.util.BuilderUtils.getRealKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import org.javabuilders.exception.UnrecognizedAliasException;
 import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.util.BuilderUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +24,8 @@ import org.slf4j.LoggerFactory;
  */
 public class BuilderPreProcessor {
 	
-	private static final Logger logger = LoggerFactory.getLogger(BuilderPreProcessor.class);
-	private static final Map<Character,Character> listIndicators = new HashMap<Character, Character>();
+	public static final Logger logger = LoggerFactory.getLogger(BuilderPreProcessor.class);
+	public static final Map<Character,Character> listIndicators = new HashMap<Character, Character>();
 	
 	static {
 		listIndicators.put('(',')'); //obsolete-for backwards compatibility
@@ -91,7 +89,7 @@ public class BuilderPreProcessor {
 				if (!key.equals(realKey)) {
 					//enhanced JB-YAML : embedded virtual constructor in the type 
 					//explode the embedded property values into stand-alone entries in the document
-					explodeVirtualConstructorProperties(handler, key, realKey, typeMap);
+					BuilderUtils.uncompressYaml(key, typeMap);
 					propertiesToAdd.put(realKey, typeMap);
 					keysToRemove.add(key);
 				}
@@ -151,15 +149,13 @@ public class BuilderPreProcessor {
 					
 					Class<?> typeClass = BuilderUtils.getClassFromAlias(process, realKey, null);
 					if (typeClass != null) {
-						//we're in business...dealing with a type here...
-						ITypeHandler handler = TypeDefinition.getTypeHandler(config, typeClass);
 					
 						//dealing with a virtual constructor in a list
 						Map<String,Object> rootMap = new HashMap<String, Object>();
 						Map<String,Object> typeMap = new HashMap<String, Object>();
 						rootMap.put(realKey, typeMap);
 						
-						explodeVirtualConstructorProperties(handler, stringItem, realKey, typeMap);
+						BuilderUtils.uncompressYaml(stringItem, typeMap);
 						list.remove(i);
 						list.add(i, rootMap);
 						
@@ -192,15 +188,12 @@ public class BuilderPreProcessor {
 			
 			Class<?> typeClass = BuilderUtils.getClassFromAlias(process, realKey, null);
 			if (typeClass != null) {
-				//we're in business...dealing with a type here...
-				ITypeHandler handler = TypeDefinition.getTypeHandler(config, typeClass);
-			
 				//dealing with a virtual constructor in a list
 				Map<String,Object> rootMap = new HashMap<String, Object>();
 				Map<String,Object> typeMap = new HashMap<String, Object>();
 				rootMap.put(realKey, typeMap);
 				
-				explodeVirtualConstructorProperties(handler, value, realKey, typeMap);
+				BuilderUtils.uncompressYaml(value, typeMap);
 				current = rootMap;
 				preprocess(config, process, rootMap, parent);
 				
@@ -246,12 +239,11 @@ public class BuilderPreProcessor {
 			if (!realTypeKey.equals(value)) {
 				Class<?> valueClass = BuilderUtils.getClassFromAlias(process, realTypeKey, null);
 				if (valueClass != null) {
-					ITypeHandler valueHandler = TypeDefinition.getTypeHandler(config, valueClass);
 					Map<String,Object> rootMap = new HashMap<String,Object>();
 					Map<String,Object> typeMap = new HashMap<String,Object>();
 					current.put(key, rootMap);
 					rootMap.put(realTypeKey, typeMap);
-					explodeVirtualConstructorProperties(valueHandler, sValue, realTypeKey, typeMap);
+					BuilderUtils.uncompressYaml(sValue, typeMap);
 					isType = true;
 				}
 			}
@@ -263,101 +255,6 @@ public class BuilderPreProcessor {
 				current.put(key, childMap);
 			}
 		}			
-	}
-	
-	//explodes the properties entered into a virtual constructor into separate child properties
-	private static void explodeVirtualConstructorProperties(ITypeHandler handler, String key, String realKey, Map<String,Object> current) throws BuildException {
-		
-		StringBuilder nameValuePair = new StringBuilder(key.length());
-		
-		 //parse the virtual constructor values
-		int start = key.indexOf("(");
-		if (start > 0 && key.endsWith(")")) {
-		
-			String constructorText = key.substring(start + 1, key.length() - 1);
-			List<String> keyValuePairs = new LinkedList<String>();
-
-			int nestedParentheses = 0;
-			boolean isEmbeddedInString = false;
-			Character listEnd = null;
-			
-			for(int i = 0; i < constructorText.length(); i++) {
-				char currentChar = constructorText.charAt(i);
-			
-				if (currentChar == '"') {
-					isEmbeddedInString = !isEmbeddedInString;
-				}
-				
-				if (!isEmbeddedInString) {
-					
-					if (listIndicators.containsKey(currentChar)) {
-						listEnd = listIndicators.get(currentChar);
-						if (listEnd == ')') {
-							//TODO : deprecate after 1.0
-							if (logger.isWarnEnabled()) {
-								logger.warn("'[]' is the new format for lists, '()' is deprecated and will be removed: %s",constructorText);
-							}
-						}
-						nestedParentheses++;
-					} else if (listEnd != null && currentChar == listEnd) {
-						listEnd = null;
-						nestedParentheses--;
-					} else if (currentChar == ',' && nestedParentheses == 0) {
-						//we have a real separator
-						keyValuePairs.add(nameValuePair.toString());
-						nameValuePair.setLength(0);
-						continue;
-					}
-				}
-				
-				nameValuePair.append(currentChar);
-			}
-			//process last one
-			keyValuePairs.add(nameValuePair.toString());
-			
-			StringBuilder temp = new StringBuilder();
-			for(String keyValuePair : keyValuePairs) {
-				 if (keyValuePair.length() > 0) {
-					 String[] pair = keyValuePair.split("=",2);
-					 if (pair.length == 2) {
-						 pair[0] = pair[0].trim();
-						 
-						 temp.setLength(0);
-						 temp.append(pair[1].trim());
-						 
-						 //if the argument is a Java-style collection () replace it wit the equivalent YAML []
-						 //handle embedded values in a String (Issue #14)
-						 boolean isEmbedded = false;
-						 for (int i = 0; i < temp.length();i++) {
-							 char c = temp.charAt(i);
-							 if (c == '"') {
-								 isEmbedded = !isEmbedded;
-							 }
-							 if (!isEmbedded) {
-								 if (c == '(') {
-									 temp.setCharAt(i, '[');
-								 } else if (c == ')') {
-									 temp.setCharAt(i, ']');
-								 }
-								 
-							 }
-						 }
-						 
-						 //put it into the map, but only if it does not exist there already
-						 if (!current.containsKey(pair[0])) {
-							 //parse the value with YAML to make sure it makes it into the correct default type
-							 Object value = YAML.load(temp.toString());
-							 current.put(pair[0],value);
-						 }
-					 } else  {
-						 //could be an empty constructor, but if not...it's a format error
-						 throw new BuildException("Key/value {0} from virtual constructor {1} not in valid format",keyValuePair,constructorText);
-					 }
-				 }
-			 }
-		 } else {
-			 throw new BuildException("Unable to parse virtual constructor: {0}", key);
-		 }
 	}
 	
 	//handles property aliases

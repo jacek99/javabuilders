@@ -195,6 +195,12 @@ public class SwingJavaBuilderUtils {
 	 *  
 	 */
 	public static Component getComponent(Node componentsNode, String name) throws BuildException {
+		
+		//prototypes are prefixed with $
+		if (name != null && name.startsWith(Builder.PROTOTYPE_FIELD_PREFIX)) {
+			name = name.substring(1);
+		}
+		
 		if (Builder.CONTENT.equals(componentsNode.getKey())) {
 			Component component = null;
 			for(Node child  : componentsNode.getChildNodes()) {

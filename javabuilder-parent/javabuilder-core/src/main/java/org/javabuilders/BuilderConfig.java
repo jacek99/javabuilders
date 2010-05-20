@@ -102,7 +102,7 @@ public class BuilderConfig {
 	private String namePropertyName = Builder.NAME;
 	
 	private Map<String,PrefixControlDefinition> prefixes = new HashMap<String, PrefixControlDefinition>();
-	private Map<String,String> globalControls = new HashMap<String, String>();
+	private Map<String,String> prototypes = new HashMap<String, String>();
 	
 	/**
 	 * Constructor
@@ -669,17 +669,16 @@ public class BuilderConfig {
 	}
 
 	/**
-	 * Defines a global control via a YAML snippet. When a control with the name specified in YAML
+	 * Defines a control protype via a YAML snippet. When a control with the name specified in YAML
 	 * is encountered in the MigLayout section (or equivalent), it will be auto-created using
 	 * this snippet
-	 * @param yaml
 	 * @return
 	 */
-	public String global(String yaml) {
+	public String prototype(String yaml) {
 		Matcher m = nameExtractor.matcher(yaml);
 		if (m.find() && m.groupCount() >= 1) {
 			String name = m.group(1);
-			globalControls.put(name, yaml);
+			prototypes.put(name, yaml);
 			return name;
 		} else {
 			throw new RuntimeException("Unable to extract 'name' property from YAML: " + yaml);
@@ -688,10 +687,10 @@ public class BuilderConfig {
 	
 	/**
 	 * @param name Control name
-	 * @return YAML snippet associated with the global control name or null if not found
+	 * @return YAML snippet associated with the prototype control name or null if not found
 	 */
-	public String getGlobal(String name) {
-		return globalControls.get(name);
+	public String getPrototype(String name) {
+		return prototypes.get(name);
 	}
 	
 	

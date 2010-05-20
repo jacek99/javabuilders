@@ -249,6 +249,32 @@ tags in the text, e.g.::
               [pref]                   [grow,100] [pref]               [grow,100]
               "<b>First name:</b>"     txtFName   "<i>Last name:</i>:" txtLName
               
+
+Control Prototypes
+^^^^^^^^^^^^^^^^^^
+
+This feature is designed to enforce consistency of how common controls get created throughout an app.
+Let's say we want the ``Add`` button in our application to always have a text of "Add", trigger the
+``addNew()`` Java method when clicked and also use a standard icon.
+
+All we have to do is define a prototype YAML definition in our ``main()`` method:
+
+.. code-block: java
+
+    SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
+    
+And we just refer to that prototype by prefixing it's name with ``$`` in the *MigLayout* section, e.g.::
+
+         - MigLayout: |
+              [grow]           [pref] 
+              "Name:"          txtName
+              $btnAdd        
+
+The ``$btnAdd`` control will get auto-created defined the prototype definition we saw earlier.
+
+If later you decided to change something about it (e.g. new icon, new text, add tooltip, etc.) all you have to do
+is change it in one place and it will get reflected throughout the whole application.
+              
 Complex Example
 ^^^^^^^^^^^^^^^
  

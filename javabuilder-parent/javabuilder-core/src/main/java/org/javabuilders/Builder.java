@@ -129,6 +129,8 @@ public class Builder {
 	
 	public final static String INTERNAL_FIELD_PREFIX = "__";
 	
+	public final static String PROTOTYPE_FIELD_PREFIX = "$";
+	
 	/**
 	 * @return Standard JavaBuilders resource bundle
 	 */
@@ -346,15 +348,31 @@ public class Builder {
 			logger.debug("Build control from name: {}, name");
 		}
 		
-		//first check if it is a globally defined control
-		String yaml = process.getConfig().getGlobal(name);
 		Class<?> clazz = null;
-		if (yaml != null) {
-			//TODO
-			String key = BuilderUtils.getRealKey(yaml);
-			clazz = process.getConfig().getClassType(key);
-			if (clazz == null) {
-				throw new BuildException("Unable to find type for global control {0}",yaml);
+		String yaml = null;
+		
+		//first check if it is a globally defined control
+		if (name.startsWith(PROTOTYPE_FIELD_PREFIX)) {
+			yaml = process.getConfig().getPrototype(name.substring(1));
+			if (yaml != null) {
+				yaml = yaml.trim();
+				String key = BuilderUtils.getRealKey(yaml);
+				clazz = process.getConfig().getClassType(key);
+				if (clazz != null) {
+					
+					Map<String,Object> map = new HashMap<String, Object>();
+					BuilderUtils.uncompressYaml(yaml, map);
+					processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), map);
+					return process.getByName(name.substring(1));
+					
+					//massage the YAML to be in the same format as for default controls
+					//yaml= yaml.replace(key, "");
+					//yaml = yaml.substring(1,yaml.length() - 1); //trim the first and last parentheses
+				} else {
+					throw new BuildException("Unable to find type for protype {0}",yaml);
+				}
+			} else {
+				throw new BuildException("Unable to find prototype definition for {0}",name);
 			}
 			
 		} else {

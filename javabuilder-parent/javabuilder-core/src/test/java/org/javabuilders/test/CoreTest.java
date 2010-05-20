@@ -54,16 +54,16 @@ public class CoreTest {
 	}
 	
 	@Test
-	public void testGlobalControlNameParsing() {
+	public void testPrototypeControlNameParsing() {
 		
 		TestBuilderConfig config = new TestBuilderConfig(JButton.class);
 		
-		assertEquals("test32_3",config.global("JButton(name=test32_3)"));
-		assertEquals("test32",config.global("JButton( name=test32 )"));
-		assertEquals("test4",config.global("JButton(onAction=sux,name=test4 ))"));
-		assertEquals("test55",config.global("JButton(onAction=sux,name=test55, tes3t=3 )"));
+		assertEquals("test32_3",config.prototype("JButton(name=test32_3)"));
+		assertEquals("test32",config.prototype("JButton( name=test32 )"));
+		assertEquals("test4",config.prototype("JButton(onAction=sux,name=test4 ))"));
+		assertEquals("test55",config.prototype("JButton(onAction=sux,name=test55, tes3t=3 )"));
 		
-		assertEquals("JButton(name=test32_3)",config.getGlobal("test32_3"));
+		assertEquals("JButton(name=test32_3)",config.getPrototype("test32_3"));
 	}
 	
 }

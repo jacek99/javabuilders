@@ -25,6 +25,43 @@ import org.javabuilders.swing.plugin.glazedlists.SwingGlazedListsConfig;
 @SuppressWarnings({ "unused", "serial" })
 public class SwingSamplesFrame extends JFrame {
 	
+	//common init, used by unit tests as well
+	public static void init() {
+    	try {
+    		try {
+    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+    		} catch (Exception ex) {
+    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    		}
+    		
+    		//register global resource bundle
+    		SwingGlazedListsConfig.init();
+    		SwingJavaBuilder.getConfig().addResourceBundle("org.javabuilders.swing.samples.SwingSamplesResources");
+    		
+    		//prototypes
+    		SwingJavaBuilder.getConfig().prototype("JButton(name=btnEdit, text=Edit, onAction=edit, icon=/org/javabuilders/swing/samples/images/document-open.png)");
+    		SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/org/javabuilders/swing/samples/images/document-new.png)");
+    		SwingJavaBuilder.getConfig().prototype("JButton(name=btnDelete, text=Delete, onAction=delete, icon=/org/javabuilders/swing/samples/images/edit-delete.png)");
+    		
+    		//event listeners
+    		SwingJavaBuilder.getConfig().addBuildListener(new BuildAdapter() {
+    			@Override
+    			public void buildStarted(BuildEvent evt) {
+    				//System.out.println(("Build started from caller: " + evt.getSource()));
+    			}
+    			@Override
+    			public void buildEnded(BuildEvent evt) {
+    				//System.out.println(("Build ended for root object: " + evt.getResult().getRoot()));
+    			}
+    		});
+    		
+    	} catch (Exception ex) {
+    		ex.printStackTrace(System.err);
+    	}
+    }
+
+	
 	private PropertyChangeSupport support = new PropertyChangeSupport(this);
 	private String yaml = getFileContent(this.getClass(),"yaml");
 	
@@ -119,33 +156,7 @@ public class SwingSamplesFrame extends JFrame {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             	try {
-            		try {
-            			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            		} catch (Exception ex) {
-            			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            		}
-            		
-            		//register global resource bundle
-            		SwingGlazedListsConfig.init();
-            		SwingJavaBuilder.getConfig().addResourceBundle("org.javabuilders.swing.samples.SwingSamplesResources");
-            		
-            		//event listeners
-            		SwingJavaBuilder.getConfig().addBuildListener(new BuildAdapter() {
-            			@Override
-            			public void buildStarted(BuildEvent evt) {
-            				//System.out.println(("Build started from caller: " + evt.getSource()));
-            			}
-            			@Override
-            			public void buildEnded(BuildEvent evt) {
-            				//System.out.println(("Build ended for root object: " + evt.getResult().getRoot()));
-            			}
-            		});
-            		
-            		//set up global formats
-            		//SwingJavaBuilder.getConfig().addGlobalVariable("$${date}", DateFormat.getInstance());
-            		//SwingJavaBuilder.getConfig().addGlobalVariable("$${time}", DateFormat.getTimeInstance());
-            		
+            		init();
             		new SwingSamplesFrame().setVisible(true);
             	} catch (Exception ex) {
             		ex.printStackTrace(System.err);

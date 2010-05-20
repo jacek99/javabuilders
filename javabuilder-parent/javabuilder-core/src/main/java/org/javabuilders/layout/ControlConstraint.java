@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class ControlConstraint {
 
 	//regex: ^([\<\|\>\^\-/]*)?(".+")?([a-zA-Z0-9]+)?(\+\*)?(\+[0-9]+)?(\+\*)?(\+[0-9]+)?(=[0-9])?(x*y*)?$
-	private static final Pattern pattern = Pattern.compile("^([\\<\\|\\>\\^\\-/]*)?(\".+\")?([a-zA-Z0-9_]+)?(\\+\\*)?(\\+[0-9]+)?(\\+\\*)?(\\+[0-9]+)?(=[0-9])?(x*y*)?([\\<\\|\\>\\^\\-/]*)?$");
+	private static final Pattern pattern = Pattern.compile("^([\\<\\|\\>\\^\\-/]*)?(\".+\")?(\\$?[a-zA-Z0-9_]+)?(\\+\\*)?(\\+[0-9]+)?(\\+\\*)?(\\+[0-9]+)?(=[0-9])?(x*y*)?([\\<\\|\\>\\^\\-/]*)?$");
 	
 	/**
 	 * REGEX GROUPS
