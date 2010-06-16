@@ -6,7 +6,6 @@ package org.javabuilders.swing.handler.event.background;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;

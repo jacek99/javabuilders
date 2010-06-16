@@ -259,7 +259,7 @@ Let's say we want the ``Add`` button in our application to always have a text of
 
 All we have to do is define a prototype YAML definition in our ``main()`` method:
 
-.. code-block: java
+.. code-block:: java
 
     SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
     

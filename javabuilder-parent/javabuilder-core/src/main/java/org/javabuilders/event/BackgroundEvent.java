@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.EventObject;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
@@ -194,7 +193,7 @@ public class BackgroundEvent extends EventObject {
 	/**
 	 * @return
 	 */
-	public Boolean isProgressIndeterminate() {
+	public Boolean getProgressIndeterminate() {
 		return isProgressIndeterminate;
 	}
 

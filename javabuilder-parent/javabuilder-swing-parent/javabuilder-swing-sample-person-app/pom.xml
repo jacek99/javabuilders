@@ -14,7 +14,7 @@
 	<version>${build.version}</version>
 	<name>Swing JavaBuilder Sample Person Application</name>
 	<url>http://javabuilders.org</url>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<dependencies>
 		<dependency>
