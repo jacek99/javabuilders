@@ -1,5 +1,7 @@
 package person.app;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.text.MessageFormat;
 
 public class Person {
@@ -7,6 +9,21 @@ public class Person {
 	private String lastName;
 	private String emailAddress;
 
+	//databinding support
+	private PropertyChangeSupport support = new PropertyChangeSupport(this);
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		support.addPropertyChangeListener(listener);
+	}
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.addPropertyChangeListener(propertyName, listener);
+	}
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		support.removePropertyChangeListener(listener);
+	}
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.removePropertyChangeListener(propertyName, listener);
+	}
+	
 	/**
 	 * @return the firstName
 	 */
@@ -19,7 +36,10 @@ public class Person {
 	 *            the firstName to set
 	 */
 	public void setFirstName(String firstName) {
+		Object oldValue = this.firstName;
 		this.firstName = firstName;
+		support.firePropertyChange("firstName", oldValue, this.firstName);
+
 	}
 
 	/**
@@ -34,7 +54,10 @@ public class Person {
 	 *            the lastName to set
 	 */
 	public void setLastName(String lastName) {
+		Object oldValue = this.lastName;
 		this.lastName = lastName;
+		support.firePropertyChange("lastName", oldValue, this.lastName);
+		
 	}
 
 	/**
@@ -49,7 +72,10 @@ public class Person {
 	 *            the emailAddress to set
 	 */
 	public void setEmailAddress(String emailAddress) {
+		Object oldValue = this.emailAddress;
 		this.emailAddress = emailAddress;
+		support.firePropertyChange("emailAddress", oldValue, this.emailAddress);
+		
 	}
 
 	@Override

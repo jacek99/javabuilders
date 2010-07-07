@@ -22,6 +22,9 @@
     <module>javabuilder-swing-sample-person-app</module>
   </modules>
 
+    <dependencies>
+    </dependencies>
+
 	<build>
 		<finalName>javabuilder-swing-${build.version}</finalName>
 		<plugins>

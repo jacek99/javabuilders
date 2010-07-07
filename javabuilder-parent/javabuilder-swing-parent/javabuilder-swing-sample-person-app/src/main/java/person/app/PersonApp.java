@@ -1,5 +1,8 @@
 package person.app;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -17,6 +20,21 @@ public class PersonApp extends JFrame {
 	private Person person;
 	private BuildResult result;
 
+	//databinding support
+	private PropertyChangeSupport support = null ;
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		support.addPropertyChangeListener(listener);
+	}
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.addPropertyChangeListener(propertyName, listener);
+	}
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		support.removePropertyChangeListener(listener);
+	}
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		support.removePropertyChangeListener(propertyName, listener);
+	}
+	
 	public PersonApp() {
 		person = new Person();
 		person.setFirstName("John");

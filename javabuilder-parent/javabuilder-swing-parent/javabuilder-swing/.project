@@ -1,6 +1,6 @@
 <projectDescription>
   <name>javabuilder-swing</name>
-  <comment>Swing JavaBuilder</comment>
+  <comment>Swing JavaBuilder. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects>
     <project>javabuilder-core</project>
   </projects>
