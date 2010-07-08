@@ -18,7 +18,7 @@
 		-->
 	</modules>
 	<properties>
-		<build.version>1.0-dev-20100520</build.version>
+		<build.version>1.0-dev-20100607</build.version>
 	</properties>
 
 	<dependencies>
