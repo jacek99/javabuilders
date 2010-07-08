@@ -1,11 +1,11 @@
 JPanel:
    - JPanel(name=panel1,groupTitle=Flow layout components):
       - JLabel(text=Label 1)
-      - JButton(text=Button 1)
+      - JButton(text="Button wired to F5\tF5",onAction=showButton)
       - JLabel(text=Label 2)
-      - JButton(text=Button 2)
+      - JButton(text="Button wired to Ctrl+Q\tCtrl+Q",onAction=showButton)
       - JLabel(text=Label 3)
-      - JButton(text=Button 4)
+      - JButton(text="Button wired to Alt+Q\tAlt+Q",onAction=showButton)
       - JLabel(text=Label 5)
       - JButton(text=Button 5)
       - FlowLayout(alignment=left,hgap=30,vgap=30)

@@ -129,6 +129,7 @@ public class SwingJavaBuilderUtils {
 			text = parts[0];
 			acc = getAccelerator(parts[1]);
 			def.setAccelerator(acc);
+			def.setAcceleratorText(parts[1]);
 		}
 		
 		//handle potential mnemonic
@@ -294,6 +295,7 @@ public class SwingJavaBuilderUtils {
 		private String text;
 		private Integer mnemonic;
 		private KeyStroke accelerator;
+		private String acceleratorText;
 		public String getText() {
 			return text;
 		}
@@ -311,6 +313,12 @@ public class SwingJavaBuilderUtils {
 		}
 		public void setAccelerator(KeyStroke accelerator) {
 			this.accelerator = accelerator;
+		}
+		public String getAcceleratorText() {
+			return acceleratorText;
+		}
+		public void setAcceleratorText(String acceleratorText) {
+			this.acceleratorText = acceleratorText;
 		}
 	}
 
