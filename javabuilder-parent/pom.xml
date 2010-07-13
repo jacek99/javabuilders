@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
-	<version>1.0</version>
+	<version>1.0-dev-20100613</version>
 	<packaging>pom</packaging>
 	<name>Parent JavaBuilder</name>
 	<description>Parent POM</description>
@@ -17,9 +17,6 @@
 			<module>javabuilder-gtk</module>
 		-->
 	</modules>
-	<properties>
-		<build.version>1.0-dev-20100607</build.version>
-	</properties>
 
 	<dependencies>
 
@@ -144,6 +141,14 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+				    <generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
 
 		</plugins>
 

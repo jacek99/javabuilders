@@ -669,7 +669,7 @@ public class BuilderConfig {
 	}
 
 	/**
-	 * Defines a control protype via a YAML snippet. When a control with the name specified in YAML
+	 * Defines a control prototype via a YAML snippet. When a control with the name specified in YAML
 	 * is encountered in the MigLayout section (or equivalent), it will be auto-created using
 	 * this snippet
 	 * @return
@@ -684,7 +684,16 @@ public class BuilderConfig {
 			throw new RuntimeException("Unable to extract 'name' property from YAML: " + yaml);
 		}
 	}
-	
+
+	/**
+	 * Defines multiple control prototypes in one call
+	 */
+	public void prototypes(String... yamls) {
+		for(String yaml : yamls) {
+			prototype(yaml);
+		}
+	}
+
 	/**
 	 * @param name Control name
 	 * @return YAML snippet associated with the prototype control name or null if not found

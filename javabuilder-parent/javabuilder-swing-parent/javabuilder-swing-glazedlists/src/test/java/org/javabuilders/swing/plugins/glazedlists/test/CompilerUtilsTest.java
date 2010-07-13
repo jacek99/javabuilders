@@ -1,4 +1,4 @@
-package org.javabuilders.test;
+package org.javabuilders.swing.plugins.glazedlists.test;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import org.javabuilders.util.compiler.CompilerUtils;
+import org.javabuilders.swing.plugin.glazedlists.compiler.CompilerUtils;
 import org.junit.Test;
 
 /**

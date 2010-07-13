@@ -4,11 +4,10 @@
 	<parent>
 		<artifactId>javabuilder-parent</artifactId>
 		<groupId>org.javabuilders</groupId>
-		<version>1.0</version>
+		<version>1.0-dev-20100613</version>
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swing</artifactId>
-	<version>${build.version}</version>
 	<name>Swing JavaBuilder</name>
 	<packaging>jar</packaging>
 
@@ -18,7 +17,7 @@
 		<dependency>
 			<groupId>org.javabuilders</groupId>
 			<artifactId>javabuilder-core</artifactId>
-			<version>${build.version}</version>
+			<version>${version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.miglayout</groupId>
@@ -32,6 +31,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>javabuilder-swing-${build.version}</finalName>
+		<finalName>javabuilder-swing-${version}</finalName>
 	</build>
 </project>

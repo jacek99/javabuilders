@@ -5,12 +5,11 @@
   <parent>
     <artifactId>javabuilder-parent</artifactId>
     <groupId>org.javabuilders</groupId>
-    <version>1.0</version>
+    <version>1.0-dev-20100613</version>
   </parent>
   
   <groupId>org.javabuilders</groupId>
   <artifactId>javabuilder-swing-samples</artifactId>
-  <version>${build.version}</version>
   <name>Swing JavaBuilder Sample Application</name>
   <url>http://javabuilders.org</url>
   <packaging>pom</packaging>
@@ -19,13 +18,13 @@
     <dependency>
       <groupId>org.javabuilders</groupId>
       <artifactId>javabuilder-swing</artifactId>
-      <version>${build.version}</version>
+      <version>${version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.javabuilders</groupId>
       <artifactId>javabuilder-swing-glazedlists</artifactId>
-      <version>${build.version}</version>
+      <version>${version}</version>
     </dependency>
     
   </dependencies>

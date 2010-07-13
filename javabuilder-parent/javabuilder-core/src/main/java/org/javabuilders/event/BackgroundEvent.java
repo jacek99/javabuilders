@@ -13,7 +13,7 @@ import org.javabuilders.BuilderConfig;
  * @author Jacek Furmankiewicz
  */
 @SuppressWarnings("serial")
-public class BackgroundEvent extends EventObject {
+public class BackgroundEvent extends EventObject  {
 	
 	private Boolean isCancelable = false;
 	private CancelStatus cancelStatus = CancelStatus.FORBIDDEN;
@@ -38,8 +38,6 @@ public class BackgroundEvent extends EventObject {
 		ResourceBundle bundle = Builder.getResourceBundle();
 		this.progressMessage = bundle.getString("label.processing");
 		this.isBlocking = isBlocking;
-		
-		support.addPropertyChangeListener("test",null);
 	}
 	
 	/**
@@ -77,15 +75,15 @@ public class BackgroundEvent extends EventObject {
 	}
 
 	
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#isCancelable()
 	 */
 	public boolean isCancelable() {
 		return isCancelable;
 	}
 
-	/**
-	 * @param isCancelable
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setCancelable(java.lang.Boolean)
 	 */
 	public synchronized void setCancelable(Boolean isCancelable) {
 		Boolean oldValue = this.isCancelable;
@@ -101,15 +99,15 @@ public class BackgroundEvent extends EventObject {
 		}
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getCancelStatus()
 	 */
 	public CancelStatus getCancelStatus() {
 		return cancelStatus;
 	}
 
-	/**
-	 * @param cancelStatus
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setCancelStatus(org.javabuilders.event.CancelStatus)
 	 */
 	public synchronized void setCancelStatus(CancelStatus cancelStatus) {
 		if (cancelStatus != CancelStatus.FORBIDDEN) {
@@ -119,15 +117,15 @@ public class BackgroundEvent extends EventObject {
 		}
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getProgressStart()
 	 */
 	public Integer getProgressStart() {
 		return progressStart;
 	}
 
-	/**
-	 * @param progressStart
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setProgressStart(java.lang.Integer)
 	 */
 	public synchronized void setProgressStart(Integer progressStart) {
 		Integer oldValue = this.progressStart;
@@ -135,15 +133,15 @@ public class BackgroundEvent extends EventObject {
 		support.firePropertyChange("progressStart", oldValue, this.progressStart);
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getProgressEnd()
 	 */
 	public Integer getProgressEnd() {
 		return progressEnd;
 	}
 
-	/**
-	 * @param progressEnd
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setProgressEnd(java.lang.Integer)
 	 */
 	public synchronized void setProgressEnd(Integer progressEnd) {
 		Integer oldValue = this.progressEnd;
@@ -151,15 +149,15 @@ public class BackgroundEvent extends EventObject {
 		support.firePropertyChange("progressEnd",oldValue,progressEnd);
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getProgressValue()
 	 */
 	public Integer getProgressValue() {
 		return progressValue;
 	}
 
-	/**
-	 * @param currentProgressValue
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setProgressValue(java.lang.Integer)
 	 */
 	public synchronized void setProgressValue(Integer currentProgressValue) {
 		Integer oldValue = this.progressValue;
@@ -167,15 +165,15 @@ public class BackgroundEvent extends EventObject {
 		support.firePropertyChange("progressValue", oldValue, progressValue);
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getProgressMessage()
 	 */
 	public String getProgressMessage() {
 		return progressMessage;
 	}
 
-	/**
-	 * @param progressMessage
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setProgressMessage(java.lang.String)
 	 */
 	public synchronized void setProgressMessage(String progressMessage) {
 		String oldValue = this.progressMessage;
@@ -183,22 +181,22 @@ public class BackgroundEvent extends EventObject {
 		support.firePropertyChange("progressMessage",oldValue,progressMessage);
 	}
 
-	/**
-	 * @return Original event object
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getOriginalEvent()
 	 */
 	public Object getOriginalEvent() {
 		return originalEvent;
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#getProgressIndeterminate()
 	 */
 	public Boolean getProgressIndeterminate() {
 		return isProgressIndeterminate;
 	}
 
-	/**
-	 * @param isProgressIndeterminate
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#setProgressIndeterminate(java.lang.Boolean)
 	 */
 	public synchronized void setProgressIndeterminate(Boolean isProgressIndeterminate) {
 		Boolean oldValue = this.isProgressIndeterminate;
@@ -206,8 +204,8 @@ public class BackgroundEvent extends EventObject {
 		support.firePropertyChange("progressIndeterminate", oldValue, isProgressIndeterminate);		
 	}
 
-	/**
-	 * @return If is blocking or not
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBackgroundEvent#isBlocking()
 	 */
 	public boolean isBlocking() {
 		return isBlocking;

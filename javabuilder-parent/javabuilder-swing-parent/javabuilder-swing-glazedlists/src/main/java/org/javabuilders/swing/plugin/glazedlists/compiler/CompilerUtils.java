@@ -1,71 +1,40 @@
-package org.javabuilders.util.compiler;
+package org.javabuilders.swing.plugin.glazedlists.compiler;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.ToolProvider;
-
+import org.codehaus.janino.ClassBodyEvaluator;
+import org.codehaus.janino.CompileException;
+import org.codehaus.janino.Parser.ParseException;
+import org.codehaus.janino.Scanner.ScanException;
 import org.javabuilders.BuildException;
 import org.javabuilders.util.PropertyUtils;
 
-/**
- * This class is unused. It relies on the JavaCC compiler, which is only in the JDK, not the JRE
- * Hence. we cannot use it (unless Jigsaw makes it possible in Java 7)
- * @author Jacek Furmankiewicz
- *
- */
-@Deprecated
-public class JavaCCUtils {
+public class CompilerUtils {
 
 	private static final Random RANDOM = new Random();
 	
-	private static JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-	private static JavaFileManager fileManager = new ClassFileManager(compiler.getStandardFileManager(null, null, null));
-	
 	/**
-	 * Compiles source code into a class that gets loaded in the current classloaded
+	 * Compiles source code into a class that gets loaded in the current classloader
 	 * @param fullName
-	 * @param src
+	 * @param classBody
 	 * @return
 	 * @throws ClassNotFoundException
+	 * @throws ScanException 
+	 * @throws ParseException 
+	 * @throws CompileException 
 	 */
-	public static Class<?> compile(String fullName, String src) throws ClassNotFoundException {
-		List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
-		jfiles.add(new CharSequenceJavaFileObject(fullName, src));
-
-		// We specify a task to the compiler. Compiler should use our file
-		// manager and our list of "files".
-		// Then we run the compilation with call()
-		compiler.getTask(null, fileManager, null, null, null, jfiles).call();
-
-		// Creating an instance of our compiled class and
-		// running its toString() method
-		Class<?> type = fileManager.getClassLoader(null).loadClass(fullName);
-		return type;
-	}
-	
-	/**
-	 * Based on code from:
-	 * http://www.javablogging.com/dynamic-in-memory-compilation/
-	 * 
-	 * @param fullName
-	 *            Class name
-	 * @param src
-	 *            Class body
-	 * @return Instantiated class
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 */
-	public static Object compileAndInstantiate(String fullName, String src) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		Class<?> type = compile(fullName, src);
-		return type.newInstance();
+	public static Class<?> compile(String className, String classBody, Class<?> type, Class<?>...interfaces) throws Exception {
+		ClassBodyEvaluator eval = new ClassBodyEvaluator();
+		eval.setParentClassLoader(Thread.currentThread().getContextClassLoader());
+		eval.setClassName(className);
+		eval.setExtendedType(type);
+		eval.setImplementedTypes(interfaces);
+		eval.cook(classBody);
+		
+		return eval.getClazz();
 	}
 	
 	/**
@@ -76,19 +45,6 @@ public class JavaCCUtils {
 	public static String generateClassName(Class<?> baseClass) {
 		//return PACKAGE_NAME + baseClass.getSimpleName() + "_" + Math.random() + "_" + Calendar.getInstance().getTimeInMillis();
 		return baseClass.getSimpleName() + "_" + Math.abs(RANDOM.nextInt()) + "_" + Calendar.getInstance().getTimeInMillis();
-	}
-	
-	/**
-	 * Generates a class signature for a superclass or interface
-	 * @param baseClassOrInterface
-	 * @return
-	 */
-	public static String generateClassSignature(String name, Class<?> baseClassOrInterface) {
-		if (baseClassOrInterface.isInterface()) {
-			return "public class " + name + " implements " + baseClassOrInterface.getName() + " {\n";
-		} else {
-			return "public class " + name + " extends " + baseClassOrInterface.getName() + " {\n";
-		}
 	}
 
 	/**
@@ -131,9 +87,10 @@ public class JavaCCUtils {
 			}
 		}
 		
-		bld._("public class %s implements %s<%s> {",name,Comparator.class.getName(),type.getName())
-			.___("public int compare(%1$s o1, %1$s o2) {",type.getName())
-			._____("int compare = 0;");
+		bld.___("public int compare(Object ob1, Object ob2) {")
+			._____("int compare = 0;")
+			._____("%1$s o1 = (%1$s)ob1;",type.getName())
+			._____("%1$s o2 = (%1$s)ob2;",type.getName());
 
 		//create the comparison for each column
 		if (fields.length == 0) {
@@ -159,10 +116,10 @@ public class JavaCCUtils {
 		}
 		bld._____("return compare;");
 		bld.___("}");
-		bld._("}");
 		
 		try {
-			c = (Comparator<?>)compileAndInstantiate(name, bld.toString());
+			Class<?> comparatorClass = compile(name, bld.toString(),Object.class,Comparator.class);
+			c = (Comparator<?>)comparatorClass.newInstance();
 			return c;
 		} catch (Exception e) {
 			throw new BuildException("Failed to compile Comparator: {0}\n{1}",e.getMessage(),bld.toString());

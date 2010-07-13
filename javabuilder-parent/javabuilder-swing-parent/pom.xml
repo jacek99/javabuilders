@@ -4,12 +4,11 @@
 	<parent>
 		<artifactId>javabuilder-parent</artifactId>
 		<groupId>org.javabuilders</groupId>
-		<version>1.0</version>
+		<version>1.0-dev-20100613</version>
 	</parent>
 
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swing-parent</artifactId>
-	<version>${build.version}</version>
 	<packaging>pom</packaging>
 
 	<name>Swing JavaBuilder Parent</name>
@@ -26,7 +25,7 @@
     </dependencies>
 
 	<build>
-		<finalName>javabuilder-swing-${build.version}</finalName>
+		<finalName>javabuilder-swing-${version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

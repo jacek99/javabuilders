@@ -34,10 +34,10 @@ import org.javabuilders.Node;
 import org.javabuilders.handler.AbstractTypeHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
 import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
+import org.javabuilders.swing.plugin.glazedlists.compiler.CompilerUtils;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
 import org.javabuilders.util.PropertyUtils;
-import org.javabuilders.util.compiler.CompilerUtils;
 
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;

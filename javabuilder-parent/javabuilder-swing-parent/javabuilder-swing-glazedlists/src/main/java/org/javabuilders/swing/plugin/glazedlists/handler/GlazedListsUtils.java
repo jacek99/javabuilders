@@ -9,11 +9,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
+import org.javabuilders.swing.plugin.glazedlists.compiler.ClassStringBuilder;
+import org.javabuilders.swing.plugin.glazedlists.compiler.CompilerUtils;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.PropertyUtils;
 import org.javabuilders.util.Tuple2;
-import org.javabuilders.util.compiler.ClassStringBuilder;
-import org.javabuilders.util.compiler.CompilerUtils;
 
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.TransformedList;

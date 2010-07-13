@@ -1,4 +1,4 @@
-package org.javabuilders.util.compiler;
+package org.javabuilders.swing.plugin.glazedlists.compiler;
 
 import java.lang.StringBuilder;
 
