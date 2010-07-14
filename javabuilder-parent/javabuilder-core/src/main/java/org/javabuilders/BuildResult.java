@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.javabuilders.event.BackgroundEventListener;
 import org.javabuilders.handler.validation.BuilderValidators;
 import org.javabuilders.handler.validation.IValidationMessageHandler;
 import org.javabuilders.handler.validation.ValidationMessageList;
@@ -44,6 +46,7 @@ public class BuildResult extends HashMap<String, Object> {
 	
 	private Object bindingContext = null;
 	private Map<String,?> properties = new HashMap<String, Object>();
+	private Set<BackgroundEventListener> backgroundEventListeners = new LinkedHashSet<BackgroundEventListener>();
 	
 	//poor man's version of functional programming
 	private IResourceFallback defaultResourceFallback = new IResourceFallback() {
@@ -371,5 +374,29 @@ public class BuildResult extends HashMap<String, Object> {
 		return getConfig().getResourceBundles().size() > 0 || getResourceBundles().size() > 0;
 	}
 
+	/**
+	 * Adds a background event listener
+	 * @param listener Listener
+	 */
+	public void addBackgroundEventListener(BackgroundEventListener listener) {
+		backgroundEventListeners.add(listener);
+	}
+	
+	/**
+	 * Removes a build listener
+	 * @param listener Build listener
+	 */
+	public void removeBackgroundEventListener(BackgroundEventListener listener) {
+		if (backgroundEventListeners.contains(listener)) {
+			backgroundEventListeners.remove(listener);
+		}
+	}
+	
+	/**
+	 * @return Background event listeners
+	 */
+	public BackgroundEventListener[] getBackgroundEventListeners() {
+		return backgroundEventListeners.toArray(new BackgroundEventListener[backgroundEventListeners.size()]);
+	}
 
 }

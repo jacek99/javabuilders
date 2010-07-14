@@ -16,6 +16,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.javabuilders.event.BackgroundEventListener;
 import org.javabuilders.event.BuildListener;
 import org.javabuilders.event.IBackgroundProcessingHandler;
 import org.javabuilders.handler.DefaultPropertyHandler;
@@ -94,6 +95,7 @@ public class BuilderConfig {
 	private Map<String,ICustomCommand<? extends Object>> customCommands = new HashMap<String, ICustomCommand<? extends Object>>();
 	
 	private Set<BuildListener> buildListeners = new LinkedHashSet<BuildListener>();
+	private Set<BackgroundEventListener> backgroundEventListeners = new LinkedHashSet<BackgroundEventListener>();
 	
 	private Map<String,Object> customProperties = new HashMap<String, Object>();
 	
@@ -529,12 +531,37 @@ public class BuilderConfig {
 			buildListeners.remove(listener);
 		}
 	}
-	
+
 	/**
 	 * @return Build listeners
 	 */
 	public BuildListener[] getBuildListeners() {
-		return buildListeners.toArray(new BuildListener[0]);
+		return buildListeners.toArray(new BuildListener[buildListeners.size()]);
+	}
+	
+	/**
+	 * Adds a background event listener
+	 * @param listener Listener
+	 */
+	public void addBackgroundEventListener(BackgroundEventListener listener) {
+		backgroundEventListeners.add(listener);
+	}
+	
+	/**
+	 * Removes a build listener
+	 * @param listener Build listener
+	 */
+	public void removeBackgroundEventListener(BackgroundEventListener listener) {
+		if (backgroundEventListeners.contains(listener)) {
+			backgroundEventListeners.remove(listener);
+		}
+	}
+	
+	/**
+	 * @return Background event listeners
+	 */
+	public BackgroundEventListener[] getBackgroundEventListeners() {
+		return backgroundEventListeners.toArray(new BackgroundEventListener[backgroundEventListeners.size()]);
 	}
 
 	/**

@@ -6,7 +6,6 @@ package org.javabuilders.swing.handler.event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractButton;
 import javax.swing.JComboBox;

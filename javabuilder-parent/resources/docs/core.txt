@@ -326,6 +326,65 @@ The methods after the long running method (i.e. *"close"* in this example), will
 long running method has finished, they will not run in parallel, even though they are on different threads.
 Hence, the sequence of events is preserved.
  
+Custom progress indicators for long running methods
+---------------------------------------------------
+
+The default handler will pop up a blocking window with a progress dialog (and an optional "Cancel" button)
+only for methods that are flagged as *blocking=true*. For non-blocking methods, it does nothing in terms of the UI.
+
+However, non-blocking background methods may still benefit from showing their progress status in a custom
+progress bar (or using some progress API, such as Eclipse RCP Task API or the equivalent in NetBeans RCP).
+
+In order to make this possible, instances of BackgroundEventListener may be added.::
+
+    public interface BackgroundEventListener extends EventListener {
+    
+        /**
+         * Fired before a background task starts
+         * @param evt
+         */
+        public void backgroundTaskStarted(BuildResult r, BackgroundEvent evt);
+        
+        /**
+         * Fired after a background task ends
+         * @param evt Event object
+         */
+        public void backgroundTaskEnded(BuildResult r, BackgroundEvent evt);
+        
+    }
+
+These can be added either at the *global* level (i.e. for all components) on the builder config, e.g.::
+
+       SwingJavaBuilder.getConfig().addBackgroundEventListener(new BackgroundEventListener() {
+            @Override
+            public void backgroundTaskStarted(BuildResult r, BackgroundEvent evt) {
+                //notify common progress indicator about a new background task
+            }
+            
+            @Override
+            public void backgroundTaskEnded(BuildResult r, BackgroundEvent evt) {
+                //notify common progress indicator that a background task has ended
+            }
+        });
+        
+or can be local (i.e. just for the current component)::
+
+        BuildResult r = SwingJavaBuilder.build(this)
+        r.addBackgroundEventListener(new BackgroundEventListener() {
+            @Override
+            public void backgroundTaskStarted(BuildResult r, BackgroundEvent evt) {
+                //notify some local progress bar that task is starting
+            }
+            
+            @Override
+            public void backgroundTaskEnded(BuildResult r, BackgroundEvent evt) {
+                //notify some local progress bar that task is ending
+            }
+        });        
+ 
+The BackgroundEvent object itself includes full *PropertyChangeSupport*, so you can add listeners
+to monitor its properties and updated the progress bar min/max/value/message accordingly. 
+ 
 Domain-specific Implementations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  

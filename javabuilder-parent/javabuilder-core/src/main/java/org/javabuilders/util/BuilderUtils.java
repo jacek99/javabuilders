@@ -39,6 +39,7 @@ import org.javabuilders.Values;
 import org.javabuilders.annotations.Alias;
 import org.javabuilders.annotations.DoInBackground;
 import org.javabuilders.event.BackgroundEvent;
+import org.javabuilders.event.BackgroundEventListener;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
 import org.javabuilders.event.ObjectMethod;
@@ -379,8 +380,33 @@ public class BuilderUtils {
 
 						};
 
-						result.getConfig().getBackgroundProcessingHandler().doInBackground(result, result.getCaller(),
-								method.getMethod(), event, callback);
+						//implement background event listeners (Issue 69)
+						try {
+							//global listeners
+							for(BackgroundEventListener l : result.getConfig().getBackgroundEventListeners()) {
+								l.backgroundTaskStarted(result, event);
+							}
+							
+							//local listeners
+							for(BackgroundEventListener l : result.getBackgroundEventListeners()) {
+								l.backgroundTaskStarted(result, event);
+							}
+
+							//do default handling
+							result.getConfig().getBackgroundProcessingHandler().doInBackground(result, result.getCaller(),
+									method.getMethod(), event, callback);
+							
+						} finally {
+							//notify local that task has ended
+							for(BackgroundEventListener l : result.getBackgroundEventListeners()) {
+								l.backgroundTaskEnded(result, event);
+							}
+							
+							//notify global that task has ended
+							for(BackgroundEventListener l : result.getConfig().getBackgroundEventListeners()) {
+								l.backgroundTaskEnded(result, event);
+							}
+						}
 
 						if (logger.isDebugEnabled()) {
 							logger.debug("Finished executing background method: " + method.getMethod().getName());
