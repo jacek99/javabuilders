@@ -301,7 +301,7 @@ public class Node  {
 		
 		Object ct = getProperty(Builder.CONTENT);
 		if (ct instanceof List) {
-			List list = (List) ct;
+			List<Object> list = (List<Object>) ct;
 			for (Object entry : list) {
 				if (entry instanceof Map) {
 					Map<String,Map<String,Object>> row = (Map<String, Map<String, Object>>) entry;

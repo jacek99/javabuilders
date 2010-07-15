@@ -418,7 +418,7 @@ The BackgroundEvent object itself includes full *PropertyChangeSupport*, so you 
 to monitor its properties and updated the progress bar min/max/value/message accordingly. 
  
 Domain-specific Implementations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
  
 In Swing JavaBuilder, long running methods are handled by using the standard SwingWorker library. A
 Swing progress dialog will popup up informing the user that a process is running. If the method flagged
@@ -478,6 +478,50 @@ have been flagged as localizable, e.g.
 .. code-block:: none
     
         button.ok=OK
+
+Built-in Resources
+^^^^^^^^^^^^^^^^^^
+
+The library comes with its own built-in resources for common dialogs and messages.
+They are:
+
+.. code-block:: none
+    
+        button.cancel=Cancel
+
+        label.processing=Processing...
+        label.stepXofY=Step {0} of {1}
+        
+        message.cancelConfirm=Are you sure you want to cancel?
+        
+        message.error.dateFormat="{0}" must be a valid date in "{1}" format.
+        message.error.emailAddress="{0}" must be a valid email address.
+        message.error.maxValue="{0}" cannot be more than {1}.
+        message.error.minValue="{0}" cannot be less than {1}.
+        message.error.mandatory="{0}" is a required field.
+        message.error.maxLength="{0}" cannot be more than {1} characters long.
+        message.error.minLength="{0}" must be at least {1} characters long.
+        message.error.numeric="{0}" must be a valid numeric value.
+        message.error.regex="{0}" entry is not in valid format.
+        message.error.int="{0}" is not a valid integer value.
+        message.error.long="{0}" is not a valid number.
+        message.error.short="{0}" is not a valid short value.
+        message.error.byte="{0}" is not a valid byte value.
+        message.error.double="{0}" is not a valid decimal value.
+        message.error.float="{0}" is not a valid decimal (float) value.
+        
+        question.areYouSure=Are you sure?
+        
+        title.cancelTask=Cancel Task
+        title.validationError=Validation Error
+        title.validationErrors=Validation Errors
+        title.confirmation=Confirmation
+
+Default translations in French and Italian are provided as well. 
+If you want to override any of these messages or provide an additional locale translation, you just
+have to override any of these keys in any of the resource bundles that you have registered.
+
+The library will look for these keys in your bundles first before falling back on the built-in one.
         
 Enum property values
 --------------------

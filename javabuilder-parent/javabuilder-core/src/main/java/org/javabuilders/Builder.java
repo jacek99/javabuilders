@@ -109,6 +109,8 @@ public class Builder {
 	private final static int NAMED_OBJECT_PREFIX_LENGTH = 2;
 	private final static int NAMED_OBJECT_SUFFIX_LENGTH = 1;
 	
+	public static final String RESOURCE_BUNDLE = "org/javabuilders/Resources";
+	
 	/**
 	 * Name of the $validate custom command
 	 */
@@ -130,23 +132,6 @@ public class Builder {
 	public final static String INTERNAL_FIELD_PREFIX = "__";
 	
 	public final static String PROTOTYPE_FIELD_PREFIX = "$";
-	
-	/**
-	 * @return Standard JavaBuilders resource bundle
-	 */
-	public static ResourceBundle getResourceBundle() {
-		ResourceBundle bundle = ResourceBundle.getBundle("org/javabuilders/Resources");
-		return bundle;
-	}
-
-	/**
-	 * @param locale Locale
-	 * @return Standard JavaBuilders resource bundle for the specified locale
-	 */
-	public static ResourceBundle getResourceBundle(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("org/javabuilders/Resources",locale);
-		return bundle;
-	}
 
 	/**
 	 * Builds assuming the root object has already been instantiated

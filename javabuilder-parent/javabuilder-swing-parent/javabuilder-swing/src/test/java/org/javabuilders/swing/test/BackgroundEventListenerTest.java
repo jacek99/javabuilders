@@ -16,7 +16,6 @@ import org.javabuilders.event.IBackgroundProcessingHandler;
 import org.javabuilders.swing.handler.event.CommonActionListenerHandler;
 import org.javabuilders.swing.handler.property.AbstractButtonActionCommandHandler;
 import org.javabuilders.swing.handler.property.AbstractButtonTextHandler;
-import org.javabuilders.test.TestBuilderConfig;
 import org.junit.Before;
 import org.junit.Test;
 

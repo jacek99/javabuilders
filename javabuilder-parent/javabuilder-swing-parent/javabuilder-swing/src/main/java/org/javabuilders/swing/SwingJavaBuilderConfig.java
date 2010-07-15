@@ -495,8 +495,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			if (result.getCaller() instanceof Component) {
 				c = (Component) result.getCaller();
 			}
-			int value = JOptionPane.showConfirmDialog(c, Builder.getResourceBundle().getString("question.areYouSure"), 
-					Builder.getResourceBundle().getString("title.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int value = JOptionPane.showConfirmDialog(c, result.getResource("question.areYouSure"), 
+					result.getResource("title.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			
 			if (value == JOptionPane.YES_OPTION) {
 				return true;

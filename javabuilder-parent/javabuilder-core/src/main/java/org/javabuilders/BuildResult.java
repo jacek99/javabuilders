@@ -34,6 +34,7 @@ public class BuildResult extends HashMap<String, Object> {
 	
 	private BuilderConfig config;
 	private Object caller = null;
+	private ResourceBundle defaultBundle = null;
 	
 	private List<Object> roots = new ArrayList<Object>();
 	private boolean isDirty = false;
@@ -282,7 +283,12 @@ public class BuildResult extends HashMap<String, Object> {
 		//first, look in base resource  bundle last
 		if (resource == null) {
 			try {
-				resource = Builder.getResourceBundle().getString(key);
+				if (defaultBundle == null) {
+					defaultBundle = ResourceBundle.getBundle(Builder.RESOURCE_BUNDLE);
+				}
+				
+				resource = defaultBundle.getString(key);
+				
 			} catch (Exception ex) {}
 		}
 

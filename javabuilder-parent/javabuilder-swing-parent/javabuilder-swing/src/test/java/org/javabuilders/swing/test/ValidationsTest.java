@@ -47,7 +47,7 @@ public class ValidationsTest {
 		//test missing
 		assertEquals(1,list.size());
 		assertFalse(result.validate(false));
-		testMessage(list.get(0).getMessage(),BuilderValidators.getDefaultMandatoryMessage(),fieldLabel);
+		testMessage(result, list.get(0).getMessage(),BuilderValidators.getDefaultMandatoryMessage(),fieldLabel);
 		
 		//assure passes if valid
 		JTextField field = (JTextField)result.get(FIELD);
@@ -97,7 +97,7 @@ public class ValidationsTest {
 		ValidationMessageList list = result.getValidationMessages();
 		assertEquals(1,list.size());
 		assertFalse(result.validate(false));
-		testMessage(list.get(0).getMessage(),BuilderValidators.getDefaultMaxLengthMessage(),fieldLabel,5);
+		testMessage(result, list.get(0).getMessage(),BuilderValidators.getDefaultMaxLengthMessage(),fieldLabel,5);
 		
 		//assure passes if valid
 		field.setText("1234");
@@ -128,7 +128,7 @@ public class ValidationsTest {
 		ValidationMessageList list = result.getValidationMessages();
 		assertEquals(1,list.size());
 		assertFalse(result.validate(false));
-		testMessage(list.get(0).getMessage(),BuilderValidators.getDefaultDateFormatMessage(),fieldLabel,
+		testMessage(result, list.get(0).getMessage(),BuilderValidators.getDefaultDateFormatMessage(),fieldLabel,
 				"dd/MM/yyyy");
 		
 		//assure passes if valid
@@ -140,8 +140,8 @@ public class ValidationsTest {
 	}
 	
 	//common method to test messages are formatted correctly
-	private void testMessage(String actual, String format, Object...arguments) {
-		String pattern = Builder.getResourceBundle().getString(format);
+	private void testMessage(BuildResult r, String actual, String format, Object...arguments) {
+		String pattern = r.getResource(format);
 		String expected = MessageFormat.format(pattern, arguments);
 		assertEquals(expected, actual);
 	}

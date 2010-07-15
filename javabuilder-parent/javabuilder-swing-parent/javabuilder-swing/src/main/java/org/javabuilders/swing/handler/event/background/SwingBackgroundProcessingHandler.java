@@ -56,7 +56,7 @@ public class SwingBackgroundProcessingHandler implements IBackgroundProcessingHa
 		final boolean enabled = (componentForEvent == null) ? true : componentForEvent.isEnabled();
 
 		// show progress dialog only if task is blocking
-		final JDialog progressDialog = event.isBlocking() ? new BackgroundDialog(event) : null;
+		final JDialog progressDialog = event.isBlocking() ? new BackgroundDialog(event, result) : null;
 
 		SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
 			@Override

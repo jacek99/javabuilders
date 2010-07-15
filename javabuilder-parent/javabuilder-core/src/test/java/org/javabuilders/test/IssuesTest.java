@@ -176,12 +176,12 @@ public class IssuesTest {
 	@Test
 	public void issue64_frenchResources() {
 		
-		ResourceBundle base = Builder.getResourceBundle();
+		ResourceBundle base = ResourceBundle.getBundle(Builder.RESOURCE_BUNDLE);
 		Enumeration<String> en = base.getKeys();
 		Locale.setDefault(Locale.FRANCE);
 		for(String key : base.keySet()) {
 			String english = base.getString(key);
-			String french = Builder.getResourceBundle().getString(key);
+			String french = ResourceBundle.getBundle(Builder.RESOURCE_BUNDLE).getString(key);
 			
 			if (!key.equals("title.confirmation")) {
 				assertFalse("Key is not translated into french: " + key, english.equals(french));

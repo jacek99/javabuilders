@@ -3,10 +3,8 @@ package org.javabuilders.event;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.EventObject;
-import java.util.ResourceBundle;
 
-import org.javabuilders.Builder;
-import org.javabuilders.BuilderConfig;
+import org.javabuilders.BuildResult;
 
 /**
  * Standard event for methods that run in background
@@ -30,13 +28,12 @@ public class BackgroundEvent extends EventObject  {
 	 * @param source Source object
 	 */
 	public BackgroundEvent(Object source, Object originalEvent, boolean isBlocking, 
-			BuilderConfig config) {
+			BuildResult result) {
 		super(source);
 		this.originalEvent = originalEvent;
-		this.support = config.createPropertyChangeSupport(this);
+		this.support = result.getConfig().createPropertyChangeSupport(this);
 		
-		ResourceBundle bundle = Builder.getResourceBundle();
-		this.progressMessage = bundle.getString("label.processing");
+		this.progressMessage = result.getResource("label.processing");
 		this.isBlocking = isBlocking;
 	}
 	

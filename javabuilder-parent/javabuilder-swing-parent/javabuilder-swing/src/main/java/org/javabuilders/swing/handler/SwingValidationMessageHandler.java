@@ -64,7 +64,7 @@ public class SwingValidationMessageHandler implements IValidationMessageHandler 
 			String title = (list.size() == 1) ? DEFAULT_VALIDATION_ERROR_TITLE : DEFAULT_VALIDATION_ERRORS_TITLE;
 			
 			JOptionPane.showMessageDialog(parent,builder.toString(), 
-					Builder.getResourceBundle().getString(title), JOptionPane.ERROR_MESSAGE);
+					result.getResource(title), JOptionPane.ERROR_MESSAGE);
 			
 			//set the focus back to the first field in error
 			if (firstObject != null) {

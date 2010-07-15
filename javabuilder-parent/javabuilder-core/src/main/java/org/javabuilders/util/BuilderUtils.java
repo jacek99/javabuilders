@@ -334,8 +334,8 @@ public class BuilderUtils {
 
 						DoInBackground ann = method.getMethod().getAnnotation(DoInBackground.class);
 
-						final BackgroundEvent event = new BackgroundEvent(mainObject, eventClassInstance, ann.blocking(), result
-								.getConfig());
+						final BackgroundEvent event = new BackgroundEvent(mainObject, eventClassInstance, ann.blocking(), 
+								result);
 						event.setCancelable(ann.cancelable());
 						event.setProgressIndeterminate(ann.indeterminateProgress());
 						event.setProgressStart(ann.progressStart());

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import org.javabuilders.BuildException;
-import org.javabuilders.Builder;
+import org.javabuilders.BuildResult;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -31,7 +31,7 @@ public class BackgroundDialog extends JDialog {
 	@SuppressWarnings("unused")
 	private JProgressBar progressBar = null;
 	private BackgroundEvent event = null;
-	
+	private BuildResult result = null;
 	private JPanel mainPanel;
 	
 	/**
@@ -39,10 +39,11 @@ public class BackgroundDialog extends JDialog {
 	 * @throws BuildException 
 	 * @throws IOException 
 	 */
-	public BackgroundDialog(BackgroundEvent event) throws IOException, BuildException {
+	public BackgroundDialog(BackgroundEvent event, BuildResult result) throws IOException, BuildException {
 		BuilderUtils.validateNotNullAndNotEmpty("event", event);
 		this.event = event;
-		SwingJavaBuilder.build(this, Builder.getResourceBundle());
+		this.result = result;
+		SwingJavaBuilder.build(this);
 		mainPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		setLocationRelativeTo((Component) SwingJavaBuilderUtils.getTopLevelParent(event.getSource())); //centers around source window
 		pack();
@@ -60,8 +61,8 @@ public class BackgroundDialog extends JDialog {
 	 */
 	@SuppressWarnings("unused")
 	private void requestCancel() {
-		int response = JOptionPane.showConfirmDialog(this, Builder.getResourceBundle().getString("message.cancelConfirm"),
-				Builder.getResourceBundle().getString("title.cancelTask"), JOptionPane.YES_NO_OPTION);
+		int response = JOptionPane.showConfirmDialog(this, result.getResource("message.cancelConfirm"),
+				result.getResource("title.cancelTask"), JOptionPane.YES_NO_OPTION);
 		
 		if (response == JOptionPane.YES_OPTION) {
 			getEvent().setCancelStatus(CancelStatus.REQUESTED);
