@@ -52,7 +52,7 @@ public class BuildResult extends HashMap<String, Object> {
 	//poor man's version of functional programming
 	private IResourceFallback defaultResourceFallback = new IResourceFallback() {
 		public String get(String key) {
-			if (getResourceBundles().size() > 0) {
+			if (config.getResourceBundles().size() > 0 || getResourceBundles().size() > 0) {
 				//unable to find key - pass the key as the value
 				return getInvalidResource(key);
 			} else {
@@ -280,7 +280,7 @@ public class BuildResult extends HashMap<String, Object> {
 			}
 		}
 
-		//first, look in base resource  bundle last
+		//look in base resource  bundle last
 		if (resource == null) {
 			try {
 				if (defaultBundle == null) {

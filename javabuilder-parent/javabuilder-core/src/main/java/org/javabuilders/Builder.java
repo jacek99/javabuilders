@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -652,8 +651,8 @@ public class Builder {
 					logger.debug("Processing child key: {}", childKey);
 				}
 				
-				//handle internationalization if any resource bundles have been passed
-				if ((config.getResourceBundles().size() > 0 || process.getResourceBundles().size() > 0) && childValue instanceof String) {
+				//handle potentially internationalized resources
+				if (childValue instanceof String) {
 					if (TypeDefinition.isLocalizableProperty(childKey, typeDefinitions)) {
 						data.put(childKey,process.getBuildResult().getResource(String.valueOf(childValue)));
 					}
@@ -988,3 +987,4 @@ public class Builder {
 	
 	
 }
+

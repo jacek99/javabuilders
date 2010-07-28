@@ -709,3 +709,12 @@ argument in your run configuration::
 That's it! Now the builder will read the YAML files from the source folder, instead of the bin folder,
 meaning you can keep editing them while the app is running and immediately see the changes as soon
 as you re-open the current component you were working on.
+
+Logging via SLF4J
+-----------------
+
+The SLF4J Logging Facade is used for all logging. You will need to add the SLF4J implementation for your logging package
+(Log4J, JDK, Commons Logging, etc.) to your application classpath.
+
+For more information, read the SLF4J manual:
+http://www.slf4j.org/manual.html
