@@ -17,6 +17,7 @@ import org.javabuilders.NamedObjectProperty;
 import org.javabuilders.Node;
 import org.javabuilders.handler.binding.AbstractBuilderBindingsHandler;
 import org.javabuilders.handler.binding.BindingSourceDefinition;
+import org.javabuilders.util.BuilderUtils;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
@@ -121,6 +122,9 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 
 		Binding<Object, Object, Object, Object> binding = Bindings.createAutoBinding(strategy, sourceObject, sourceProperty,
 				targetObject, targetProperty);
+		
+		BuilderUtils.fireBindingEvent(process.getBuildResult(), binding);
+		
 		binding.bind();
 
 		if (logger.isDebugEnabled()) {
@@ -132,9 +136,9 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 	}
 
 	// create Swing binding
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Binding<Object, Object, Object, Object> createSwingBinding(Object sourceObject, String sourcePropertyPath,
-			Object targetObject, String targetPropertyName, UpdateStrategy strategy, BuildProcess result) {
+			Object targetObject, String targetPropertyName, UpdateStrategy strategy, BuildProcess process) {
 
 		Binding binding = null;
 
@@ -143,6 +147,9 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 			JList list = (JList) targetObject;
 			ELProperty listProperty = getELProperty(sourcePropertyPath);
 			binding = SwingBindings.createJListBinding(strategy, sourceObject, listProperty, list);
+			
+			BuilderUtils.fireBindingEvent(process.getBuildResult(), binding);
+			
 			binding.bind();
 
 		} else if (targetObject instanceof JComboBox) {
@@ -151,12 +158,15 @@ public class BeansBindingTypeHandler extends AbstractBuilderBindingsHandler {
 			ELProperty listProperty = getELProperty(sourcePropertyPath);
 
 			binding = SwingBindings.createJComboBoxBinding(strategy, sourceObject, listProperty, box);
+			
+			BuilderUtils.fireBindingEvent(process.getBuildResult(), binding);
+			
 			binding.bind();
 
 		} else if (targetObject instanceof JTable) {
 
 			//the complex one- needs column specific info
-			return createJTableBinding(sourceObject, sourcePropertyPath, (JTable) targetObject, targetPropertyName, strategy, result);
+			return createJTableBinding(sourceObject, sourcePropertyPath, (JTable) targetObject, targetPropertyName, strategy, process);
 			
 		}
 

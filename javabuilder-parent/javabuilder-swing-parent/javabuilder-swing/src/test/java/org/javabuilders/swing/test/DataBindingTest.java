@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -13,6 +14,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.javabuilders.BuildResult;
+import org.javabuilders.event.IBindingListener;
+import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.test.issues.resources.BindingPanel;
 import org.javabuilders.swing.test.issues.resources.Book;
 import org.javabuilders.swing.test.resources.Author;
@@ -20,6 +23,7 @@ import org.javabuilders.swing.test.resources.AuthorsPanel;
 import org.javabuilders.swing.test.resources.BooksPanel;
 import org.javabuilders.swing.util.SwingYamlBuilder;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JListBinding;
@@ -216,37 +220,67 @@ public class DataBindingTest {
 	
 	@Test
 	public void testPOJOBinding() throws InterruptedException {
-		BindingPanel p = new BindingPanel();
 		
-		//test from UI to POJO
-		p.author.setText("Charles Darwin");
-		assertEquals("Charles Darwin", p.getBook().getAuthor());
-		p.title.setText("The Origin of Species");
-		assertEquals("The Origin of Species", p.getBook().getTitle());
-		p.price.setText("12.99");
-		assertEquals(12.99, p.getBook().getPrice(),0);
+		@SuppressWarnings("rawtypes")
+		IBindingListener listener = null;
 		
-		//test from POJO to UI - need to sleep after each setter to give events time to fire
-		//asynchronously
-		p.getBook().setAuthor("Carl Sagan");
-		Thread.sleep(100);
-		assertEquals("Carl Sagan", p.author.getText());
-		p.getBook().setTitle("Cosmos");
-		Thread.sleep(100);
-		assertEquals("Cosmos", p.title.getText());
-		p.getBook().setPrice(5.99);
-		Thread.sleep(100);
-		assertEquals("5.99", p.price.getText());
+		final AtomicInteger counter = new AtomicInteger(0);
 		
-		//change whole book in one shot
-		Book book = new Book("Stanislaw Lem","Przygody pilota Pirxa",9.99);
-		p.setBook(book);
-		Thread.sleep(100);
-		assertEquals("Stanislaw Lem", p.author.getText());
-		assertEquals("Przygody pilota Pirxa", p.title.getText());
-		assertEquals("9.99", p.price.getText());
+		try {
 		
-		
+			listener = new IBindingListener<Binding<? extends Object,? extends Object,? extends Object,? extends Object>>() {
+				@Override
+				public void bindingCreated(BuildResult result,
+						Binding<? extends Object, ? extends Object, ? extends Object, ? extends Object> binding) {
+					counter.incrementAndGet();
+				}
+			};
+			
+			SwingJavaBuilder.getConfig().addBindingListener(
+					new IBindingListener<Binding<? extends Object,? extends Object,? extends Object,? extends Object>>() {
+				@Override
+				public void bindingCreated(BuildResult result,
+						Binding<? extends Object, ? extends Object, ? extends Object, ? extends Object> binding) {
+					counter.incrementAndGet();
+				}
+			});
+			
+			BindingPanel p = new BindingPanel();
+			
+			//test from UI to POJO
+			p.author.setText("Charles Darwin");
+			assertEquals("Charles Darwin", p.getBook().getAuthor());
+			p.title.setText("The Origin of Species");
+			assertEquals("The Origin of Species", p.getBook().getTitle());
+			p.price.setText("12.99");
+			assertEquals(12.99, p.getBook().getPrice(),0);
+			
+			//test from POJO to UI - need to sleep after each setter to give events time to fire
+			//asynchronously
+			p.getBook().setAuthor("Carl Sagan");
+			Thread.sleep(100);
+			assertEquals("Carl Sagan", p.author.getText());
+			p.getBook().setTitle("Cosmos");
+			Thread.sleep(100);
+			assertEquals("Cosmos", p.title.getText());
+			p.getBook().setPrice(5.99);
+			Thread.sleep(100);
+			assertEquals("5.99", p.price.getText());
+			
+			//change whole book in one shot
+			Book book = new Book("Stanislaw Lem","Przygody pilota Pirxa",9.99);
+			p.setBook(book);
+			Thread.sleep(100);
+			assertEquals("Stanislaw Lem", p.author.getText());
+			assertEquals("Przygody pilota Pirxa", p.title.getText());
+			assertEquals("9.99", p.price.getText());
+			
+			//assert binding listeners were fired
+			assertEquals("Binding listeners were not fired",3,counter.get());
+			
+		} finally {
+			SwingJavaBuilder.getConfig().removeBindingListener(listener);
+		}
 		
 	}
 	

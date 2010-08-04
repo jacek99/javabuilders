@@ -28,8 +28,10 @@ import java.awt.TextField;
 import java.awt.Window;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -99,6 +101,8 @@ import org.javabuilders.ICustomCommand;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.PrefixControlDefinition;
 import org.javabuilders.TypeDefinition;
+import org.javabuilders.event.IBindingListener;
+import org.javabuilders.event.IBindingListenerProvider;
 import org.javabuilders.handler.type.FontAsValueHandler;
 import org.javabuilders.handler.type.IconAsValueHandler;
 import org.javabuilders.handler.type.ImageAsValueHandler;
@@ -150,15 +154,19 @@ import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
 import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
+import org.jdesktop.beansbinding.Binding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig {
+public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig,
+	IBindingListenerProvider<Binding<? extends Object,? extends Object,? extends Object,? extends Object>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SwingJavaBuilderConfig.class);
 	
 	private Map<String,Integer> hScrollbars = new HashMap<String, Integer>();
 	private Map<String,Integer> vScrollbars = new HashMap<String, Integer>();
+	private Set<IBindingListener<Binding<? extends Object,? extends Object,? extends Object,? extends Object>>> bindingListeners =
+		new LinkedHashSet<IBindingListener<Binding<? extends Object,? extends Object,? extends Object,? extends Object>>>();
 	
 	{
 		hScrollbars.put("always", JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -535,5 +543,31 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		getCustomProperties().put(PROPERY_STRING_LITERAL_CONTROL_SUFFIX, suffix);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBindingListenerProvider#addBindingListener(org.javabuilders.event.IBindingListener)
+	 */
+	@Override
+	public void addBindingListener(
+			IBindingListener<Binding<? extends Object, ? extends Object, ? extends Object, ? extends Object>> listener) {
+		bindingListeners.add(listener);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBindingListenerProvider#removeBindingListener(org.javabuilders.event.IBindingListener)
+	 */
+	@Override
+	public void removeBindingListener(
+			IBindingListener<Binding<? extends Object, ? extends Object, ? extends Object, ? extends Object>> listener) {
+		bindingListeners.remove(listener);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.javabuilders.event.IBindingListenerProvider#getBindingListeners()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public IBindingListener<Binding<? extends Object, ? extends Object, ? extends Object, ? extends Object>>[] getBindingListeners() {
+		return bindingListeners.toArray(new IBindingListener[bindingListeners.size()]);
+	}
 
 }

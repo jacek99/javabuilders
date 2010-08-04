@@ -7,7 +7,7 @@ Swing JavaBuilder - Maximum productivity with minimum code
 ==========================================================
 
 .. toctree::
-    :maxdepth: 4
+    :maxdepth: 5
 
     introduction.txt
     common-docs/overview.txt

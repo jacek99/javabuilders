@@ -69,7 +69,7 @@ public class CoreTest {
 	}
 	
 	@Test 
-	public void testResourceFallback() {
+	public void testResourceFallbackWithInternationalization() {
 		
 		//configure global resource
 		TestBuilderConfig config = new TestBuilderConfig(JButton.class,JPanel.class);
@@ -97,5 +97,54 @@ public class CoreTest {
 		assertEquals("Processing...", jb.getText());
 		assertEquals("#label.wrong#", wrong.getText());
 	}
+
+	@Test 
+	public void testResourceFallbackWithoutInternationalization() {
+		
+		//configure global resource
+		TestBuilderConfig config = new TestBuilderConfig(JButton.class,JPanel.class);
+		config.forType(JButton.class).localize("text");
+		config.forType(JPanel.class).children(JButton.class,0,Integer.MAX_VALUE);
+		
+		//build with additional local resource
+		String yaml = "JPanel:\n" +
+			"    - JButton(name=test,text=Button Text)\n";
+		
+		BuildResult r = Builder.buildFromString(config, this, yaml);
+
+		//label should be unaffected
+		JButton global = (JButton) r.get("test");
+		assertEquals("Button Text", global.getText());
+	}
 	
+	@Test 
+	public void testMarkingOfInvalidResourceKeys() {
+		
+		//configure global resource
+		TestBuilderConfig config = new TestBuilderConfig(JButton.class,JPanel.class);
+		config.forType(JButton.class).localize("text");
+		config.forType(JPanel.class).children(JButton.class,0,Integer.MAX_VALUE);
+		config.addResourceBundle("org.javabuilders.test.Global");
+		
+		//build with additional local resource
+		String yaml = "JPanel:\n" +
+			"    - JButton(name=test,text=Button Text)\n";
+		
+		BuildResult r = Builder.buildFromString(config, this, yaml);
+
+		//label should be unaffected
+		JButton global = (JButton) r.get("test");
+		assertEquals("Button Text", global.getText());
+		
+		//now set it to mark invalid resource keys
+		config.setMarkInvalidResourceBundleKeys(true);
+		
+		BuildResult r2 = Builder.buildFromString(config, this, yaml);
+
+		//label should be unaffected
+		JButton global2 = (JButton) r2.get("test");
+		assertEquals("#Button Text#", global2.getText());
+
+	}
+
 }

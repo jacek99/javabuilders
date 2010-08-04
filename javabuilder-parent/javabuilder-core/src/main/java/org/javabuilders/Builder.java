@@ -506,6 +506,7 @@ public class Builder {
 			
 		} else if (rawDocumentNode instanceof List){
 			//collection of objects or values
+			@SuppressWarnings("rawtypes")
 			List items = (List)rawDocumentNode;
 			
 			Class<?> type = BuilderUtils.getClassFromAlias(process, currentKey, null);
@@ -748,7 +749,6 @@ public class Builder {
 		delayedKeys.add(key);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private static void handleProperty(BuilderConfig config, BuildProcess process, Node parent, String currentKey) throws BuildException {
 		//PROPERTY VALUE
 		if (!parent.getConsumedKeys().contains(currentKey)) { //each property should be processed only once by any handler
@@ -850,7 +850,7 @@ public class Builder {
 	}
 	
 	//performs property value validation
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void validateProperty(IPropertyHandler handler, BuilderConfig config, BuildProcess result, 
 			Node parent, String currentKey) throws BuildException {
 		
@@ -935,7 +935,6 @@ public class Builder {
 	 * @throws MissingRequiredPropertyException 
 	 * @throws MissingRequiredTypeException 
 	 */
-	@SuppressWarnings("unchecked")
 	private static void validate(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> currentProperties, Class<?> classType) throws InvalidParentTypeException, MissingRequiredPropertyException, MissingRequiredTypeException {
 		
 		//check for allowed parent

@@ -7,8 +7,6 @@ import java.util.ResourceBundle;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
-import org.javabuilders.BuilderConfig;
-import org.jvyaml.YAML;
 
 /**
  * Swing Builder
@@ -17,7 +15,7 @@ import org.jvyaml.YAML;
  */
 public class SwingJavaBuilder  {
 
-	private static BuilderConfig config = new SwingJavaBuilderConfig();
+	private static SwingJavaBuilderConfig config = new SwingJavaBuilderConfig();
 	
 	public final static String VGAP = "vgap";
 	public final static String HGAP = "hgap";
@@ -71,7 +69,7 @@ public class SwingJavaBuilder  {
 	 * Returns the standard SwingBuilder configuration
 	 * @return
 	 */
-	public static BuilderConfig getConfig() {
+	public static SwingJavaBuilderConfig getConfig() {
 		return config;
 	}
 	

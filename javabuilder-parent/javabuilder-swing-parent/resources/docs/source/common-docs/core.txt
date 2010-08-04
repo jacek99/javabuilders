@@ -522,6 +522,24 @@ If you want to override any of these messages or provide an additional locale tr
 have to override any of these keys in any of the resource bundles that you have registered.
 
 The library will look for these keys in your bundles first before falling back on the built-in one.
+
+Marking invalid resource keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, resource keys that have not been found will be shown as is (i.e. the resource key will be shown as the text)
+and an INFO message will be logged as well, e.g.:
+
+.. code-block:: none
+
+        278 [main] INFO org.javabuilders.BuildResult - Unable to find value in any resource bundle for key: *button.doThis*
+
+You can have them marked explicitly with "#" (e.g. "#button.doThis#") to further visually indicate that they are mising
+by calling the *setMarkInvalidResourceBundleKeys(boolean)* method, e.g.:
+
+.. code-block:: none
+
+    SwingJavaBuilder.getConfig().setMarkInvalidResourceBundleKeys(true);
+
         
 Enum property values
 --------------------

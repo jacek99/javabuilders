@@ -5,4 +5,4 @@ JPanel:
 bind:
      - author.text: this.book.author
      - title.text: this.book.title
-     - price.text: this.book.price
+     - price.text: ${this.book.price}

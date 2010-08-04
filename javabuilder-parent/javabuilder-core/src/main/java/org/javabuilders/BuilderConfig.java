@@ -49,7 +49,7 @@ public class BuilderConfig {
 	public static final String SOURCE = "javabuilders.dev.src";
 	public final static String CUSTOM_COMMAND_REGEX = "\\$[a-zA-Z0-9]+"; //e.g. "$validate"
 	public final static String GLOBAL_VARIABLE_REGEX = "\\$\\$\\{[a-zA-Z0-9]+\\}"; //e.g. "$${dateFormat}"
-	private static Set<ResourceBundle> bundles = new LinkedHashSet<ResourceBundle>();
+	
 	
 	public static String PROPERY_STRING_LITERAL_CONTROL_PREFIX = "StringLiteralControl.Prefix";
 	public static String PROPERY_STRING_LITERAL_CONTROL_SUFFIX = "StringLiteralControl.Suffix";
@@ -83,7 +83,7 @@ public class BuilderConfig {
 	private Map<Class<?>,TypeDefinition> typeDefinitions = new HashMap<Class<?>, TypeDefinition>();
 	private Map<String,Class<?>> typeAliases = new HashMap<String, Class<?>>();
 	
-	private boolean markInvalidResourceBundleKeys = true;
+	private boolean markInvalidResourceBundleKeys = false;
 
 	//internal cache used to avoid re-creating the hierarchy of type definitions with every request
 	//loaded lazily, upon demand
@@ -105,6 +105,7 @@ public class BuilderConfig {
 	
 	private Map<String,PrefixControlDefinition> prefixes = new HashMap<String, PrefixControlDefinition>();
 	private Map<String,String> prototypes = new HashMap<String, String>();
+	private Set<ResourceBundle> bundles = new LinkedHashSet<ResourceBundle>();
 	
 	/**
 	 * Constructor

@@ -42,6 +42,8 @@ import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.BackgroundEventListener;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.event.IBackgroundCallback;
+import org.javabuilders.event.IBindingListener;
+import org.javabuilders.event.IBindingListenerProvider;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
 import org.jvyaml.YAML;
@@ -1287,6 +1289,20 @@ public class BuilderUtils {
 		 }
 	}
 
+	/**
+	 * Standard logic to fire binding events, if the config supports them
+	 * @param result
+	 * @param binding
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> void fireBindingEvent(BuildResult result, T binding) {
+		if (result.getConfig() instanceof IBindingListenerProvider) {
+			IBindingListenerProvider<T> provider = (IBindingListenerProvider<T>) result.getConfig();
+			for(IBindingListener<T> listener : provider.getBindingListeners()) {
+				listener.bindingCreated(result, binding);
+			}
+		}
+	}
     
 
 }

@@ -367,7 +367,7 @@ public class BuildResult extends HashMap<String, Object> {
 	/**
 	 * @return Build-specific custom properties
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public Map getProperties() {
 		return properties;
 	}

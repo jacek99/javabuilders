@@ -659,3 +659,51 @@ onWindowIconified        WindowEvent
                     
 onWindowOpened           WindowEvent
 =====================    =========================
+
+
+Customizing BetterBeansBinding logic
+------------------------------------
+
+As mentioned previously Swing JavaBuilder uses the Better Beans Binding (BBB) library for data binding support.
+However, in some cases the default binding logic may not be flexible enough for all cases and may 
+require further customization (such as adding a custom Converter). There are two ways to accomplish this.
+
+BindingsGroup modification
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a BuildResult object is generated via a build, it's *getBindingContext()* method will return
+a standard BBB BindingGroup object:
+http://www.jarvana.com/jarvana/view/it/tidalwave/betterbeansbinding/betterbeansbinding-core/1.3.0/betterbeansbinding-core-1.3.0-javadoc.jar!/org/jdesktop/beansbinding/BindingGroup.html
+
+Since BuildResult is generic across all domains, it returns an *Object* from that method. It needs to be cast explicitly
+to BindingGroup when working in Swing.
+
+.. code-block:: java
+
+     BindingGroup group = (BindingGroup)result.getBindingContext();
+
+Registering a BindingListener
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Another option is to register a BindingListener for the whole application. This will get fired every time a binding is created,
+but *before* the BBB *bind()* is called. 
+
+.. code-block:: java
+
+    SwingJavaBuilder.getConfig().addBindingListener(
+                    new IBindingListener<Binding<? extends Object,
+                          ? extends Object,
+                          ? extends Object,
+                          ? extends Object>>() {
+                @Override
+                public void bindingCreated(BuildResult result,
+                        Binding<? extends Object, 
+                        ? extends Object, 
+                        ? extends Object, 
+                        ? extends Object> binding) {
+                    
+                    //do something, e.g. add custom converter depending on the type of the property
+                    
+                }
+            });
+ 
