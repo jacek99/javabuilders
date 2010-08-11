@@ -1,0 +1,369 @@
+.. highlight:: yaml
+
+Swing Layout Management
+=======================
+
+Layout management is one of the biggest pain points in any UI development. The Swing JavaBuilder
+solves it by using a simple DSL (Domain Specific Language) that runs on top of the brilliant MigLayout
+layout manager.
+
+After using MigLayout you will never go back to any other JDK layout manager, it makes them all
+obsolete.
+
+MigLayout DSL
+-------------
+
+What is MigLayout?
+^^^^^^^^^^^^^^^^^^
+
+MigLayout is a brilliant layout manager for Swing and SWT, written by Mikael Grev and released
+under the open source BSD license. It revolutionizes layout management by making it much more
+dynamic and thus greatly reducing the number of lines of code one has to write, even for very complex
+layouts.
+
+MigLayout is available for download from http://miglayout.com. 
+We recommend to read the Cheat Sheet and introduction to MigLayout available on that website. 
+Once you try MigLayout you can never go back to archaic layout managers such as GridBagLayout or GroupLayout. 
+It even makes the formidable JGoodies Forms layout manager obsolete.
+
+Visual MigLayout DSL syntax (a GUI builder in pure text)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The visual layout DSL is basically a way to have a GUI builder, but in a pure text format. In short, it
+allows you to define controls' layout in a text file (by using their names) and from their relative alignments
+and number of rows, the builder will attempt to automatically figure out how many rows/columns there
+are, which control goes into which cell, whether it should be left/top/right/center aligned, how many cells
+should it span, etc.
+
+The layout DSL translates the constraints into standard MigLayout constraints, hence this is basically
+nothing more than a visual text-based interface to the full power of MigLayout.
+
+*Quick Example*
+
+Let's say we need to create a simple dialog with 3 rows: a table/text field in the first two rows, and
+OK/Cancel buttons (right aligned) in the last row.
+
+.. image:: images/miglayout-simple-1.png
+
+::
+
+    MigLayout: |
+         [[insets 8]
+         [pref]              [grow]
+         >"First name:"      firstName
+         >"Last name:"       lastName
+         >okButton+*,cancelButton         [growy, bottom]
+         {okButton: tag OK, cancelButton: tag Cancel}
+         
+From this you can probably see right away that we have 3 rows (as in 3 lines of text), the labels are in
+the same vertical column, the text fields are in the same vertical column (which is flagged to "grow", a
+standard MigLayout constraint).
+
+General format
+^^^^^^^^^^^^^^
+::
+
+     MigLayout: |
+          [[global layout constraints]]                                                #optional
+          [column constraints]         [another column's constraints]                  #optional
+          control1                     control2                                        [row constraint - optional]
+          control3                     control4
+          {control1: specific MigLayout constraint (e.g. baseline) }                   #optional
+          
+Alignment
+^^^^^^^^^
+Goes before the control name, e.g. ``>fieldNameLabel``. If none are presents it defaults to ``top, left``.
+
+=====   ======================================================================================================================
+``<``   horizontally left aligned (can be omitted, it is the default value)
+``|``   horizontally centered
+``>``   horizontally right aligned
+``^``   vertically top aligned (usually omitted, use only when needed to override the default, e.g. "baseline" in MigLayout)
+``-``   vertically centered
+``/``   vertically bottom aligned
+=====   ====================================================================================================================== 
+ 
+Cell Spanning
+^^^^^^^^^^^^^
+
+In ``+X+Y`` format (X= horizontal cells to span, Y= vertical cells to span), e.g. ``okButton+2``.
+ 
+Examples::
+
+    +*          # horizontally span rest of row (e.g. "okButton+*")
+    +2          # horizontally span 2 cells
+    +2+4        # horizontally span 2 cells, vertically span 4 cells
+    +2+*        # horizontally span 2 cells, vertically span the the rest of the column
+    
+Cell Splitting
+^^^^^^^^^^^^^^
+In ``controlName1,controlName2`` format (i.e. control names separated with a comma). Used when
+you want to place multiple controls into the same cell. All the general cell constraints (alignment,
+spanning, etc.) are applied to the first control, e.g. ``okButton+*,cancelButton``.
+ 
+Size Groups
+^^^^^^^^^^^
+
+In ``=X`` format (X = size group number), e.g. ``okButton=1 cancelButton=1``
+ 
+Allows to specify which controls should have the same preferred size. Useful especially when you want
+different command buttons to have the same size (e.g. OK and Cancel). There is also support for
+horizontal and vertical size groups (i.e. those that apply only to common width and/or height, instead of
+both). It is defined by appending an 'x' or 'y' after the size group, e.g.::
+
+    okButton=1x cancelButton=1x
+ 
+Width and Height
+^^^^^^^^^^^^^^^^
+
+Goes after the control name, e.g. ``fieldName>^``. If none are presents it defaults to whatever is most
+ logical for the current component type.
+ 
+=======  =====================
+``<``    Minimum width
+``|``    Preferred width
+``>``    Maximum width
+``^``    Minimum height
+``-``    Preferred height
+``/``    Maximum height
+=======  =====================
+ 
+ 
+Control Auto-Creation
+^^^^^^^^^^^^^^^^^^^^^
+
+The MigLayout node recognizes common naming conventions and can auto-create a control of the specified type
+based on its name. That removes the need to explicitly define such basic controls as ``JTextField``, etc.
+
+The accepted control prefixes are:
+
+===========   ============================    ================================================================
+**Prefix**    **Type**                        **Comments**
+===========   ============================    ================================================================
+btn           JButton                         Suffix will be used to find label and map ``onAction``
+                                              to Java method. 
+                                              E.g. "btnApply" will generate a ``JButton``,
+                                              with a text "Apply" and the ``onAction`` listened wired to
+                                              the equivalent ``apply()`` Java method.
+tgl           JToggleButton                   Same as JButton
+txt           JTextField
+cbx           JCheckBox
+rb            JRadioButton
+cmb           JComboBox
+lst           JList
+txa           JTextArea
+tbl           JTable
+tr            JTree
+sld           JSlider
+prg           JProgressBar
+pwd           JPasswordField
+spn           JSpinner
+sep           JSeparator
+===========   ============================    ================================================================ 
+ 
+Here's a fully verbose example::
+ 
+      JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JLabel(name=fNameLbl, text=label.firstName)
+          - JLabel(name=lNameLbl, text=label.lastName)
+          - JLabel(name=emailLbl, text=label.email)
+          - JTextField(name=fName)
+          - JTextField(name=lName)
+          - JTextField(name=email)
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]        [grow,100] [pref]    [grow,100]
+              fNameLbl      fName      lNameLbl  lName
+              emailLbl      email+*
+              >save+*=1,cancel=1
+ 
+And here is what it would look like after using control auto-creation (to create all the ``JTextField``
+instances by prefixing the control name with ``txt``)::
+
+      JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JLabel(name=fNameLbl, text=label.firstName)
+          - JLabel(name=lNameLbl, text=label.lastName)
+          - JLabel(name=emailLbl, text=label.email)
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]        [grow,100] [pref]    [grow,100]
+              fNameLbl      txtFName   lNameLbl  txtLName
+              emailLbl      txtEmail+*
+              >save+*=1,cancel=1
+
+Notice that we did not have to explicitly define the thre ``JTextField`` entries any more.
+Just by calling the controls ``txtFName,txtLName,txtEmail`` the builder knew you wanted
+to create controls of type ``JTextField`` and did that for you.
+
+.. note:: Notice the special handling of ``JButton``: the button's name suffix (e.g. "btnOK" = "OK", "btnDelete" = "Delete")
+    will be converted to Pascal case and a corresponding Java method (e.g. ``ok()``, ``delete()``) 
+    will be expected to be present in the Java class so that ``onAction`` can be wired automatically.
+    
+.. warning:: if you create a "btnNew" JButton that would automatically map to a Java method ``new()``, which is
+    a reserved keyword and cannot be compiled. In this corner case we will try to match it to a ``doNew()``
+    method instead.
+
+String Literal Controls
+^^^^^^^^^^^^^^^^^^^^^^^
+ 
+In order to further simplify the creation of user interfaces, the DSL allows you to enter string literals
+(embedded in double quotes) instead of control names. Such entries will automatically be interpreted as
+labels (e.g. JLabel for Swing, Label for SWT, etc.) and an underlying control will be created without the
+need to manually specify it in the YAML.
+
+*Example*::
+
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]                   [grow,100] [pref]             [grow,100]
+              "label.firstName"        txtFName   "label.lastName"   txtLName
+              "label.email"            txtEmail+*
+              >save+*=1,cancel=1
+              
+or the more verbose, traditional way, using explicit label definitions::
+ 
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - JLabel(name=fNameLbl, text=label.firstName)
+          - JLabel(name=lNameLbl, text=label.lastName)
+          - JLabel(name=emailLbl, text=label.email)
+          - JButton(name=save, text=button.save, onAction=[$validate,save,done])
+          - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])
+          - MigLayout: |
+              [pref]        [grow,100] [pref]    [grow,100]
+              fNameLbl      txtFName   lNameLbl  txtLName
+              emailLbl      txtEmail+*
+              >save+*=1,cancel=1
+
+**HTML content**
+
+It is possible to enter HTML tags in the label, in the format accepted by ``JLabel``. It is not required
+to put in the ``<html/>`` tag around it, Swing JavaBuilder will do it automatically if it encounters HTML
+tags in the text, e.g.:: 
+
+     JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+          - MigLayout: |
+              [pref]                   [grow,100] [pref]               [grow,100]
+              "<b>First name:</b>"     txtFName   "<i>Last name:</i>:" txtLName
+              
+
+Control Prototypes
+^^^^^^^^^^^^^^^^^^
+
+This feature is designed to enforce consistency of how common controls get created throughout an app.
+Let's say we want the ``Add`` button in our application to always have a text of "Add", trigger the
+``addNew()`` Java method when clicked and also use a standard icon.
+
+All we have to do is define a prototype YAML definition in our ``main()`` method:
+
+.. code-block:: java
+
+    SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
+    
+And we just refer to that prototype by prefixing it's name with ``$`` in the *MigLayout* section, e.g.::
+
+         - MigLayout: |
+              [grow]           [pref] 
+              "Name:"          txtName
+              $btnAdd        
+
+The ``$btnAdd`` control will get auto-created defined the prototype definition we saw earlier.
+
+If later you decided to change something about it (e.g. new icon, new text, add tooltip, etc.) all you have to do
+is change it in one place and it will get reflected throughout the whole application.
+              
+Complex Example
+^^^^^^^^^^^^^^^
+ 
+From John O'Conners Layout Manager Challenge:
+
+.. image:: images/addressbookdemo_mac.png
+
+Here's how it would look implemented in the Swing JavaBuilder:
+
+.. image:: images/miglayout-complex-1.png
+
+*YAML*::
+
+     JPanel:
+          - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
+          - MigLayout: |
+              [200,grow]            [right]          [200,grow]                           [200,grow]
+              scroll1+1+*          "Last name:"      txtLName        "First Name"         txtFName
+                                   "Phone:"          txtPhone        "Email:"+2,txtEmail
+                                   "Address 1:"      txtAddress1+*
+                                   "Address 2:"      txtAddress2+*
+                                   "City:"           txtCity
+                                   "State:"          txtState        "Postal Code:"       txtPostal
+                                   "Country:"        txtCountry
+                                   ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1    [grow]
+
+MigLayout
+---------
+
+If for whatever reason you do not want to use the MigLayout DSL, you can still use regular MigLayout
+properties and syntax, e.g.::
+
+     JFrame(title=My Frame):
+           content:
+               - JLabel(name=firstNameLabel,text=First Name)
+               - JTextField(name=firstName)
+               - JLabel(name=lastNameLabel,text=Last Name)
+               - JTextField(name=lastName)
+               - JButton(name=okButton)
+               - MigLayout:
+                     layoutConstraints: wrap 2                    #general layout constraints
+                     columnConstraints: [] [grow] []              #general column constraints
+                     rowConstraints: [] [] []                     #general row constraints
+                     constraints:
+                          - firstNameLabel: right
+                          - firstName: 200px, sg 1
+                          - lastNameLabel: right
+                          - lastName: 200px, sg 1
+                          - okButton: span, right, tag ok
+                          
+But we recommend you always use the DSL syntax instead, it's much more powerful and easier to use
+after the initial learning curve.
+
+CardLayout
+----------
+
+CardLayout support is provided by adding a CardLayout node at the end of the list of child components, e.g.::
+
+     JPanel:
+           - JPanel(name=panel1)
+           - JPanel(name=panel2)
+           - CardLayout(name=cards): [panel1,panel2]
+           
+By default the card name is the same as the name of the control that was added as a card. Using the
+ ``name`` property you can get a handle to the created instance of CardLayout in your Java-side code, e.g.::
+ 
+    private CardLayout cards;
+ 
+FlowLayout
+----------
+
+In order to use FlowLayout, just create a FlowLayout node at the end of the list of child components. No
+need to specify which ones to add, they all get added automatically, e.g.::
+
+     JPanel:
+          - JPanel(name=panel1,groupTitle=Flow layout components):
+             - JLabel(text=Label 1)
+             - JButton(text=Button 1)
+             - JLabel(text=Label 2)
+             - JButton(text=Button 2)
+             - JLabel(text=Label 3)
+             - JButton(text=Button 4)
+             - JLabel(text=Label 5)
+             - JButton(text=Button 5)
+             - FlowLayout(alignment=left,hgap=30,vgap=30,alignOnBaseline=true)
+
+Other layout managers
+---------------------
+
+No other layout managers are supported. Any layout possible can be accomplished using just MigLayout, CardLayout and FlowLayout.
+GridBagLayout and GroupLayout are banished from Swing JavaBuilder, as they are virtually impossible to code
+without an IDE-specific GUI builder (and are incredibly verbose on top of that).

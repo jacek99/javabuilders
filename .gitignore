@@ -1,2 +1,8 @@
 bin/
+.metadata/
+.settings/
+build/
 *.class
+target/
+RemoteSystemsTempFiles
+

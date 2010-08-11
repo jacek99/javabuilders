@@ -1,0 +1,74 @@
+JFrame(title=frame.title, state=max, defaultCloseOperation=exitOnClose, iconImage=images/system-lock-screen.png, onStateChanged=onWindowEvent, onWindowFocus=onWindowEvent, onWindowFocusLost=onWindowEvent, onWindowActivated=onWindowEvent, onWindowOpened=onWindowEvent,):
+    - Action(name=newAction, text=menu.file.new, toolTipText=menu.file.new.tooltip, icon=images/document-new.png, onAction=onFileNew)
+    - Action(name=openAction, text=menu.file.open, toolTipText=menu.file.open.tooltip, icon=images/document-open.png, onAction=onFileOpen)
+    - Action(name=saveAction, text=menu.file.save, toolTipText=menu.file.save.tooltip, icon=images/document-save.png, onAction=onSave)
+    - Action(name=exitAction, text=menu.file.exit, icon=images/process-stop.png, onAction=[$confirm,exit])
+    - Action(name=option1Action, text=menu.option1, onAction=option1)
+    - Action(name=helpAboutAction,text=menu.help.about,onAction=onHelpAbout)
+    - JMenuBar:
+        - JMenu(name=fileMenu,text=menu.file):
+            - JMenuItem(action=newAction)
+            - JMenuItem(action=openAction)            
+            - JSeparator()
+            - JMenuItem(action=saveAction)
+            - JSeparator()
+            - JMenuItem(action=exitAction)
+        - JMenu(name=optionsMenu, text=menu.options):
+            - JRadioButtonMenuItem(name=radio1Menu, action=option1Action)
+            - JRadioButtonMenuItem(name=radio2Menu, text=menu.option2)
+            - JRadioButtonMenuItem(name=radio3Menu, text=menu.option3)
+            - ButtonGroup: [radio1Menu, radio2Menu, radio3Menu]
+            - JSeparator()
+            - JCheckBoxMenuItem(text=menu.option1, onAction=option1)
+            - JCheckBoxMenuItem(text=menu.option2)
+            - JCheckBoxMenuItem(text=menu.option3)
+        - JMenu(name=helpMenu,text=menu.help):
+            - JMenuItem(action=helpAboutAction)
+    - JPopupMenu(name=popup):
+        - JMenuItem(name=popupCopy, text=Copy, onAction=copy)
+        - JMenuItem(name=popupPaste, text=Paste, onAction=paste)
+    - JToolBar(name=toolbar):
+         - JButton(action=newAction, verticalTextPosition=bottom, horizontalTextPosition=center)
+         - JButton(action=openAction, verticalTextPosition=bottom, horizontalTextPosition=center)
+         - JButton(action=saveAction, verticalTextPosition=bottom, horizontalTextPosition=center)
+         - JSeparator(orientation=vertical)
+         - JButton(action=exitAction, verticalTextPosition=bottom, horizontalTextPosition=center)
+    - JTabbedPane(name=tabs, onChange=onTabChanged):
+         - JPanel(name=frameYamlSource,tabTitle=tab.frameYamlSource):
+             - JLabel(name=rightClickLabel, text="Right click on the components to see a popup menu:", font=bold)
+             - JScrollPane(name=scroll1): JTextArea(name=frameSourceArea,editable=false,font=Monospaced, popupMenu=popup)
+             - JLabel(name=eventsLabel, text=Window Events)
+             - JScrollPane(name=scroll2): JTextArea(name=eventsLog, editable=true, popupMenu=popup)
+             - JButton(name=newButton, action=newAction)
+             - JButton(name=openButton, action=openAction)
+             - JButton(name=saveButton, action=saveAction)
+             - MigLayout: |
+                 [grow]
+                 rightClickLabel+*                    
+                 scroll1                            [grow]
+                 eventsLabel                          
+                 scroll2                            [200!]
+                 >newButton,openButton,saveButton   
+         - ComponentsPanel(name=componentsPanel,tabTitle=tab.components)
+         - BorderPanel(name=borderPanel,tabTitle=tab.borders)
+         - CardLayoutPanel(name=cardLayoutPanel,tabTitle=tab.cardLayout)       
+         - FlowLayoutPanel(name=flowLayoutPanel,tabTitle=tab.flowLayout)
+         - MigLayoutPanel1(name=migLayoutPanel1,tabTitle=tab.migLayout1)
+         - MigLayoutPanel2(name=migLayoutPanel2,tabTitle=tab.migLayout2)
+         - MigLayoutPanel3(name=migLayoutPanel3,tabTitle=tab.migLayout3)
+         - LayoutManagerShowdownChallenge(name=challengePanel, tabTitle=tab.layoutChallenge, tabToolTip=tab.layoutChallenge.toolTip)
+         - EventsPanel(name=eventsPanel,tabTitle=tab.events)
+         - ValidatorsPanel(name=validatorsPanel, tabTitle=tab.validators)
+         - UserSubmissionsPanel(name=usersPanel, tabTitle=tab.userSubmissions)
+         #- FormattedInputPanel(name=formattedInputPanel, tabTitle=tab.formattedInput)
+         - ListBindingPanel(name=listPanel, tabTitle=List Databinding)
+         - GlazedListsSamplePanel(name=glazedListsPanel, tabTitle=Glazed Lists)
+         - JDesktopPanePanel(name=desktopPanePanel, tabTitle=JDesktopPane)
+         - AlignmentAndSizesPanel(name=alignmentSizesPanel, tabTitle=Alignment & Sizes)
+    - MigLayout: |
+        [grow]
+        toolbar
+        tabs        [grow]
+bind:
+    - frameSourceArea.text : this.yaml    
+    

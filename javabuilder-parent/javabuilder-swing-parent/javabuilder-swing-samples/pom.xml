@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>javabuilder-parent</artifactId>
+    <groupId>org.javabuilders</groupId>
+    <version>1.0.0.RC2</version>
+  </parent>
+  
+  <groupId>org.javabuilders</groupId>
+  <artifactId>javabuilder-swing-samples</artifactId>
+  <name>Swing JavaBuilder Sample Application</name>
+  <url>http://javabuilders.org</url>
+  <packaging>pom</packaging>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.javabuilders</groupId>
+      <artifactId>javabuilder-swing</artifactId>
+      <version>${version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.javabuilders</groupId>
+      <artifactId>javabuilder-swing-glazedlists</artifactId>
+      <version>${version}</version>
+    </dependency>
+    
+  </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+</project>

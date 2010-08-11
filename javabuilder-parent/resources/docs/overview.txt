@@ -1,0 +1,331 @@
+Overview
+========
+
+What is JavaBuilders all about?
+-------------------------------
+
+In short any object that is built using a JavaBuilder consists of two files:
+
+* a *YAML* text file that provides a declarative definition of the subject, most commonly the user interface. 
+  This would include items such as the controls that get instantiated, their properties, which methods should be 
+  called from event listeners, layout definition, data binding definition, predefined validations on controls or their properties.
+
+* a *Java* class with all the actual code that represents the object being built. 
+  So for example, in Swing JavaBuilder the Java class may be a JFrame with all the relevant methods 
+  (e.g. save(), close(), validateInput(), as well as public properties that refer to the data being entered/maintained 
+  in the window).
+
+Using a convention over configuration approach inspired by the Apache Wicket web framework, both
+files reside in the same package and with the same name, but just with a different file extension, e.g.::
+
+    MainApplicationFrame.java
+    MainApplicationFrame.yaml
+
+If you are using an inner class, e.g.::
+
+    public class CommonPanels
+    {
+       public static class SomePanel
+       {
+          SwingBuilder.build(this);
+       }
+    }
+    
+then you can define a YAML file using the "DeclaringClass.InnerClass.yaml" format, e.g.::
+
+    CommonPanels.SomePanel.yaml
+
+in order to build an instance of the inner class.
+
+Alternatively, you may even specify a build file explicitly by using the class-level @BuildFile
+annotation, which accepts a local or absolute file path within the classpath:
+
+*Local package file path*::
+
+    @BuildFile("Common.yaml")
+    public class LocalBuildFilePanel extends JPanel
+
+or:
+
+*Absolute file path*::
+
+    @BuildFile("/org/javabuilders/test/resources/Common.yaml")
+    public class GlobalBuildFilePanel extends JPanel
+    
+Why would I use this instead of regular coding by hand?
+-------------------------------------------------------
+
+Because you will have to write a lot less code to the same thing if you use a JavaBuilder. This is what it's
+all about.
+
+.. note::
+
+    The YAML file contains only a declaration of the interface, which methods (on the Java side) should be
+    fired when the user pressed a button, data binding instructions, data validation definitions, etc. It has
+    zero code (of any type, Java, Javascript, etc.) embedded in it. The idea is that 100% of actual code you
+    write is in the Java file and nowhere else.
+
+What is YAML?
+-------------
+
+I discovered YAML while reading about Ruby on Rails. It is used by that web framework as the default
+file format for all configuration files. It has a very simple approach to define hierarchical data
+structures/maps/list, based on straightforward whitespace indentation. Also, it handles text transparently.
+There is usually no need to input text in quotes, you can just type it as is, e.g.::
+
+    text: This is the text for my control
+    
+The only time you need to escape into quotes is if your text contains YAML-reserved characters such as ":", e.g.::
+
+    text: "First name:"
+    
+ 
+Whitespace indentation
+^^^^^^^^^^^^^^^^^^^^^^ 
+ 
+Unless you are a Python programmer, the concept of anything that relies on whitespace probably makes
+you uncomfortable. Trust me, it's actually very simple to get used to it, does not require any particularly
+specialized development tools. The main benefit of whitespace indentation is that it automatically
+handles defining the "end" of an item (hence there is no need for XML-closing tags or JSON-closing
+brackets).
+ 
+Why not XML?
+^^^^^^^^^^^^ 
+ 
+It is simply too verbose. Too much typing. Most of the file seems to be tags and closing tags instead of
+the content. In YAML the majority of the file is the actual content (and the whitespace of course).
+
+Why not JSON?
+^^^^^^^^^^^^^
+
+JSON is very concise and the perfect tool for let's say invoking Ajax requests. However, for maintainable
+files it suffers from what I call "closing bracket hell", especially when dealing with complex object graphs.
+Every type needs to be closed with a "}" and every collection needs to be opened and closed with a "["
+and "]". Once you start mixing the two together you start having horrendous closing statements such as
+this::
+
+                       }
+                      }
+                    ]
+                   }
+                 ]
+               }
+             ]
+           }
+           
+Scroll to the bottom of this JavaFX code sample to see what I mean:
+http://jfx.wikia.com/wiki/JFXPresentation
+
+YAML is a superset of JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Although YAML relies on whitespace indentation to indicate hierarchy, you can at any point in the
+document switch to JSON-style brackets. This allows to keep the file shorter and more concise and
+should be used on all bottom-level nodes (i.e. those that have no children).
+
+Pure whitespace YAML example::
+
+ JFrame:
+      name: myFrame
+      title: My Frame
+      content:
+           - JLabel:
+                   name: myLabel2
+                   text: My First Label
+           - JLabel:
+                   name: myLabel2
+                   text: My Second Label
+
+The same content can be compressed using JSON-style brackets to::
+                                                              
+ JFrame:
+     name: myFrame
+     title: My Frame
+     content:
+          - JLabel: {name: myLabel2, text: My First Label}
+          - JLabel: {name: myLabel2, text: My Second Label}
+
+However, in most cases you will not be coding in either traditional YAML or JSON. We have enhanced
+the standard YAML syntax to make it even more compact (more on that in the next sections). In most
+cases your YAML content will look like this::
+ 
+ JFrame(name=myFrame,title=My Frame):
+      - JLabel(name=myLabel2, text=My First Label)
+      - JLabel(name=myLabel2, text=My Second Label)
+
+This is still valid YAML syntax and our custom YAML pre-processor takes care of "exploding" this
+compact syntax to the equivalent "full" YAML content
+
+Tabs in YAML
+^^^^^^^^^^^^
+
+Tabs are simply not allowed in YAML, period. You always indent using explicit whitespace. Putting a tab
+into a YAML file will cause it to fail to parse
+
+YAML syntax samples
+^^^^^^^^^^^^^^^^^^^
+
+Values::
+
+  text: Some text
+ 
+Maps::
+
+ JFrame:
+     name: myFrame
+     title: My Frame
+ 
+Lists (via the "-" indicator)::
+
+      content:
+           - Item1
+           - Item2 : {somePropertyForItem2: someValueforItem2}
+ 
+Free-form text with new lines preserved (accomplished with the "|" indicator)::
+
+     quote: |
+        To code by hand or not?
+        There is no question.
+        You should just be using JavaBuilders.
+                          Will Shakespeare (JavaBuilders early adopter)
+                          
+Related links
+^^^^^^^^^^^^^
+YAML on Wikipedia: http://en.wikipedia.org/wiki/YAML
+
+Compact YAML syntax
+-------------------
+ 
+Although the base YAML format is already pretty concise, JavaBuilders adds a custom extension to it
+that we call "virtual constructor flow", otherwise referred to simply as compact YAML. It allows to specify
+the child properties of an object in the same line of text as the object definition.
+                            
+Here's a pure YAML example::
+
+ JFrame:
+     name: frame
+     title: My Frame
+     content:
+          - JButton:
+                name: buttonClose
+                text: Close
+                onAction: close
+          - JButton:
+                name: buttonSave
+                text: Save
+                onAction: save
+ 
+The same content can be entered in much less lines using our compact syntax::
+
+ JFrame(name=frame,title=My Frame):
+      - JButton(name=buttonClose,text=Close,onAction=close)
+      - JButton(name=buttonSave,text=Save,onAction=save)
+      
+Let's be clear: this is not part of the official YAML standard. This is something specific to JavaBuilders
+that was added to make the YAML file even smaller.
+
+Basic concepts
+
+* properties and their values are entered between ( and ) on the same line as the object they refer to
+* instead of the default YAML "name: value" format it uses "name=value" but it still uses the default YAML collection indicators [ and ] 
+  (e.g. "list=[listItem1,listItem2]"
+* if an object has a collection of object defined directly underneath it, they automatically get moved to
+  the default "content" node (just as in the example shown above)
+ 
+.. note::
+
+    All the code samples from this point will use the compact syntax, in order to promote its use.
+
+Development tools
+-----------------
+
+JavaBuilders requires just any decent Java IDE with a YAML editor. Remember to select fixed width font 
+(e.g. Courier New, Monospaced ) for the editor, otherwise you will not be able to line up the spacing
+correctly in the file.
+
+Eclipse
+^^^^^^^
+Eclipse YAML Editor: http://code.google.com/p/yamleditor/
+
+NetBeans
+^^^^^^^^
+As of NetBeans 6.5 a YAML editor is included in the core distribution.
+ 
+IntelliJ IDEA
+^^^^^^^^^^^^^
+A YAML editor is included in the core distribution.
+
+Benefits
+--------
+
+What are the benefits compared to coding by hand?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You have to write a lot less code. JavaBuilders introduces dynamic language-level productivity (think
+Ruby/Groovy) to Java. See this typical Java Swing example::
+
+    ResourceBundle bundle = ResourceBundle.getBundle("Resources");
+    JButton button = new JButton();
+    button.setName("okButton");
+    button.setText(bundle.getString("button.ok"));
+    button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            //execute the save method
+            save();
+        }
+    });
+ 
+The equivalent compact YAML content would be just::
+
+    JButton(name=okButton,text=button.ok,onAction=save)
+
+and all you need to build this Swing Java class from this YAML file is this single line of code somewhere
+in your constructor::
+
+    SwingJavaBuilder.build(this);
+
+The equivalent code for any other UI toolkit (e.g. SWTJavaBuilder) would be just as compact.
+
+What are the benefits compared to using GUI Builders, such as NetBeans Matisse?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+Mostly maintainability. For smaller examples it's probably not much of a difference (since so much of the
+code is generated for you by Matisse), but once you get into larger, more complex forms it becomes
+harder to maintain them in a GUI builder, especially if you have to move the layout around a lot. In
+JavaBuilders, it's just a matter of changing a few lines of text in a YAML file.
+
+Also, e can add "custom" properties to existing objects, so we can enhance APIs or make them easier, e.g.::
+
+    JFrame(size=800x400)
+
+The Swing JFrame class does not have a property called "size". But JavaBuilders can support virtual
+properties which trigger some Java code that will magically call the proper equivalent methods, in order
+to achieve the same functionality in much less code.
+
+Last, but not least, JavaBuilders provide support for functionality not provided by GUI builders, such as
+integrated input validators or executing cancellable long running methods on a background thread.
+
+Drawbacks
+---------
+ 
+Nothing is perfect, so JavaBuilders have weak points too.
+
+* Lose some of the static, compile-time safety: since you are defining all the layouts/event wiring in a
+  YAML text file, some of the referenced objects may have a different name that their corresponding
+  equivalents in the Java file, especially if using refactoring. This can be overcome with the @Alias
+  annotation, which hardcodes a link between a Java-side object and its definition in the YAML file.
+  
+* No code completion (at least not yet). YAML is just a pure text file. You won't know what the known
+  properties are for any particular object type unless you know them already. But in most cases it's
+  the basic ones: name, text, onAction, onClicked, etc.
+  
+* You have to get acquainted with YAML...sorry, can't help you there. 
+  Sometimes we just need to learn new things. The bottom line though is that all your code stays in Java, YAML is just used for
+  declarative UI building.
+  
+On the upside, UI components built with JavaBuilders are easily unit testable. You just need to do::
+ 
+ new MyComponent() 
+ 
+in your unit test, that's all. When an object is built, the JavaBuilder automatically
+validates that not only the properties are defined correctly, but also all the event listeners point to actual
+existing methods in the Java class. If not, a BuildException will be thrown right away.

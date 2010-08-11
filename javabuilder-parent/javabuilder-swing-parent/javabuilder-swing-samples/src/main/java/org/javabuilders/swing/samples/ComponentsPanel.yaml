@@ -1,0 +1,62 @@
+JPanel:
+    - JSplitPane(name=split1,orientation=verticalSplit):
+        - JPanel(name=controls):
+            - JComboBox(name=editableCmb,editable=true)
+            - JComboBox(name=editableCmb2,enabled=false)
+            - JComboBox(name=listCmb,editable=false)
+            - JComboBox(name=listCmb2,editable=false,enabled=false)
+            - JSpinner(name=spinner1)
+            - JSpinner(name=spinner2, enabled=false)
+            - JCheckBox(name=cbx1,text=Checkbox 1)
+            - JCheckBox(name=cbx2,selected=true,text=Checkbox 2)
+            - JCheckBox(name=cbx3,enabled=false,text=Checkbox 3)
+            - JCheckBox(name=cbx4,selected=true,enabled=false,text=Checkbox 4)
+            - JRadioButton(name=rb1,text=Radio button 1)
+            - JRadioButton(name=rb2,text=Radio button 2,selected=true)
+            - ButtonGroup: [rb1,rb2]
+            - JRadioButton(name=rb3,text=Radio button 3,enabled=false)
+            - JRadioButton(name=rb4,text=Radio button 4,selected=true,enabled=false)
+            - JSeparator(name=s1,orientation=vertical)
+            - JButton(name=btn1,text=Button 1)
+            - JButton(name=btn2,text=Button 2,enabled=false,font=italic)
+            - JToggleButton(name=tg1,text=Toggle Button 1)
+            - JToggleButton(name=tg2,text=Toggle Button 2,enabled=false,selected=true)
+            - JSeparator(name=s2,orientation=vertical)
+            - JProgressBar(name=pg1,minimum=1,maximum=100,value=50)
+            - JProgressBar(name=pg2,indeterminate=true)
+            - JSlider(name=sld1)
+            - JSlider(name=sld2,orientation=vertical)
+            - JLabel(name=sldLabel,text=The sliders are bound together,font=bold)
+            - JSeparator(name=s3,orientation=vertical)
+            - JScrollPane(name=scroll2): 
+                JTable(name=table1):
+                    - TableColumn(name=col1,resizable=true,headerValue=Column 1)
+                    - TableColumn(name=col2,resizable=true,headerValue=Column 2)
+                    - TableColumn(name=col3,resizable=false,headerValue=Column 3)
+            - MigLayout: | 
+                []                                                                  [grow]
+                editableCmb+2         s1+1+*  btn1+1+*=1  s2+1+*  pg1+1+*   s3+1+*  scroll2+1+*
+                editableCmb2+2                btn2=1              pg2
+                listCmb+2                     tg1=1               sld1
+                listCmb2+2                    tg2=1               |sld2
+                |spinner1+2,spinner2                              |sldLabel
+                cbx1           rb1
+                cbx2           rb2
+                cbx3           rb3
+                cbx4           rb4
+                {s1: growy, s2: growy, s3: growy}
+        - JPanel:
+             - JLabel(name=sourceLabel,text="YAML source:")
+             - JScrollPane(name=scroll): JTextArea(name=source,editable=false,font=Monospaced)
+             - MigLayout: |
+                 [[fill]]
+                 [grow]
+                 sourceLabel
+                 scroll          [grow]
+    - MigLayout: |
+        [grow]
+        split1   [grow]
+bind:
+    - source.text: this.yaml
+    - sld1.value: sld2.value
+    

@@ -1,0 +1,27 @@
+<classpath>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
+  <classpathentry kind="src" path="src/main/java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.4/commons-lang-2.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/core-commands/3.5.1.SR1/core-commands-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/core-databinding/3.5.1.SR1/core-databinding-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/core-databinding-beans/3.5.1.SR1/core-databinding-beans-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/core-databinding-observable/3.5.1.SR1/core-databinding-observable-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/core-databinding-property/3.5.1.SR1/core-databinding-property-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/equinox-common/3.5.1.SR1/equinox-common-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/javabuilders/javabuilder-core/1.0-dev-20091201/javabuilder-core-1.0-dev-20091201.jar" sourcepath="M2_REPO/org/javabuilders/javabuilder-core/1.0-dev-20091201/javabuilder-core-1.0-dev-20091201-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/jacekf/.m2/repository/org/javabuilders/javabuilder-core/1.0-dev-20091201/javabuilder-core-1.0-dev-20091201-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/jface/3.5.1.SR1/jface-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/jface-databinding/3.5.1.SR1/jface-databinding-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/jface-text/3.5.1.SR1/jface-text-3.5.1.SR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.7/junit-4.7.jar" sourcepath="M2_REPO/junit/junit/4.7/junit-4.7-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/java/dev/jvyaml/0.2.1/jvyaml-0.2.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/miglayout/miglayout/3.7.1/miglayout-3.7.1-swt.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.11/slf4j-api-1.5.11.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.11/slf4j-simple-1.5.11.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/swt-linux-gtk/3.5.1.SR1/swt-linux-gtk-3.5.1.SR1.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+</classpath>

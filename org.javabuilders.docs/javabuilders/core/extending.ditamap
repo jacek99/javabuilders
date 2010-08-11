@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd" >
-<map xml:lang="en-CA">
-	<title>Extending the JavaBuilders engine</title>
-	<topicmeta>
-		<author>Jacek Furmankiewicz</author>
-	</topicmeta>
-	<topicref href="extending.dita"/>
-</map>
