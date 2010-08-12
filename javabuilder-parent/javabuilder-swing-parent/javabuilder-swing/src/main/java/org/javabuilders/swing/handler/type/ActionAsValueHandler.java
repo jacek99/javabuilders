@@ -45,8 +45,8 @@ public class ActionAsValueHandler implements ITypeAsValueHandler<Action> {
 		
 		Action action = null;
 		String name = node.getStringProperty(key);
-		//may be internationalized
-		name = process.getBuildResult().getResource(name);
+		//may NOT be internationalized - issue 109
+		//name = process.getBuildResult().getResource(name);
 		Object value = process.getByName(name);
 		if (value == null) {
 			throw new BuildException("No Action found for name {0}. Values named objects are: {1}",name, process.getBuildResult().toString());

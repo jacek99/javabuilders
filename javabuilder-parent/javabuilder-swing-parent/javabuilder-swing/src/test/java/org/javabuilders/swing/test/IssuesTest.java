@@ -558,6 +558,37 @@ public class IssuesTest {
 		}
 	}
 	
+	@Test
+	public void issue109_actionNameNotFound() {
+		//no internationalization
+		BuildResult r = new SwingYamlBuilder("JFrame:") {{
+			___("- Action(name=ablageSearchAction, text=search.text, onAction=hello, enabled=true)");
+			___("- JPanel(name=ablageButtons):");
+			_____("- JButton(name=ablageSearchButton, action=ablageSearchAction)");
+		}}.build(this);
+		
+		//add internationalization without marking of invalid resources - should still work, with warnings
+		BuildResult r2 = new SwingYamlBuilder("JFrame:") {{
+			___("- Action(name=ablageSearchAction, text=search.text, onAction=hello, enabled=true)");
+			___("- JPanel(name=ablageButtons):");
+			_____("- JButton(name=ablageSearchButton, action=ablageSearchAction)");
+		}}.build(this, ResourceBundle.getBundle("TestResources"));
+
+		//add internationalization WITH marking of invalid resources - should still work, with warnings
+		try {
+			SwingJavaBuilder.getConfig().setMarkInvalidResourceBundleKeys(true);
+			
+			BuildResult r3 = new SwingYamlBuilder("JFrame:") {{
+				___("- Action(name=ablageSearchAction, text=search.text, onAction=hello, enabled=true)");
+				___("- JPanel(name=ablageButtons):");
+				_____("- JButton(name=ablageSearchButton, action=ablageSearchAction)");
+			}}.build(this, ResourceBundle.getBundle("TestResources"));
+		} finally {
+			SwingJavaBuilder.getConfig().setMarkInvalidResourceBundleKeys(false);
+		}
+ 
+	}
+	
 	//internal test method
 	private void hello() {}
 

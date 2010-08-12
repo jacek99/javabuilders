@@ -95,8 +95,40 @@ public class CoreTest {
 		assertEquals("Global Cancel", global.getText());
 		assertEquals("Local Cancel Task", local.getText());
 		assertEquals("Processing...", jb.getText());
+		assertEquals("label.wrong", wrong.getText());
+	}
+	
+	@Test 
+	public void testResourceFallbackWithInternationalizationAndMarkedInvalidKeys() {
+		
+		//configure global resource
+		TestBuilderConfig config = new TestBuilderConfig(JButton.class,JPanel.class);
+		config.forType(JButton.class).localize("text");
+		config.forType(JPanel.class).children(JButton.class,0,Integer.MAX_VALUE);
+		config.addResourceBundle("org.javabuilders.test.Global");
+		config.setMarkInvalidResourceBundleKeys(true);
+		
+		//build with additional local resource
+		String yaml = "JPanel:\n" +
+			"    - JButton(name=global,text=button.cancel)\n" +
+			"    - JButton(name=local,text=title.cancelTask)\n" +
+			"    - JButton(name=jb,text=label.processing)\n" +
+			"    - JButton(name=wrong,text=label.wrong)";
+		
+		BuildResult r = Builder.buildFromString(config, this, yaml, ResourceBundle.getBundle("org.javabuilders.test.Local"));
+		
+		JButton global = (JButton) r.get("global");
+		JButton local = (JButton) r.get("local");
+		JButton jb = (JButton) r.get("jb");
+		JButton wrong = (JButton) r.get("wrong");
+		
+		//each of the labels should have been fetched from different resources and override the base JB one
+		assertEquals("Global Cancel", global.getText());
+		assertEquals("Local Cancel Task", local.getText());
+		assertEquals("Processing...", jb.getText());
 		assertEquals("#label.wrong#", wrong.getText());
 	}
+
 
 	@Test 
 	public void testResourceFallbackWithoutInternationalization() {

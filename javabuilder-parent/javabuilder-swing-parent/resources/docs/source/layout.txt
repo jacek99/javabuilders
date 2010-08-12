@@ -137,29 +137,30 @@ based on its name. That removes the need to explicitly define such basic control
 
 The accepted control prefixes are:
 
-===========   ============================    ================================================================
-**Prefix**    **Type**                        **Comments**
-===========   ============================    ================================================================
-btn           JButton                         Suffix will be used to find label and map ``onAction``
-                                              to Java method. 
-                                              E.g. "btnApply" will generate a ``JButton``,
-                                              with a text "Apply" and the ``onAction`` listened wired to
-                                              the equivalent ``apply()`` Java method.
-tgl           JToggleButton                   Same as JButton
-txt           JTextField
-cbx           JCheckBox
-rb            JRadioButton
-cmb           JComboBox
-lst           JList
-txa           JTextArea
-tbl           JTable
-tr            JTree
-sld           JSlider
-prg           JProgressBar
-pwd           JPasswordField
-spn           JSpinner
-sep           JSeparator
-===========   ============================    ================================================================ 
+===========   ============================ 
+**Prefix**    **Control Type**             
+===========   ============================ 
+btn           ``JButton``                   
+tgl           ``JToggleButton``            
+txt           ``JTextField``
+cbx           ``JCheckBox``
+rb            ``JRadioButton``
+cmb           ``JComboBox``
+lst           ``JList``
+txa           ``JTextArea``
+tbl           ``JTable``
+tr            ``JTree``
+sld           ``JSlider``
+prg           ``JProgressBar``
+pwd           ``JPasswordField``
+spn           ``JSpinner``
+sep           ``JSeparator``
+===========   ============================  
+ 
+.. note:: for ``JButton`` and ``JToggleButton``, the suffix will be used to find label 
+            and map ``onAction`` to Java method.  E.g. "btnApply" will generate a 
+            ``JButton``, with a text "Apply" and the ``onAction`` listened wired
+            to the equivalent ``apply()``.
  
 Here's a fully verbose example::
  
@@ -261,7 +262,8 @@ All we have to do is define a prototype YAML definition in our ``main()`` method
 
 .. code-block:: java
 
-    SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
+    SwingJavaBuilder.getConfig().prototype(
+        "JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
     
 And we just refer to that prototype by prefixing it's name with ``$`` in the *MigLayout* section, e.g.::
 
@@ -288,18 +290,18 @@ Here's how it would look implemented in the Swing JavaBuilder:
 
 *YAML*::
 
-     JPanel:
-          - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
-          - MigLayout: |
-              [200,grow]            [right]          [200,grow]                           [200,grow]
-              scroll1+1+*          "Last name:"      txtLName        "First Name"         txtFName
-                                   "Phone:"          txtPhone        "Email:"+2,txtEmail
-                                   "Address 1:"      txtAddress1+*
-                                   "Address 2:"      txtAddress2+*
-                                   "City:"           txtCity
-                                   "State:"          txtState        "Postal Code:"       txtPostal
-                                   "Country:"        txtCountry
-                                   ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1    [grow]
+    JPanel:
+      - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
+      - MigLayout: |
+           [200,grow]    [right]        [200,grow]                           [200,grow]
+           scroll1+1+*   "Last name:"   txtLName        "First Name"         txtFName
+                         "Phone:"       txtPhone        "Email:"+2,txtEmail
+                         "Address 1:"   txtAddress1+*
+                         "Address 2:"   txtAddress2+*
+                         "City:"        txtCity
+                         "State:"       txtState        "Postal Code:"       txtPostal
+                         "Country:"     txtCountry
+                         ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1  [grow]
 
 MigLayout
 ---------
