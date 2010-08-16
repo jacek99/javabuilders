@@ -14,7 +14,7 @@ import org.javabuilders.handler.validation.ValidationMessageList;
  */
 public class MinLengthValidator extends AbstractValidator {
 
-	private Long minLength;
+	private Integer minLength;
 	
 	/**
 	 * @param property
@@ -23,7 +23,7 @@ public class MinLengthValidator extends AbstractValidator {
 	 * @param result
 	 */
 	public MinLengthValidator(NamedObjectProperty property, String label,
-			String messageFormat, BuildResult result, Long minLength) {
+			String messageFormat, BuildResult result, Integer minLength) {
 		super(property, label, messageFormat, result);
 		this.minLength = minLength;
 	}
@@ -43,14 +43,14 @@ public class MinLengthValidator extends AbstractValidator {
 	/**
 	 * @return the minLength
 	 */
-	public Long getMinLength() {
+	public Integer getMinLength() {
 		return minLength;
 	}
 
 	/**
 	 * @param minLength the minLength to set
 	 */
-	public void setMinLength(Long minLength) {
+	public void setMinLength(Integer minLength) {
 		this.minLength = minLength;
 	}
 

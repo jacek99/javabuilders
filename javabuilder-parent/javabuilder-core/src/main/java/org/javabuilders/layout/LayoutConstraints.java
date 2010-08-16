@@ -12,9 +12,9 @@ import java.util.TreeSet;
 
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.JBStringUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Class representing parsed layout constraints (from the "layout" node on the container)
@@ -389,7 +389,8 @@ public class LayoutConstraints {
 	//handles the optional lines at the end in { name : constraint, name2: constraint2 } format
 	@SuppressWarnings("unchecked")
 	private static void handleAdditionalControlConstraintLine(LayoutConstraints co, String line) {
-		Map<String,String> constraints = (Map<String,String>)YAML.load(line);
+		Yaml yaml = new Yaml();
+		Map<String,String> constraints = (Map<String,String>)yaml.load(line);
 		for(String name : constraints.keySet()) {
 			List<Object> list = BuilderUtils.convertToList(constraints.get(name));
 			String value = BuilderUtils.convertListToString(list, ',', line.length());

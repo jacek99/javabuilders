@@ -25,9 +25,9 @@ import org.javabuilders.layout.LayoutCell;
 import org.javabuilders.layout.LayoutConstraints;
 import org.javabuilders.layout.VAlign;
 import org.javabuilders.util.BuilderUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Abstract MigLayout handler that descendants can customize for Swing or SWT
@@ -294,7 +294,8 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				
 				text = process.getBuildResult().getResource(text); //handle internationalization
 				
-				Object value = YAML.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
+				Yaml yaml = new Yaml();
+				Object value = yaml.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
 				value =  BuilderPreProcessor.preprocess(process.getConfig(), process, value, null);
 				
 				ITypeHandler handler = TypeDefinition.getTypeHandler(process.getConfig(), defaultTypeClass);

@@ -37,9 +37,9 @@ import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.ChildrenCardinalityUtils;
 import org.javabuilders.util.PropertyUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Ancestor for all builders
@@ -316,7 +316,8 @@ public class Builder {
 		}
 		
 		BuilderUtils.validateYamlContent(yamlContent, fileName);
-		Object document = YAML.load(yamlContent);
+		Yaml yaml = new Yaml();
+		Object document = yaml.load(yamlContent);
 		executeBuild(document, config, process);
 		return process.getBuildResult();
 	}
@@ -333,19 +334,19 @@ public class Builder {
 		}
 		
 		Class<?> clazz = null;
-		String yaml = null;
+		String yamlContent = null;
 		
 		//first check if it is a globally defined control
 		if (name.startsWith(PROTOTYPE_FIELD_PREFIX)) {
-			yaml = process.getConfig().getPrototype(name.substring(1));
-			if (yaml != null) {
-				yaml = yaml.trim();
-				String key = BuilderUtils.getRealKey(yaml);
+			yamlContent = process.getConfig().getPrototype(name.substring(1));
+			if (yamlContent != null) {
+				yamlContent = yamlContent.trim();
+				String key = BuilderUtils.getRealKey(yamlContent);
 				clazz = process.getConfig().getClassType(key);
 				if (clazz != null) {
 					
 					Map<String,Object> map = new HashMap<String, Object>();
-					BuilderUtils.uncompressYaml(yaml, map);
+					BuilderUtils.uncompressYaml(yamlContent, map);
 					processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), map);
 					return process.getByName(name.substring(1));
 					
@@ -353,7 +354,7 @@ public class Builder {
 					//yaml= yaml.replace(key, "");
 					//yaml = yaml.substring(1,yaml.length() - 1); //trim the first and last parentheses
 				} else {
-					throw new BuildException("Unable to find type for protype {0}",yaml);
+					throw new BuildException("Unable to find type for protype {0}",yamlContent);
 				}
 			} else {
 				throw new BuildException("Unable to find prototype definition for {0}",name);
@@ -370,7 +371,7 @@ public class Builder {
 				PrefixControlDefinition def = process.getConfig().getPrefix(prefix);
 				if (def != null) {
 					clazz = def.getType();
-					yaml = def.getDefaultsAsYaml(process, name, suffix);
+					yamlContent = def.getDefaultsAsYaml(process, name, suffix);
 				} else {
 					throw new BuildException("Unable to find type for prefix {0} for {1}",prefix,name);
 				}
@@ -381,7 +382,8 @@ public class Builder {
 		}
 		
 		//now that we have the YAML, let's process it as if it was part of the actual build file
-		Object rawDocumentNode = YAML.load(yaml);
+		Yaml yaml = new Yaml();
+		Object rawDocumentNode = yaml.load(yamlContent);
 		processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), rawDocumentNode);
 		return process.getByName(name);
 	}

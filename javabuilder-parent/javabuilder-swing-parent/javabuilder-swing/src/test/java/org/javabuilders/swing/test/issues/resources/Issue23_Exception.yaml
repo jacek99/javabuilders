@@ -6,7 +6,7 @@ JFrame(name=framePreisliste, title="Preisliste", size=800x493, defaultCloseOpera
             JTable(name="tablePreise")
         - JButton(name="cbNeu", text="Neu")
         - JButton(name="cbSpeichern", text="Speichern")
-        - JButton(name="cbLoeschen", text="Lschen")     
+        - JButton(name="cbLoeschen", text="Lschen")     
         - JButton(name="cbDrucken", text="Drucken")     
         - JButton(name="cbNachExcel", text="Excel Export")           
         - JButton(name="cbBeenden", text="Schlie§en")      

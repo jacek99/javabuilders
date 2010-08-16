@@ -46,9 +46,9 @@ import org.javabuilders.event.IBindingListener;
 import org.javabuilders.event.IBindingListenerProvider;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Various common utilities
@@ -1275,7 +1275,8 @@ public class BuilderUtils {
 						 //put it into the map, but only if it does not exist there already
 						 if (!current.containsKey(pair[0])) {
 							 //parse the value with YAML to make sure it makes it into the correct default type
-							 Object value = YAML.load(temp.toString());
+							 Yaml yaml = new Yaml();
+							 Object value = yaml.load(temp.toString());
 							 current.put(pair[0],value);
 						 }
 					 } else  {

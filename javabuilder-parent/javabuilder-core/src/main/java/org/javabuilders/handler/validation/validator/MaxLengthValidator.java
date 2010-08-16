@@ -15,7 +15,7 @@ import org.javabuilders.handler.validation.ValidationMessageList;
  */
 public class MaxLengthValidator extends AbstractValidator {
 
-	private Long maxLength=0L;
+	private Integer maxLength=0;
 	
 	/**
 	 * @param property
@@ -24,7 +24,7 @@ public class MaxLengthValidator extends AbstractValidator {
 	 * @param result
 	 */
 	public MaxLengthValidator(NamedObjectProperty property, String label,
-			String messageFormat, BuildResult result, Long maxLength) {
+			String messageFormat, BuildResult result, Integer maxLength) {
 		super(property, label, messageFormat, result);
 		this.maxLength = maxLength;
 	}
@@ -45,14 +45,14 @@ public class MaxLengthValidator extends AbstractValidator {
 	/**
 	 * @return the maxLength
 	 */
-	public Long getMaxLength() {
+	public Integer getMaxLength() {
 		return maxLength;
 	}
 
 	/**
 	 * @param maxLength the maxLength to set
 	 */
-	public void setMaxLength(Long maxLength) {
+	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
 	}
 
