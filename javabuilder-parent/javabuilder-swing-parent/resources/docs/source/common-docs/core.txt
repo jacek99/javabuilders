@@ -118,8 +118,10 @@ Sample (assume we have a backing JFrame JavaBean with two public properties "las
                  >"Last name:"           lastNameField
                  >saveButton+*
      bind:
-           - this.title : "Hello, ${firstNameField.text}" #bind the frame title to show last name using an EL expression 
-           - this.firstName : firstNameField.text         #bind the public Java property to the text field's text value, using a direct simple expression
+           - this.title : "Hello, ${firstNameField.text}"
+           - this.firstName : firstNameField.text         
+
+Note that you can bind either using an EL expression or directly to an *objectName.propertyName*.
 
 Databinding requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -236,7 +238,8 @@ The following validator routines are currently available:
           - email.text: {label: E-Mail, email: true}
           - minmax.text: {label: Min/Max Length, minLength: 5, maxLength: 10}
           - regex.text: {label: Regex, regex: "[a-zA-Z0-9]+"}
-          - regex2.text: {label: Regex, regex: "[a-zA-Z0-9]+", regexMessage: "''{0}'' must be a number or letter"}
+          - regex2.text: {label: Regex, regex: "[a-zA-Z0-9]+", 
+                   regexMessage: "''{0}'' must be a number or letter"}
           - long.text: {label: Min/Max Long, minValue: 5, maxValue: 50, mandatory: true}
  
 Adding custom validators
@@ -248,7 +251,8 @@ Adding custom validators
      result.getValidators().add(new IValidator() {
           public void validate(Object value, ValidationMessageList list) {
               if (!isValid) {
-                          list.add(new ValidationMessage("Input is not valid 'cause I say so"));
+                    list.add(
+                         new ValidationMessage("Input is not valid!"));
               }
           }
      });
@@ -307,7 +311,8 @@ Any method that is annotated as such must implement a signature that accepts an 
 BackgroundEvent , which allows the background method to communicate with the UI's progress
 indicator and even cancel itself, if the user requests it, e.g.::
 
-     @DoInBackground(cancelable=true, progressStart=1, progressEnd=100, progressValue=1, indeterminateProgress=false)
+     @DoInBackground(cancelable=true, progressStart=1, progressEnd=100, 
+          progressValue=1, indeterminateProgress=false)
      private void save(BackgroundEvent evt) {
            System.out.println("SAVE...");
            for(int i = 0; i < 100; i++) {
@@ -531,7 +536,8 @@ and an INFO message will be logged as well, e.g.:
 
 .. code-block:: none
 
-        278 [main] INFO org.javabuilders.BuildResult - Unable to find value in any resource bundle for key: *button.doThis*
+        278 [main] INFO org.javabuilders.BuildResult - 
+                  Unable to find value in any resource bundle for key: *button.doThis*
 
 You can have them marked explicitly with "#" (e.g. "#button.doThis#") to further visually indicate that they are mising
 by calling the *setMarkInvalidResourceBundleKeys(boolean)* method, e.g.:

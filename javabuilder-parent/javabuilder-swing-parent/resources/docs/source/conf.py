@@ -173,7 +173,7 @@ htmlhelp_basename = 'SwingJavaBuilderdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'SwingJavaBuilder.tex', u'Swing JavaBuilder : Maximum productivity with minimum code',
+  ('index', 'SwingJavaBuilder-1.0.tex', u'Swing JavaBuilder : Maximum productivity with minimum code',
    u'Jacek Furmankiewicz', 'manual'),
 ]
 

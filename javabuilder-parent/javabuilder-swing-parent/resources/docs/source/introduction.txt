@@ -113,7 +113,7 @@ If you are using Maven, you can just point to our custom repository:
 
 Please check the www.javabuilders.org website for the latest version.
 
-At the time of writing, the latest version was:
+At the time of writing, the latest stable version was:
 
 .. code-block:: xml
 
@@ -121,7 +121,7 @@ At the time of writing, the latest version was:
             <dependency> 
                     <groupId>org.javabuilders</groupId> 
                     <artifactId>javabuilder-swing</artifactId> 
-                    <version>1.0.0.RC2</version> 
+                    <version>1.0.1</version> 
             </dependency> 
     </dependencies>
     

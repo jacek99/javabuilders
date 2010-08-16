@@ -63,8 +63,10 @@ it to a database via a long running task on a background thread.
                 }
                 @Override
                 public String toString() {
-                         return MessageFormat.format("{0} {1} : {2}", getFirstName(), getLastName(),
-       getEmailAddress());
+                    return MessageFormat.format(
+                        "{0} {1} : {2}", getFirstName(), 
+                        getLastName(),
+                        getEmailAddress());
                 }
        }
        
@@ -136,7 +138,9 @@ it to a database via a long running task on a background thread.
             setVisible(false);
         }
     
-        @DoInBackground(cancelable = true, indeterminateProgress = false, progressStart = 1, progressEnd = 100)
+        @DoInBackground(cancelable = true, 
+            indeterminateProgress = false, progressStart = 1, 
+            progressEnd = 100)
         private void save(BackgroundEvent evt) {
             // simulate a long running save to a database
             for (int i = 0; i < 100; i++) {
