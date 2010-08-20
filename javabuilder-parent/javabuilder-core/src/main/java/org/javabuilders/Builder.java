@@ -166,7 +166,7 @@ public class Builder {
 		
 			Class<?> declaringType = type.getDeclaringClass();
 			if (declaringType == null) {
-				fileName = type.getSimpleName() + ".yaml";
+				fileName = type.getSimpleName() + config.getYamlExtension();
 			} else {
 				//build a nested name from the class hierarchy
 				StringBuilder bld = new StringBuilder(type.getSimpleName());
@@ -175,7 +175,7 @@ public class Builder {
 					bld.insert(declaringType.getSimpleName().length(),".");
 					declaringType = declaringType.getDeclaringClass();
 				}
-				bld.append(".yaml");
+				bld.append(config.getYamlExtension());
 				fileName = bld.toString();
 			}
 		}
@@ -235,6 +235,7 @@ public class Builder {
 				
 				yamlFileName = src.toString();
 				input = new FileInputStream(new File(src));
+				
 			} catch (Exception e) {
 				throw new BuildException(e,"Unable to process file {0}.\n{1}",yamlFileName, e);
 			}
@@ -242,7 +243,9 @@ public class Builder {
 		
 		//check for missing file (Issue #20)
 		if (input == null) {
-			throw new BuildException("No YAML file found: {0}", fileName);
+			throw new BuildException("No YAML file found: {0}.\nMaybe you are using an older extension (.yaml) " +
+					" and need to change it via config.setYamlExtension(String) in your main().\n" +
+					"The default was changed to ''.yml'' as of version 1.1 to be compatible with the YAML standard.", fileName);
 		}
 		
 		//read in string manually so that we can pre-validate it for invalid characters
@@ -507,6 +510,12 @@ public class Builder {
 			handleType(config, process, parent, currentKey, data, currentType);
 			
 		} else if (rawDocumentNode instanceof List){
+			
+			//cannot be root of a document - issue 79
+			if (parent == null) {
+				throw new BuildException("Yaml cannot start with a List as root: {0}",rawDocumentNode);
+			}
+			
 			//collection of objects or values
 			@SuppressWarnings("rawtypes")
 			List items = (List)rawDocumentNode;
@@ -630,10 +639,13 @@ public class Builder {
 			Method method = TypeDefinition.getTypeAsMethod(config, parentClass, createdClassType);
 			if (method != null) {
 				try {
-					method.invoke(parent.getMainObject(), current.getMainObject());
+					Object target = parent.getMainObject();
+					Object argument = current.getMainObject();
+					
+					method.invoke(target, argument);
 				} catch (Exception e) {
-					throw new BuildException(e,"Unable to call {0}.{1} with type {2}. Error: {3}",
-							parentClass.getSimpleName(), method.getName(), createdClassType.getSimpleName(),e.getMessage());
+					throw new BuildException(e,"Unable to call {0} on {1} with type {2}. Error: {3}",
+							method, parentClass.getSimpleName(), createdClassType.getSimpleName(),e.getMessage());
 				}
 			}
 		}

@@ -10,7 +10,7 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.test.TestBuilderConfig;
 
-@BuildFile("Common.yaml")
+@BuildFile("Common.yml")
 public class LocalBuildFilePanel extends JPanel {
 
 	private JLabel test;

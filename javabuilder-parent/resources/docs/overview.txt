@@ -19,7 +19,7 @@ Using a convention over configuration approach inspired by the Apache Wicket web
 files reside in the same package and with the same name, but just with a different file extension, e.g.::
 
     MainApplicationFrame.java
-    MainApplicationFrame.yaml
+    MainApplicationFrame.yml
 
 If you are using an inner class, e.g.::
 
@@ -31,9 +31,9 @@ If you are using an inner class, e.g.::
        }
     }
     
-then you can define a YAML file using the "DeclaringClass.InnerClass.yaml" format, e.g.::
+then you can define a YAML file using the "DeclaringClass.InnerClass.yml" format, e.g.::
 
-    CommonPanels.SomePanel.yaml
+    CommonPanels.SomePanel.yml
 
 in order to build an instance of the inner class.
 
@@ -42,14 +42,14 @@ annotation, which accepts a local or absolute file path within the classpath:
 
 *Local package file path*::
 
-    @BuildFile("Common.yaml")
+    @BuildFile("Common.yml")
     public class LocalBuildFilePanel extends JPanel
 
 or:
 
 *Absolute file path*::
 
-    @BuildFile("/org/javabuilders/test/resources/Common.yaml")
+    @BuildFile("/org/javabuilders/test/resources/Common.yml")
     public class GlobalBuildFilePanel extends JPanel
     
 Why would I use this instead of regular coding by hand?

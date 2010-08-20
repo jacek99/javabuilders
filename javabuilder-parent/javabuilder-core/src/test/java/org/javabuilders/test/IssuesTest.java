@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
@@ -188,5 +189,35 @@ public class IssuesTest {
 			}
 		}
 	}
+	
+	@Test(expected=BuildException.class)
+	public void issue80_betterErrorMessageOnMissingParentheses() {
+		try {
+			BuilderConfig c = new TestBuilderConfig(JPanel.class);
+			c.forType(JPanel.class).children(JPanel.class, 0, Integer.MAX_VALUE);
+			//missing ":" after line
+			String yaml = "JPanel(name=toto)\n" +
+						  "    - JPanel(name=titi)"; 
+			BuildResult r = Builder.buildFromString(c, this, yaml);
+		} catch (BuildException ex) {
+			assertEquals("\":\" is missing after \"JPanel(name=toto)\", as list is started on next line",ex.getMessage());
+			throw ex;
+		}
+	}
+	
+	@Test(expected=BuildException.class)
+	public void issue79_betterErrorMessageOnListAsRoot() {
+		try {
+			BuilderConfig c = new TestBuilderConfig(JPanel.class);
+			c.forType(JPanel.class).children(JPanel.class, 0, Integer.MAX_VALUE);
+			//missing ":" after line
+			String yaml = "- JPanel(name=toto)"; 
+			BuildResult r = Builder.buildFromString(c, this, yaml);
+		} catch (BuildException ex) {
+			assertEquals("Yaml cannot start with a List as root: [{JPanel={name=toto}}]",ex.getMessage());
+			throw ex;
+		}
+	}
+	
 	
 }

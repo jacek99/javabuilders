@@ -1083,11 +1083,27 @@ public class BuilderUtils {
 	 * @return YAML content for that class
 	 * @throws IOException
 	 */
-	public static String getYamlContent(Class<?> baseClass) throws IOException {
+	public static String getYamlContent(BuilderConfig config, Class<?> baseClass) throws IOException {
+		return getYamlContent(config, baseClass,null);
+	}
+
+	/**
+	 * Reads the YAML file for a particular class
+	 * 
+	 * @param baseClass
+	 *            Class
+	 * @return YAML content for that class
+	 * @throws IOException
+	 */
+	public static String getYamlContent(BuilderConfig config, Class<?> baseClass, String yamlFileName) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 
-		InputStream is = baseClass.getResourceAsStream(baseClass.getSimpleName() + ".yaml");
+		if (yamlFileName == null) {
+			yamlFileName = baseClass.getSimpleName() + config.getYamlExtension();
+		}
+		
+		InputStream is = baseClass.getResourceAsStream(yamlFileName);
 		InputStreamReader isr = null;
 		BufferedReader rdr = null;
 		try {
@@ -1110,7 +1126,7 @@ public class BuilderUtils {
 
 		return builder.toString();
 	}
-	
+
     /**
      * Gets generics info despite runtime type erasure. Hack alert, obviously.
      * @param field Field

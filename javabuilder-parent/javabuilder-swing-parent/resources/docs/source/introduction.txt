@@ -162,7 +162,7 @@ to be in the same source code folder, instead of being split across the *src/mai
                         <source>1.6</source>
                         <target>1.6</target>
                         <includes>
-                            <include>**/*.yaml</include>
+                            <include>**/*.yml</include>
                             <include>**/*.java</include>
                         </includes>
                     </configuration>

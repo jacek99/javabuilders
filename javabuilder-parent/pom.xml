@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.RC1</version>
 	<packaging>pom</packaging>
 	<name>Parent JavaBuilder</name>
 	<description>Parent POM</description>
@@ -14,8 +14,9 @@
 
 			For future use...one day (when a day has 36 hours instead of 24) <module>javabuilder-swt</module>
 			<module>javabuilder-gtk</module>
-		-->
-    <module>javabuilder-vaadin-parent</module>
+		
+        <module>javabuilder-vaadin-parent</module>
+    -->
   </modules>
 
 	<dependencies>
@@ -23,13 +24,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
 

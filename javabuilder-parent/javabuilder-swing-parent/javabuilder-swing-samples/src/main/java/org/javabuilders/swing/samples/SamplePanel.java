@@ -5,6 +5,9 @@ import java.beans.PropertyChangeSupport;
 
 import javax.swing.JPanel;
 
+import org.javabuilders.swing.SwingJavaBuilder;
+import org.javabuilders.util.BuilderUtils;
+
 /**
  * A JPanel with binding support integrated
  * @author Jacek Furmankiewicz
@@ -14,7 +17,7 @@ import javax.swing.JPanel;
 public class SamplePanel extends JPanel {
 
 	private PropertyChangeSupport support = new PropertyChangeSupport(this);
-	private String yaml = SwingSamplesFrame.getFileContent(this.getClass(), "yaml");
+	private String yaml = BuilderUtils.getYamlContent(SwingJavaBuilder.getConfig(), this.getClass());
 
 	public SamplePanel() throws Exception {}
 	

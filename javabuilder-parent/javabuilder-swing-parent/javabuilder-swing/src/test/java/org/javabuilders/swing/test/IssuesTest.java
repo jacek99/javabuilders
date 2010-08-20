@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -28,11 +29,13 @@ import net.miginfocom.swing.MigLayout;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
+import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.handler.validation.ICustomValidator;
 import org.javabuilders.handler.validation.ValidationMessage;
 import org.javabuilders.handler.validation.ValidationMessageList;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.controls.JBSeparator;
+import org.javabuilders.swing.handler.event.background.BackgroundDialog;
 import org.javabuilders.swing.test.issues.resources.CustomGenericPanel;
 import org.javabuilders.swing.test.issues.resources.Issue10;
 import org.javabuilders.swing.test.issues.resources.Issue11;
@@ -524,7 +527,7 @@ public class IssuesTest {
 		try {
 			Issue67 panel = new Issue67();
 		} catch (BuildException ex) {
-			assertTrue(ex.getMessage().startsWith("Errors found in file: Issue67.yaml"));
+			assertTrue(ex.getMessage().startsWith("Errors found in file: Issue67.yml"));
 			throw ex;
 		}
 		
@@ -587,6 +590,30 @@ public class IssuesTest {
 			SwingJavaBuilder.getConfig().setMarkInvalidResourceBundleKeys(false);
 		}
  
+	}
+	
+	/**
+	 * Ensure background dialog works regardless of YAML extension
+	 * @throws IOException 
+	 * @throws BuildException 
+	 */
+	@Test
+	public void issue114_supportYamlExtensionAndBackgroundDialog() throws BuildException, IOException {
+		BuildResult r = new SwingYamlBuilder("JFrame:") {{
+			___("- Action(name=ablageSearchAction, text=search.text, onAction=hello, enabled=true)");
+			___("- JPanel(name=ablageButtons):");
+			_____("- JButton(name=ablageSearchButton, action=ablageSearchAction)");
+		}}.build(this);
+		BackgroundDialog dialog = new BackgroundDialog(new BackgroundEvent(this,this,true,  r), r);
+		
+		//change extension and ensure it still works
+		String ext = SwingJavaBuilder.getConfig().getYamlExtension();
+		try {
+			SwingJavaBuilder.getConfig().setYamlExtension(".something");
+			BackgroundDialog dialog2 = new BackgroundDialog(new BackgroundEvent(this,this,true,  r), r);
+		} finally {
+			SwingJavaBuilder.getConfig().setYamlExtension(ext);
+		}
 	}
 	
 	//internal test method

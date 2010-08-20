@@ -13,7 +13,7 @@ need to be public).
 
 Simple example:
 
-    *MyFrame.yaml*::
+    *MyFrame.yml*::
   
         JFrame:
              - JButton(name=okButton,text=OK,onAction=save)

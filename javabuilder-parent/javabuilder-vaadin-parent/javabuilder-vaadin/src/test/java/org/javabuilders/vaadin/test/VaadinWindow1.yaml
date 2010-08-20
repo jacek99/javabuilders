@@ -1,0 +1,5 @@
+Window(name=mainWindow):
+    - CustomComponent(name=mainComponent):
+         Panel(name=mainPanel):
+            - Button(name=btnTest,caption=btnTest.caption,description=btnTest.desc,requiredError=btnTest.required)
+            - CheckBox(name=cbxTest)
