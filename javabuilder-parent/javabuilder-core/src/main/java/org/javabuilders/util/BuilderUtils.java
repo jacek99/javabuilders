@@ -1042,12 +1042,24 @@ public class BuilderUtils {
 	}
 
 	/**
-	 * Generates a Java-safe name from an input string
+	 * Generates a Java-safe name from an input string.
+	 * Ensures it is unique in the context of the current build (issue #118)
 	 * 
 	 * @param input
 	 * @return
 	 */
-	public static String generateName(String input, String prefix, String suffix) {
+	public static String generateName(BuildResult result, String input, String prefix, String suffix) {
+		return generateName(result,input,prefix,suffix,1);
+	}
+	
+	/**
+	 * Generates a Java-safe name from an input string.
+	 * Ensures it is unique in the context of the current build (issue #118)
+	 * 
+	 * @param input
+	 * @return
+	 */
+	private static String generateName(BuildResult result, String input, String prefix, String suffix, int instance) {
 		Matcher m = namePattern.matcher(input);
 		StringBuilder bld = new StringBuilder(input.length());
 		if (prefix != null) {
@@ -1068,11 +1080,25 @@ public class BuilderUtils {
 				bld.append(group.toUpperCase());
 			}
 		}
+		
+		//append instance, if larger than 1 (required to ensure unique control names)
+		if (instance > 1) {
+			bld.append(instance);
+		}
 
 		if (suffix != null) {
 			bld.append(suffix);
 		}
-		return bld.toString();
+		
+		String name = bld.toString();
+		
+		//check if this name already exists, need to generate a unique one
+		//by adding a number at the end
+		if (result.get(name) != null) {
+			return generateName(result,input,prefix,suffix,++instance);
+		} else {
+			return name;
+		}
 	}
 
 	/**

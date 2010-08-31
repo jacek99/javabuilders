@@ -64,7 +64,7 @@ public class BuildResult extends HashMap<String, Object> {
 	/**
 	 * @param config Config
 	 */
-	BuildResult(BuilderConfig config, Object caller) {
+	public BuildResult(BuilderConfig config, Object caller) {
 		this.config = config;
 		this.caller = caller;
 		allFields = BuilderUtils.getAllFields(caller.getClass());

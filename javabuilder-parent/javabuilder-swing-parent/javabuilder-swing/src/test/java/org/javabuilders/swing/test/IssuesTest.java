@@ -616,6 +616,17 @@ public class IssuesTest {
 		}
 	}
 	
+	@Test
+	public void issue118_multipleEmbeddedStringWithSameValue() {
+		BuildResult r = new SwingYamlBuilder("JPanel:") {{
+			___("- MigLayout: |\n            \"miles\" \"miles\"");
+		}}.build(this);
+		
+		assertNotNull(r.get("milesLabel"));
+		assertEquals(JLabel.class,r.get("milesLabel").getClass());
+		assertEquals(JLabel.class,r.get("miles2Label").getClass());
+	}
+	
 	//internal test method
 	private void hello() {}
 

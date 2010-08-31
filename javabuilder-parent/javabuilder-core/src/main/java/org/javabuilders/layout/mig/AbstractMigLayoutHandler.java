@@ -286,7 +286,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		
 		if (component == null) {
 			
-			//component not found - maybe need to creaate it from the string literals?
+			//component not found - maybe need to create it from the string literals?
 			if (name.startsWith("\"") && name.endsWith("\"")) {
 				//string literal -> means create a brand new component from it
 				String text = name.replace("\"","");
@@ -311,7 +311,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 					suffix = config.getStringLiteralControlSuffix();
 				}
 				
-				name = BuilderUtils.generateName(name, prefix, suffix);
+				name = BuilderUtils.generateName(process.getBuildResult(), name, prefix, suffix);
 				Node newNode = handler.createNewInstance(process.getConfig(), process, components, defaultTypeClass.getSimpleName(), typeDefinition);
 
 				component = newNode.getMainObject();
