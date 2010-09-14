@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>javabuilder-parent</artifactId>
 		<groupId>org.javabuilders</groupId>
-		<version>1.1.RC2</version>
+		<version>1.1.RC3</version>
 	</parent>
 
 	<groupId>org.javabuilders</groupId>

@@ -899,7 +899,7 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	/**
 	 * Adds a default value for this type.
 	 * @param property Property name
-	 * @param value Value
+	 * @param value Value. If null, will try to remove it from the defaults
 	 * @return Same instance, for use in Builder pattern
 	 */
 	public TypeDefinition defaultValue(String property, Object value) {
@@ -907,9 +907,10 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 			throw new NullPointerException("property cannot be null");
 		}
 		if (value == null) {
-			throw new NullPointerException("value cannot be null");
+			defaults.remove(property);
+		} else {
+			defaults.put(property, value);
 		}
-		defaults.put(property, value);
 		return this;
 	}
 	

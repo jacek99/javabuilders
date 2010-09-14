@@ -627,6 +627,31 @@ public class IssuesTest {
 		assertEquals(JLabel.class,r.get("miles2Label").getClass());
 	}
 	
+	@Test
+	public void issue115_defaultValuesForEmbeddedStrings() {
+		try {
+			//set a default value for JLabel
+			SwingJavaBuilder.getConfig().forType(JLabel.class).defaultValue("font", "Monospace 14pt bold");
+			
+			BuildResult r = new SwingYamlBuilder("JPanel:") {{
+				___("- MigLayout: |\n            \"miles\" ");
+			}}.build(this);
+			
+			assertNotNull(r.entrySet().toString(),r.get("milesLabel"));
+			assertEquals(JLabel.class,r.get("milesLabel").getClass());
+
+			JLabel label = (JLabel) r.get("milesLabel");
+			assertEquals("Monospace",label.getFont().getName());
+			assertEquals(14,label.getFont().getSize());
+			assertEquals(true,label.getFont().isBold());
+			assertEquals(false,label.getFont().isItalic());
+			assertEquals(false,label.getFont().isPlain());
+			
+		} finally {
+			SwingJavaBuilder.getConfig().forType(JLabel.class).defaultValue("font", null);
+		}
+	}
+	
 	//internal test method
 	private void hello() {}
 

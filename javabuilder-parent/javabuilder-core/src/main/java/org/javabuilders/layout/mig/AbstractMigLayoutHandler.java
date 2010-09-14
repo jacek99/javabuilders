@@ -293,7 +293,24 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				text = BuilderUtils.handlePotentialHtmlContent(text);
 				
 				text = process.getBuildResult().getResource(text); //handle internationalization
+
+				//create name from text value, create node & component and add it to the BuildResult
+				String prefix = null, suffix = null;
+				if (process.getConfig() instanceof IStringLiteralControlConfig) {
+					IStringLiteralControlConfig config = (IStringLiteralControlConfig) process.getConfig();
+					prefix = config.getStringLiteralControlPrefix();
+					suffix = config.getStringLiteralControlSuffix();
+				}
 				
+				name = BuilderUtils.generateName(process.getBuildResult(), name, prefix, suffix);
+				
+				String compressedYaml = String.format("%s(name=%s,%s=\"%s\")",defaultTypeClass.getSimpleName(),
+						name, defaultTypePropertyName,text);
+				component = Builder.createControlFromCompressedYaml(process, components, compressedYaml);
+				co.setControlName(name);
+				setControlName(component, name);
+				
+				/*
 				Yaml yaml = new Yaml();
 				Object value = yaml.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
 				value =  BuilderPreProcessor.preprocess(process.getConfig(), process, value, null);
@@ -321,6 +338,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				
 				IPropertyHandler propHandler = TypeDefinition.getPropertyHandler(process.getConfig(),defaultTypeClass, defaultTypePropertyName);
 				propHandler.handle(process.getConfig(), process, newNode, defaultTypePropertyName);
+				*/
 				
 			} else {
 				

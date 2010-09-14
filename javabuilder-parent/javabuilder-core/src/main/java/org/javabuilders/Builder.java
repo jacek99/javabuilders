@@ -564,8 +564,17 @@ public class Builder {
 		}
 	}
 	
+	public static Object createControlFromCompressedYaml(BuildProcess process, Node parent, String compressedYaml) {
+		Map<String,Object> data = new HashMap<String, Object>();
+		BuilderUtils.uncompressYaml(compressedYaml,data);
+		String key = BuilderUtils.getRealKey(compressedYaml);
+		Class<?> classType = BuilderUtils.getClassFromAlias(process, key, null);
+		
+		return handleType(process.getConfig(),process,parent,key,data,classType).getMainObject();
+	}
+	
 	//handles creating types
-	private static void handleType(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> data, 
+	private static Node handleType(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> data, 
 			Class<?> classType) throws BuildException {
 		
 		Class<?> currentType = BuilderUtils.getClassFromAlias(process, currentKey, null);
@@ -602,7 +611,7 @@ public class Builder {
 		//handle result of what the type handler returned
 		if (current == null) {
 			//handler run...but has nothing to, we can abort any further processing for this node
-			return;
+			return null;
 		} else if (current.getMainObject() == null) {
 			throw new BuildException("ITypeHandler for alias " + currentKey + " did not set Node.mainObject to a value");
 		}
@@ -743,6 +752,8 @@ public class Builder {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Finished creating object defined by alias: {}", currentKey);
 		}
+		
+		return current;
 
 	}
 	
