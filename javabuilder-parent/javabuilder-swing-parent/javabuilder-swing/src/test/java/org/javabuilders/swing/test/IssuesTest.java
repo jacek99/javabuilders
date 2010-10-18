@@ -622,9 +622,9 @@ public class IssuesTest {
 			___("- MigLayout: |\n            \"miles\" \"miles\"");
 		}}.build(this);
 		
-		assertNotNull(r.get("milesLabel"));
-		assertEquals(JLabel.class,r.get("milesLabel").getClass());
-		assertEquals(JLabel.class,r.get("miles2Label").getClass());
+		assertNotNull(r.get("lblMiles"));
+		assertEquals(JLabel.class,r.get("lblMiles").getClass());
+		assertEquals(JLabel.class,r.get("lblMiles2").getClass());
 	}
 	
 	@Test
@@ -637,10 +637,10 @@ public class IssuesTest {
 				___("- MigLayout: |\n            \"miles\" ");
 			}}.build(this);
 			
-			assertNotNull(r.entrySet().toString(),r.get("milesLabel"));
-			assertEquals(JLabel.class,r.get("milesLabel").getClass());
+			assertNotNull(r.entrySet().toString(),r.get("lblMiles"));
+			assertEquals(JLabel.class,r.get("lblMiles").getClass());
 
-			JLabel label = (JLabel) r.get("milesLabel");
+			JLabel label = (JLabel) r.get("lblMiles");
 			assertEquals("Monospace",label.getFont().getName());
 			assertEquals(14,label.getFont().getSize());
 			assertEquals(true,label.getFont().isBold());

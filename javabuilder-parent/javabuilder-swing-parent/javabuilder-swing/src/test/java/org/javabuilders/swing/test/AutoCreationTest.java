@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
@@ -55,6 +56,32 @@ public class AutoCreationTest {
 		assertControl(r,"pwdAuto",JPasswordField.class);
 		assertControl(r,"spnAuto",JSpinner.class);
 		assertControl(r,"sepAuto",JSeparator.class);
+	}
+
+	@Test
+	public void testEmptyLabelCreation_Issue_121() {
+		
+		String yaml = 
+			"JPanel: \n" +
+			"  - JTextField(name=txtNormal)\n" +
+			"  - MigLayout: |\n" +
+			"      txtNormal txtAuto tglAuto \"\" \"\"";
+		
+		BuildResult r = SwingJavaBuilder.build(this, yaml);
+
+		assertControl(r,"txtNormal",JTextField.class);
+		assertControl(r,"txtAuto",JTextField.class);
+		
+		assertControl(r,"lblBlank",JLabel.class);
+		assertControl(r,"lblBlank2",JLabel.class);
+		
+		//verify text is truly blank
+		JLabel lbl = (JLabel) r.get("lblBlank");
+		assertEquals("",lbl.getText());
+		
+		lbl = (JLabel) r.get("lblBlank2");
+		assertEquals("",lbl.getText());
+		
 	}
 
 	

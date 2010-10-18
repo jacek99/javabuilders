@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -1060,6 +1061,7 @@ public class BuilderUtils {
 	 * @return
 	 */
 	private static String generateName(BuildResult result, String input, String prefix, String suffix, int instance) {
+		
 		Matcher m = namePattern.matcher(input);
 		StringBuilder bld = new StringBuilder(input.length());
 		if (prefix != null) {

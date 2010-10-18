@@ -5,18 +5,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderPreProcessor;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.Node;
 import org.javabuilders.TypeDefinition;
 import org.javabuilders.handler.AbstractTypeHandler;
-import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
-import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.layout.Flow;
@@ -27,7 +25,6 @@ import org.javabuilders.layout.VAlign;
 import org.javabuilders.util.BuilderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
 
 /**
  * Abstract MigLayout handler that descendants can customize for Swing or SWT
@@ -277,7 +274,6 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	 * @param data.getName()
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	private Object getNamedComponentOrCreateOne(BuildProcess process, Node components, ControlConstraint co) {
 		
 		String name = co.getControlName();
@@ -289,11 +285,17 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 			//component not found - maybe need to create it from the string literals?
 			if (name.startsWith("\"") && name.endsWith("\"")) {
 				//string literal -> means create a brand new component from it
-				String text = name.replace("\"","");
+				String text = name.replace("\"",""); 
 				text = BuilderUtils.handlePotentialHtmlContent(text);
 				
 				text = process.getBuildResult().getResource(text); //handle internationalization
 
+				//special handling of empty names -> sometimes blank labels need to be created
+				//for complex layouts
+				if (name.equals("\"\"")) {
+					name = "blank";
+				}
+				
 				//create name from text value, create node & component and add it to the BuildResult
 				String prefix = null, suffix = null;
 				if (process.getConfig() instanceof IStringLiteralControlConfig) {
