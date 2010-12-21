@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
-	<version>1.1-RC4</version>
+	<version>1.1</version>
 	<packaging>pom</packaging>
 	<name>Parent JavaBuilder</name>
 	<description>Parent POM</description>
@@ -164,6 +164,7 @@
 				</configuration>
 			</plugin>
 
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -177,6 +178,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
 		</plugins>
 
@@ -189,12 +191,14 @@
 		</extensions>
 	</build>
 
+	<!--
 	<scm>
 		<connection>scm:git:git@github.com:jacek99/javabuilders.git</connection>
 		<developerConnection>scm:git:git@github.com:jacek99/javabuilders.git</developerConnection>
 		<url>git@github.com:jacek99/javabuilders.git</url>
 	</scm>
 
+	
 	<distributionManagement>
 		<repository>
 			<id>jacek99-releases</id>
@@ -207,12 +211,13 @@
 			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+	-->
 
-	<repositories>
+	<distributionManagement>
 		<repository>
 			<id>googlecode</id>
 			<url>svn:https://javabuilders.googlecode.com/svn/repo</url>
 		</repository>
-	</repositories>
+	</distributionManagement>
 
 </project>

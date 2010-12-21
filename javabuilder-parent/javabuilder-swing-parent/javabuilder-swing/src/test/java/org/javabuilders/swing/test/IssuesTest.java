@@ -39,6 +39,7 @@ import org.javabuilders.swing.handler.event.background.BackgroundDialog;
 import org.javabuilders.swing.test.issues.resources.CustomGenericPanel;
 import org.javabuilders.swing.test.issues.resources.Issue10;
 import org.javabuilders.swing.test.issues.resources.Issue11;
+import org.javabuilders.swing.test.issues.resources.Issue125;
 import org.javabuilders.swing.test.issues.resources.Issue12_JPopupMenuException;
 import org.javabuilders.swing.test.issues.resources.Issue17_JMenuBarInJDialog;
 import org.javabuilders.swing.test.issues.resources.Issue20_DuplicateNames;
@@ -650,6 +651,13 @@ public class IssuesTest {
 		} finally {
 			SwingJavaBuilder.getConfig().forType(JLabel.class).defaultValue("font", null);
 		}
+	}
+	
+	@Test
+	public void issue125_absoluteBuildFileLocation() {
+		Issue125 issue = new Issue125();
+		assertNotNull("Components were not build correctly", issue.someButton);
+		
 	}
 	
 	//internal test method
