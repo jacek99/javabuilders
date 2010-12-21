@@ -121,7 +121,7 @@ At the time of writing, the latest stable version was:
             <dependency> 
                     <groupId>org.javabuilders</groupId> 
                     <artifactId>javabuilder-swing</artifactId> 
-                    <version>1.0.0</version> 
+                    <version>1.1.0</version> 
             </dependency> 
     </dependencies>
     
