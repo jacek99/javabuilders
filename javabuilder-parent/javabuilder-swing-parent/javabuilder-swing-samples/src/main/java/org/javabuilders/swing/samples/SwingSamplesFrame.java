@@ -21,6 +21,7 @@ import org.javabuilders.event.BuildAdapter;
 import org.javabuilders.event.BuildEvent;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.plugin.glazedlists.SwingGlazedListsConfig;
+import org.javabuilders.util.BuilderUtils;
 
 @SuppressWarnings({ "unused", "serial" })
 public class SwingSamplesFrame extends JFrame {
@@ -63,7 +64,8 @@ public class SwingSamplesFrame extends JFrame {
 
 	
 	private PropertyChangeSupport support = new PropertyChangeSupport(this);
-	private String yaml = getFileContent(this.getClass(),"yaml");
+	private String yaml = BuilderUtils.getYamlContent(SwingJavaBuilder.getConfig(), this.getClass()); 
+		//getFileContent(this.getClass(),SwingJavaBuilder.getConfig().getYamlExtension());
 	
 	private ComponentsPanel componentsPanel;
 	private FlowLayoutPanel flowLayoutPanel;
@@ -163,21 +165,6 @@ public class SwingSamplesFrame extends JFrame {
             	}
             }
         });
-    }
-    
-    public static String getFileContent(Class<?> baseClass, String extension) throws IOException {
-    	StringBuilder builder = new StringBuilder();
-    	
-    	InputStream is = baseClass.getResourceAsStream(baseClass.getSimpleName() + "." + extension);
-    	InputStreamReader isr = new InputStreamReader(is);
-    	BufferedReader rdr = new BufferedReader(isr);
-    	
-    	String line = "";
-    	while ((line = rdr.readLine()) != null) {
-    		builder.append(line).append("\n");
-    	}
-    	
-    	return builder.toString();
     }
 
 	public String getYaml() {

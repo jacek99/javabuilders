@@ -5,8 +5,10 @@ package org.javabuilders;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,6 @@ public class BuilderConfig {
 	public static final String SOURCE = "javabuilders.dev.src";
 	public final static String CUSTOM_COMMAND_REGEX = "\\$[a-zA-Z0-9]+"; //e.g. "$validate"
 	public final static String GLOBAL_VARIABLE_REGEX = "\\$\\$\\{[a-zA-Z0-9]+\\}"; //e.g. "$${dateFormat}"
-	
 	
 	public static String PROPERY_STRING_LITERAL_CONTROL_PREFIX = "StringLiteralControl.Prefix";
 	public static String PROPERY_STRING_LITERAL_CONTROL_SUFFIX = "StringLiteralControl.Suffix";
@@ -106,6 +107,8 @@ public class BuilderConfig {
 	private Map<String,PrefixControlDefinition> prefixes = new HashMap<String, PrefixControlDefinition>();
 	private Map<String,String> prototypes = new HashMap<String, String>();
 	private Set<ResourceBundle> bundles = new LinkedHashSet<ResourceBundle>();
+
+	private String yamlExtension = ".yml";
 	
 	/**
 	 * Constructor
@@ -302,8 +305,12 @@ public class BuilderConfig {
 			defs = new TreeSet<TypeDefinition>(new TypeDefinitionClassHierarchyComparator());
 			
 			//classes
+			Set<Class<?>> interfaces = new HashSet<Class<?>>();
 			Class<?> superClass = classType;
 			while (superClass != null) {
+				
+				interfaces.addAll(Arrays.asList(superClass.getInterfaces()));
+				
 				if (typeDefinitions.containsKey(superClass)) {
 					defs.add(typeDefinitions.get(superClass));
 				}			
@@ -311,7 +318,7 @@ public class BuilderConfig {
 			}
 			
 			//interfaces
-			Class<?>[] interfaces = classType.getInterfaces();
+			//Class<?>[] interfaces = classType.getInterfaces();
 			for(Class<?> interfaceType : interfaces) {
 				superClass = interfaceType;
 				while (superClass != null) {
@@ -728,6 +735,20 @@ public class BuilderConfig {
 	 */
 	public String getPrototype(String name) {
 		return prototypes.get(name);
+	}
+
+	/**
+	 * @return the default extension for YAML files
+	 */
+	public String getYamlExtension() {
+		return yamlExtension;
+	}
+
+	/**
+	 * @param yamlExtension the default extension for YAML files
+	 */
+	public void setYamlExtension(String yamlExtension) {
+		this.yamlExtension = yamlExtension;
 	}
 	
 	

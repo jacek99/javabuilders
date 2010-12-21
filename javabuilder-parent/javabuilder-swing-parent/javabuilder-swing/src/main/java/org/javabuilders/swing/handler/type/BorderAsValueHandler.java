@@ -75,11 +75,11 @@ public class BorderAsValueHandler implements ITypeAsValueHandler<Border> {
 			border = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		} else if (LOWERED_ETCHED.equals(inputValue)) {
 			border = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		} else if (inputValue instanceof Long) {
+		} else if (inputValue instanceof Long || inputValue instanceof Integer) {
 			//just a line
-			long input = ((Long)inputValue);
+			int input = Integer.parseInt(String.valueOf(inputValue));
 			
-			border = BorderFactory.createLineBorder(new Color(SystemColor.ACTIVE_CAPTION_BORDER), (int)input);
+			border = BorderFactory.createLineBorder(new Color(SystemColor.ACTIVE_CAPTION_BORDER), input);
 		} else {
 			//color + line
 			String sValue = (String)inputValue;

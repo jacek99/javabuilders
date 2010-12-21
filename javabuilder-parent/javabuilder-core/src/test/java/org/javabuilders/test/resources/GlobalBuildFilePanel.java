@@ -10,7 +10,7 @@ import org.javabuilders.BuilderConfig;
 import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.test.TestBuilderConfig;
 
-@BuildFile("/org/javabuilders/test/resources/Common.yaml")
+@BuildFile("/org/javabuilders/test/resources/Common.yml")
 public class GlobalBuildFilePanel extends JPanel {
 
 	private JLabel test;

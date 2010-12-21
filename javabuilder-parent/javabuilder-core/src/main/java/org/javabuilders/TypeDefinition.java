@@ -5,6 +5,7 @@ package org.javabuilders;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -898,7 +899,7 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	/**
 	 * Adds a default value for this type.
 	 * @param property Property name
-	 * @param value Value
+	 * @param value Value. If null, will try to remove it from the defaults
 	 * @return Same instance, for use in Builder pattern
 	 */
 	public TypeDefinition defaultValue(String property, Object value) {
@@ -906,9 +907,10 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 			throw new NullPointerException("property cannot be null");
 		}
 		if (value == null) {
-			throw new NullPointerException("value cannot be null");
+			defaults.remove(property);
+		} else {
+			defaults.put(property, value);
 		}
-		defaults.put(property, value);
 		return this;
 	}
 	
@@ -946,7 +948,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 * @return this
 	 */
 	public TypeDefinition typeAsMethod(Class<?> type, String methodName) {
-		Method[] methods = getApplicableClass().getMethods();
+		Set<Method> methods = new HashSet<Method>(Arrays.asList(getApplicableClass().getMethods()));
+		methods.addAll(Arrays.asList(getApplicableClass().getDeclaredMethods()));
 		Method target = null;
 		for(Method method : methods) {
 			if (method.getName().equals(methodName) && method.getParameterTypes().length == 1 &&
@@ -955,6 +958,8 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 				break;
 			}
 		}
+		
+		
 		return typeAsMethod(type, target);
 	}
 	
@@ -968,6 +973,7 @@ public class TypeDefinition implements IKeyValueConsumer, IApplicable {
 	 */
 	public TypeDefinition typeAsMethod(Class<?> type, Method method) {
 		BuilderUtils.validateNotNullAndNotEmpty("method", method);
+		method.setAccessible(true);
 		typesAsMethods.put(type,method);
 		return this;
 	}

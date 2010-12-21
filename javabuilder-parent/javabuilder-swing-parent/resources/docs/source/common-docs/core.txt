@@ -15,7 +15,7 @@ need to be public).
 
 Simple example:
 
-*MyFrame.yaml*:
+*MyFrame.yml*:
     
 .. code-block:: yaml    
   

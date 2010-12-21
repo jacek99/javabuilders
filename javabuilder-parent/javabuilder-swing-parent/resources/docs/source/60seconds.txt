@@ -81,7 +81,7 @@ it to a database via a long running task on a background thread.
     label.email=Email
     frame.title=Enter Person Data
     
-6. Create the view YAML file *PersonApp.yaml* in the *person.app* package:
+6. Create the view YAML file *PersonApp.yml* in the *person.app* package:
        
 .. code-block:: yaml       
        

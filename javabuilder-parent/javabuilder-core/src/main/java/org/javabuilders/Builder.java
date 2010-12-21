@@ -37,9 +37,9 @@ import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 import org.javabuilders.util.BuilderUtils;
 import org.javabuilders.util.ChildrenCardinalityUtils;
 import org.javabuilders.util.PropertyUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Ancestor for all builders
@@ -166,7 +166,7 @@ public class Builder {
 		
 			Class<?> declaringType = type.getDeclaringClass();
 			if (declaringType == null) {
-				fileName = type.getSimpleName() + ".yaml";
+				fileName = type.getSimpleName() + config.getYamlExtension();
 			} else {
 				//build a nested name from the class hierarchy
 				StringBuilder bld = new StringBuilder(type.getSimpleName());
@@ -175,7 +175,7 @@ public class Builder {
 					bld.insert(declaringType.getSimpleName().length(),".");
 					declaringType = declaringType.getDeclaringClass();
 				}
-				bld.append(".yaml");
+				bld.append(config.getYamlExtension());
 				fileName = bld.toString();
 			}
 		}
@@ -235,6 +235,7 @@ public class Builder {
 				
 				yamlFileName = src.toString();
 				input = new FileInputStream(new File(src));
+				
 			} catch (Exception e) {
 				throw new BuildException(e,"Unable to process file {0}.\n{1}",yamlFileName, e);
 			}
@@ -242,7 +243,9 @@ public class Builder {
 		
 		//check for missing file (Issue #20)
 		if (input == null) {
-			throw new BuildException("No YAML file found: {0}", fileName);
+			throw new BuildException("No YAML file found: {0}.\nMaybe you are using an older extension (.yaml) " +
+					" and need to change it via config.setYamlExtension(String) in your main().\n" +
+					"The default was changed to ''.yml'' as of version 1.1 to be compatible with the YAML standard.", fileName);
 		}
 		
 		//read in string manually so that we can pre-validate it for invalid characters
@@ -316,7 +319,8 @@ public class Builder {
 		}
 		
 		BuilderUtils.validateYamlContent(yamlContent, fileName);
-		Object document = YAML.load(yamlContent);
+		Yaml yaml = new Yaml();
+		Object document = yaml.load(yamlContent);
 		executeBuild(document, config, process);
 		return process.getBuildResult();
 	}
@@ -333,19 +337,19 @@ public class Builder {
 		}
 		
 		Class<?> clazz = null;
-		String yaml = null;
+		String yamlContent = null;
 		
 		//first check if it is a globally defined control
 		if (name.startsWith(PROTOTYPE_FIELD_PREFIX)) {
-			yaml = process.getConfig().getPrototype(name.substring(1));
-			if (yaml != null) {
-				yaml = yaml.trim();
-				String key = BuilderUtils.getRealKey(yaml);
+			yamlContent = process.getConfig().getPrototype(name.substring(1));
+			if (yamlContent != null) {
+				yamlContent = yamlContent.trim();
+				String key = BuilderUtils.getRealKey(yamlContent);
 				clazz = process.getConfig().getClassType(key);
 				if (clazz != null) {
 					
 					Map<String,Object> map = new HashMap<String, Object>();
-					BuilderUtils.uncompressYaml(yaml, map);
+					BuilderUtils.uncompressYaml(yamlContent, map);
 					processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), map);
 					return process.getByName(name.substring(1));
 					
@@ -353,7 +357,7 @@ public class Builder {
 					//yaml= yaml.replace(key, "");
 					//yaml = yaml.substring(1,yaml.length() - 1); //trim the first and last parentheses
 				} else {
-					throw new BuildException("Unable to find type for protype {0}",yaml);
+					throw new BuildException("Unable to find type for protype {0}",yamlContent);
 				}
 			} else {
 				throw new BuildException("Unable to find prototype definition for {0}",name);
@@ -370,7 +374,7 @@ public class Builder {
 				PrefixControlDefinition def = process.getConfig().getPrefix(prefix);
 				if (def != null) {
 					clazz = def.getType();
-					yaml = def.getDefaultsAsYaml(process, name, suffix);
+					yamlContent = def.getDefaultsAsYaml(process, name, suffix);
 				} else {
 					throw new BuildException("Unable to find type for prefix {0} for {1}",prefix,name);
 				}
@@ -381,7 +385,8 @@ public class Builder {
 		}
 		
 		//now that we have the YAML, let's process it as if it was part of the actual build file
-		Object rawDocumentNode = YAML.load(yaml);
+		Yaml yaml = new Yaml();
+		Object rawDocumentNode = yaml.load(yamlContent);
 		processDocumentNode(process.getConfig(), process, parent, clazz.getSimpleName(), rawDocumentNode);
 		return process.getByName(name);
 	}
@@ -505,6 +510,12 @@ public class Builder {
 			handleType(config, process, parent, currentKey, data, currentType);
 			
 		} else if (rawDocumentNode instanceof List){
+			
+			//cannot be root of a document - issue 79
+			if (parent == null) {
+				throw new BuildException("Yaml cannot start with a List as root: {0}",rawDocumentNode);
+			}
+			
 			//collection of objects or values
 			@SuppressWarnings("rawtypes")
 			List items = (List)rawDocumentNode;
@@ -553,8 +564,17 @@ public class Builder {
 		}
 	}
 	
+	public static Object createControlFromCompressedYaml(BuildProcess process, Node parent, String compressedYaml) {
+		Map<String,Object> data = new HashMap<String, Object>();
+		BuilderUtils.uncompressYaml(compressedYaml,data);
+		String key = BuilderUtils.getRealKey(compressedYaml);
+		Class<?> classType = BuilderUtils.getClassFromAlias(process, key, null);
+		
+		return handleType(process.getConfig(),process,parent,key,data,classType).getMainObject();
+	}
+	
 	//handles creating types
-	private static void handleType(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> data, 
+	private static Node handleType(BuilderConfig config, BuildProcess process, Node parent, String currentKey, Map<String,Object> data, 
 			Class<?> classType) throws BuildException {
 		
 		Class<?> currentType = BuilderUtils.getClassFromAlias(process, currentKey, null);
@@ -591,7 +611,7 @@ public class Builder {
 		//handle result of what the type handler returned
 		if (current == null) {
 			//handler run...but has nothing to, we can abort any further processing for this node
-			return;
+			return null;
 		} else if (current.getMainObject() == null) {
 			throw new BuildException("ITypeHandler for alias " + currentKey + " did not set Node.mainObject to a value");
 		}
@@ -628,10 +648,13 @@ public class Builder {
 			Method method = TypeDefinition.getTypeAsMethod(config, parentClass, createdClassType);
 			if (method != null) {
 				try {
-					method.invoke(parent.getMainObject(), current.getMainObject());
+					Object target = parent.getMainObject();
+					Object argument = current.getMainObject();
+					
+					method.invoke(target, argument);
 				} catch (Exception e) {
-					throw new BuildException(e,"Unable to call {0}.{1} with type {2}. Error: {3}",
-							parentClass.getSimpleName(), method.getName(), createdClassType.getSimpleName(),e.getMessage());
+					throw new BuildException(e,"Unable to call {0} on {1} with type {2}. Error: {3}",
+							method, parentClass.getSimpleName(), createdClassType.getSimpleName(),e.getMessage());
 				}
 			}
 		}
@@ -729,6 +752,8 @@ public class Builder {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Finished creating object defined by alias: {}", currentKey);
 		}
+		
+		return current;
 
 	}
 	

@@ -446,7 +446,8 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(Focus.class)
 			.finishProcessor(new FocusFinishProcessor());
 		
-		setStringLiteralControlSuffix("Label"); 
+		//setStringLiteralControlSuffix("Label"); 
+		setStringLiteralControlPrefix("lbl");
 		
 		initializeBeansBinding();
 

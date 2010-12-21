@@ -14,8 +14,8 @@ public class PropertyValidations {
 	private NamedObjectProperty property;
 	
 	private boolean mandatory = false;
-	private Long minLength = null;
-	private Long maxLength = null;
+	private Integer minLength = null;
+	private Integer maxLength = null;
 	private String dateFormat = null;
 	private String format = null;
 	private Object minValue = null;
@@ -71,25 +71,25 @@ public class PropertyValidations {
 	/**
 	 * @return the minLength
 	 */
-	public Long getMinLength() {
+	public Integer getMinLength() {
 		return minLength;
 	}
 	/**
 	 * @param minLength the minLength to set
 	 */
-	public void setMinLength(Long minLength) {
+	public void setMinLength(Integer minLength) {
 		this.minLength = minLength;
 	}
 	/**
 	 * @return the maxLength
 	 */
-	public Long getMaxLength() {
+	public Integer getMaxLength() {
 		return maxLength;
 	}
 	/**
 	 * @param maxLength the maxLength to set
 	 */
-	public void setMaxLength(Long maxLength) {
+	public void setMaxLength(Integer maxLength) {
 		this.maxLength = maxLength;
 	}
 	/**

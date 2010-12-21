@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -46,9 +47,9 @@ import org.javabuilders.event.IBindingListener;
 import org.javabuilders.event.IBindingListenerProvider;
 import org.javabuilders.event.ObjectMethod;
 import org.javabuilders.exception.InvalidFormatException;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Various common utilities
@@ -1042,12 +1043,25 @@ public class BuilderUtils {
 	}
 
 	/**
-	 * Generates a Java-safe name from an input string
+	 * Generates a Java-safe name from an input string.
+	 * Ensures it is unique in the context of the current build (issue #118)
 	 * 
 	 * @param input
 	 * @return
 	 */
-	public static String generateName(String input, String prefix, String suffix) {
+	public static String generateName(BuildResult result, String input, String prefix, String suffix) {
+		return generateName(result,input,prefix,suffix,1);
+	}
+	
+	/**
+	 * Generates a Java-safe name from an input string.
+	 * Ensures it is unique in the context of the current build (issue #118)
+	 * 
+	 * @param input
+	 * @return
+	 */
+	private static String generateName(BuildResult result, String input, String prefix, String suffix, int instance) {
+		
 		Matcher m = namePattern.matcher(input);
 		StringBuilder bld = new StringBuilder(input.length());
 		if (prefix != null) {
@@ -1068,11 +1082,25 @@ public class BuilderUtils {
 				bld.append(group.toUpperCase());
 			}
 		}
+		
+		//append instance, if larger than 1 (required to ensure unique control names)
+		if (instance > 1) {
+			bld.append(instance);
+		}
 
 		if (suffix != null) {
 			bld.append(suffix);
 		}
-		return bld.toString();
+		
+		String name = bld.toString();
+		
+		//check if this name already exists, need to generate a unique one
+		//by adding a number at the end
+		if (result.get(name) != null) {
+			return generateName(result,input,prefix,suffix,++instance);
+		} else {
+			return name;
+		}
 	}
 
 	/**
@@ -1083,11 +1111,27 @@ public class BuilderUtils {
 	 * @return YAML content for that class
 	 * @throws IOException
 	 */
-	public static String getYamlContent(Class<?> baseClass) throws IOException {
+	public static String getYamlContent(BuilderConfig config, Class<?> baseClass) throws IOException {
+		return getYamlContent(config, baseClass,null);
+	}
+
+	/**
+	 * Reads the YAML file for a particular class
+	 * 
+	 * @param baseClass
+	 *            Class
+	 * @return YAML content for that class
+	 * @throws IOException
+	 */
+	public static String getYamlContent(BuilderConfig config, Class<?> baseClass, String yamlFileName) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 
-		InputStream is = baseClass.getResourceAsStream(baseClass.getSimpleName() + ".yaml");
+		if (yamlFileName == null) {
+			yamlFileName = baseClass.getSimpleName() + config.getYamlExtension();
+		}
+		
+		InputStream is = baseClass.getResourceAsStream(yamlFileName);
 		InputStreamReader isr = null;
 		BufferedReader rdr = null;
 		try {
@@ -1110,7 +1154,7 @@ public class BuilderUtils {
 
 		return builder.toString();
 	}
-	
+
     /**
      * Gets generics info despite runtime type erasure. Hack alert, obviously.
      * @param field Field
@@ -1275,7 +1319,8 @@ public class BuilderUtils {
 						 //put it into the map, but only if it does not exist there already
 						 if (!current.containsKey(pair[0])) {
 							 //parse the value with YAML to make sure it makes it into the correct default type
-							 Object value = YAML.load(temp.toString());
+							 Yaml yaml = new Yaml();
+							 Object value = yaml.load(temp.toString());
 							 current.put(pair[0],value);
 						 }
 					 } else  {

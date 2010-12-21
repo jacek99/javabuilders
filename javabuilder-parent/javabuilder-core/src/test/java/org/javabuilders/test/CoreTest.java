@@ -33,14 +33,18 @@ public class CoreTest {
 	
 	@Test
 	public void testNameGeneration() {
-		assertEquals("firstName", BuilderUtils.generateName("\"First Name\"", null, null));
-		assertEquals("labelFirstName", BuilderUtils.generateName("\"First Name\"", "label", null));
-		assertEquals("firstNameLabel", BuilderUtils.generateName("\"First Name\"", null, "Label"));
 		
-		assertEquals("firstName", BuilderUtils.generateName("firstName", null, null));
-		assertEquals("labelName", BuilderUtils.generateName("label.name", null, null));
-		assertEquals("labelFirstName", BuilderUtils.generateName("label.firstName", null, null));
-		assertEquals("firstName", BuilderUtils.generateName("First Name", null, null));
+		TestBuilderConfig config = new TestBuilderConfig(JPanel.class);
+		BuildResult r = new BuildResult(config,this);
+		
+		assertEquals("firstName", BuilderUtils.generateName(r,"\"First Name\"", null, null));
+		assertEquals("labelFirstName", BuilderUtils.generateName(r,"\"First Name\"", "label", null));
+		assertEquals("firstNameLabel", BuilderUtils.generateName(r,"\"First Name\"", null, "Label"));
+		
+		assertEquals("firstName", BuilderUtils.generateName(r,"firstName", null, null));
+		assertEquals("labelName", BuilderUtils.generateName(r,"label.name", null, null));
+		assertEquals("labelFirstName", BuilderUtils.generateName(r,"label.firstName", null, null));
+		assertEquals("firstName", BuilderUtils.generateName(r,"First Name", null, null));
 	}
 
 	@Test

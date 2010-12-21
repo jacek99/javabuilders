@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 import org.javabuilders.swing.SwingJavaBuilder;
 import org.javabuilders.swing.samples.external.CardLayoutFrame;
 import org.javabuilders.swing.samples.external.CenteredJFrame;
+import org.javabuilders.util.BuilderUtils;
 
 /**
  * User submissions
@@ -31,10 +32,10 @@ public class UserSubmissionsPanel extends SamplePanel implements ActionListener 
 			if (e.getActionCommand().equals("cardLayoutInFrame")) {
 				CardLayoutFrame cardLayoutInFrame  = new CardLayoutFrame();
 				cardLayoutInFrame.setVisible(true);
-				source.setText(SwingSamplesFrame.getFileContent(CardLayoutFrame.class, "yaml"));
+				source.setText(BuilderUtils.getYamlContent(SwingJavaBuilder.getConfig(), CardLayoutFrame.class));
 			} else if (e.getActionCommand().equals("centeredJFrame")) {
 				CenteredJFrame frame = new CenteredJFrame();
-				source.setText(SwingSamplesFrame.getFileContent(CenteredJFrame.class, "yaml"));
+				source.setText(BuilderUtils.getYamlContent(SwingJavaBuilder.getConfig(), CenteredJFrame.class));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

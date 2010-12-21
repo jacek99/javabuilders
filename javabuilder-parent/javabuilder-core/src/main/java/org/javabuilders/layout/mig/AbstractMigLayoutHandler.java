@@ -5,18 +5,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
-import org.javabuilders.BuilderPreProcessor;
 import org.javabuilders.IStringLiteralControlConfig;
 import org.javabuilders.Node;
 import org.javabuilders.TypeDefinition;
 import org.javabuilders.handler.AbstractTypeHandler;
-import org.javabuilders.handler.IPropertyHandler;
 import org.javabuilders.handler.ITypeChildrenHandler;
-import org.javabuilders.handler.ITypeHandler;
 import org.javabuilders.layout.ControlConstraint;
 import org.javabuilders.layout.DefaultResize;
 import org.javabuilders.layout.Flow;
@@ -25,7 +23,6 @@ import org.javabuilders.layout.LayoutCell;
 import org.javabuilders.layout.LayoutConstraints;
 import org.javabuilders.layout.VAlign;
 import org.javabuilders.util.BuilderUtils;
-import org.jvyaml.YAML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -277,7 +274,6 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	 * @param data.getName()
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	private Object getNamedComponentOrCreateOne(BuildProcess process, Node components, ControlConstraint co) {
 		
 		String name = co.getControlName();
@@ -286,15 +282,39 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 		
 		if (component == null) {
 			
-			//component not found - maybe need to creaate it from the string literals?
+			//component not found - maybe need to create it from the string literals?
 			if (name.startsWith("\"") && name.endsWith("\"")) {
 				//string literal -> means create a brand new component from it
-				String text = name.replace("\"","");
+				String text = name.replace("\"",""); 
 				text = BuilderUtils.handlePotentialHtmlContent(text);
 				
 				text = process.getBuildResult().getResource(text); //handle internationalization
+
+				//special handling of empty names -> sometimes blank labels need to be created
+				//for complex layouts
+				if (name.equals("\"\"")) {
+					name = "blank";
+				}
 				
-				Object value = YAML.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
+				//create name from text value, create node & component and add it to the BuildResult
+				String prefix = null, suffix = null;
+				if (process.getConfig() instanceof IStringLiteralControlConfig) {
+					IStringLiteralControlConfig config = (IStringLiteralControlConfig) process.getConfig();
+					prefix = config.getStringLiteralControlPrefix();
+					suffix = config.getStringLiteralControlSuffix();
+				}
+				
+				name = BuilderUtils.generateName(process.getBuildResult(), name, prefix, suffix);
+				
+				String compressedYaml = String.format("%s(name=%s,%s=\"%s\")",defaultTypeClass.getSimpleName(),
+						name, defaultTypePropertyName,text);
+				component = Builder.createControlFromCompressedYaml(process, components, compressedYaml);
+				co.setControlName(name);
+				setControlName(component, name);
+				
+				/*
+				Yaml yaml = new Yaml();
+				Object value = yaml.load(String.format("%s(%s=%s)",defaultTypeClass.getSimpleName(),defaultTypePropertyName,name));
 				value =  BuilderPreProcessor.preprocess(process.getConfig(), process, value, null);
 				
 				ITypeHandler handler = TypeDefinition.getTypeHandler(process.getConfig(), defaultTypeClass);
@@ -310,7 +330,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 					suffix = config.getStringLiteralControlSuffix();
 				}
 				
-				name = BuilderUtils.generateName(name, prefix, suffix);
+				name = BuilderUtils.generateName(process.getBuildResult(), name, prefix, suffix);
 				Node newNode = handler.createNewInstance(process.getConfig(), process, components, defaultTypeClass.getSimpleName(), typeDefinition);
 
 				component = newNode.getMainObject();
@@ -320,6 +340,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				
 				IPropertyHandler propHandler = TypeDefinition.getPropertyHandler(process.getConfig(),defaultTypeClass, defaultTypePropertyName);
 				propHandler.handle(process.getConfig(), process, newNode, defaultTypePropertyName);
+				*/
 				
 			} else {
 				

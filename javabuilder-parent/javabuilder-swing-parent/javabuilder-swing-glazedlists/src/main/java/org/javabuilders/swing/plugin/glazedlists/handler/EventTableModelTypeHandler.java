@@ -3,8 +3,8 @@
  */
 package org.javabuilders.swing.plugin.glazedlists.handler;
 
-import static org.javabuilders.util.Preconditions.*;
 import static org.javabuilders.swing.handler.type.TableColumnTypeHandler.*;
+import static org.javabuilders.util.Preconditions.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -223,7 +223,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 					map.put(TableColumnTypeHandler.INTERNAL_MODEL_INDEX, columns.size());
 					columns.put(name, headerValue);
 				} else {
-					throw new BuildException("Unable to map column '{0}' to any property of type {1}", name, type);
+					throw new BuildException("Unable to map column ''{0}'' to any property of type {1}", name, type);
 				}
 			}
 		} 

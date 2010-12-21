@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-parent</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 	<name>Parent JavaBuilder</name>
 	<description>Parent POM</description>
+    
+    <!-- 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
+	 -->
+
 	<modules>
 		<module>javabuilder-core</module>
 		<module>javabuilder-swing-parent</module>
-		<!--
+		<!-- For future use...one day (when a day has 36 hours instead of 24) <module>javabuilder-swt</module> <module>javabuilder-gtk</module> 
+			<module>javabuilder-vaadin-parent</module> -->
+	</modules>
 
-			For future use...one day (when a day has 36 hours instead of 24) <module>javabuilder-swt</module>
-			<module>javabuilder-gtk</module>
-		-->
-    <module>javabuilder-vaadin-parent</module>
-  </modules>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -146,9 +160,25 @@
 				<artifactId>versions-maven-plugin</artifactId>
 				<version>1.2</version>
 				<configuration>
-				    <generateBackupPoms>false</generateBackupPoms>
+					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
 			</plugin>
+
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
 
 		</plugins>
 
@@ -161,20 +191,33 @@
 		</extensions>
 	</build>
 
+	<!--
+	<scm>
+		<connection>scm:git:git@github.com:jacek99/javabuilders.git</connection>
+		<developerConnection>scm:git:git@github.com:jacek99/javabuilders.git</developerConnection>
+		<url>git@github.com:jacek99/javabuilders.git</url>
+	</scm>
+
+	
 	<distributionManagement>
-		<!--
-			<repository> <id>jacek99-releases</id> <name>Nexus Staging Repository</name>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url> </repository> <snapshotRepository>
-			<id>jacek99-snapshots</id> <name>Nexus Snapshot Repository</name>
-			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url> </snapshotRepository>
-		-->
 		<repository>
-			<uniqueVersion>false</uniqueVersion>
+			<id>jacek99-releases</id>
+			<name>Nexus Staging Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>jacek99-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://oss.sonatype.org/content/repositories/jacek99-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	-->
+
+	<distributionManagement>
+		<repository>
 			<id>googlecode</id>
 			<url>svn:https://javabuilders.googlecode.com/svn/repo</url>
 		</repository>
-
 	</distributionManagement>
 
 </project>
-

@@ -15,6 +15,7 @@ import javax.swing.JProgressBar;
 
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildResult;
+import org.javabuilders.annotations.BuildFile;
 import org.javabuilders.event.BackgroundEvent;
 import org.javabuilders.event.CancelStatus;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -26,6 +27,7 @@ import org.javabuilders.util.BuilderUtils;
  * @author Jacek Furmankiewicz
  */
 @SuppressWarnings("serial")
+@BuildFile("BackgroundDialog.yml")
 public class BackgroundDialog extends JDialog {
 	
 	@SuppressWarnings("unused")

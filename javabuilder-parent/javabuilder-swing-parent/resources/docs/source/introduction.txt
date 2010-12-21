@@ -121,7 +121,7 @@ At the time of writing, the latest stable version was:
             <dependency> 
                     <groupId>org.javabuilders</groupId> 
                     <artifactId>javabuilder-swing</artifactId> 
-                    <version>1.0.1</version> 
+                    <version>1.1.0</version> 
             </dependency> 
     </dependencies>
     
@@ -162,7 +162,7 @@ to be in the same source code folder, instead of being split across the *src/mai
                         <source>1.6</source>
                         <target>1.6</target>
                         <includes>
-                            <include>**/*.yaml</include>
+                            <include>**/*.yml</include>
                             <include>**/*.java</include>
                         </includes>
                     </configuration>
