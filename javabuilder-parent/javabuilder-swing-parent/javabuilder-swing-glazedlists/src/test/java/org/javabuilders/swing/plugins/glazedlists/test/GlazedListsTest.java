@@ -5,16 +5,19 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTable;
 
+import org.javabuilders.BuildResult;
 import org.javabuilders.swing.plugin.glazedlists.SwingGlazedListsConfig;
 import org.javabuilders.swing.plugins.glazedlists.test.resource.Book;
 import org.javabuilders.swing.plugins.glazedlists.test.resource.Defect;
 import org.javabuilders.swing.plugins.glazedlists.test.resource.GlazedListPanel;
+import org.javabuilders.swing.util.SwingYamlBuilder;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventListModel;
 import ca.odell.glazedlists.swing.EventTableModel;
@@ -27,6 +30,8 @@ public class GlazedListsTest {
 
 	private EventList<Defect> defects = new BasicEventList<Defect>();
 	
+	private SortedList<Defect> defectsSortedList;
+	
 	@BeforeClass
 	public static void init() {
 		SwingGlazedListsConfig.init();
@@ -35,6 +40,7 @@ public class GlazedListsTest {
 	@Before
 	public void before() {
 		defects.clear();
+		defectsSortedList = null;
 	}
 	
 	@Test
@@ -225,7 +231,56 @@ public class GlazedListsTest {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {}
 		assertEquals(0,table.getModel().getRowCount());
-	}	
+	}
+	
+	/**
+	 * Ensures that the defectsSortedList gets updated properly
+	 * to the reference created during the build process
+	 */
+	@Test
+	public void testSortedListReferenceUpdate_Issue127() {
+		
+		Defect def = new Defect() {{
+			setId(1);
+			setPriority(1);
+			setType("1");
+			setSummary("Test");
+		}};
+		
+		defects.add(def);
+		
+		assertNull(defectsSortedList);
+		
+		BuildResult r = new SwingYamlBuilder("JTable(name=table):") {{
+			___("- EventTableModel(name=tablemodel, source=defects, columns=[id,type,summary],sort=multi)");
+		}}.build(this);
+		
+		assertNotNull(defectsSortedList);
+		assertEquals(1,defectsSortedList.size());
+		assertEquals(def,defectsSortedList.get(0));
+		
+	}
+	
+	@Test
+	public void testSortedListUseExistingInstance_Issue127() {
+		Defect def = new Defect() {{
+			setId(1);
+			setPriority(1);
+			setType("1");
+			setSummary("Test");
+		}};
+		
+		defects.add(def);
+		defectsSortedList = new SortedList<Defect>(defects);
+		SortedList<Defect> origReference = defectsSortedList;
+		
+		BuildResult r = new SwingYamlBuilder("JTable(name=table):") {{
+			___("- EventTableModel(name=tablemodel, source=defects, columns=[id,type,summary],sort=multi)");
+		}}.build(this);
+		
+		assertNotNull(defectsSortedList);
+		assertEquals(origReference,defectsSortedList);
+	}
 	
 
 }

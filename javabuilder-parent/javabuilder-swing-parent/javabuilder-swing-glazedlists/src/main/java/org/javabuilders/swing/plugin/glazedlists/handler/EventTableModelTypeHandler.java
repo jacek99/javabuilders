@@ -101,7 +101,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 			}
 			LinkedHashMap<String, String> columnNames = getColumnNamesAndHeaders(process, typeDefinition, cols, type);
 			TableFormat tableFormat = createTableFormat(parent, type, typeDefinition, cols, columnNames);
-			EventTableModel instance =  setupModel(process, typeDefinition, table, list, cols, type,tableFormat);
+			EventTableModel instance =  setupModel(process, typeDefinition, table, list, cols, type,tableFormat, source);
 			return useExistingInstance(config, process, parent, key, typeDefinition, instance);
 		} catch (BuildException ex) {
 			throw ex;
@@ -257,7 +257,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 	// figures out if the actual source is the raw data, SortedList or a FilterList wrapper
 	@SuppressWarnings({ "unchecked", "unused" })
 	private EventTableModel setupModel(BuildProcess process, Map<String, Object> typeDefinition, 
-			JTable table, EventList source, List<Map<String, Object>> cols, Class<?> type, TableFormat format) {
+			JTable table, EventList source, List<Map<String, Object>> cols, Class<?> type, TableFormat format,String sourceName) {
 		EventList actualSource = source;
 		SortedList sortedList = null;
 		Object sortedChooser = null;
@@ -267,7 +267,17 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		List<String> sortedColumns = (List<String>) typeDefinition.get(SORT_BY);
 		// SORTING
 		if (SORT_SINGLE.equals(sort) || SORT_MULTI.equals(sort)) {
-			sortedList = new SortedList(actualSource);
+			
+			//attempt to use an existing sorted list, if defined (Issue # 127)
+			String sortedListName = sourceName + "SortedList";
+			
+			sortedList = (SortedList) BuilderUtils.getExistingInstanceIfAvailable(process.getCaller(), SortedList.class, process.getConfig(), sortedListName);
+			if (sortedList == null) {
+				//not found, we will create a default one
+				sortedList = new SortedList(actualSource);
+				process.getBuildResult().put(sortedListName, sortedList);
+			}
+			
 			//handle sorted columns, if specified
 			if (sortedColumns != null && sortedColumns.size() > 0) {
 				Comparator c = CompilerUtils.newComparator(type, sortedColumns);

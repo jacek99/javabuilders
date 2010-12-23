@@ -27,7 +27,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.javabuilders.BuildException;
 import org.javabuilders.BuildProcess;
 import org.javabuilders.BuildResult;
@@ -956,27 +955,42 @@ public class BuilderUtils {
 		Object instance = null;
 
 		if (caller != null) {
-			Map<String, Field> fields = getAllFields(caller.getClass());
 			String name = config.getNameIfAvailable(data);
-			if (name != null) {
-				Object possible = null;
-				try {
-					if (fields.containsKey(name)) {
-						possible = fields.get(name).get(caller);
-					}
-				} catch (Exception e) {
-					throw new BuildException(e, "Failed to get value for {0}: {1}", name, e.getMessage());
-				}
+			instance = getExistingInstanceIfAvailable(caller, expectedClass, config, name);
+		}
 
-				if (possible != null) {
-					if (expectedClass.isAssignableFrom(possible.getClass())) {
-						// class types are compatible
-						instance = possible;
-					} else {
-						throw new BuildException(
-								"Found a variable called {0}, but it was of incompatible type {1}, instead of the expected {2}",
-								name, possible.getClass(), expectedClass);
-					}
+		return instance;
+	}
+	
+	/**
+	 * Attempts to find an existing instance
+	 * 
+	 * @param caller
+	 * @return
+	 */
+	public static Object getExistingInstanceIfAvailable(Object caller, Class<?> expectedClass, BuilderConfig config, String name) {
+
+		Object instance = null;
+
+		if (caller != null && name != null) {
+			Map<String, Field> fields = getAllFields(caller.getClass());
+			Object possible = null;
+			try {
+				if (fields.containsKey(name)) {
+					possible = fields.get(name).get(caller);
+				}
+			} catch (Exception e) {
+				throw new BuildException(e, "Failed to get value for {0}: {1}", name, e.getMessage());
+			}
+
+			if (possible != null) {
+				if (expectedClass.isAssignableFrom(possible.getClass())) {
+					// class types are compatible
+					instance = possible;
+				} else {
+					throw new BuildException(
+							"Found a variable called {0}, but it was of incompatible type {1}, instead of the expected {2}",
+							name, possible.getClass(), expectedClass);
 				}
 			}
 		}

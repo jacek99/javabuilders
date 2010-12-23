@@ -115,7 +115,7 @@ Java code to hold the master list of objects and point the EventTableModel.sourc
                     
  When you add/remove items in your EventList, they will automatically be propagated to the JTable EventTableModel.
  
-**Controlling table columns**
+**Controlling table columns**BasicEventList
 
 The sample code shown above displays by default all properties that can be found in the Person POJO
 as table columns. Usually though you would want to maintain some control over that, as well as customize 
@@ -203,3 +203,18 @@ In order to specify a pre-defined initial sort, pass in the list of column names
 .. note::
  
    The example above should a be a single line in your YAML file (it's wrapped around here purely for display purposes).
+    
+**Accessing the SortedList**
+   
+When applying the ``sort`` functionality, Swing JavaBuilder automatically creates a new GlazedLists ``SortedList``
+or re-uses an existing one, if named properly.
+    
+The naming convention to use is the name of the source ``EventList`` with a "SortedList" suffix, e.g:    
+
+.. code-block:: java
+    
+    private EventList<MyPojo> pojos = new BasicEventList<MyPojo>();
+    private SortedList<MyPojo> pojosSortedList;
+     
+If the sorted list reference is null during the build time, it will get updated to the reference that was auto-created.
+If it is not null, the existing reference will be re-used instead of creating a new one.

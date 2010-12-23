@@ -262,12 +262,8 @@ All we have to do is define a prototype YAML definition in our ``main()`` method
 
 .. code-block:: java
 
-<<<<<<< HEAD
-    SwingJavaBuilder.getConfig().prototype("JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
-=======
     SwingJavaBuilder.getConfig().prototype(
         "JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
->>>>>>> dev
     
 And we just refer to that prototype by prefixing it's name with ``$`` in the *MigLayout* section, e.g.::
 
@@ -294,20 +290,6 @@ Here's how it would look implemented in the Swing JavaBuilder:
 
 *YAML*::
 
-<<<<<<< HEAD
-     JPanel:
-          - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
-          - MigLayout: |
-              [200,grow]            [right]          [200,grow]                           [200,grow]
-              scroll1+1+*          "Last name:"      txtLName        "First Name"         txtFName
-                                   "Phone:"          txtPhone        "Email:"+2,txtEmail
-                                   "Address 1:"      txtAddress1+*
-                                   "Address 2:"      txtAddress2+*
-                                   "City:"           txtCity
-                                   "State:"          txtState        "Postal Code:"       txtPostal
-                                   "Country:"        txtCountry
-                                   ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1    [grow]
-=======
     JPanel:
       - JScrollPane(name=scroll1): JTextArea(name=source,font=Monospaced,editable=false)
       - MigLayout: |
@@ -320,7 +302,6 @@ Here's how it would look implemented in the Swing JavaBuilder:
                          "State:"       txtState        "Postal Code:"       txtPostal
                          "Country:"     txtCountry
                          ^|btnNew+*=1,^btnDelete=1,^btnEdit=1,^btnSave=1,^btnCancel=1  [grow]
->>>>>>> dev
 
 MigLayout
 ---------
