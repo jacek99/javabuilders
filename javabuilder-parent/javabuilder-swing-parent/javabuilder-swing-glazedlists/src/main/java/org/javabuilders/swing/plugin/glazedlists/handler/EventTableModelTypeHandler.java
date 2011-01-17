@@ -269,7 +269,7 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 		if (SORT_SINGLE.equals(sort) || SORT_MULTI.equals(sort)) {
 			
 			//attempt to use an existing sorted list, if defined (Issue # 127)
-			String sortedListName = sourceName + "SortedList";
+			String sortedListName = sourceName + "Sorted";
 			
 			sortedList = (SortedList) BuilderUtils.getExistingInstanceIfAvailable(process.getCaller(), SortedList.class, process.getConfig(), sortedListName);
 			if (sortedList == null) {

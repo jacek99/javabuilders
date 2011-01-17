@@ -30,7 +30,7 @@ public class GlazedListsTest {
 
 	private EventList<Defect> defects = new BasicEventList<Defect>();
 	
-	private SortedList<Defect> defectsSortedList;
+	private SortedList<Defect> defectsSorted;
 	
 	@BeforeClass
 	public static void init() {
@@ -40,7 +40,7 @@ public class GlazedListsTest {
 	@Before
 	public void before() {
 		defects.clear();
-		defectsSortedList = null;
+		defectsSorted = null;
 	}
 	
 	@Test
@@ -249,15 +249,15 @@ public class GlazedListsTest {
 		
 		defects.add(def);
 		
-		assertNull(defectsSortedList);
+		assertNull(defectsSorted);
 		
 		BuildResult r = new SwingYamlBuilder("JTable(name=table):") {{
 			___("- EventTableModel(name=tablemodel, source=defects, columns=[id,type,summary],sort=multi)");
 		}}.build(this);
 		
-		assertNotNull(defectsSortedList);
-		assertEquals(1,defectsSortedList.size());
-		assertEquals(def,defectsSortedList.get(0));
+		assertNotNull(defectsSorted);
+		assertEquals(1,defectsSorted.size());
+		assertEquals(def,defectsSorted.get(0));
 		
 	}
 	
@@ -271,15 +271,15 @@ public class GlazedListsTest {
 		}};
 		
 		defects.add(def);
-		defectsSortedList = new SortedList<Defect>(defects);
-		SortedList<Defect> origReference = defectsSortedList;
+		defectsSorted = new SortedList<Defect>(defects);
+		SortedList<Defect> origReference = defectsSorted;
 		
 		BuildResult r = new SwingYamlBuilder("JTable(name=table):") {{
 			___("- EventTableModel(name=tablemodel, source=defects, columns=[id,type,summary],sort=multi)");
 		}}.build(this);
 		
-		assertNotNull(defectsSortedList);
-		assertEquals(origReference,defectsSortedList);
+		assertNotNull(defectsSorted);
+		assertEquals(origReference,defectsSorted);
 	}
 	
 

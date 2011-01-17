@@ -209,12 +209,12 @@ In order to specify a pre-defined initial sort, pass in the list of column names
 When applying the ``sort`` functionality, Swing JavaBuilder automatically creates a new GlazedLists ``SortedList``
 or re-uses an existing one, if named properly.
     
-The naming convention to use is the name of the source ``EventList`` with a "SortedList" suffix, e.g:    
+The naming convention to use is the name of the source ``EventList`` with a "Sorted" suffix, e.g:    
 
 .. code-block:: java
     
     private EventList<MyPojo> pojos = new BasicEventList<MyPojo>();
-    private SortedList<MyPojo> pojosSortedList;
+    private SortedList<MyPojo> pojosSorted;
      
 If the sorted list reference is null during the build time, it will get updated to the reference that was auto-created.
 If it is not null, the existing reference will be re-used instead of creating a new one.
