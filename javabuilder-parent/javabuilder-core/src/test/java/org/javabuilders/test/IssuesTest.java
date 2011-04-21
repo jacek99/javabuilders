@@ -219,5 +219,26 @@ public class IssuesTest {
 		}
 	}
 	
+	@Test
+	public void issue132_germanResources() {
+		
+		try {
+			ResourceBundle base = ResourceBundle.getBundle(Builder.RESOURCE_BUNDLE);
+			Enumeration<String> en = base.getKeys();
+			Locale.setDefault(Locale.GERMAN);
+			for(String key : base.keySet()) {
+				String english = base.getString(key);
+				String german = ResourceBundle.getBundle(Builder.RESOURCE_BUNDLE).getString(key);
+				
+				if (!key.equals("title.confirmation")) {
+					assertFalse("Key is not translated into German: " + key, english.equals(german));
+				}
+			}
+		} finally {
+			Locale.setDefault(Locale.ENGLISH);
+		}
+	}
+
+	
 	
 }

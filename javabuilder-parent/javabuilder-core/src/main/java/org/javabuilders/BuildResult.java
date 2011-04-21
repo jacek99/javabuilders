@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -258,29 +259,27 @@ public class BuildResult extends HashMap<String, Object> {
 		
 		//look in the process bundles first
 		for(ResourceBundle bundle : getResourceBundles()) {
-			for(Enumeration<String> en = bundle.getKeys(); en.hasMoreElements();) {
-				String bundleKey = en.nextElement();
-				if (key.equals(bundleKey)) {
-					resource = bundle.getString(key);
-					break;
-				}
+			try {
+				resource = bundle.getString(key);
+				break;
+			} catch (MissingResourceException ex) {
+				// intentionally ignored; continue with lookup
 			}
 		}
 		
 		//look in the global bundles next
 		if (resource == null) {
 			for(ResourceBundle bundle : config.getResourceBundles()) {
-				for(Enumeration<String> en = bundle.getKeys(); en.hasMoreElements();) {
-					String bundleKey = en.nextElement();
-					if (key.equals(bundleKey)) {
-						resource = bundle.getString(key);
-						break;
-					}
+				try {
+					resource = bundle.getString(key);
+					break;
+				} catch (MissingResourceException ex) {
+					// intentionally ignored; continue with lookup
 				}
 			}
 		}
 
-		//look in base resource  bundle last
+		//look in base resource bundle last
 		if (resource == null) {
 			try {
 				if (defaultBundle == null) {
