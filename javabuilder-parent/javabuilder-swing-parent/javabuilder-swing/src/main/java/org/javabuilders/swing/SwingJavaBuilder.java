@@ -5,8 +5,14 @@ package org.javabuilders.swing;
 
 import java.util.ResourceBundle;
 
+import javax.swing.UIManager;
+
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
+import org.javabuilders.util.BuilderUtils;
+import org.javabuilders.util.BuilderUtils.OperatingSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Swing Builder
@@ -16,6 +22,7 @@ import org.javabuilders.Builder;
 public class SwingJavaBuilder  {
 
 	private static SwingJavaBuilderConfig config = new SwingJavaBuilderConfig();
+	private static final Logger LOG = LoggerFactory.getLogger(SwingJavaBuilder.class);
 	
 	public final static String VGAP = "vgap";
 	public final static String HGAP = "hgap";
@@ -101,6 +108,26 @@ public class SwingJavaBuilder  {
 	 */
 	public static BuildResult build(Object caller, String yaml, ResourceBundle...bundles)  {
 		return Builder.buildFromString(getConfig(),caller, yaml, bundles);
+	}
+	
+	/**
+	 * Workaround for buggy Sun logic where under certain Linux desktops the GTK+ look is not activated
+	 */
+	public static void initSystemLookAndFeel() {
+		try {
+			String lf = UIManager.getSystemLookAndFeelClassName();
+			if (BuilderUtils.getOS() == OperatingSystem.LinuxUnix) {
+				//always use GTK+ theme, even under XFCE in Linux
+				lf = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+			}
+			UIManager.setLookAndFeel(lf);
+		} catch (Exception ex) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (Exception e) {
+				LOG.error("Unable to set proper L&F",e);
+			}
+		}
 	}
 	
 }

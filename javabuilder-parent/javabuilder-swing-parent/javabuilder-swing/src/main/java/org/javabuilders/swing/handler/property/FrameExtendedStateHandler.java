@@ -92,7 +92,7 @@ public class FrameExtendedStateHandler extends AbstractPropertyHandler implement
 			
 			switch (state) {
 			case Frame.MAXIMIZED_BOTH:
-				frame.setSize(screenRect.width, screenRect.width);
+				frame.setSize(screenRect.width, screenRect.height);
 				break;
 			case Frame.MAXIMIZED_HORIZ:
 				frame.pack();

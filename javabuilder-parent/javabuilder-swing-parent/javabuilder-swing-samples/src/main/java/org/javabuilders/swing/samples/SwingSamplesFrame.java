@@ -29,12 +29,8 @@ public class SwingSamplesFrame extends JFrame {
 	//common init, used by unit tests as well
 	public static void init() {
     	try {
-    		try {
-    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-    		} catch (Exception ex) {
-    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    		}
+    		
+    		SwingJavaBuilder.initSystemLookAndFeel();
     		
     		//register global resource bundle
     		SwingGlazedListsConfig.init();
