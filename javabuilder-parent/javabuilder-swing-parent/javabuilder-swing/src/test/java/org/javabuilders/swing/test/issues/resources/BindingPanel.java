@@ -15,6 +15,7 @@ public class BindingPanel extends JPanel {
 	public JTextField author;
 	public JTextField title;
 	public JTextField price;
+	public JTextField author139; //issue 139
 	
 	public BindingPanel() {
 		SwingJavaBuilder.build(this);

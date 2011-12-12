@@ -706,4 +706,24 @@ but *before* the BBB *bind()* is called.
                     
                 }
             });
- 
+
+
+Using special binding properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+BBB allows you to specify extra parameters that control how the bound objects
+are updated when the UI changes::
+
+	JPanel:
+	     - JTextField(name=author)
+	     - JTextField(name=title)
+	     - JTextField(name=price)
+	bind:
+	     - author.text: this.book.author_ON_FOCUS_LOST
+	     - title.text: this.book.title
+	     - price.text: ${this.book.price}
+	    
+In the example above, the content of the *author* text field will only update
+its bound property when the focus is lost.
+
+Full list of properties and what controls they apply to is documented:
+http://netbeans.org/kb/docs/java/gui-binding.html#prop-synth

@@ -1,6 +1,8 @@
 package org.javabuilders.swing.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,9 +24,9 @@ import org.javabuilders.swing.test.resources.Author;
 import org.javabuilders.swing.test.resources.AuthorsPanel;
 import org.javabuilders.swing.test.resources.BooksPanel;
 import org.javabuilders.swing.util.SwingYamlBuilder;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.JTableBinding;
@@ -54,11 +56,11 @@ public class DataBindingTest {
 		books.clear();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testJComboBoxBeansBinding() {
 		JComboBox box = new JComboBox();
 	
+		@SuppressWarnings("rawtypes")
 		JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(UpdateStrategy.READ_WRITE,
 				books, box);
 		binding.bind();		
@@ -94,7 +96,7 @@ public class DataBindingTest {
 	public void testJListBeansBinding() {
 		JList list = new JList();
 		
-		JListBinding binding = SwingBindings.createJListBinding(UpdateStrategy.READ_WRITE, books, list);
+		JListBinding<Book, ?, ?> binding = SwingBindings.createJListBinding(UpdateStrategy.READ_WRITE, books, list);
 		binding.bind();
 		
 		assertEquals(books.size(),list.getModel().getSize());
@@ -180,6 +182,7 @@ public class DataBindingTest {
 		col.setHeaderValue("Author Column");
 		table.getColumnModel().addColumn(col);
 		
+		@SuppressWarnings("rawtypes")
 		JTableBinding bind = SwingBindings.createJTableBinding(UpdateStrategy.READ_WRITE, books, table);
 		bind.addColumnBinding(0, BeanProperty.create("author")).setColumnClass(String.class).setEditable(true);
 		bind.addColumnBinding(1, BeanProperty.create("title")).setColumnClass(String.class).setEditable(true);
@@ -210,6 +213,7 @@ public class DataBindingTest {
 		BooksPanel panel = new BooksPanel();
 		panel.setBooks(books);
 		
+		@SuppressWarnings("unused")
 		BuildResult r = new SwingYamlBuilder("JPanel:") {{
 			___("- JTable(name=list)");
 			bind();
@@ -218,6 +222,7 @@ public class DataBindingTest {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testPOJOBinding() throws InterruptedException {
 		
@@ -274,9 +279,14 @@ public class DataBindingTest {
 			assertEquals("Stanislaw Lem", p.author.getText());
 			assertEquals("Przygody pilota Pirxa", p.title.getText());
 			assertEquals("9.99", p.price.getText());
+
+			//test from UI to POJO with synthetic BBB properties (issue 139)
+			//since ON_FOCUS_LOST was not triggered, value should not have been updated
+			p.author139.setText("Charles Darwin");
+			assertEquals("Stanislaw Lem", p.getBook().getAuthor());
 			
 			//assert binding listeners were fired
-			assertEquals("Binding listeners were not fired",3,counter.get());
+			assertEquals("Binding listeners were not fired",4,counter.get());
 			
 		} finally {
 			SwingJavaBuilder.getConfig().removeBindingListener(listener);

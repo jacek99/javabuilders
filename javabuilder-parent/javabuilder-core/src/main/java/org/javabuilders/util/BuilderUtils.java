@@ -63,7 +63,7 @@ public class BuilderUtils {
 
 	// should accept both ${propertyName} and ${object.propertyName}
 	private static Pattern elPattern = Pattern.compile("[${][a-z][a-zA-Z0-9]*(\\.?[a-z][a-zA-Z0-9]*)*}"); // check for EL pattern
-	private static String beanPattern = "[a-zA-Z][a-zA-Z09]*(\\.?[a-z]?[a-zA-Z0-9]*)*"; // check bean pattern:either 
+	private static String beanPattern = "[a-zA-Z][a-zA-Z09]*(\\.?[a-z]?[a-zA-Z0-9_]*)*"; // check bean pattern:either 
 	// "propertyName"
 	// or
 	// "object.propertyName"
