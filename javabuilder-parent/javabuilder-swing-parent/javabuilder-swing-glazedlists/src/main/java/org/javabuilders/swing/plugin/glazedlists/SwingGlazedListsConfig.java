@@ -15,11 +15,17 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * Init for GlazedLists plugin
  */
 public class SwingGlazedListsConfig {
+	
+	private static boolean initDone = false;
+	
 	/**
 	 * Adds GlazedLists support
 	 */
 	public static void init() {
-		init(SwingJavaBuilder.getConfig());
+		if (!initDone) {
+			init(SwingJavaBuilder.getConfig());
+			initDone = true;
+		}
 	}
 
 	/**

@@ -3,11 +3,10 @@
  */
 package org.javabuilders.swing.plugin.glazedlists.handler;
 
-import static org.javabuilders.swing.handler.type.TableColumnTypeHandler.*;
-import static org.javabuilders.util.Preconditions.*;
+import static org.javabuilders.swing.handler.type.TableColumnTypeHandler.EDITABLE;
+import static org.javabuilders.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,6 +43,7 @@ import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.TextFilterator;
 import ca.odell.glazedlists.gui.TableFormat;
+import ca.odell.glazedlists.impl.beans.BeanTableFormat;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
@@ -135,63 +135,20 @@ public class EventTableModelTypeHandler extends AbstractTypeHandler implements I
 	}
 
 	// creates the TableFormat class
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private TableFormat<?> createTableFormat(Node parent, Class<?> type, Map<String,Object> typeDefinition, 
 			List<Map<String, Object>> cols, final LinkedHashMap<String, String> columnNames) {
 
-		final String[] names = columnNames.keySet().toArray(new String[columnNames.keySet().size()]);
-		Integer[] editable = getEditableColumnIndexes(typeDefinition, cols);
-		
-		Class<?> formatClass = (editable.length == 0) ? BaseTableFormat.class : BaseWritableTableFormat.class;
+        final Integer[] editable = getEditableColumnIndexes(typeDefinition, cols);
+        final String[] names = columnNames.keySet().toArray(new String[columnNames.size()]);
+        final String[] headers = columnNames.values().toArray(new String[columnNames.size()]);
 
-		StringBuilder bld = new StringBuilder();
-		
-		//create the getColumnValue method body
-		String className = CompilerUtils.generateClassName(formatClass);
-		
-		//bld.append(CompilerUtils.generateClassSignature(className, formatClass));
-		bld.append("public Object getColumnValue(Object instance, int index) {\n");
-		bld.append(type.getName()).append(" object = (").append(type.getName()).append(")instance;\n");
-		bld.append("   switch(index) {\n");
-		for(int i = 0; i < names.length; i++) {
-			bld.append("   case ").append(i).append(": return object.").append(PropertyUtils.getGetterName(names[i])).append("();\n");
-		}
-		bld.append("   default: return null;"); //should never be reached
-		bld.append("   }\n");
-		bld.append("}");
+        final boolean[] ed = new boolean[names.length];
+        for(Integer i : editable) {
+            ed[i] = true;
+        }
 
-		if (formatClass.equals(BaseWritableTableFormat.class)) {
-			//writable format - need to define setColumnValue method as well
-			bld.append("public Object setColumnValue(").append(type.getName()).append(" baseObject, Object newValue, int column) {");
-			//Method setter = type.getMethod(PropertyUtils, parameterTypes)
-			bld.append("   switch(column) {");
-			for(Integer column : editable) {
-				String getterName = PropertyUtils.getGetterName(names[column]);
-				Method getter;
-				try {
-					getter = type.getMethod(getterName);
-				} catch (Exception e) {
-					throw new BuildException("Unable to get getter method {0} for {1}: {2}", getterName,type,typeDefinition);
-				} 
-				Class<?> columnType = getter.getReturnType();
-				bld.append("   case ").append(column).append(": baseObject.")
-					.append(PropertyUtils.getSetterName(names[column])).append("((").append(columnType.getName())
-					.append(")newValue);");
-			}
-			bld.append("   }");
-			bld.append("}\n}");
-		}
-		
-		try {
-			BaseTableFormat f = (BaseTableFormat) CompilerUtils.compile(className, bld.toString(),BaseTableFormat.class).newInstance();
-			f.setColumns(columnNames);
-			if (f instanceof BaseWritableTableFormat) {
-				BaseWritableTableFormat wf = (BaseWritableTableFormat) f;
-				wf.setEditableColumnIndexes(Arrays.asList(editable));
-			}
-			return f;
-		} catch (Exception e) {
-			throw new BuildException("Failed to compile TableFormat for GlazedLists filtering: {0}\n{1}",e.getMessage(),bld.toString());
-		}
+        return new BeanTableFormat(type, names, headers, ed);
 	}
 
 	// looks at raw data to figure out which column it goes to
