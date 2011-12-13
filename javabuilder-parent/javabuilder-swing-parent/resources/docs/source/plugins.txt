@@ -115,7 +115,7 @@ Java code to hold the master list of objects and point the EventTableModel.sourc
                     
  When you add/remove items in your EventList, they will automatically be propagated to the JTable EventTableModel.
  
-**Controlling table columns**BasicEventList
+**Controlling table columns**
 
 The sample code shown above displays by default all properties that can be found in the Person POJO
 as table columns. Usually though you would want to maintain some control over that, as well as customize 
@@ -218,3 +218,20 @@ The naming convention to use is the name of the source ``EventList`` with a "Sor
      
 If the sorted list reference is null during the build time, it will get updated to the reference that was auto-created.
 If it is not null, the existing reference will be re-used instead of creating a new one.
+
+**Editable tables**
+
+You need to set the 'EventTableModel.editable' property to *true*, define all your 'TableColumn' columns and if required,
+define custom cell editors for them::
+
+	- JScrollPane(name=documentsScrollPane):
+	    JTable(name=documentsTable, popupMenu=docsPopup):
+	        - EventTableModel(name=documentsModel, source=documentsList, sort=single, sortBy=[insertedDate], editable=true)
+	        - TableColumn(name=name,headerValue=Name, editable=false)
+	        - TableColumn(name=owner,headerValue=Owner)
+	        - TableColumn(name=insertedDate,headerValue=Inserted Date, editable=false)
+	        - TableColumn(name=startDate,headerValue=Start Date):
+	            - JXDatePickerCellEditor(name=docsStartDatePicker)
+	        - TableColumn(name=endDate,headerValue=Expires Date):
+	            - JXDatePickerCellEditor(name=docsEndDatePicker)
+	        - TableColumn(name=selected,headerValue=Synch)
