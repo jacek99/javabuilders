@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>javabuilder-parent</artifactId>
 		<groupId>org.javabuilders</groupId>
-		<version>1.2.2</version>
+		<version>1.2.3</version>
 	</parent>
 	<groupId>org.javabuilders</groupId>
 	<artifactId>javabuilder-swing</artifactId>
