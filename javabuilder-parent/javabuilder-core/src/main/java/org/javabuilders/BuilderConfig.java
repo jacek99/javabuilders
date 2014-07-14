@@ -602,7 +602,7 @@ public class BuilderConfig {
 		
 		if (name.matches(GLOBAL_VARIABLE_REGEX)) {
 
-			if (globals.containsKey(globals)) {
+			if (globals.containsKey(name)) {
 				throw new BuildException("A global variable {0} already exists", name); 
 			} else {
 				globals.put(name, value);
