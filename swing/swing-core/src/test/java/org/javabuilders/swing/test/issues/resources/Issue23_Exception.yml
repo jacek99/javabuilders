@@ -1,0 +1,32 @@
+JFrame(name=framePreisliste, title="Preisliste", size=800x493, defaultCloseOperation=disposeOnClose):
+    - JPanel(name=panelMain):
+        - JLabel(name="lblPreisliste", text="Preisliste")
+        - JComboBox(name="cboPreisliste")
+        - JScrollPane(name="scrollPane"):
+            JTable(name="tablePreise")
+        - JButton(name="cbNeu", text="Neu")
+        - JButton(name="cbSpeichern", text="Speichern")
+        - JButton(name="cbLoeschen", text="Lschen")     
+        - JButton(name="cbDrucken", text="Drucken")     
+        - JButton(name="cbNachExcel", text="Excel Export")           
+        - JButton(name="cbBeenden", text="Schlie§en")      
+        - JButton(name="cbUmbenennen", text="Umbenennen")  
+        - JButton(name="cbPreisNeu", text="")    
+        - JButton(name="cbPreisLoeschen", text="")                
+        - MigLayout: |
+                [[insets 8] 
+                [100]           [200,grow]                                          [140]   
+                lblPreisliste   cboPreisliste                                                                     [pref] 10                                                                                                                                                                                                                                       
+                scrollPane+2+*                                                      >^cbNeu=1                      
+                                                                                    >^cbSpeichern=1
+                                                                                    >^cbLoeschen=1  
+                                                                                    >^cbUmbenennen=1 
+                                                                                    >^cbNachExcel=1     
+                                                                                    >^cbDrucken=1                 [grow 4000] 
+                >/cbPreisLoeschen,>/cbPreisNeu                                      >/cbBeenden=1                 [grow]             
+                {cbNeu: "w 120!"}
+                {cbUmbenennen: "gaptop 15"}
+                {cbDrucken: "gaptop 15"}
+                {scrollPane: "gapbottom 5"}
+                {lblPreisliste: "gaptop 10"}
+                {cboPreisliste: "gaptop 10"}

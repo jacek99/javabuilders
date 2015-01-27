@@ -1,0 +1,43 @@
+JPanel:
+    - JSplitPane(name=split1):
+        - JPanel(name=rulePanel):
+            - JTextField(name=nameField, text=MigLayout in debug mode)
+            - JBSeparator(name=parentReferences,text=Parent References)
+            - JScrollPane(name=scrollPane): JList(name=parentRefList)
+            - JButton(name=addParent, text=Add Parent)
+            - JButton(name=deleteParent, text=Delete Parent)
+            - JButton(name=moveUp, text=Move Up)
+            - JButton(name=moveDown, text=Move Down)
+            - JBSeparator(name=childReferences,text=Child References)
+            - JScrollPane(name=childRefScroll):  JList(name=childRefList)
+            - JButton(name=addChild, text=Add Parent)
+            - JButton(name=deleteChild, text=Delete Parent)
+            - JButton(name=moveChildUp, text=Move Up)
+            - JButton(name=moveChildDown, text=Move Down)
+            - JButton(name=dependents, text=Dependents)
+            - JButton(name=save, text=Save)
+            - JButton(name=cancel, text=Cancel)
+            - MigLayout: |
+                 [[debug]]
+                 []                  [grow]           [pref]        [grow]
+                 "Name:"=3x          nameField+*
+                 "Iterator Type:"    txtItType=1      "Abstract:"   cbxAbstract  
+                 "Inherits:"=3x      txtInherits=1    "Bean:"       txtBean=1
+                 parentReferences+*
+                 scrollPane+*                                                                      [grow,200px]
+                 |addParent+*=2,deleteParent=2,moveUp=2,moveDown=2         
+                 childReferences+*
+                 childRefScroll+*                                                                  [grow,200px]
+                 |addChild+*=3,deleteChild=3,moveChildUp=3,moveChildDown=3 [] 16lp
+                 |dependents+*=4,save=4,cancel=4
+        - JPanel(name=sourcePanel):
+            - JScrollPane(name=scrollSource): JTextArea(name=source,editable=false,font=Monospaced)
+            - MigLayout: |
+               [grow]
+               "YAML source:"
+               scrollSource [grow]
+    - MigLayout: |
+         [grow]
+         split1 [grow]    
+bind:
+     - source.text: this.yaml                                  

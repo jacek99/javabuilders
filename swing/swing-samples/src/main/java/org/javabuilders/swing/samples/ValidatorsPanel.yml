@@ -1,0 +1,53 @@
+JPanel:
+    - JSplitPane(name=split1):
+        - JPanel(name=panel1):
+            - JTextField(name=mandatory)
+            - JButton(name=validate1,text=Validate All, onAction=$validate)
+            - JButton(name=validate2,text=Confirm & Validate All, onAction=[$confirm,$validate])
+            - JTextField(name=date)
+            - JTextField(name=email)
+            - JTextField(name=minmax)
+            - JTextField(name=regex)
+            - JTextField(name=regex2)
+            - JTextField(name=minMax)
+            - JTextField(name=int, horizontalAlignment=right) # full property name
+            - JTextField(name=long, hAlign=right)  # hAlign alias property
+            - JTextField(name=short, hAlign=right)
+            - JTextField(name=byte, hAlign=right)
+            - JTextField(name=double, hAlign=right)
+            - JTextField(name=float, hAlign=right)
+            - MigLayout: |
+                [pref,right]                                     [200:min,grow]  [pref]
+                "Mandatory (*):"                                 mandatory       validate1+1+2=1
+                "Date (yyyy/mm/dd):"                             date            validate2=1
+                "Email:"                                         email           
+                "Min/Max Length (5-10):"                         minmax
+                "Regex (numbers and letters):"                   regex
+                "Regex (numbers and letters) with custom msg:"   regex2
+                "Min/Max Long Value (5-50):"                     minMax
+                "Int:"                                           int
+                "Long:"                                          long
+                "Short:"                                         short
+                "Byte:"                                          byte
+                "Double:"                                        double
+                "Float:"                                         float
+        - JScrollPane(name=scroll1): JTextArea(name=source,editable=false, font=Monospaced)
+    - MigLayout: |
+        [grow]
+        split1   [grow]
+bind:
+    - source.text: this.yaml
+validate:
+    - mandatory.text: {label: Mandatory Field, mandatory: true}
+    - date.text: {label: Date Field, dateFormat: "yyyy/mm/dd"}
+    - email.text: {label: E-Mail, email: true}
+    - minmax.text: {label: Min/Max Length, minLength: 5, maxLength: 10}
+    - regex.text: {label: Regex, regex: "[a-zA-Z0-9]+"}
+    - regex2.text: {label: Regex, regex: "[a-zA-Z0-9]+", regexMessage: "''{0}'' must be a number or letter"}
+    - minMax.text: {label: Min/Max Long, minValue: 5, maxValue: 50}
+    - int.text: {label: Integer, type: int}
+    - long.text: {label: Long, type: long}
+    - short.text: {label: Short, type: long}
+    - byte.text: {label: Byte, type: byte}
+    - double.text: {label: Double, type: double}
+    - float.text: {label: Float, type: float}

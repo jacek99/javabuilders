@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":swing:swing-core")
+    compile project(":swing:swing-glazedlists")
+}

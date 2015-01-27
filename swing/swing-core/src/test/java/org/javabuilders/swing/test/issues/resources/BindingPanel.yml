@@ -1,0 +1,10 @@
+JPanel:
+     - JTextField(name=author)
+     - JTextField(name=title)
+     - JTextField(name=price)
+     - JTextField(name=author139)
+bind:
+     - author.text: this.book.author
+     - author139.text: this.book.author_ON_FOCUS_LOST
+     - title.text: this.book.title
+     - price.text: ${this.book.price}

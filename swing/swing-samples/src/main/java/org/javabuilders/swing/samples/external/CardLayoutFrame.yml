@@ -1,0 +1,71 @@
+JFrame(size=packed, title=frame.title, onWindowClosing=exitApplication):
+    - JTabbedPane(name=tabs):
+        - JPanel(name=schemaTab, tabTitle=schemaTab.title):
+            - JLabel(name=urlLbl, text=urlLbl.text)
+            - JLabel(name=namespaceLbl, text=namespaceLbl.text)
+            - JLabel(name=rootElementLbl, text=rootElementLbl.text)
+            - JLabel(name=outputFolderLbl, text=outputFolderLbl.text)
+            - JLabel(name=filenamePrefixLbl, text=filenamePrefixLbl.text)
+            - JLabel(name=extensionLbl, text=extensionLbl.text)
+            - JLabel(name=numInstancesLbl, text=numInstancesLbl.text)
+            - JTextField(name=url)
+            - JTextField(name=namespace, enabled=false)
+            - JComboBox(name=rootElement, enabled=false)
+            - JTextField(name=outputFolder, enabled=false)
+            - JTextField(name=filenamePrefix, enabled=false)
+            - JTextField(name=extension, text=".xml", enabled=false)
+            - JTextField(name=numInstances, text="1", enabled=false)
+            - JButton(name=urlSubmit, text=urlSubmit.text, onAction=urlSubmit)
+            - JButton(name=outputFolderSubmit, text=outputFolderSubmit.text, onAction=outputFolderSubmit, enabled=false)
+            - JButton(name=exitSubmit, text=exitSubmit.text, onAction=exitApplication)
+            - JButton(name=generateSubmit, text=Click Me, enabled=true, onAction=showProgress)
+            - MigLayout: | 
+                [push]            [grow]          [pref]                [80]
+                urlLbl            url+*           >urlSubmit
+                namespaceLbl      namespace+*
+                rootElementLbl    rootElement+*
+                outputFolderLbl   outputFolder+*  >outputFolderSubmit
+                filenamePrefixLbl filenamePrefix  extensionLbl          >extension
+                numInstancesLbl   numInstances+*
+                /exitSubmit=1                                           />generateSubmit+*=1 [grow]
+        - JPanel(name=settingsTab, tabTitle=settingsTab.title):
+            - JPanel(name=optionsPanel, groupTitle=optionsPanel.border):
+                - JCheckBox(name=randomStructure, text=randomStructure.text, onAction=randomStructureClicked)
+                - JCheckBox(name=randomData, text=randomData.text, onAction=randomDataClicked)
+                - JCheckBox(name=networkDownloads, text=networkDownloads.text, onAction=networkDownloadsClicked)
+                - JCheckBox(name=noPVR, text=noPVR.text, onAction=noPVRClicked)
+                - JCheckBox(name=noUPA, text=noUPA.text, onAction=noUPAClicked)
+                - MigLayout: |
+                    [pref]        
+                    randomStructure
+                    randomData
+                    networkDownloads
+                    noPVR
+                    noUPA
+            - JPanel(name=overridingPanel, groupTitle=overridingPanel.border):
+                - JToolBar(name=toolbarPanel):
+                    - JButton(name=loadSubmit, text=Load, toolTipText=loadSubmit.toolTipText, onAction=loadSubmit)
+                    - JButton(name=saveSubmit, text=Save, toolTipText=saveSubmit.toolTipText, onAction=saveSubmit)
+                    - JButton(name=newSubmit, text=New, toolTipText=newSubmit.toolTipText, onAction=newSubmit)
+                    - JButton(name=editSubmit, text=Edit, toolTipText=editSubmit.toolTipText, onAction=editSubmit)
+                    - JButton(name=deleteSubmit, text=Delete, toolTipText=deleteSubmit.toolTipText, onAction=deleteSubmit)
+                - JScrollPane(name=scrollingTable):
+                    JTable(name=registeredTypesTable, selectionMode=singleSelection)
+                - MigLayout: | 
+                    [grow]
+                    toolbarPanel
+                    scrollingTable [grow]    
+            - MigLayout: |
+                [pref]        [grow]
+                optionsPanel  overridingPanel [grow]
+        - JPanel(name=disabledTab, tabTitle=disabled.title, tabEnabled=false)
+    - JPanel(name=progressPanel):
+        - JLabel(name=progressLbl, text=progressLbl.text)
+        - JProgressBar(name=progress)
+        - JButton(name=cancel, text=Cancel, onAction=showTabs)
+        - MigLayout: | 
+            [grow]
+            progressLbl
+            progress
+            |cancel                    
+    - CardLayout(name=cards): [tabs, progressPanel]
