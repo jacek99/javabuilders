@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":swing:swing-core")
+
+    compile "net.java.dev.glazedlists:glazedlists_java15:1.9.0"
+    compile "janino:janino:2.5.10"
+}
