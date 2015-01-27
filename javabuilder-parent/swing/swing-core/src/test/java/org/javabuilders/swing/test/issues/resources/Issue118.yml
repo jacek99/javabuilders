@@ -1,5 +1,0 @@
-JPanel:
-    - MigLayout: |
-        [150,grow]                           [100]                                   [] 
-        "unit1"                              field1                                  "m" 
-        "unit2"                              field2                                  "m" 

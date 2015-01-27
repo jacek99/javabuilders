@@ -1,5 +1,0 @@
-JPanel:
-  - JScrollPane(name=booksScrollPane):
-        JTable(name=booksTable):
-            - EventTableModel(name=booksModel, source=books, editable=true)
-            - TableColumn(name=author,headerValue=author)

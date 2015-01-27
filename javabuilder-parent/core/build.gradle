@@ -1,5 +1,0 @@
-dependencies {
-    compile "org.slf4j:slf4j-api:${slf4jVersion}"
-    compile "org.yaml:snakeyaml:1.14"
-    compile "commons-lang:commons-lang:2.6"
-}
