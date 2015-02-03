@@ -15,4 +15,4 @@ http://java.dzone.com/articles/making-gui-builders-obsolete
 PDF Book
 ---------
 
-https://github.com/jacek99/javabuilders/blob/master/Swing%20JavaBuilder.pdf
+https://github.com/jacek99/javabuilders/raw/master/Swing%20JavaBuilder.pdf
