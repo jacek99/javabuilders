@@ -16,7 +16,7 @@ it to a database via a long running task on a background thread.
 3. Add the Swing JavaBuilder jar and all of its dependencies (from the "/lib" folder) to the project's build path
        
 4. Create the *person.app.Person* class that will represent our model::
-   
+
        package person.app;
        
        import java.text.MessageFormat;
@@ -70,9 +70,7 @@ it to a database via a long running task on a background thread.
                 }
        }
        
-5. Create a *PersonApp.properties* file in the root package with the internationalized resources:
-
-.. code-block:: none
+5. Create a *PersonApp.properties* file in the root package with the internationalized resources::
 
     button.save=Save
     button.cancel=Cancel
@@ -81,10 +79,8 @@ it to a database via a long running task on a background thread.
     label.email=Email
     frame.title=Enter Person Data
     
-6. Create the view YAML file *PersonApp.yml* in the *person.app* package:
-       
-.. code-block:: yaml       
-       
+6. Create the view YAML file *PersonApp.yml* in the *person.app* package::
+
         JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
             - JButton(name=save, text=button.save, onAction=[$validate,save,done])
             - JButton(name=cancel, text=button.cancel, onAction=[$confirm,cancel])

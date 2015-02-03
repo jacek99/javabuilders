@@ -5,4 +5,6 @@ build/
 *.class
 target/
 RemoteSystemsTempFiles
-
+*.iml
+.idea/
+.gradle

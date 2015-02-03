@@ -9,12 +9,12 @@ Swing JavaBuilder - Maximum productivity with minimum code
 .. toctree::
     :maxdepth: 5
 
-    introduction.txt
-    common-docs/overview.txt
-    60seconds.txt
-    common-docs/core.txt
-    swing.txt
-    layout.txt
-    plugins.txt
-    common-docs/extending.txt
+    introduction
+    common-docs/overview
+    60seconds
+    common-docs/core
+    swing
+    layout
+    plugins
+    common-docs/extending
 

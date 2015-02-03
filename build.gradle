@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 task wrapper(type: Wrapper) {
     gradleVersion="2.2.1"
@@ -13,16 +13,15 @@ repositories {
     mavenCentral()
 }
 
-
 //standard settings for Java projects
-configure(subprojects.findAll()) {
+configure(subprojects.findAll {(!it.name.contains("-docs"))}) {
 
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'eclipse'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     repositories {
         mavenCentral()

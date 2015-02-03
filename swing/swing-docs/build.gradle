@@ -1,0 +1,23 @@
+
+task deps(type: Exec) {
+    description = "Installs Sphinx dependencies"
+    workingDir = "."
+    commandLine = ['sudo','pip','install','sphinx','pillow','rst2pdf']
+}
+
+task copyDocs(type:Copy) {
+    description "Copies generated PDF into root folder for easy access"
+    from ("build/pdf")
+    into "../../"
+}
+
+// generate docs
+task docs(type: Exec) {
+    description = "Generates docs using Sphinx"
+    workingDir = "."
+    commandLine = ['make','clean','pdf']
+
+    doLast {
+        tasks.copyDocs.execute()
+    }
+}

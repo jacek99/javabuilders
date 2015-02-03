@@ -9,6 +9,7 @@
  */
 
 include "core",
+        "swing:swing-docs",
         "swing:swing-core",
         "swing:swing-glazedlists",
         "swing:swing-sample-person-app",
