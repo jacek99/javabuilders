@@ -73,6 +73,7 @@ subprojects {
             from javadoc.destinationDir
         }
 
+        // publishing artifacts to Bintray JCenter
         apply plugin: 'maven'
 
         bintray {
