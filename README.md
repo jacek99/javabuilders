@@ -3,10 +3,10 @@ Maximum productivity with minimum code via declarative UIs for Java.
 
 Quote:
 
-    “Just started on using the Swing JavaBuilder and I must say I like it.
-    Just replaced 170 rules of Java code with only 13 lines YAML”
+    Just started on using the Swing JavaBuilder and I must say I like it.
+    Just replaced 170 rules of Java code with only 13 lines YAML
 
-    Comment posted the JavaBuilders forum
+*Comment posted the JavaBuilders forum*
 
 Documentation
 -------------
