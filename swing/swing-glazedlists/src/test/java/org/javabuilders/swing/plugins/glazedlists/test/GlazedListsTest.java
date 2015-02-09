@@ -5,6 +5,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTable;
 
+import ca.odell.glazedlists.swing.DefaultEventListModel;
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.plugin.glazedlists.SwingGlazedListsConfig;
 import org.javabuilders.swing.plugins.glazedlists.test.resource.Book;
@@ -49,37 +50,37 @@ public class GlazedListsTest {
 		
 		//should have one 1 item by default
 		JList list = panel.getJList();
-		EventListModel<String> model = panel.getModel();
+		DefaultEventListModel<String> model = panel.getModel();
 		assertNotNull(list);
 		assertNotNull(model);
-		assertTrue(list.getModel() instanceof EventListModel);
+		assertTrue(list.getModel() instanceof DefaultEventListModel);
 		assertEquals(1,list.getModel().getSize());
 		assertEquals("1",list.getModel().getElementAt(0));
 		
 		//add 1 to the list
 		//wait a little...it's asynchronous (could be delayed)
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().add("2");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(2,list.getModel().getSize());
 		assertEquals("2",list.getModel().getElementAt(1));
 		
 		//remove second
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().remove("2");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(1,list.getModel().getSize());
 		assertEquals("1",list.getModel().getElementAt(0));
 		
 		//remove first one
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().remove("1");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(0,list.getModel().getSize());
 	}
@@ -100,27 +101,27 @@ public class GlazedListsTest {
 		//add 1 to the list
 		//wait a little...it's asynchronous (could be delayed)
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().add("2");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(2,box.getModel().getSize());
 		assertEquals("2",box.getModel().getElementAt(1));
 		
 		//remove second
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().remove("2");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(1,box.getModel().getSize());
 		assertEquals("1",box.getModel().getElementAt(0));
 		
 		//remove first one
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.getValues().remove("1");
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(0,box.getModel().getSize());
 	}
@@ -132,7 +133,7 @@ public class GlazedListsTest {
 		//should have one 1 item by default
 		JTable table = panel.getJTable();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		EventTableModel<Book> model = panel.getTableModel();
 		assertNotNull(table);
@@ -151,10 +152,10 @@ public class GlazedListsTest {
 		//wait a little...it's asynchronous (could be delayed)
 		Book book = null;
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			book = new Book("Carl Sagan","Cosmos",12.99);
 			panel.addBook(book);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(2,table.getModel().getRowCount());
 		assertEquals("Carl Sagan",table.getModel().getValueAt(1,0));
@@ -163,9 +164,9 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.removeBook(book);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(1,table.getModel().getRowCount());
 		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
@@ -174,9 +175,9 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.removeBook(0);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(0,table.getModel().getRowCount());
 	}
@@ -188,7 +189,7 @@ public class GlazedListsTest {
 		//should have one 1 item by default
 		JTable table = panel.getJTable2();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		EventTableModel<Book> model = panel.getTableModel();
 		assertNotNull(table);
@@ -205,10 +206,10 @@ public class GlazedListsTest {
 		//wait a little...it's asynchronous (could be delayed)
 		Book book = null;
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			book = new Book("Carl Sagan","Cosmos",12.99);
 			panel.addBook(book);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(2,table.getModel().getRowCount());
 		assertEquals("Carl Sagan",table.getModel().getValueAt(1,0));
@@ -216,9 +217,9 @@ public class GlazedListsTest {
 		
 		//remove second
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.removeBook(book);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(1,table.getModel().getRowCount());
 		assertEquals("Charles Darwin",table.getModel().getValueAt(0, 0));
@@ -226,9 +227,9 @@ public class GlazedListsTest {
 		
 		//remove first one
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 			panel.removeBook(0);
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		assertEquals(0,table.getModel().getRowCount());
 	}
