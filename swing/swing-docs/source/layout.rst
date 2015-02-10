@@ -43,7 +43,7 @@ nothing more than a visual text-based interface to the full power of MigLayout.
 Let's say we need to create a simple dialog with 3 rows: a table/text field in the first two rows, and
 OK/Cancel buttons (right aligned) in the last row.
 
-.. image:: images/miglayout-simple-1.png
+.. image:: images/miglayout-simple-1.jpg
 
 ::
 
@@ -263,7 +263,7 @@ All we have to do is define a prototype YAML definition in our ``main()`` method
 .. code-block:: java
 
     SwingJavaBuilder.getConfig().prototype(
-        "JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.png)");
+        "JButton(name=btnAdd, text=Add, onAction=addNew, icon=/myapp/images/document-new.jpg)");
     
 And we just refer to that prototype by prefixing it's name with ``$`` in the *MigLayout* section, e.g.::
 
@@ -282,11 +282,11 @@ Complex Example
  
 From John O'Conners Layout Manager Challenge:
 
-.. image:: images/addressbookdemo_mac.png
+.. image:: images/addressbookdemo_mac.jpg
 
 Here's how it would look implemented in the Swing JavaBuilder:
 
-.. image:: images/miglayout-complex-1.png
+.. image:: images/miglayout-complex-1.jpg
 
 *YAML*::
 

@@ -185,7 +185,7 @@ it to a database via a long running task on a background thread.
        
 8. Run the PersonApp.main() method. You should see an input dialog like this appear:
 
-.. image:: images/person-app.png
+.. image:: images/person-app.jpg
 
 .. note::
 
@@ -201,30 +201,30 @@ and populate their text with the value of the resource key.
        
 9. Enter an invalid email address for the person and press Save:
 
-.. image:: images/person-app-validation.png
+.. image:: images/person-app-validation.jpg
   
 The validation logic (invoked via "$validate") executed and perform basic input validation.
    
 10. Enter a valid email address:
 
-.. image:: images/person-app-2.png
+.. image:: images/person-app-2.jpg
 
 11. Press "Save". The save() Java method is executed (which simulates a long running database save with a progress bar) and 
     since it is annotated with the @DoInBackground annotation it will automatically run on a background thread 
     using the SwingWorker library.
 
-.. image:: images/person-app-3.png
+.. image:: images/person-app-3.jpg
 
 12. After the save logic executes, the done() Java method is executed to inform the user the save was successful. 
     Notice that the email address we entered was automatically propagated back to the underlying bean using databinding.
 
-.. image:: images/person-app-4.png
+.. image:: images/person-app-4.jpg
 
 13. Press 'Cancel' to close the window. Since you specified *"$confirm"* in the action handler, it will automatically 
     prompt the user to confirm the action. If they select "Yes", the *cancel()* Java  method will be called and the 
     window will close.
     
-.. image:: images/person-app-5.png    
+.. image:: images/person-app-5.jpg    
     
 **Summary**
 
