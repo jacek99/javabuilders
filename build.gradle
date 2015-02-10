@@ -79,15 +79,21 @@ configure([project(':core'), project(':swing:swing-core'),project(':swing:swing-
     }
 
     // upload to JCenter
+    artifacts {
+        published sourceJar
+        published javadocJar
+    }
+
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven'
 
+    ext.publish = true
     bintray {
         // grab credentials from environment variables
         user = "$System.env.BINTRAY_USER"
         key = "$System.env.BINTRAY_API_KEY"
 
-        configurations = ['published']
+        configurations = ['published', 'archives']
         dryRun = false //Whether to run this as dry-run, without deploying
         publish = true //If version should be auto published after an upload
         pkg {

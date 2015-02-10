@@ -97,6 +97,37 @@ dependencies. Add all of them to your project's classpath.
 In the /samples folder you will find a sample application that you can use to get a better understanding of
 how you can build complex user interfaces using this library.
 
+Gradle
+^^^^^^
+
+If you are using Gradle, you will need to add the *jcenter* repository::
+
+    repositories {
+        jcenter()
+    }
+
+
+At the time of writing, the latest stable version was::
+
+    compile "javabuilders:swing-core:1.3.0"
+
+
+When creating a new Gradle project, it is recommended that you change the default setup to allow Java and resource YAML files
+to be in the same source code folder, instead of being split across the *src/main/java* and *src/main/resources* folders::
+
+        sourceSets {
+            main {
+                resources {
+                    srcDir 'src/main/java'
+                }
+            }
+            test {
+                resources {
+                    srcDir 'src/test/java'
+                }
+            }
+        }
+
 Maven
 ^^^^^
 
@@ -106,8 +137,8 @@ If you are using Maven, you can just point to our custom repository:
 
     <repositories> 
             <repository> 
-                    <id>javabuilders</id> 
-                    <url>http://javabuilders.googlecode.com/svn/repo</url>
+                    <id>jcenter</id>
+                    <url>http://jcenter.bintray.com </url>
             </repository> 
     </repositories>
 
@@ -119,9 +150,9 @@ At the time of writing, the latest stable version was:
 
     <dependencies> 
             <dependency> 
-                    <groupId>org.javabuilders</groupId> 
-                    <artifactId>javabuilder-swing</artifactId> 
-                    <version>1.2.0</version> 
+                    <groupId>javabuilders</groupId>
+                    <artifactId>swing-core</artifactId>
+                    <version>1.3.0</version>
             </dependency> 
     </dependencies>
     

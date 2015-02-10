@@ -6,7 +6,7 @@ Plugins
 The core Swing JavaBuilder library can be extended via plugins that provide integration with
 best-of-breed external Swing libraries
 
-Glazed Lists
+GlazedLists
 ------------
 
 GlazedLists is a best-of-breed open source library geared towards making databinding, sorting and
@@ -20,6 +20,14 @@ In order to register the GlazedList plugin you need to execute the following cod
 in your ``main()``::
 
     SwingGlazedListsConfig.init();
+
+The latest GlazedLists plugin is available in the Bintray JCenter repository:
+
+https://bintray.com/jacek99/javabuilders/swing-glazedlists
+
+and can be integrated into a Gradle build as::
+
+    compile "javabuilders:swing-glazedlists:<*latest version*>"
 
 Below you will find information on how GlazedLists are integrated into the JavaBuilders library.
 
