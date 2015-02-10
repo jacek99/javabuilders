@@ -138,7 +138,7 @@ If you are using Maven, you can just point to our custom repository:
     <repositories> 
             <repository> 
                     <id>jcenter</id>
-                    <url>http://jcenter.bintray.com </url>
+                    <url>http://jcenter.bintray.com</url>
             </repository> 
     </repositories>
 

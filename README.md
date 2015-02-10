@@ -14,7 +14,7 @@ Documentation
 Please refer to our [PDF Book](https://github.com/jacek99/javabuilders/raw/master/Swing%20JavaBuilder.pdf)
 
 Articles
------------------
+--------
 
 Refers to older version, but has all the major concepts:
 
@@ -25,6 +25,41 @@ Forums
 ------
 
 Join our user discussion forum at [Google Groups](https://groups.google.com/forum/#!forum/javabuilders)
+
+Gradle
+------
+
+    repositories {
+        jcenter()
+    }
+
+
+    compile "javabuilders:swing-core:1.3.0"
+    compile "javabuilders:swing-glazedlists:1.3.0"
+
+
+Maven
+-----
+
+    <repositories>
+            <repository>
+                    <id>jcenter</id>
+                    <url>http://jcenter.bintray.com </url>
+            </repository>
+    </repositories>
+
+    <dependencies>
+            <dependency>
+                    <groupId>javabuilders</groupId>
+                    <artifactId>swing-core</artifactId>
+                    <version>1.3.0</version>
+            </dependency>
+            <dependency>
+                    <groupId>javabuilders</groupId>
+                    <artifactId>swing-glazedlists</artifactId>
+                    <version>1.3.0</version>
+            </dependency>
+    </dependencies>
 
 Status
 ------
