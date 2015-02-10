@@ -44,7 +44,7 @@ Maven
     <repositories>
             <repository>
                     <id>jcenter</id>
-                    <url>http://jcenter.bintray.com </url>
+                    <url>http://jcenter.bintray.com</url>
             </repository>
     </repositories>
 
