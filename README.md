@@ -65,4 +65,4 @@ Status
 ------
 
 This project is currently being resuscitated after a long period
-of inactivity...**stay tuned**.
+of inactivity...potential JavaFX version to come in the next few months.
