@@ -32,17 +32,11 @@ allprojects {
 
 }
 
+// standard setup for all Java project
 subprojects {
 
     // deploy all Java projects into Bintray JCenter
     if (project.plugins.hasPlugin('java')) {
-
-        configurations {
-            published
-        }
-
-        // upload to JCenter
-        apply plugin: 'com.jfrog.bintray'
 
         // merge Java and YAML files together in one source folder
         sourceSets {
@@ -73,28 +67,41 @@ subprojects {
             from javadoc.destinationDir
         }
 
-        // publishing artifacts to Bintray JCenter
-        apply plugin: 'maven'
+    }
+}
 
-        bintray {
-            user = bintray_user
-            key = bintray_key
+// published projects configuration
+configure([project(':core'), project(':swing:swing-core'),project(':swing:swing-glazedlists')]) {
 
-            configurations = ['published']
-            dryRun = false //Whether to run this as dry-run, without deploying
-            publish = true //If version should be auto published after an upload
-            pkg {
-                repo = 'javabuilders'
-                name = project.name
-                desc = 'Maximum productivity with minimum code via declarative UIs for Java.'
-                websiteUrl = 'https://github.com/jacek99/javabuilders'
-                issueTrackerUrl = 'https://github.com/jacek99/javabuilders/issues'
-                vcsUrl = 'https://github.com/jacek99/javabuilders'
-                licenses = ['Apache-2.0']
-                publicDownloadNumbers = true
-            }
+    // publishing artifacts to Bintray JCenter
+    configurations {
+        published
+    }
+
+    // upload to JCenter
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven'
+
+    bintray {
+        // grab credentials from environment variables
+        user = "$System.env.BINTRAY_USER"
+        key = "$System.env.BINTRAY_API_KEY"
+
+        configurations = ['published']
+        dryRun = false //Whether to run this as dry-run, without deploying
+        publish = true //If version should be auto published after an upload
+        pkg {
+            repo = 'javabuilders'
+            name = project.name
+            desc = 'Maximum productivity with minimum code via declarative UIs for Java.'
+            websiteUrl = 'https://github.com/jacek99/javabuilders'
+            issueTrackerUrl = 'https://github.com/jacek99/javabuilders/issues'
+            vcsUrl = 'https://github.com/jacek99/javabuilders'
+            licenses = ['Apache-2.0']
+            publicDownloadNumbers = true
         }
     }
+
 }
 
 class Version {
