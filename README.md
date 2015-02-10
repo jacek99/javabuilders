@@ -20,6 +20,12 @@ Refers to older version, but has all the major concepts:
 
 [JavaLobby - Making GUI Builders obsolete with Swing JavaBuilder](http://java.dzone.com/articles/making-gui-builders-obsolete)
 
+
+Forums
+------
+
+Join our user discussion forum at [Google Groups](https://groups.google.com/forum/#!forum/javabuilders)
+
 Status
 ------
 
