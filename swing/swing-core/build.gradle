@@ -1,6 +1,6 @@
 dependencies {
     compile project(":core")
 
-    compile "com.miglayout:miglayout:3.7.1"
+    compile "com.miglayout:miglayout-swing:$migLayoutVersion"
     compile "it.tidalwave.betterbeansbinding:betterbeansbinding-swingbinding:1.3.0"
 }

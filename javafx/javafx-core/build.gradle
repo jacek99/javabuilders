@@ -1,0 +1,7 @@
+dependencies {
+    compile project(":core")
+
+    //integrate best of breed by default
+    compile "com.miglayout:miglayout-javafx:$migLayoutVersion"
+    compile "org.controlsfx:controlsfx:8.20.8"
+}

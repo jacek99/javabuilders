@@ -9,6 +9,9 @@
  */
 
 include "core",
+        // Java FX
+        "javafx:javafx-core",
+        // Swing
         "swing:swing-docs",
         "swing:swing-core",
         "swing:swing-glazedlists",
