@@ -2,8 +2,15 @@ package org.javabuilders.fx;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
@@ -24,7 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tbee.javafx.scene.layout.MigPane;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static org.javabuilders.fx.FXJavaBuilder.*;
 
@@ -127,6 +137,11 @@ public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteral
                 PropertySheet.class
                 );
 
+        // control setup
+        forType(Pane.class)
+                .ignore(Builder.CONSTRAINTS, Builder.LAYOUT)
+                .defaultResize(DefaultResize.BOTH)
+                .children(Control.class, 0,Integer.MAX_VALUE);
 
 		//setStringLiteralControlSuffix("Label"); 
 		setStringLiteralControlPrefix("lbl");
