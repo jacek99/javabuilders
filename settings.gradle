@@ -11,6 +11,7 @@
 include "core",
         // Java FX
         "javafx:javafx-core",
+        "javafx:javafx-sample-person-app",
         // Swing
         "swing:swing-docs",
         "swing:swing-core",

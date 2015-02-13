@@ -2,8 +2,6 @@ package org.javabuilders.fx.test;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.javabuilders.fx.FXJavaBuilder;
 import org.javabuilders.fx.test.samplesapp.LabelPane;
 import org.junit.After;
 import org.junit.Before;

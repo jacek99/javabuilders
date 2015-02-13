@@ -11,7 +11,7 @@ public class ParentClass {
 	private Issue14Class createdClass = new Issue14Class("test");
 
 	public ParentClass() {
-		BuilderConfig config = new BuilderConfig(null,null,null);
+		BuilderConfig config = new BuilderConfig(null,null,null,Builder.NAME);
 		config.addType(ParentClass.class).forType(ParentClass.class).children(Issue14Class.class, 0,2);
 		config.addType(Issue14Class.class);
 	

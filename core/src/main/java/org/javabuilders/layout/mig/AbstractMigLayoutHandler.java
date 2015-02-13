@@ -37,7 +37,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	
 	private Class<?> defaultTypeClass = null;
 	private String defaultTypePropertyName = null;
-	
+
 	/**
 	 * Static constructor
 	 */
@@ -51,7 +51,7 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	 * Constructor
 	 * @param defaultTypeClass The class type to create for default objects represented by string literals
 	 * @param defaultTypePropertyName The default property of the default class to use as the key for the string literal value
-	 * 
+	 *
 	 */
 	protected AbstractMigLayoutHandler(Class<?> defaultTypeClass, String defaultTypePropertyName) {
 		super();
@@ -271,7 +271,6 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 	/**
 	 * @param process
 	 * @param components
-	 * @param data.getName()
 	 * @return
 	 */
 	private Object getNamedComponentOrCreateOne(BuildProcess process, Node components, ControlConstraint co) {
@@ -306,7 +305,9 @@ public abstract class AbstractMigLayoutHandler  extends AbstractTypeHandler impl
 				
 				name = BuilderUtils.generateName(process.getBuildResult(), name, prefix, suffix);
 				
-				String compressedYaml = String.format("%s(name=%s,%s=\"%s\")",defaultTypeClass.getSimpleName(),
+				String compressedYaml = String.format("%s(%s=%s,%s=\"%s\")",
+                        defaultTypeClass.getSimpleName(),
+                        process.getConfig().getNamePropertyName(),
 						name, defaultTypePropertyName,text);
 				component = Builder.createControlFromCompressedYaml(process, components, compressedYaml);
 				co.setControlName(name);

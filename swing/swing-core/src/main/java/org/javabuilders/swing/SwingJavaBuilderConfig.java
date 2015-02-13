@@ -184,7 +184,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 	public SwingJavaBuilderConfig() {
 		super(SwingBackgroundProcessingHandler.getInstance(),
 			SwingValidationMessageHandler.getInstance(), 
-			new ConfirmCommand());
+			new ConfirmCommand(), Builder.NAME);
 
 		//define aliases for AWT types
 		addType(

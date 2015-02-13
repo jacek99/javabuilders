@@ -53,7 +53,9 @@ public class Builder {
 	
 	public final static Map<String,?> EMPTY_PROPERTIES = null;
 
+    // common property names used by different toolkits to identify a control by name
 	public final static String NAME = "name";
+    public final static String ID = "id";
 
 	/**
 	 * The standard property names used throughout the builder types
@@ -333,7 +335,7 @@ public class Builder {
 	public static Object buildControlFromName(BuildProcess process, Node parent, String name) {
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Build control from name: {}, name");
+			logger.debug("Build control from name: {}", name);
 		}
 		
 		Class<?> clazz = null;

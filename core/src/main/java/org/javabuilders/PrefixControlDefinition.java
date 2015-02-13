@@ -76,11 +76,11 @@ public class PrefixControlDefinition {
 		}
 		
 		//add default entry for name, if not defined
-		if (defaults == null || !defaults.containsKey(Builder.NAME)) {
+		if (defaults == null || !defaults.containsKey(process.getConfig().getNamePropertyName())) {
 			if (bld.length() > 1) {
 				bld.append(",");
 			}
-			bld.append("name : ").append(controlName);
+			bld.append(process.getConfig().getNamePropertyName()).append(": ").append(controlName);
 		}
 		
 		bld.append("}");

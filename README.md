@@ -8,6 +8,53 @@ Quote:
 
 *Comment posted the JavaBuilders forum*
 
+Forums
+------
+
+Join our user discussion forum at [Google Groups](https://groups.google.com/forum/#!forum/javabuilders)
+
+FX JavaBuilder
+==============
+
+Currently in progress, working on creating a JavaFX JavaBuilder.
+
+*Requires the new beta JDK 8u40 since it relies on the new Dialog API.*
+
+Gradle
+------
+
+    repositories {
+        jcenter()
+    }
+
+    compile "javabuilders:javafx-core:2.0.0-SNAPSHOT"
+
+
+Maven
+-----
+
+    <repositories>
+            <repository>
+                    <id>jcenter</id>
+                    <url>http://jcenter.bintray.com</url>
+            </repository>
+    </repositories>
+
+    <dependencies>
+            <dependency>
+                    <groupId>javabuilders</groupId>
+                    <artifactId>javafx-core</artifactId>
+                    <version>2.0.0-SNAPSHOT</version>
+            </dependency>
+    </dependencies>
+
+
+
+Swing JavaBuilder
+=================
+
+Currently in maintenance mode. No new development is planned.
+
 Documentation
 -------------
 
@@ -21,10 +68,6 @@ Refers to older version, but has all the major concepts:
 [JavaLobby - Making GUI Builders obsolete with Swing JavaBuilder](http://java.dzone.com/articles/making-gui-builders-obsolete)
 
 
-Forums
-------
-
-Join our user discussion forum at [Google Groups](https://groups.google.com/forum/#!forum/javabuilders)
 
 Gradle
 ------
@@ -61,8 +104,3 @@ Maven
             </dependency>
     </dependencies>
 
-Status
-------
-
-This project is currently being resuscitated after a long period
-of inactivity...potential JavaFX version to come in the next few months.

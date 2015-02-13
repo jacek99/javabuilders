@@ -13,37 +13,32 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.web.HTMLEditor;
-import javafx.stage.Stage;
 import org.controlsfx.control.*;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
-import org.controlsfx.dialog.DialogAction;
 import org.controlsfx.dialog.Dialogs;
 import org.javabuilders.*;
-import org.javabuilders.event.IBindingListener;
 import org.javabuilders.fx.handler.FXBackgroundProcessingHandler;
+import org.javabuilders.fx.handler.FXMigLayoutHandler;
 import org.javabuilders.fx.handler.FXValidationMessageHandler;
-import org.javabuilders.handler.type.FontAsValueHandler;
-import org.javabuilders.handler.type.IconAsValueHandler;
-import org.javabuilders.handler.type.ImageAsValueHandler;
+import org.javabuilders.fx.handler.event.CommonActionListenerHandler;
+import org.javabuilders.fx.handler.type.PaneHandlerFinishProcessor;
 import org.javabuilders.layout.DefaultResize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tbee.javafx.scene.layout.MigPane;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static org.javabuilders.fx.FXJavaBuilder.*;
+import static org.javabuilders.fx.FXJB.*;
 
 /**
  * Configuration for JavaFX JavaBuilder
  */
-public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig {
+public class FXJBConfig extends BuilderConfig implements IStringLiteralControlConfig {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FXJavaBuilderConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FXJBConfig.class);
 	
 	private Map<String,ScrollPane.ScrollBarPolicy> scrollbars = new HashMap();
 	{
@@ -55,10 +50,10 @@ public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteral
 	/**
 	 * Constructor
 	 */
-	public FXJavaBuilderConfig() {
+	public FXJBConfig() {
 		super(new FXBackgroundProcessingHandler(),
 			new FXValidationMessageHandler(),
-			new ConfirmCommand());
+			new ConfirmCommand(), Builder.ID);
 
 		//define aliases for basic FX types and models
 		addType(
@@ -137,11 +132,26 @@ public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteral
                 PropertySheet.class
                 );
 
+        // hacks
+        addType(FXMigLayoutHandler.MigLayout.class);
+
         // control setup
+        forType(ButtonBase.class)
+                .localize(TEXT)
+                .propertyHandler(new CommonActionListenerHandler());
+
+
+        // pane setup
         forType(Pane.class)
                 .ignore(Builder.CONSTRAINTS, Builder.LAYOUT)
+                .finishProcessor(new PaneHandlerFinishProcessor())
                 .defaultResize(DefaultResize.BOTH)
                 .children(Control.class, 0,Integer.MAX_VALUE);
+
+        forType(MigPane.class)
+                .children(FXMigLayoutHandler.MigLayout.class,0,1);
+        forType(FXMigLayoutHandler.MigLayout.class)
+                .typeHandler(new FXMigLayoutHandler());
 
 		//setStringLiteralControlSuffix("Label"); 
 		setStringLiteralControlPrefix("lbl");
@@ -152,8 +162,8 @@ public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteral
 		Map<String,String> buttonDefaults = new HashMap();
 		buttonDefaults.put("onAction", PrefixControlDefinition.SUFFIX_PASCAL_CASE);
 		buttonDefaults.put("text", PrefixControlDefinition.SUFFIX_LABEL);
-		
-		prefix("btn",Button.class, buttonDefaults);
+
+		prefix("btn", Button.class, buttonDefaults);
 		prefix("tgl",ToggleButton.class, buttonDefaults);
 		prefix("txt",TextField.class);
 		prefix("cbx",CheckBox.class);
@@ -171,22 +181,20 @@ public class FXJavaBuilderConfig extends BuilderConfig implements IStringLiteral
 	}
 
 
-    //TODO: upgrade to latest JavaFX API
 	private static  class ConfirmCommand implements ICustomCommand<Boolean>  {
 
 		public Boolean process(BuildResult result, Object source) {
 
-            Action response = Dialogs.create()
-                    .owner(null)
-                    .title(result.getResource("title.confirmation"))
-                    .message( result.getResource("question.areYouSure"))
-                    .showConfirm();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(result.getResource("title.confirmation"));
+            alert.setContentText(result.getResource("question.areYouSure"));
 
-			if (response == org.controlsfx.dialog.Dialog.ACTION_YES) {
-				return true;
-			} else {
-				return false;
-			}
+            Optional<ButtonType> selection = alert.showAndWait();
+            if (selection.get() == ButtonType.OK){
+                return true;
+            } else {
+                return false;
+            }
 		}
 		
 	}

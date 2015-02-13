@@ -11,10 +11,7 @@ import javax.swing.JLabel;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.javabuilders.BuildException;
-import org.javabuilders.BuildProcess;
-import org.javabuilders.BuilderConfig;
-import org.javabuilders.Node;
+import org.javabuilders.*;
 import org.javabuilders.layout.mig.AbstractMigLayoutHandler;
 import org.javabuilders.swing.SwingJavaBuilderUtils;
 

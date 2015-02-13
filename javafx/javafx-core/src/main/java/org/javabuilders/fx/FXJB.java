@@ -15,10 +15,10 @@ import java.util.ResourceBundle;
  * 
  * @author Jacek Furmankiewicz
  */
-public class FXJavaBuilder {
+public class FXJB {
 
-	private static FXJavaBuilderConfig config = new FXJavaBuilderConfig();
-	private static final Logger LOG = LoggerFactory.getLogger(FXJavaBuilder.class);
+	private static FXJBConfig config = new FXJBConfig();
+	private static final Logger LOG = LoggerFactory.getLogger(FXJB.class);
 	
 	public final static String VGAP = "vgap";
 	public final static String HGAP = "hgap";
@@ -71,7 +71,7 @@ public class FXJavaBuilder {
 	 * Returns the standard SwingBuilder configuration
 	 * @return
 	 */
-	public static FXJavaBuilderConfig getConfig() {
+	public static FXJBConfig getConfig() {
 		return config;
 	}
 	

@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.Getter;
 import org.javabuilders.event.BackgroundEventListener;
 import org.javabuilders.event.BuildListener;
 import org.javabuilders.event.IBackgroundProcessingHandler;
@@ -101,8 +102,10 @@ public class BuilderConfig {
 	private Map<String,Object> customProperties = new HashMap<String, Object>();
 	
 	private Map<String,Object> globals = new HashMap<String, Object>();
-	
-	private String namePropertyName = Builder.NAME;
+
+    // used to identify the standard GUI toolkit specific
+    // property name used for identifying a control (e.g. "name" or "id")
+    private String namePropertyName;
 	
 	private Map<String,PrefixControlDefinition> prefixes = new HashMap<String, PrefixControlDefinition>();
 	private Map<String,String> prototypes = new HashMap<String, String>();
@@ -115,10 +118,13 @@ public class BuilderConfig {
 	 * @param backgroundProcessingHandler Domain-specific background processing handler
 	 */
 	public BuilderConfig(IBackgroundProcessingHandler backgroundProcessingHandler, 
-			IValidationMessageHandler validationMessageHandler, ICustomCommand<Boolean> confirmCommand) {
+			IValidationMessageHandler validationMessageHandler,
+            ICustomCommand<Boolean> confirmCommand,
+            String namePropertyName) {
 		
 		this.backgroundProcessingHandler = backgroundProcessingHandler;
 		this.validationMessageHandler = validationMessageHandler;
+        this.namePropertyName = namePropertyName;
 
 		customCommands.put(Builder.CONFIRM_CUSTOM_COMMAND, confirmCommand);
 		
@@ -387,15 +393,6 @@ public class BuilderConfig {
 	}
 	
 	/**
-	 * Defines the property name that will be used for defining named objects (usually "name").
-	 * Even if class type does not have a name property, the builder will handle it transparently
-	 */
-	public void setNamePropertyName(String namePropertyName) {
-		this.namePropertyName = namePropertyName;
-	}
-	
-	
-	/**
 	 * @return The name of the property used to define names (usually "name")
 	 */
 	public String getNamePropertyName() {
@@ -602,7 +599,7 @@ public class BuilderConfig {
 		
 		if (name.matches(GLOBAL_VARIABLE_REGEX)) {
 
-			if (globals.containsKey(globals)) {
+			if (globals.containsKey(name)) {
 				throw new BuildException("A global variable {0} already exists", name); 
 			} else {
 				globals.put(name, value);
