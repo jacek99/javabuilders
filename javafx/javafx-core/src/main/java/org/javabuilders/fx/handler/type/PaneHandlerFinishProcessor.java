@@ -3,12 +3,8 @@ package org.javabuilders.fx.handler.type;
 import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
 import org.javabuilders.*;
-import org.javabuilders.fx.handler.FXMigLayoutHandler;
 import org.javabuilders.handler.ITypeHandlerFinishProcessor;
 
-import javax.swing.*;
-import java.awt.*;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

@@ -1,9 +1,11 @@
 package fx.person.app;
 
 import javafx.application.Application;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.javabuilders.BuildResult;
@@ -19,23 +21,33 @@ import java.util.ResourceBundle;
 /**
  * FX person sample app
  */
-public class PersonApp extends Application {
+public class FXPersonApp extends Application {
 
-	@Getter private Person person;
+	private Person person;
     private Stage stage;
 	private BuildResult result;
 
+    private TextField txtFirstName;
+    private TextField txtLastName;
+    private TextField txtEmail;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        person = Person.builder().firstName("John").lastName("Doe").build();
+
+        // set up or base data
+        person = new Person();
+        person.firstNameProperty().set("John");
+        person.lastNameProperty().set("Doe");
 
         stage = primaryStage;
 
         result = FXJB.build(this, ResourceBundle.getBundle("PersonApp"));
+
         Scene scene = new Scene((Parent) result.getRoot());
         primaryStage.setTitle("JavaFX Person Application");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

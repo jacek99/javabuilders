@@ -48,8 +48,8 @@ public class SwingValidationMessageHandler implements IValidationMessageHandler 
 				}
 				builder.append(msg.getMessage());
 				
-				if (firstObject == null &&  msg.getProperty() != null) {
-					Object focusable = result.get(msg.getProperty().getName());
+				if (firstObject == null &&  msg.getProperty().isPresent()) {
+					Object focusable = result.get(msg.getProperty().get().getName());
 					if (focusable instanceof Component) {
 						firstObject = (Component)focusable;
 					}
@@ -70,6 +70,7 @@ public class SwingValidationMessageHandler implements IValidationMessageHandler 
 			if (firstObject != null) {
 				firstObject.requestFocus();
 			}
+
 		} 
 
 	}

@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Common handler for processing long running events on a background thread
  */
-public class FXBackgroundProcessingHandler implements IBackgroundProcessingHandler{
+public class BackgroundProcessingHandler implements IBackgroundProcessingHandler{
     @Override
     public void doInBackground(BuildResult result, Object target, Method method, BackgroundEvent event, IBackgroundCallback callbackWhenFinished) throws Exception {
         throw  new NotImplementedException("Not implemented yet");

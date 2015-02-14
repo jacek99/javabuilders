@@ -18,9 +18,9 @@ import java.util.Map;
 /**
  * JavaFX MigLayout handler
  */
-public class FXMigLayoutHandler extends AbstractMigLayoutHandler {
+public class MigLayoutHandler extends AbstractMigLayoutHandler {
 
-    public FXMigLayoutHandler() {
+    public MigLayoutHandler() {
         super(Label.class,"text");
     }
 

@@ -14,15 +14,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.web.HTMLEditor;
 import org.controlsfx.control.*;
-import org.controlsfx.control.action.Action;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
-import org.controlsfx.dialog.Dialogs;
 import org.javabuilders.*;
-import org.javabuilders.fx.handler.FXBackgroundProcessingHandler;
-import org.javabuilders.fx.handler.FXMigLayoutHandler;
-import org.javabuilders.fx.handler.FXValidationMessageHandler;
+import org.javabuilders.fx.handler.BackgroundProcessingHandler;
+import org.javabuilders.fx.handler.DataBindingTypeHandler;
+import org.javabuilders.fx.handler.MigLayoutHandler;
+import org.javabuilders.fx.handler.ValidationMessageHandler;
 import org.javabuilders.fx.handler.event.CommonActionListenerHandler;
 import org.javabuilders.fx.handler.type.PaneHandlerFinishProcessor;
+import org.javabuilders.handler.binding.BidirectionalBuilderBindings;
+import org.javabuilders.handler.binding.BuilderBindings;
 import org.javabuilders.layout.DefaultResize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ import static org.javabuilders.fx.FXJB.*;
 public class FXJBConfig extends BuilderConfig implements IStringLiteralControlConfig {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FXJBConfig.class);
-	
+
 	private Map<String,ScrollPane.ScrollBarPolicy> scrollbars = new HashMap();
 	{
 		scrollbars.put("always", ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -51,8 +52,8 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
 	 * Constructor
 	 */
 	public FXJBConfig() {
-		super(new FXBackgroundProcessingHandler(),
-			new FXValidationMessageHandler(),
+		super(new BackgroundProcessingHandler(),
+			new ValidationMessageHandler(),
 			new ConfirmCommand(), Builder.ID);
 
 		//define aliases for basic FX types and models
@@ -133,12 +134,14 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
                 );
 
         // hacks
-        addType(FXMigLayoutHandler.MigLayout.class);
+        addType(MigLayoutHandler.MigLayout.class);
 
         // control setup
         forType(ButtonBase.class)
                 .localize(TEXT)
                 .propertyHandler(new CommonActionListenerHandler());
+        forType(TextField.class)
+                .defaultResize(DefaultResize.X_AXIS);
 
 
         // pane setup
@@ -149,9 +152,17 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
                 .children(Control.class, 0,Integer.MAX_VALUE);
 
         forType(MigPane.class)
-                .children(FXMigLayoutHandler.MigLayout.class,0,1);
-        forType(FXMigLayoutHandler.MigLayout.class)
-                .typeHandler(new FXMigLayoutHandler());
+                .children(MigLayoutHandler.MigLayout.class,0,1);
+        forType(MigLayoutHandler.MigLayout.class)
+                .typeHandler(new MigLayoutHandler());
+
+        // FX databinding  - bind (unidirectional) and bindDirectional (two-way)
+        addType(FXJB.BIND_BIDIRECTIONAL, BidirectionalBuilderBindings.class);
+        forType(BidirectionalBuilderBindings.class)
+                .typeHandler(new DataBindingTypeHandler(false));
+
+        forType(BuilderBindings.class)
+                .typeHandler(new DataBindingTypeHandler(true));
 
 		//setStringLiteralControlSuffix("Label"); 
 		setStringLiteralControlPrefix("lbl");

@@ -15,7 +15,7 @@ import org.javabuilders.event.CancelStatus;
 import org.javabuilders.swing.SwingJavaBuilder;
 
 @SuppressWarnings({"serial","unused"})
-public class PersonApp extends JFrame {
+public class SwingPersonApp extends JFrame {
 
 	private Person person;
 	private BuildResult result;
@@ -35,7 +35,7 @@ public class PersonApp extends JFrame {
 		support.removePropertyChangeListener(propertyName, listener);
 	}
 	
-	public PersonApp() {
+	public SwingPersonApp() {
 		person = new Person();
 		person.setFirstName("John");
 		person.setLastName("Smith");
@@ -87,7 +87,7 @@ public class PersonApp extends JFrame {
 				SwingJavaBuilder.getConfig().addResourceBundle("PersonApp");
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					new PersonApp().setVisible(true);
+					new SwingPersonApp().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

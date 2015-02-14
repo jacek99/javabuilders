@@ -132,7 +132,7 @@ public abstract class AbstractBuilderBindingsHandler extends
 	/* (non-Javadoc)
 	 * @see org.javabuilders.IApplicable#getApplicableClass()
 	 */
-	public final Class<?> getApplicableClass() {
+	public Class<?> getApplicableClass() {
 		return BuilderBindings.class;
 	}
 	

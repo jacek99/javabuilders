@@ -3,6 +3,7 @@
  */
 package org.javabuilders.fx;
 
+import lombok.extern.slf4j.Slf4j;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.slf4j.Logger;
@@ -15,11 +16,14 @@ import java.util.ResourceBundle;
  * 
  * @author Jacek Furmankiewicz
  */
+@Slf4j
 public class FXJB {
 
 	private static FXJBConfig config = new FXJBConfig();
-	private static final Logger LOG = LoggerFactory.getLogger(FXJB.class);
-	
+
+    // to differentiate one way vs two-way binding in JavaFX
+    public static final String BIND_BIDIRECTIONAL = "bindBidirectional";
+
 	public final static String VGAP = "vgap";
 	public final static String HGAP = "hgap";
 	
