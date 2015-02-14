@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.web.HTMLEditor;
+import javafx.stage.Stage;
 import org.controlsfx.control.*;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
 import org.javabuilders.*;
@@ -58,6 +59,8 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
 
 		//define aliases for basic FX types and models
 		addType(
+                Stage.class,
+                Scene.class,
                 Label.class,
                 Button.class,
                 RadioButton.class,
@@ -137,10 +140,36 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
         addType(MigLayoutHandler.MigLayout.class);
 
         // control setup
+        forType(Accordion.class)
+                .defaultResize(DefaultResize.BOTH);
         forType(ButtonBase.class)
                 .localize(TEXT)
                 .propertyHandler(new CommonActionListenerHandler());
+        forType(ComboBox.class)
+                .defaultResize(DefaultResize.X_AXIS);
+        forType(ListView.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(PasswordField.class)
+                .defaultResize(DefaultResize.X_AXIS);
+        forType(ProgressBar.class)
+                .defaultResize(DefaultResize.X_AXIS);
+        forType(Tab.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(TableView.class)
+                .defaultResize(DefaultResize.BOTH);
         forType(TextField.class)
+                .defaultResize(DefaultResize.X_AXIS);
+        forType(TreeView.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(TreeTableView.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(TitledPane.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(ScrollPane.class)
+                .defaultResize(DefaultResize.BOTH);
+        forType(Separator.class)
+                .defaultResize(DefaultResize.X_AXIS);
+        forType(Slider.class)
                 .defaultResize(DefaultResize.X_AXIS);
 
 
