@@ -36,7 +36,8 @@ public class MigLayoutHandler extends AbstractMigLayoutHandler {
 
     @Override
     protected void setLayoutConstraints(Object layout, String constraints) throws BuildException {
-        throw new BuildException("Not implemented yet");
+        MigPane pane = ((MigLayout) layout).getParent();
+        pane.setLayoutConstraints(ConstraintParser.parseLayoutConstraint(constraints));
     }
 
     @Override

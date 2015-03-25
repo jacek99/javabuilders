@@ -1,0 +1,19 @@
+Stage(resizable=false):
+    Scene:
+        MigPane:
+          - Label(id=progressLabel)
+          - ProgressBar(id=progressBar)
+          - Button(id=cancelButton, text=button.cancel, onAction=requestCancel)
+          - MigLayout: |
+               [[insets 8]]
+               [center, 200]
+               progressLabel
+               progressBar
+               cancelButton
+bind:
+     - progressLabel.text: this.task.message
+     - cancelButton.enabled: this.lable
+     - progressBar.indeterminate: this.event.progressIndeterminate
+     - progressBar.minimum: this.event.progressStart
+     - progressBar.maximum: this.event.progressEnd
+     - progressBar.value: this.event.progressValue

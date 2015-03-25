@@ -3,12 +3,16 @@
  */
 package org.javabuilders.fx;
 
+import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -19,7 +23,15 @@ import java.util.ResourceBundle;
 @Slf4j
 public class FXJB {
 
-	private static FXJBConfig config = new FXJBConfig();
+	private static final FXJBConfig config = new FXJBConfig();
+
+    /**
+     * The primary stage of an application.
+     * Used to automatically set it on any new child stages / dialogs
+     * we may be creating
+     */
+    @Getter @Setter
+    private static Optional<Stage> primaryStage = Optional.empty();
 
     // to differentiate one way vs two-way binding in JavaFX
     public static final String BIND_BIDIRECTIONAL = "bindBidirectional";

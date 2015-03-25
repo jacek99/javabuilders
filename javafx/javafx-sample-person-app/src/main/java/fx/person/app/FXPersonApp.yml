@@ -1,5 +1,5 @@
 MigPane:
-    - Button(id=save, text=button.save, onAction=[$validate,save,done], defaultButton=true)
+    - Button(id=save, text=button.save, onAction=[$validate,save2,done], defaultButton=true)
     - Button(id=cancel, text=button.cancel, onAction=[$confirm,cancel], cancelButton=true)
     - MigLayout: |
           [pref]              [grow,100]     [pref]             [grow,100]

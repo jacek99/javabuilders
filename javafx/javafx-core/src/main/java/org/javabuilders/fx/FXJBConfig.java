@@ -23,6 +23,10 @@ import org.javabuilders.fx.handler.MigLayoutHandler;
 import org.javabuilders.fx.handler.ValidationMessageHandler;
 import org.javabuilders.fx.handler.event.CommonActionListenerHandler;
 import org.javabuilders.fx.handler.type.PaneHandlerFinishProcessor;
+import org.javabuilders.fx.handler.type.SceneHandlerFinishProcessor;
+import org.javabuilders.fx.handler.type.SceneTypeHandler;
+import org.javabuilders.fx.handler.type.StageHandlerFinishProcessor;
+import org.javabuilders.handler.EmptyTypeHandler;
 import org.javabuilders.handler.binding.BidirectionalBuilderBindings;
 import org.javabuilders.handler.binding.BuilderBindings;
 import org.javabuilders.layout.DefaultResize;
@@ -77,7 +81,6 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
                 TreeTableView.class,
                 ComboBox.class,
                 Separator.class,
-                Scene.class, // TODO: maybe not needed
                 Slider.class,
                 ProgressBar.class,
                 ProgressIndicator.class,
@@ -172,8 +175,17 @@ public class FXJBConfig extends BuilderConfig implements IStringLiteralControlCo
         forType(Slider.class)
                 .defaultResize(DefaultResize.X_AXIS);
 
-
-        // pane setup
+        // container/pane setup
+        forType(Stage.class)
+                .localize("title")
+                .finishProcessor(new StageHandlerFinishProcessor())
+                .children(Scene.class, 1, 1);
+        forType(Scene.class)
+                // cannot create scene until the children are there
+                .typeHandler(new SceneTypeHandler())
+                .finishProcessor(new SceneHandlerFinishProcessor())
+                .allowParent(Stage.class)
+                .children(Pane.class,1,1);
         forType(Pane.class)
                 .ignore(Builder.CONSTRAINTS, Builder.LAYOUT)
                 .finishProcessor(new PaneHandlerFinishProcessor())
