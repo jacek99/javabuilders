@@ -847,7 +847,7 @@ public class Builder {
 					if (asValueHandler != null) {
 						
 						String sValue = parent.getStringProperty(currentKey);
-						if (sValue.matches(asValueHandler.getRegex())) {
+						if (sValue != null && sValue.matches(asValueHandler.getRegex())) {
 							//replace the value from the file with the corresponding object instance
 							parent.getProperties().put(currentKey, asValueHandler.getValue(process, parent, currentKey, 
 									parent.getProperty(currentKey)));
