@@ -1,6 +1,10 @@
 package org.javabuilders.swing;
 
-import static org.javabuilders.swing.SwingJavaBuilder.*;
+import static org.javabuilders.swing.SwingJavaBuilder.ACCELERATOR;
+import static org.javabuilders.swing.SwingJavaBuilder.LAYOUT_DATA;
+import static org.javabuilders.swing.SwingJavaBuilder.TEXT;
+import static org.javabuilders.swing.SwingJavaBuilder.TITLE;
+import static org.javabuilders.swing.SwingJavaBuilder.TOOL_TIP_TEXT;
 
 import java.applet.Applet;
 import java.awt.Button;
@@ -20,6 +24,8 @@ import java.awt.Image;
 import java.awt.Label;
 import java.awt.LayoutManager;
 import java.awt.Panel;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.ScrollPane;
 import java.awt.Scrollbar;
 import java.awt.TextArea;
@@ -92,8 +98,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.javabuilders.BuildResult;
 import org.javabuilders.Builder;
 import org.javabuilders.BuilderConfig;
@@ -148,8 +152,12 @@ import org.javabuilders.swing.handler.type.JListFinishProcessor;
 import org.javabuilders.swing.handler.type.JSpiltPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTabbedPaneTypeHandler;
 import org.javabuilders.swing.handler.type.JTableFinishProcessor;
+import org.javabuilders.swing.handler.type.PointAsValueHandler;
+import org.javabuilders.swing.handler.type.RectangleAsValueHandler;
 import org.javabuilders.swing.handler.type.SwingActionHandler;
 import org.javabuilders.swing.handler.type.TableColumnTypeHandler;
+import org.javabuilders.swing.handler.type.layout.AbsoluteLayout;
+import org.javabuilders.swing.handler.type.layout.AbsoluteLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.CardLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.FlowLayoutTypeHandler;
 import org.javabuilders.swing.handler.type.layout.MigLayoutHandler;
@@ -157,6 +165,8 @@ import org.javabuilders.swing.handler.type.model.DefaultComboBoxModelHandler;
 import org.jdesktop.beansbinding.Binding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.miginfocom.swing.MigLayout;
 
 public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLiteralControlConfig,
 	IBindingListenerProvider<Binding<? extends Object,? extends Object,? extends Object,? extends Object>> {
@@ -259,6 +269,7 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		
 		//define aliases for Swing layout managers
 		addType(MigLayout.class,CardLayout.class,FlowLayout.class);
+		addType(AbsoluteLayout.class);
 		addType("Action",SwingAction.class);
 		addType(Focus.class);
 		
@@ -288,6 +299,10 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 			.children(Action.class,0,Integer.MAX_VALUE);
 		forType(Dimension.class)
 			.valueHandler(DimensionAsValueHandler.getInstance());
+		forType(Point.class)
+			.valueHandler(PointAsValueHandler.getInstance());
+		forType(Rectangle.class)
+			.valueHandler(RectangleAsValueHandler.getInstance());
 		forType(Font.class)
 			.valueHandler(FontAsValueHandler.getInstance());
 		forType(Frame.class).localize(TITLE)
@@ -426,6 +441,9 @@ public class SwingJavaBuilderConfig extends BuilderConfig implements IStringLite
 		forType(FlowLayout.class)
 			.ignore(Builder.CONTENT,Builder.NAME)
 			.finishProcessor(FlowLayoutTypeHandler.getInstance());
+		forType(AbsoluteLayout.class)
+			.ignore(Builder.CONTENT, Builder.NAME)
+			.finishProcessor(AbsoluteLayoutTypeHandler.getInstance());
 		
 		forType(Action.class)
 			.valueHandler(ActionAsValueHandler.getInstance());
